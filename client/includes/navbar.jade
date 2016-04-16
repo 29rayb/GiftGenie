@@ -1,6 +1,7 @@
-nav.navbar.navbar-default.navbar-fixed-top
-  ul.nav.navbar-nav.navbar-left
-    li.navbar-brand Public WishList
-  ul.nav.navbar-nav.navbar-right
-    li.links(ng-click="home()") Home
-    li.links(ng-click="login()") Login
+nav.navbar.navbar-default
+  .container-fluid
+    .navbar-header
+      a.navbar-brand.logo PUBLiC WiSHLiST
+    ul.nav.nav-pills.navbar-right
+      li(role="presentation"): a(href="/signup") Sign Up
+      li(role="presentation"): a(href="/login") Log in
