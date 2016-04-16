@@ -10,12 +10,12 @@ var authMiddleware = require('./util/auth-middleware');
 
 var app = express();
 app.set('view engine', 'jade');
-app.set('views', "client");
 
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1/public-wishlist-app');
 
 // GENERAL MIDDLEWARE
 app.use(morgan('dev'));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( {extended: true} ));
 app.use(express.static('client'));
 
