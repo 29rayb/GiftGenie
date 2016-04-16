@@ -15,5 +15,17 @@
   "bugs": {
     "url": "https://github.com/ray-kim-12/public-wishlist/issues"
   },
-  "homepage": "https://github.com/ray-kim-12/public-wishlist#readme"
+  "homepage": "https://github.com/ray-kim-12/public-wishlist#readme",
+  "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.15.0",
+    "bower": "^1.7.9",
+    "dotenv": "^2.0.0",
+    "express": "^4.13.4",
+    "jade": "^1.11.0",
+    "jwt-simple": "^0.5.0",
+    "moment": "^2.12.0",
+    "mongoose": "^4.4.12",
+    "morgan": "^1.7.0"
+  }
 }
