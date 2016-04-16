@@ -18,7 +18,6 @@ Deployed Link:
 
 <i>Created by:</i>
 
-<br>
 Twitter: <a href="https://twitter.com/rachelslater_" target="_blank">@RachelSlater_</a>
 <br>
 GitHub: <a href="https://github.com/rachelrobynslater" target="_blank">Rachel Slater</a>
