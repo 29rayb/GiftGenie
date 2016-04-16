@@ -1,3 +1,4 @@
+/* NAVBAR.JADE*/
 .links {
   margin-top: 10px;
   margin-left: 10px;
@@ -9,6 +10,7 @@
   cursor: pointer;
 }
 
+/* HOME*/
 #wallpaper {
   position: relative;
   z-index: -5000;
@@ -17,6 +19,8 @@
   border: 1px solid black;
 }
 
+
+/* FOOTER.JADE*/
 .footer {
   position: absolute;
   left: 45%;
