@@ -8,3 +8,17 @@
 .links:hover {
   cursor: pointer;
 }
+
+#wallpaper {
+  position: relative;
+  z-index: -5000;
+  width: 100%;
+  top: 45px;
+  border: 1px solid black;
+}
+
+.footer {
+  position: absolute;
+  left: 45%;
+  bottom: 0;
+}
