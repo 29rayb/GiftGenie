@@ -15,4 +15,4 @@ No More Unwanted Gifts.
 ### Check it Out:
 
 
-<i>Created by:</i> Rachel Slater & Ray Kim
+<i>Created by:</i> <a href="https://github.com/rachelrobynslater" target="_blank">Rachel Slater</a> & <a href="https://github.com/ray-kim-12" target="_blank">Ray Kim</a>
