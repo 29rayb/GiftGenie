@@ -10,7 +10,7 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider){
   $urlRouterProvider.otherwise('/');
   $stateProvider
     .state('home', {
-      url: '/home',
+      url: '/',
       templateUrl: 'app/components/home/home.html',
       controller: 'HomeCtrl'
     })
