@@ -10,6 +10,7 @@ var authMiddleware = require('./util/auth-middleware');
 
 var app = express();
 app.set('view engine', 'jade');
+app.set('views', 'client');
 
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1/public-wishlist-app');
 
