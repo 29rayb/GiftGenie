@@ -1,7 +1,9 @@
-nav.navbar.navbar-default
+nav.navbar.navbar-default(ng-controller="NavbarCtrl")
   .container-fluid
     .navbar-header
       a.navbar-brand.logo PUBLiC WiSHLiST
     ul.nav.nav-pills.navbar-right
-      li(role="presentation"): a(href="/signup") Sign Up
-      li(role="presentation"): a(href="/login") Log in
+      li(role="presentation")
+        a(ng-click="signup()") Sign Up
+      li(role="presentation")
+        a(ng-click="login()") Log in
