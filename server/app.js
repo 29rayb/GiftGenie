@@ -6,7 +6,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
-var authMiddleware = require('./util/authMiddleware');
+var authMiddleware = require('./util/auth-middleware');
 
 var app = express();
 app.set('view engine', 'jade');
