@@ -24,6 +24,6 @@ GitHub: <a href="https://github.com/rachelrobynslater" target="_blank">Rachel Sl
 <br>
 &
 <br>
-Twitter: <a href="https://twitter.com/_Ray_Kim_" target="_blank">@_Ray_Kim_</a>
+Twitter: <a href="https://twitter.com/_Ray_Kim_" target="_blank">@Ray_Kim_</a>
 <br>
 GitHub: <a href="https://github.com/ray-kim-12" target="_blank">Ray Kim</a>
