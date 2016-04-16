@@ -6,7 +6,7 @@
     "Rachel Slater"
   ],
   "description": "",
-  "main": "",
+  "main": "app.js",
   "moduleType": [],
   "license": "MIT",
   "ignore": [
