@@ -21,7 +21,9 @@ app.use(bodyParser.urlencoded( {extended: true} ));
 app.use(express.static('client'));
 
 // ROUTES
-app.use('*', require('./routes/index'))
+app.use('/API/auth', require('./routes/login-register'));
+app.use('/API/users', authMiddleware, require('./routes/users'));
+app.use('*', require('./routes/index'));
 
 app.listen(PORT, function(){
   console.log('Listening on port ', PORT);
