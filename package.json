@@ -1,0 +1,19 @@
+{
+  "name": "public-wishlist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ray-kim-12/public-wishlist.git"
+  },
+  "author": "Ray Kim, Rachel Slater",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ray-kim-12/public-wishlist/issues"
+  },
+  "homepage": "https://github.com/ray-kim-12/public-wishlist#readme"
+}

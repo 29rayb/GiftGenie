@@ -1,0 +1,19 @@
+{
+  "name": "public-wishlist",
+  "homepage": "https://github.com/ray-kim-12/public-wishlist",
+  "authors": [
+    "Ray Kim",
+    "Rachel Slater"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
