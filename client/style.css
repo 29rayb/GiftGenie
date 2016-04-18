@@ -1,3 +1,12 @@
+button a {
+  color: #000;
+}
+
+button a:hover, div a:hover {
+  color: #000;
+  text-decoration: none;
+}
+
 /* NAVBAR.JADE*/
 .navbar-container {
   position: absolute;
@@ -90,6 +99,34 @@ h3.title {
 .search_items {
   width: 200px;
 }
+
+.wishlist_item {
+  font-size: 26px;
+  color: #000;
+  position: absolute;
+  left: 0;
+}
+
+i.fa {
+  margin: 0 50px;
+  font-size: 26px;
+}
+
+i.fa-trash {
+  position: absolute;
+  right: 0;
+}
+
+i.fa-pencil-square-o {
+  position: relative;
+  left: 371px;
+  top: 1px;
+}
+
+.wishlist_items_container a, .wishlist_items_container i {
+  margin: 50px;
+}
+
 
 /*Starred-WishLists*/
 .search_fb {
