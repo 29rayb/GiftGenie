@@ -12,17 +12,27 @@ let userSchema = Schema({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   email: {type: String, default: ' '},
-  wished: [{ type: Schema.Types.ObjectId, ref: 'User'}]
+  wished: [{ type: Schema.Types.ObjectId, ref: 'User'}],
+  facebook: String
 });
 
-userSchema.methods.token = function(){
-  let payload = {
-    id: this._id,
+userSchema.methods.createJWT = function() {
+  var payload = {
+    sub: this._id,
     iat: moment().unix(),
-    exp: moment().add(CONFIG.expTime.num, CONFIG.expTime.unit).unix()
+    exp: moment().add(1, 'days').unix()
   };
   return jwt.encode(payload, process.env.JWT_SECRET);
 };
+
+// userSchema.methods.token = function(){
+//   let payload = {
+//     id: this._id,
+//     iat: moment().unix(),
+//     exp: moment().add(CONFIG.expTime.num, CONFIG.expTime.unit).unix()
+//   };
+//   return jwt.encode(payload, process.env.JWT_SECRET);
+// };
 
 userSchema.statics.login = function(userinfo, cb){
   User.findOne({username: userinfo.username})
