@@ -3,5 +3,6 @@
 angular
   .module('App', [
     'ui.router',
-    'app.routes'
+    'app.routes',
+    'ui.sortable'
   ])
