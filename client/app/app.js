@@ -11,12 +11,12 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $auth
     controller: 'HomeCtrl'
   })
   .state('my-wishlist', {
-    url: '/',
+    url: '/my-wishlist',
     templateUrl: 'app/components/my-wishlist/my-wishlist.html',
     controller: 'MyWishListCtrl'
   })
   .state('starred-lists', {
-    url: '/',
+    url: '/starred-lists',
     templateUrl: 'app/components/starred-lists/starred-lists.html',
     controller: 'StarredLists'
   })
