@@ -165,7 +165,7 @@ i.fa-pencil-square-o {
 
 /* FOOTER.JADE*/
 .footer {
-  position: absolute;
+  position: fixed;
   left: 45%;
   bottom: 0;
 }

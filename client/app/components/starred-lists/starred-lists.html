@@ -1,11 +1,20 @@
+<div ng-init="items = [{name:'These'},
+                         {name:'Are'},
+                         {name:'All'},
+                         {name:'The'},
+                         {name:'Starred'},
+                         {name:'Lists'}]"></div>
+
+
 <div class="wishlist_container">
   <h2 class="my_wishlist_title">Starred WishLists</h2>
   <div class="wishlist_button_container">
+    <input type="text" placeholder="search starred wishlists" class="search_fb" ng-model="search">
     <input type="text" placeholder="search by facebook name" class="search_fb">
   </div>
-  <div class="wishlist_items_container">
+  <div class="wishlist_items_container" ng-repeat="item in items | filter:search">
     <a href="" class="wishlist_item"><img src="http://m0.her.ie/wp-content/uploads/2014/06/grad-photo_opt.jpg" alt="" class="facebook_photo"></a>
-    <a href="" class="facebook_name"><p>Other User Name</p></a>
+    <a href="" class="facebook_name"><p>{{item.name}} </p></a>
     <i class="fa fa-trash" ng-click="unstar()"></i>
   </div>
 </div>
