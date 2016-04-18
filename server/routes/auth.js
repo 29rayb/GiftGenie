@@ -41,7 +41,7 @@ router.post('/facebook', function(req, res) {
       if (req.headers.authorization) {
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
           if (existingUser) {
-            return res.status(409).send({ message: 'There is already a Facebook account that belongs to you' });
+            return res.status(400).send({ message: 'There is already a Facebook account that belongs to you' });
           }
           var token = req.headers.authorization.split(' ')[1];
           var payload = jwt.decode(token, process.env.JWT_SECRET);
