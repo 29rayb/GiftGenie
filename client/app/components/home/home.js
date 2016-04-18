@@ -11,6 +11,7 @@ function HomeCtrl($scope, $state, $auth){
     $auth.authenticate(provider)
     .then(function(res) {
       console.log(res, 'This is the auth response in Home controller.');
+      $state.go('my-wishlist')
     })
     .catch(function(err){
       console.error(err, 'Inside the Home controller. ');
