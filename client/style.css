@@ -7,6 +7,10 @@ button a:hover, div a:hover {
   text-decoration: none;
 }
 
+i:hover {
+  cursor: pointer ;
+}
+
 /* NAVBAR.JADE*/
 .navbar-container {
   position: absolute;
