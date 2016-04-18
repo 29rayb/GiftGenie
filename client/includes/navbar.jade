@@ -1,9 +1,9 @@
-nav.navbar.navbar-default(ng-controller="NavbarCtrl")
+nav.navbar-container(ng-controller="NavbarCtrl")
   .container-fluid
     .navbar-header
-      a.navbar-brand.logo PUBLiC WiSHLiST
+      a.navbar-brand.logo.navbar-links PUBLiC WiSHLiST
     ul.nav.nav-pills.navbar-right
       li(role="presentation")
-        a(ng-click="signup()") Sign Up
+        a(ng-click="signup()").navbar-links Sign Up
       li(role="presentation")
-        a(ng-click="login()") Log in
+        a(ng-click="login()").navbar-links Log in

@@ -1,8 +1,27 @@
 /* NAVBAR.JADE*/
+.navbar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(250, 250, 250, 0.7);
+  color: #333;
+  transition: all .25s ease-in-out;
+}
 
-.logo {
+a.navbar-links {
   font-family: Josefin Sans;
   font-family: Exo;
+  color: #000;
+}
+
+a.navbar-links:hover {
+  cursor: pointer;
+}
+
+li a.navbar-links {
+  font-size: 18px;
+  margin-right: 5px;
 }
 
 
@@ -15,8 +34,12 @@
 }
 
 .rach {
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: -1000;
   width: 100%;
-  height: 50%;
+  max-height: 500px;
 }
 
 /* FOOTER.JADE*/
