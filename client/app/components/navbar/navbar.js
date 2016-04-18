@@ -2,9 +2,9 @@
 
 angular
   .module('App')
-  .controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', NavbarCtrl]);
+  .controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
 
-function NavbarCtrl($scope, $state, NavSvc){
+function NavbarCtrl($scope, $state, NavSvc, $auth){
 
   $scope.my_wishlist = function(){
     console.log('my wishlist')
@@ -18,6 +18,7 @@ function NavbarCtrl($scope, $state, NavSvc){
 
   $scope.logout = function(){
     console.log('logout')
+    $auth.logout();
     $state.go('home')
   }
 }
