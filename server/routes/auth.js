@@ -7,7 +7,7 @@ var qs = require('querystring');
 var jwt = require('jwt-simple');
 var request = require('request');
 
-var User = require('../models/user');
+var User = require('../models/user-model');
 
 // AUTH
 
@@ -17,7 +17,7 @@ var User = require('../models/user');
  |----------------------------------
  */
 
-router.post('auth/facebook', function(req, res) {
+router.post('/facebook', function(req, res) {
   var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name'];
   var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
   var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + fields.join(',');
@@ -81,3 +81,5 @@ router.post('auth/facebook', function(req, res) {
     });
   });
 });
+
+module.exports = router;

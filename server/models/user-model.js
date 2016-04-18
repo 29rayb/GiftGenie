@@ -9,11 +9,10 @@ const mongoose = require('mongoose'),
 let User, Schema = mongoose.Schema;
 
 let userSchema = Schema({
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  email: {type: String, default: ' '},
-  wished: [{ type: Schema.Types.ObjectId, ref: 'User'}],
-  facebook: String
+  displayName: String,
+  picture: String,
+  facebook: String,
+  wished: [{ type: Schema.Types.ObjectId }]
 });
 
 userSchema.methods.createJWT = function() {
@@ -24,15 +23,6 @@ userSchema.methods.createJWT = function() {
   };
   return jwt.encode(payload, process.env.JWT_SECRET);
 };
-
-// userSchema.methods.token = function(){
-//   let payload = {
-//     id: this._id,
-//     iat: moment().unix(),
-//     exp: moment().add(CONFIG.expTime.num, CONFIG.expTime.unit).unix()
-//   };
-//   return jwt.encode(payload, process.env.JWT_SECRET);
-// };
 
 userSchema.statics.login = function(userinfo, cb){
   User.findOne({username: userinfo.username})
