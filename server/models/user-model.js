@@ -10,7 +10,7 @@ let User, Schema = mongoose.Schema;
 
 let userSchema = Schema({
   username: {type: String, required: true, unique: true},
-  password: {type: String, required: true}
+  password: {type: String, required: true},
   email: {type: String, default: ' '},
   wished: [{ type: Schema.Types.ObjectId, ref: 'User'}]
 });
@@ -19,7 +19,7 @@ userSchema.methods.token = function(){
   let payload = {
     id: this._id,
     iat: moment().unix(),
-    exp: moment().add(CONFIG.expTime.num, CONFIG.expTime.unit).unix();
+    exp: moment().add(CONFIG.expTime.num, CONFIG.expTime.unit).unix()
   };
   return jwt.encode(payload, process.env.JWT_SECRET);
 };
