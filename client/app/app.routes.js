@@ -14,4 +14,14 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider){
       templateUrl: 'app/components/home/home.html',
       controller: 'HomeCtrl'
     })
+    .state('my-wishlist', {
+      url: '/',
+      templateUrl: 'app/components/my-wishlist/my-wishlist.html',
+      controller: 'MyWishListCtrl'
+    })
+    .state('starred-lists', {
+      url: '/',
+      templateUrl: 'app/components/starred-lists/starred-lists.html',
+      controller: 'StarredLists'
+    })
 }

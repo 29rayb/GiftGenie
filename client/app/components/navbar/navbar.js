@@ -6,11 +6,18 @@ angular
 
 function NavbarCtrl($scope, $state, NavSvc){
 
-  $scope.signup = function(){
-    console.log('signup')
+  $scope.my_wishlist = function(){
+    console.log('my wishlist')
+    $state.go('my-wishlist')
   }
 
-  $scope.login = function(){
-    console.log('login')
+  $scope.starred_lists = function(){
+    console.log('starred lists')
+    $state.go('starred-lists')
+  }
+
+  $scope.logout = function(){
+    console.log('logout')
+    $state.go('home')
   }
 }
