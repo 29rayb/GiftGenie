@@ -14,7 +14,7 @@
   </div>
   <div class="wishlist_items_container" ng-repeat="item in items | filter:search">
     <a href="" class="wishlist_item">{{item.name}} </a>
-    <i class="fa fa-pencil-square-o" ng-click="edit_item()"></i>
+    <i class="fa fa-pencil-square-o" ng-click="edit()"></i>
     <i class="fa fa-trash" ng-click="delete($index)"></i>
   </div>
 </div>

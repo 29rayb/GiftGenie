@@ -11,7 +11,7 @@ function MyWishListCtrl($scope, $state){
     console.log('add new item')
   }
 
-  $scope.edit_item = function(){
+  $scope.edit = function(){
     console.log('edit item')
   }
 
