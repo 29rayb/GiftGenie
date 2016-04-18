@@ -4,8 +4,11 @@ nav.navbar-container(ng-controller="NavbarCtrl")
       a.navbar-brand.logo.navbar-links GiFTGENiE
     ul.nav.nav-pills.navbar-right
       li(role="presentation")
-        a(ng-click="my_wishlist()").navbar-links My WishList
+        span(ng-if='isAuthenticated()')
+          a(ng-click="my_wishlist()").navbar-links My WishList
       li(role="presentation")
-        a(ng-click="starred_lists()").navbar-links Starred Lists
+        span(ng-if='isAuthenticated()')
+          a(ng-click="starred_lists()").navbar-links Starred Lists
       li(role="presentation")
-        a(ng-click="logout()").navbar-links Logout
+        span(ng-if='isAuthenticated()')
+          a(ng-click="logout()").navbar-links Logout

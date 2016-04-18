@@ -17,7 +17,9 @@ router.get('/', function (req, res){
   });
 });
 
+//***KNOWING WHICH USER IS LOGGED IN:
 router.get('/me', function(req, res){
+  console.log('req.user:', req.user);
   User.findById(req.userId)
   .exec(function(err, user){
     user = user.toObject();
