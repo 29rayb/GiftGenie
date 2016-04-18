@@ -1,6 +1,6 @@
 'use strict';
 
-let app = angular.module('App', ['satellizer', 'ui.router']);
+let app = angular.module('App', ['satellizer', 'ui.router', 'ui.sortable']);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
   $urlRouterProvider.otherwise('/');

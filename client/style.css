@@ -7,6 +7,10 @@ button a:hover, div a:hover {
   text-decoration: none;
 }
 
+i:hover {
+  cursor: pointer ;
+}
+
 /* NAVBAR.JADE*/
 .navbar-container {
   position: absolute;
@@ -113,20 +117,25 @@ i.fa {
 }
 
 i.fa-trash {
-  position: absolute;
-  right: 0;
+  position: relative;
+  right: -400px;
+  top: -1px;
 }
 
 i.fa-pencil-square-o {
-  position: relative;
-  left: 371px;
-  top: 1px;
+  position: absolute;
+  right: 52px;
 }
 
 .wishlist_items_container a, .wishlist_items_container i {
   margin: 50px;
 }
 
+.facebook_name {
+  position: relative;
+  top: 60px;
+  font-size: 18px;
+}
 
 /*Starred-WishLists*/
 .search_fb {
@@ -149,11 +158,14 @@ i.fa-pencil-square-o {
    text-align: center; 
 }
 
-
+.facebook_photo {
+  width:100px;
+  height: 100px;
+}
 
 /* FOOTER.JADE*/
 .footer {
-  position: absolute;
+  position: fixed;
   left: 45%;
   bottom: 0;
 }
