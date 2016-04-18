@@ -12,9 +12,11 @@
     <input type="text" placeholder="search starred wishlists" class="search_fb" ng-model="search">
     <input type="text" placeholder="search by facebook name" class="search_fb">
   </div>
-  <div class="wishlist_items_container" ng-repeat="item in items | filter:search">
-    <a href="" class="wishlist_item"><img src="http://m0.her.ie/wp-content/uploads/2014/06/grad-photo_opt.jpg" alt="" class="facebook_photo"></a>
-    <a href="" class="facebook_name"><p>{{item.name}} </p></a>
-    <i class="fa fa-trash" ng-click="unstar($index)"></i>
-  </div>
+  <ol ui-sortable ng-model="items">
+    <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
+      <a href="" class="wishlist_item"><img src="http://m0.her.ie/wp-content/uploads/2014/06/grad-photo_opt.jpg" alt="" class="facebook_photo"></a>
+      <a href="" class="facebook_name"><p>{{item.name}} </p></a>
+      <i class="fa fa-trash" ng-click="unstar($index)"></i>
+    </li>
+  </ol>
 </div>
