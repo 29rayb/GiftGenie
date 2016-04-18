@@ -42,6 +42,13 @@ li a.navbar-links {
   max-height: 500px;
 }
 
+.wrapper {
+  position: absolute;
+  width: 48%;
+  left: 0;
+  height: 250px;
+}
+
 /* FOOTER.JADE*/
 .footer {
   position: absolute;
