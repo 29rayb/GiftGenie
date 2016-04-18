@@ -4,9 +4,9 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 
 /*
- |--------------------------------------------------------------------------
- | Login Required Middleware
- |--------------------------------------------------------------------------
+ |-----------------------------------------------
+ | Login Required Middleware                    |
+ |-----------------------------------------------
  */
 function ensureAuthenticated(req, res, next) {
   if (!req.header('Authorization')) {
@@ -21,7 +21,6 @@ function ensureAuthenticated(req, res, next) {
   catch (err) {
     return res.status(401).send({ message: err.message });
   }
-
   if (payload.exp <= moment().unix()) {
     return res.status(401).send({ message: 'Token has expired' });
   }

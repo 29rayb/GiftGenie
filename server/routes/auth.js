@@ -9,13 +9,11 @@ var request = require('request');
 
 var User = require('../models/user-model');
 
-// AUTH
-
 /*
- |----------------------------------
- | Facebook:                        |
- |----------------------------------
- */
+|----------------------------------
+| Facebook:                        |
+|----------------------------------
+*/
 
 router.post('/facebook', function(req, res) {
   var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name'];
