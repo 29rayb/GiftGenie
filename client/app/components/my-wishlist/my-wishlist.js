@@ -24,18 +24,29 @@ function MyWishListCtrl($scope, $state, $auth, $http){
 
   $scope.add_new = function(item){
     console.log('item', item)
-    $scope.title = item.title;
+    $scope.name = item.name;
     $scope.link = item.link;
     $scope.items.push({
-      title: $scope.title,
+      name: $scope.name,
       link: $scope.link
     })
-    $scope.item.title = '';
+    $scope.item.name = '';
     $scope.item.link = '';
     console.log('add new item')
   }
 
-  $scope.edit = function(){
+  $scope.edit = function(item){
+    console.log('item to edit', item)
+    $scope.item.name = item.name;
+    $scope.item.link = item.link;
+    console.log('edit item')
+  }
+  $scope.save_changes = function(item){
+    console.log('item to save changes', item)
+    $scope.item.name = item.name;
+    $scope.item.link= item.link;
+    $scope.add_new(item);
+    $scope.delete();
     console.log('edit item')
   }
 
