@@ -62,21 +62,20 @@ li a.navbar-links {
 }
 
 .home_container {
-    position: absolute;
-    color: #fff;
-    top: 36%;
-    left: 29%;
+  position: absolute;
+  color: #fff;
+  top: 36%;
+  left: 29%;
+  text-align: center;
 }
 
 h3.title {
   margin-top: -3px;
-  margin-left: 27%;
 }
 
 .button_container {
   position: relative;
-  left: 27%;
-  margin-top: 5%;
+  margin-top: 3%;
 }
 
 .wishlist_button_container button, .button_container button {
@@ -93,6 +92,14 @@ h3.title {
   color: #333;
   transition: all .25s ease-in-out;
 }
+
+.fb_btn{
+  border: 1px solid black;
+  border-radius: 8%;
+  width: 150px !important;
+  height: 50px !important;
+}
+
 
 /* My-WishList*/
 .wishlist_container {

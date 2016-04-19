@@ -69,6 +69,7 @@ router.post('/facebook', function(req, res) {
           var user = new User();
           user.facebook = profile.id;
           user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
+          // console.log('user picture', user.picture);
           user.displayName = profile.name;
           user.save(function() {
             var token = user.createJWT();
@@ -79,5 +80,6 @@ router.post('/facebook', function(req, res) {
     });
   });
 });
+
 
 module.exports = router;
