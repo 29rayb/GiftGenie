@@ -127,7 +127,6 @@ video {
   width: 60px;
 }
 
-
 .wishlist_container {
   position: relative;
   border: 1px solid black;
@@ -179,7 +178,6 @@ i.fa-pencil-square-o {
   color: black ;
   transition: all .25s ease-in-out;
 }
-
 
 .search_fb {
   width: 220px;
