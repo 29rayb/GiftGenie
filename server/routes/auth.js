@@ -28,6 +28,7 @@ router.post('/facebook', function(req, res) {
 
   // Step 1. Exchange authorization code for access token.
   request.get({ url: accessTokenUrl, qs: params, json: true }, function(err, response, accessToken) {
+    console.log(accessToken, 'THIS IS THE ACCESS TOKEN AHHHH');
     if (response.statusCode !== 200) {
       return res.status(500).send({ message: accessToken.error.message });
     }
@@ -54,7 +55,7 @@ router.post('/facebook', function(req, res) {
             user.displayName = user.displayName || profile.name;
             user.save(function() {
               var token = user.createJWT();
-              res.send({ token: token });
+              es.send({ token: token });
             });
           });
         });
