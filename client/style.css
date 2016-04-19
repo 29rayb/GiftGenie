@@ -111,33 +111,27 @@ h3.title {
   left: 0;
 }
 
-i.fa {
-  margin: 0 50px;
-  font-size: 26px;
-}
-
 i.fa-trash {
-  position: relative;
-  right: -400px;
-  top: -1px;
+  position: absolute;
+  right: 0px;
 }
 
 i.fa-pencil-square-o {
   position: absolute;
-  right: 52px;
+  right: 32px;
 }
 
 .wishlist_items_container a, .wishlist_items_container i {
-  margin: 50px;
-}
-
-.facebook_name {
-  position: relative;
-  top: 60px;
-  font-size: 18px;
+  margin: 0 50px;
+  font-size: 16px;
 }
 
 /*Starred-WishLists*/
+
+.wishlist_button_container {
+  margin-bottom: 25px;
+}
+
 .search_fb {
   width: 220px;
 }
@@ -158,9 +152,19 @@ i.fa-pencil-square-o {
    text-align: center; 
 }
 
+.facebook_name {
+  position: relative;
+  top: 25px;
+  font-size: 18px;
+}
+
 .facebook_photo {
   width:100px;
   height: 100px;
+}
+
+.starred {
+  height: 140px;
 }
 
 /* FOOTER.JADE*/
