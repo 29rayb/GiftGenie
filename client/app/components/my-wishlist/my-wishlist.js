@@ -60,4 +60,10 @@ function MyWishListCtrl($scope, $state, $auth, $http){
     //   $scope.items.splice($index, 1);
     // });
   }
+
+  $scope.star = function(){
+    console.log('starred this person');
+  }
+
+
 }

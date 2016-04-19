@@ -105,13 +105,37 @@ video {
 }
 
 /* My-WishList*/
-.wishlist_container {
+
+.big_container {
   position: absolute;
   width: 80%;
-  left: 10%;
+  margin: 0 10%;
   border: 1px solid black;
   top: 50px;
-  text-align: center;
+}
+
+.big_container .container {
+  margin-top: 50px;
+}
+
+.pro_pic {
+
+}
+
+.pro_info {
+  border: 1px solid black;
+}
+
+.star_btn {
+  color: gold;
+  width: 60px;
+}
+
+
+.wishlist_container {
+  position: relative;
+  border: 1px solid black;
+  text-align: center;;
 }
 
 .search_items {
@@ -146,7 +170,7 @@ i.fa-pencil-square-o {
   margin-bottom: 25px;
 }
 
-.fa-star {
+.fa-star.starred_wslist {
   color: gold;
   position: relative;
   top: -62px;
@@ -155,7 +179,7 @@ i.fa-pencil-square-o {
   font-size: 25px !important;
 }
 
-.fa-star:hover {
+.fa-star.starred_wslist:hover {
   color: black ;
   transition: all .25s ease-in-out;
 }
