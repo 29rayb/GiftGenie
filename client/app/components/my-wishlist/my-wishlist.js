@@ -6,6 +6,7 @@ angular
 
 function MyWishListCtrl($scope, $state, $auth, $http){
   console.log('my wishlist')
+  $scope.items = [];
 
   if(!$auth.isAuthenticated()){
     return $state.go('home');
@@ -21,7 +22,14 @@ function MyWishListCtrl($scope, $state, $auth, $http){
     console.error(err);
   });
 
-  $scope.add_new = function(){
+  $scope.add_new = function(item){
+    console.log('item', item)
+    $scope.title = item.title;
+    $scope.link = item.link;
+    $scope.items.push({
+      title: $scope.title,
+      link: $scope.link
+    })
     console.log('add new item')
   }
 
