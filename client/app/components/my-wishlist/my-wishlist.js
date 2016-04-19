@@ -30,6 +30,8 @@ function MyWishListCtrl($scope, $state, $auth, $http){
       title: $scope.title,
       link: $scope.link
     })
+    $scope.item.title = '';
+    $scope.item.link = '';
     console.log('add new item')
   }
 

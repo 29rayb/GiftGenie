@@ -7,7 +7,7 @@
   </div>
   <ol ui-sortable ng-model="items" >
     <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
-      <a href="{{link}}" class="wishlist_item" target="_blank"> {{title}} </a>
+      <a href="{{link}}" class="wishlist_item" target="_blank"> {{item.title}} </a>
       <i class="fa fa-pencil-square-o" ng-click="edit()"></i>
       <i class="fa fa-trash" ng-click="delete($index)"></i>
     </li>
