@@ -5,14 +5,14 @@
                          {name:'Irish Lucky Charm'},
                          {name:'Follow The Rainbow'}]"></div>
 
-<div class="big_container" >
+<div class="big_container col-xs-12">
 
 
-  <div class="my_info_container container col-md-4">
-    <input type="text" placeholder="search by facebook name" class="col-md-10">
-    <div class="pro_info col-md-10">
+  <div class="my_info_container container col-xs-4">
+    <input type="text" placeholder="search by facebook name" class="col-xs-10">
+    <div class="pro_info col-xs-10">
       <!-- the following info will only be seen once searched and clicked on -->
-      <img src="http://covercdn.complex.com/568e8ac7305b86327e3fe517_production/tinashe-4-vn1.jpg" alt="" class="col-md-12">
+      <img src="http://covercdn.complex.com/568e8ac7305b86327e3fe517_production/tinashe-4-vn1.jpg" alt="" class="col-xs-12">
       <p>MY NAME</p>
       <p>Birthday:</p>
       <p>Email:</p>
@@ -20,13 +20,13 @@
     </div>
   </div>
 
-  <div class="wishlist_container container col-md-8">
+  <div class="wishlist_container container col-xs-8">
     <h2 class="my_wishlist_title">Starred WishLists</h2>
     <div class="wishlist_button_container">
       <input type="text" placeholder="search starred wishlists" class="search_fb" ng-model="search">
     </div>
     <ol ui-sortable ng-model="items">
-      <li class="wishlist_items_container starred col-lg-4 col-md-4 col-sm-6" ng-repeat="item in items | filter:search">
+      <li class="wishlist_items_container starred col-lg-4 col-xs-12 col-sm-6" ng-repeat="item in items | filter:search">
         <a href="" class="wishlist_item"><img src="http://m0.her.ie/wp-content/uploads/2014/06/grad-photo_opt.jpg" alt="" class="facebook_photo"></a>
         <a href="" ><p class="facebook_name">{{item.name}} </p></a>
         <i class="fa fa-star starred_wslist" ng-click="unstar($index)"></i>
