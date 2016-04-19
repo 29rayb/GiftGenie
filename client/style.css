@@ -63,10 +63,10 @@ li a.navbar-links {
 
 .home_container {
   position: absolute;
-  color: #fff;
+  color: #000;
   top: 36%;
-  left: 29%;
   text-align: center;
+  margin: 0 25%;
 }
 
 h3.title {
@@ -94,12 +94,15 @@ h3.title {
 }
 
 .fb_btn{
-  border: 1px solid black;
+  border: 1px solid black !important;
   border-radius: 8%;
   width: 150px !important;
   height: 50px !important;
 }
 
+video {
+  width: 100%;
+}
 
 /* My-WishList*/
 .wishlist_container {
