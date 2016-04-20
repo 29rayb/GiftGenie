@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/ray-kim-12/public-wishlist#readme",
   "dependencies": {
-    "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.0",
     "bower": "^1.7.9",
     "dotenv": "^2.0.0",
