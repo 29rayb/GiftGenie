@@ -1,9 +1,9 @@
 'use strict';
 
-const jwt    = require('jwt-simple')
-    , moment = require('moment')
-    , CONFIG = require('../config/auth')
-    , User   = require('../models/user-model');
+const jwt    = require('jwt-simple'),
+moment = require('moment'),
+CONFIG = require('../config/auth'),
+User   = require('../models/user-model');
 
 module.exports = function(req, res, next) {
   console.log("authing route: ", req.url);

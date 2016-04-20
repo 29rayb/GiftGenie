@@ -4,16 +4,18 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 
 /*
- |-----------------------------------------------
- | Login Required Middleware                    |
- |-----------------------------------------------
- */
+|-----------------------------------------------
+| Login Required Middleware:                   |
+|-----------------------------------------------
+*/
+
 function ensureAuthenticated(req, res, next) {
   if (!req.header('Authorization')) {
     return res.status(401).send({ message: 'Please make sure your request has an Authorization header' });
   }
-  
+
   var token = req.header('Authorization').split(' ')[1];
+  console.log(token, "inside config folder");
 
   var payload = null;
   try {

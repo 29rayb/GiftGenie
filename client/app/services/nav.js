@@ -7,5 +7,5 @@ angular
 NavSvc.$inject = ['$http']
 
 function NavSvc($http){
-  console.log('nav service')
+  console.log('NavBar Service Working.')
 }

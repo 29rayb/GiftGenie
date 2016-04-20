@@ -11,16 +11,15 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $auth
     controller: 'HomeCtrl'
   })
   .state('my-wishlist', {
-    url: '/',
+    url: '/userwishlist',
     templateUrl: 'app/components/my-wishlist/my-wishlist.html',
     controller: 'MyWishListCtrl'
   })
   .state('starred-lists', {
-    url: '/',
+    url: '/starredlists',
     templateUrl: 'app/components/starred-lists/starred-lists.html',
     controller: 'StarredLists'
   })
-
   $authProvider.facebook({
     clientId: '247255738962232'
   });

@@ -9,19 +9,20 @@ function NavbarCtrl($scope, $state, NavSvc, $auth){
   $scope.isAuthenticated = function() {
     return $auth.isAuthenticated();
   };
-  
+
+
   $scope.my_wishlist = function(){
-    console.log('my wishlist')
+    console.log('Navbar directs to: My Wishlist.')
     $state.go('my-wishlist')
   }
 
   $scope.starred_lists = function(){
-    console.log('starred lists')
+    console.log('Navbar directs to: Starred Lists.')
     $state.go('starred-lists')
   }
 
   $scope.logout = function(){
-    console.log('logout')
+    console.log('Navbar triggers Logout.')
     $auth.logout();
     $state.go('home')
   }
