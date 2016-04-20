@@ -9,13 +9,14 @@ var moment = require('moment');
 |-----------------------------------------------
 */
 
+//This is what allows us to have 'protected routes' - i.e. All the '/user' routes, coz we have our Middleware in here.
 function ensureAuthenticated(req, res, next) {
-  if (!req.header('Authorization')) {
+  if (!req.headers.authorization) {
     return res.status(401).send({ message: 'Please make sure your request has an Authorization header' });
   }
 
-  var token = req.header('Authorization').split(' ')[1];
-
+  var token = req.headers.authorization.split(' ')[1];
+  console.log("********** THIS IS THE TOKEN ******", token);
   var payload = null;
   try {
     payload = jwt.decode(token, config.TOKEN_SECRET);

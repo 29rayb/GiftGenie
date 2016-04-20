@@ -6,32 +6,38 @@ const User = require('../models/user-model');
 let router = express.Router();
 var checkAuthentication = require('../config/auth');
 
-router.get('/', checkAuthentication, (req, res) => {
-  console.log("IN USERS.JS ROUTE");
-  User.find({}, (err, users) => {
-    if (err) return res.status(400).send(err);
-    users.forEach(user => {
-      user.password = null;
-      return user;
-    });
-    res.send(users);
-  })
+router.use(checkAuthentication);
+
+var users = ['what the fuck'];
+
+router.get('/', function (req, res) {
+  console.log(req.user);
+  res.send(users)
+  // console.log("IN USERS.JS ROUTE");
+  // User.find({}, (err, users) => {
+  //   if (err) return res.status(400).send(err);
+  //   users.forEach(user => {
+  //     user.password = null;
+  //     return user;
+  //   });
+  //   res.send(users);
+  // })
 });
 
-router.get('/', checkAuthentication, function (req, res){
-  console.log("Inside users route");
-  User.findById({})
-  .exec(function (err, users){
-    console.log("hey");
-    users = users.map(user => {
-      user = user.toObject();
-      delete user.password;
-      console.log('Get to / in users route');
-      // res.send({ user: users });
-    });
-    res.status(err ? 400 : 200).send(err || users);
-  });
-});
+// router.get('/', checkAuthentication, function (req, res){
+//   console.log("Inside users route");
+//   User.findById({})
+//   .exec(function (err, users){
+//     console.log("hey");
+//     users = users.map(user => {
+//       user = user.toObject();
+//       delete user.password;
+//       console.log('Get to / in users route');
+//       // res.send({ user: users });
+//     });
+//     res.status(err ? 400 : 200).send(err || users);
+//   });
+// });
 
 router.get('/me', function(req, res){
   console.log('req.user:', "get to /me in users route");

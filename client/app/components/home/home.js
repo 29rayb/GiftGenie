@@ -10,7 +10,7 @@ function HomeCtrl($scope, $state, $auth){
   $scope.authenticate = function(provider, user) {
 
     //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!)
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
     $auth.authenticate(provider, user)
     .then(function(res) {
       console.log('This is the auth response in Home Ctlr.');
