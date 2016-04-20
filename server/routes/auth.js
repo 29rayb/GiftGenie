@@ -49,7 +49,7 @@ router.post('/facebook', function(req, res) {
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
           //Scenario a):
           if (existingUser) {
-            return res.status(409).send({ message: 'There is already a Facebook account that belongs to you' });
+            return res.status(400).send({ message: 'There is already a Facebook account that belongs to you' });
           }
 
           //Scenario b):
@@ -88,6 +88,7 @@ router.post('/facebook', function(req, res) {
           var user = new User();
           user.facebook = profile.id;
           user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
+          // console.log('user picture', user.picture);
           user.displayName = profile.name;
           console.log("STEP 3 - auth route - creating new user");
           user.save(function() {
@@ -100,5 +101,6 @@ router.post('/facebook', function(req, res) {
     });
   });
 });
+
 
 module.exports = router;

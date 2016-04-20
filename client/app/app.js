@@ -16,7 +16,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $auth
     controller: 'MyWishListCtrl'
   })
   .state('starred-lists', {
-    url: '/starredlists',
+    url: '/starred-lists',
     templateUrl: 'app/components/starred-lists/starred-lists.html',
     controller: 'StarredLists'
   })

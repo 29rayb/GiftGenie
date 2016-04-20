@@ -12,6 +12,11 @@ i:hover {
 }
 
 /* NAVBAR.JADE*/
+
+.nav-pills{
+  margin-top: 9px;
+}
+
 .navbar-container {
   position: absolute;
   top: 0;
@@ -34,9 +39,8 @@ a.navbar-links:hover {
 
 li a.navbar-links {
   font-size: 18px;
-  margin-right: 5px;
+  margin-right: 35px;
 }
-
 
 /* HOME*/
 
@@ -58,21 +62,20 @@ li a.navbar-links {
 }
 
 .home_container {
-    position: absolute;
-    color: #fff;
-    top: 36%;
-    left: 29%;
+  position: absolute;
+  color: #000;
+  top: 36%;
+  text-align: center;
+  margin: 0 25%;
 }
 
 h3.title {
   margin-top: -3px;
-  margin-left: 27%;
 }
 
 .button_container {
   position: relative;
-  left: 27%;
-  margin-top: 5%;
+  margin-top: 3%;
 }
 
 .wishlist_button_container button, .button_container button {
@@ -90,14 +93,44 @@ h3.title {
   transition: all .25s ease-in-out;
 }
 
+.fb_btn{
+  border: 1px solid black !important;
+  border-radius: 8%;
+  width: 150px !important;
+  height: 50px !important;
+}
+
+video {
+  width: 100%;
+}
+
 /* My-WishList*/
-.wishlist_container {
+
+.big_container {
   position: absolute;
   width: 80%;
-  left: 10%;
+  margin: 0 10%;
   border: 1px solid black;
   top: 50px;
-  text-align: center;
+}
+
+.big_container .container {
+  margin-top: 50px;
+}
+
+.pro_info {
+  border: 1px solid black;
+}
+
+.star_btn {
+  color: gold;
+  width: 60px;
+}
+
+.wishlist_container {
+  position: relative;
+  border: 1px solid black;
+  text-align: center;;
 }
 
 .search_items {
@@ -111,33 +144,41 @@ h3.title {
   left: 0;
 }
 
-i.fa {
-  margin: 0 50px;
-  font-size: 26px;
-}
-
 i.fa-trash {
-  position: relative;
-  right: -400px;
-  top: -1px;
+  position: absolute;
+  right: 0px;
 }
 
 i.fa-pencil-square-o {
   position: absolute;
-  right: 52px;
+  right: 32px;
 }
 
 .wishlist_items_container a, .wishlist_items_container i {
-  margin: 50px;
-}
-
-.facebook_name {
-  position: relative;
-  top: 60px;
-  font-size: 18px;
+  margin: 0 50px;
+  font-size: 16px;
 }
 
 /*Starred-WishLists*/
+
+.wishlist_button_container {
+  margin-bottom: 25px;
+}
+
+.fa-star.starred_wslist {
+  color: gold;
+  position: relative;
+  top: -84px;
+  float: left;
+  right: 26px;
+  font-size: 25px !important;
+}
+
+.fa-star.starred_wslist:hover {
+  color: black ;
+  transition: all .25s ease-in-out;
+}
+
 .search_fb {
   width: 220px;
 }
@@ -154,13 +195,35 @@ i.fa-pencil-square-o {
    text-align: center;  
 }
 
-:-ms-input-placeholder {  
-   text-align: center; 
+:-ms-input-placeholder {
+   text-align: center;
+}
+
+.facebook_name {
+  position: relative;
+  text-align: left;
+  top: 87px;
+  left: 35px;
+  font-size: 15px;
+  color: #fff;
+  max-width: 130px;
+}
+
+.facebook_name:hover {
+  color: #fff;
+  background-color: rgba(250, 250, 250, 0.7);
+  color: #333;
+  transition: all .25s ease-in-out; : ;
+  width: 130px;
 }
 
 .facebook_photo {
-  width:100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
+}
+
+.starred {
+  height: 140px;
 }
 
 /* FOOTER.JADE*/

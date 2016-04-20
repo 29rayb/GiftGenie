@@ -12,15 +12,15 @@ function MyWishListCtrl($scope, $state, $auth, $http){
     return $state.go('home');
   }
 
-  $http.get('/users/me')
-  .then(function(res) {
-    $scope.user = res.data;
-    console.log('This is the response from retrieving the logged in user info!', res);
-    var $loggedInUser = res.data._id;
-    console.log($loggedInUser, 'Here is it!');
-  }, function(err) {
-    console.error(err);
-  });
+  // $http.get('/users/me')
+  // .then(function(res) {
+  //   $scope.user = res.data;
+  //   console.log('This is the response from retrieving the logged in user info!', res);
+  //   var $loggedInUser = res.data._id;
+  //   console.log($loggedInUser, 'Here is it!');
+  // }, function(err) {
+  //   console.error(err);
+  // });
 
   $scope.add_new = function(item){
     console.log('item', item)

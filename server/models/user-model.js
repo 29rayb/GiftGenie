@@ -6,6 +6,7 @@ bcrypt   = require('bcryptjs'),
 moment   = require('moment'),
 CONFIG   = require('../config/auth');
 
+
 let User, Schema = mongoose.Schema;
 
 let userSchema = Schema({
