@@ -44,15 +44,15 @@ router.get('/me', function(req, res){
   });
 });
 
-router.get('/me', checkAuthentication, function(req, res) {
-  User.findById(req.user, function(err, user){
-    console.log("users route");
-    res.send({
-      displayName: user.displayName,
-      picture: user.picture
-    });
-  })
-});
+// router.get('/me', checkAuthentication, function(req, res) {
+//   User.findById(req.user, function(err, user){
+//     console.log("users route");
+//     res.send({
+//       displayName: user.displayName,
+//       picture: user.picture
+//     });
+//   })
+// });
 
 router.post('/wished', function (req, res){
   User.findById(req.userId)

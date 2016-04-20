@@ -27,6 +27,7 @@ router.post('/facebook', function(req, res) {
   };
 
   // STEP 1. Exchange authorization code for access token.
+  //We are making a request to Facebook API using this code!
   request.get({ url: accessTokenUrl, qs: params, json: true }, function(err, response, accessToken) {
     console.log(accessToken, 'THIS IS THE ACCESS TOKEN');
     var storedAccessToken = accessToken;

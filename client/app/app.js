@@ -11,7 +11,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $auth
     controller: 'HomeCtrl'
   })
   .state('my-wishlist', {
-    url: '/userwishlist',
+    url: '/users',
     templateUrl: 'app/components/my-wishlist/my-wishlist.html',
     controller: 'MyWishListCtrl'
   })
@@ -23,4 +23,4 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $auth
   $authProvider.facebook({
     clientId: '247255738962232'
   });
-});
+})

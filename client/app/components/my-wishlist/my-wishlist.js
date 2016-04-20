@@ -4,7 +4,7 @@ angular
 .module('App')
 .controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', MyWishListCtrl])
 
-function MyWishListCtrl($scope, $state, $auth, $http, $rootScope, UserService) {
+function MyWishListCtrl($scope, $state, $auth, $http, $rootScope, UserService, $window) {
   console.log('Hitting the Wishlist Controller.')
 
   //This statement checks if the person is logged in.
@@ -12,9 +12,36 @@ function MyWishListCtrl($scope, $state, $auth, $http, $rootScope, UserService) {
     console.log("NOT AUTHENTICATED.");
     return $state.go('home');
   }
+  
+  // getUserInfo();
+
+  // function getUserInfo() {
+  //   console.log("Inside get user info function.");
+  //   $http.get('/users/me')
+  //     .then(function (response) {
+  //       $scope.user = {}
+  //       response.data;
+  //       console.log($scope.user, "this is scope.user");
+  //     })
+  //     .catch(function (response) {
+  //       console.log("getUserInfo error", response);
+  //     })
+  // }
 
 
-
+  // function getUserInfo() {
+  //   console.log("Inside get user info function.");
+  //   $scope.user = {}
+  //   console.log($scope.user, "$scope.user");
+  //   // var $user = $scope.user._id;
+  //   UserService.theirMongoId()
+  //   .then(function(res){
+  //     console.log("FUCKING INSIDE IT MAN");
+  //   })
+  // $scope.getUserMongoId = function() {
+  //   console.log($user, "$user");
+  // }
+  // }
 
 
 
@@ -44,20 +71,8 @@ function MyWishListCtrl($scope, $state, $auth, $http, $rootScope, UserService) {
   //     console.log("getUserInfo error", response);
   //   })
   // }
+  //
 
-  function getUserInfo() {
-    console.log("Inside get user info function.");
-    $scope.user = {}
-    console.log($scope.user, "$scope.user");
-    // var $user = $scope.user._id;
-    UserService.theirMongoId()
-    .then(function(res){
-      console.log("FUCKING INSIDE IT MAN");
-    })
-    // $scope.getUserMongoId = function() {
-    //   console.log($user, "$user");
-    // }
-  }
 
 
 

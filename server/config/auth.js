@@ -15,7 +15,6 @@ function ensureAuthenticated(req, res, next) {
   }
 
   var token = req.header('Authorization').split(' ')[1];
-  console.log(token, "inside config folder");
 
   var payload = null;
   try {
