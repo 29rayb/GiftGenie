@@ -12,9 +12,11 @@ let userSchema = Schema({
   displayName: String,
   picture: String,
   facebook: String,
-  wished: [{ type: Schema.Types.ObjectId }]
+  wished: [{ type: Schema.Types.ObjectId }],
+  accessToken: String
 });
 
+//This generates the JSON web token.
 userSchema.methods.createJWT = function() {
   var payload = {
     sub: this._id,  //We're expected to be passing a Mongo UserId here!
@@ -22,6 +24,8 @@ userSchema.methods.createJWT = function() {
     exp: moment().add(1, 'days').unix()  //Expiry at.
   };
   return jwt.encode(payload, process.env.JWT_SECRET);
+  console.log(payload, "This is the MongoID from the payload - user model method.");
+  //It returns a token string.
 };
 
 //The only time we'll be calling this 'create JWT' method is on the User object. (i.e. In auth.js route.)

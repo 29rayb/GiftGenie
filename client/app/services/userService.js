@@ -2,27 +2,18 @@
 
 angular.module('App')
 
-.service('UserService', function($http, $location, $window) {
-  // var currentUser = {}
-  // currentUser.theirMongoId = function(user) {
-  //   this._id = user;
-  //   console.log(user, "INSIDE USER SERVICE - MONGO ID");
-  //   return $http.get('/users/me' + user)
-  var saveToken = function (token) {
-    $window.localStorage['auth-token'] = token;
-  };
+.service('UserService', function($http, $location) {
 
-  var getToken = function () {
-    return $window.localStorage['auth-token'];
-  };
-
-  logout = function() {
-    $window.localStorage.removeItem('auth-token');
-  };
-
-  return {
-    saveToken : saveToken,
-    getToken : getToken,
-    logout : logout
-  };
+  function UserService($http){
+    this.theCurrentUser = function(cb){
+      $http.get('/API/users/me')
+      .then(function(resp){
+        console.log(resp.data);
+        cb(resp.status, resp)
+      }, function(err){
+        console.log(err)
+        cb(err.status)
+      });
+    }
+  }
 });

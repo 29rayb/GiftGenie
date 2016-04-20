@@ -1,28 +1,41 @@
 'use strict';
 
-const express = require('express');
-const User = require('../models/user-model');
-
-let router = express.Router();
+var express = require('express');
+var router = express.Router();
 var checkAuthentication = require('../config/auth');
+
+var User = require('../models/user-model');
 
 router.use(checkAuthentication);
 
-var users = ['what the fuck'];
-
-router.get('/', function (req, res) {
-  console.log(req.user);
-  res.send(users)
-  // console.log("IN USERS.JS ROUTE");
-  // User.find({}, (err, users) => {
-  //   if (err) return res.status(400).send(err);
-  //   users.forEach(user => {
-  //     user.password = null;
-  //     return user;
-  //   });
-  //   res.send(users);
-  // })
+// router.get('/me', ensureAuthenticated, function(req, res) {
+//   User.findById(req.user, function(err, user){
+//     res.send({
+//       displayName: user.displayName,
+//       picture: user.picture
+//     });
+//   })
+// });
+//
+router.get('/me', checkAuthentication, function(req, res) {
+  User.findById(req.user, function(err, user){
+    res.send({ user: user });
+  })
 });
+
+// router.get('/', function (req, res) {
+//   console.log(req.user);
+//   res.send(users)
+//   // console.log("IN USERS.JS ROUTE");
+//   // User.find({}, (err, users) => {
+//   //   if (err) return res.status(400).send(err);
+//   //   users.forEach(user => {
+//   //     user.password = null;
+//   //     return user;
+//   //   });
+//   //   res.send(users);
+//   // })
+// });
 
 // router.get('/', checkAuthentication, function (req, res){
 //   console.log("Inside users route");
@@ -39,16 +52,16 @@ router.get('/', function (req, res) {
 //   });
 // });
 
-router.get('/me', function(req, res){
-  console.log('req.user:', "get to /me in users route");
-  User.findById(req.userId)
-  .exec(function(err, user){
-    console.log("AHHHHHHHHHHH", req.params, "this is it in GET ROUTE");
-    user = user.toObject();
-    delete user.password;
-    res.status(err ? 400 : 200).send(err || user);
-  });
-});
+// router.get('/me', function(req, res){
+//   console.log('req.user:', "get to /me in users route");
+//   User.findById(req.userId)
+//   .exec(function(err, user){
+//     console.log("AHHHHHHHHHHH", req.params, "this is it in GET ROUTE");
+//     user = user.toObject();
+//     delete user.password;
+//     res.status(err ? 400 : 200).send(err || user);
+//   });
+// });
 
 // router.get('/me', checkAuthentication, function(req, res) {
 //   User.findById(req.user, function(err, user){
