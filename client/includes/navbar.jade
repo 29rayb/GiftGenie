@@ -1,14 +1,13 @@
 nav.navbar-container(ng-controller="NavbarCtrl")
   .container-fluid(ng-if="isAuthenticated()")
-    .navbar-header
-      a.navbar-brand.logo.navbar-links GiFTGENiE
+    a.navbar-brand.logo.navbar-links GiFTGENiE
     ul.nav.nav-pills.navbar-right
-      li(role="presentation")
+      li
         span(ng-if='isAuthenticated()')
-          a(ng-click="my_wishlist()").navbar-links My WishList
-      li(role="presentation")
+          a(ng-click="my_wishlist()").navbar-links.left My WishList
+      li
         span(ng-if='isAuthenticated()')
-          a(ng-click="starred_lists()").navbar-links Starred Lists
-      li(role="presentation")
+          a(ng-click="starred_lists()").navbar-links.middle Starred Lists
+      li
         span(ng-if='isAuthenticated()')
-          a(ng-click="logout()").navbar-links Logout
+          a(ng-click="logout()").navbar-links.right Logout

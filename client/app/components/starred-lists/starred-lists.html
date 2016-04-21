@@ -8,10 +8,10 @@
 <div class="main_container">
 
   <div class="container col-xs-3">
-    <input type="text" placeholder="search by facebook name" class="col-xs-10">
+    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10">
     <div class="pro_pic_container col-xs-10">
       <!-- the following info will only be seen once searched and clicked on -->
-      <video src="./images/rach.MOV" class="col-xs-12 pro_pic" autoplay loop></video>
+      <video src="./images/rach.MOV" class="col-xs-12 pro_pic" autoplay loop muted></video>
     </div>
     <div class="pro_info col-xs-10">
       <p>MY NAME</p>
@@ -24,7 +24,7 @@
   <div class="wishlist_container container col-xs-8">
     <h2 class="my_wishlist_title">Starred</h2>
     <div class="wishlist_button_container">
-      <input type="text" placeholder="search starred wishlists" class="search_fb" ng-model="search">
+      <input type="text" placeholder="search starred wishlists" ng-model="search">
     </div>
     <ol ui-sortable ng-model="items">
       <li class="wishlist_items_container starred col-lg-4 col-xs-12 col-sm-6" ng-repeat="item in items | filter:search">

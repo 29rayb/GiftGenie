@@ -15,7 +15,24 @@ input {
 /* NAVBAR.JADE*/
 
 .nav-pills{
-  margin-top: 9px;
+  margin-top: 13px;
+}
+
+.nav-pills li {
+  min-width: 135px;
+  position: absolute;
+  right: 0;
+}
+
+.navbar-links.left {
+  color: black;
+  margin-right: 215px
+}
+.navbar-links.middle {
+  margin-right: 100px
+}
+.navbar-links.right {
+  margin-left: 50px;
 }
 
 .navbar-container {
@@ -40,8 +57,8 @@ a.navbar-links:hover {
 
 li a.navbar-links {
   font-size: 18px;
-  margin-right: 35px;
-}
+/*  margin-right: 35px;
+*/}
 
 /* HOME*/
 
@@ -137,7 +154,6 @@ p.logo {
 .main_container {
   width: 100%;
   margin: 0 auto;
-  border: 1px solid black;
   top: 50px;
   max-width: 1100px;
 }
@@ -225,7 +241,7 @@ i.fa-pencil-square-o {
 }
 
 .search_fb {
-  width: 220px;
+  width: 200px;
 }
 
 ::-webkit-input-placeholder {
@@ -282,8 +298,14 @@ i.fa-pencil-square-o {
 
 /*media queries*/
 
+@media (max-width: 768px) {
+  .navbar-links {
+    color:yellow;
+  }
+}
+
 @media screen and (max-width: 697px ){
-  .pro_pic_container, .pro_info {
+  .pro_pic_container, .pro_info, .search_fb {
     margin: 0 165%;
   }
   .wishlist_container {
@@ -295,7 +317,7 @@ i.fa-pencil-square-o {
 }
 
 @media screen and (max-width: 427px){
-  .pro_pic_container, .pro_info {
+  .pro_pic_container, .pro_info, .search_fb {
     margin: 0 130%;
   }
   .wishlist_container {
