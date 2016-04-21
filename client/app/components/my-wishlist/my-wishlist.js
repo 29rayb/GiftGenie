@@ -2,9 +2,9 @@
 
 angular
   .module('App')
-  .controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', MyWishListCtrl])
+  .controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', '$window', MyWishListCtrl])
 
-function MyWishListCtrl($scope, $state, $auth, $http){
+function MyWishListCtrl($scope, $state, $auth, $http, $window){
   console.log('my wishlist')
   $scope.items = [];
 
