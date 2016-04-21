@@ -2,9 +2,9 @@
 
 angular
 .module('App')
-.controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'Account', MyWishListCtrl])
+.controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'Account', '$rootScope', MyWishListCtrl])
 
-function MyWishListCtrl($scope, $state, $auth, $http, $window, Account){
+function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootScope){
   console.log('In My Wishlist Controller.')
   // $scope.items = [];
 
@@ -14,7 +14,9 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, Account){
 
     Account.getProfile()
     .then(function(response) {
-      $scope.user = response.data;
+      $rootScope.user = response.data;
+      console.log($rootScope.user, "This is the data from GET request.");
+      console.log("Hey babe. #lovey-dovey");
     })
     .catch(function(response) {
       console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
