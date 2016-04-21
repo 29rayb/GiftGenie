@@ -134,15 +134,15 @@ p.logo {
 
 /* My-WishList*/
 
-.big_container {
-  position: absolute;
-  width: 80%;
-  margin: 0 10%;
+.main_container {
+  width: 100%;
+  margin: 0 auto;
   border: 1px solid black;
   top: 50px;
+  max-width: 1100px;
 }
 
-.big_container .container {
+.main_container .container {
   margin-top: 50px;
 }
 
@@ -176,7 +176,9 @@ p.logo {
 .wishlist_container {
   position: relative;
   border: 1px solid black;
-  text-align: center;;
+  text-align: center;
+  min-width: 300px;
+  max-width: 700px;
 }
 
 .wishlist_item {
