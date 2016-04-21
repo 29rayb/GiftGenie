@@ -6,12 +6,15 @@ moment   = require('moment');
 
 let User, Schema = mongoose.Schema;
 
+var Item = require('./item-model.js');
+
+
 let userSchema = Schema({
   displayName: String,
   picture: String,
   facebook: String,
   accessToken: String,
-  wished: [{ type: Schema.Types.ObjectId }]
+  items: [{ type: Schema.Types.Object, ref: "Item" }]
 });
 
 //This generates the JSON web token.

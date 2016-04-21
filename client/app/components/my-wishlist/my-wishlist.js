@@ -6,7 +6,8 @@ angular
 
 function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootScope){
   console.log('In My Wishlist Controller.')
-  // $scope.items = [];
+
+  $scope.items = [];
 
   if(!$auth.isAuthenticated()){
     return $state.go('home');
@@ -23,19 +24,23 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootSco
     });
 
 
-
-
   $scope.add_new = function(item){
-    console.log('item', item)
-    $scope.name = item.name;
-    $scope.link = item.link;
-    $scope.items.push({
-      name: $scope.name,
-      link: $scope.link
+    Account.add_new($rootScope.user)
+    .then(function() {
+      console.log('Inside add new method. Item:', item)
+      $scope.name = item.name;
+      $scope.link = item.link;
+      $scope.items.push({
+        name: $scope.name,
+        link: $scope.link
+      })
+      $scope.item.name = '';
+      $scope.item.link = '';
+      console.log('Added new items')
     })
-    $scope.item.name = '';
-    $scope.item.link = '';
-    console.log('add new item')
+    .catch(function(response) {
+      console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+    });
   }
 
   $scope.edit = function(item){
