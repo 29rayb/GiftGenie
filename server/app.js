@@ -11,7 +11,10 @@ var app = express();
 app.set('view engine', 'jade');
 app.set('views', 'client');
 
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1/public-wishlist-app');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1/public-wishlist-app', function(err){
+  if (err) return console.log('Error connecting to Mongodb:', err);
+  console.log('Connected to MongoDB:' )
+});
 
 // GENERAL MIDDLEWARE
 app.use(morgan('dev'));
