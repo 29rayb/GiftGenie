@@ -16,7 +16,7 @@ var User = require('../models/user-model');
 */
 
 router.post('/facebook', function(req, res) {
-  var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name'];
+  var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name', 'picture'];
   var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
   var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + fields.join(',');
   var params = {
@@ -40,6 +40,8 @@ router.post('/facebook', function(req, res) {
   // STEP 2. Retrieve profile information about the current user.
     request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(err, response, profile) {
       console.log('THIS IS THE FACEBOOK PROFILE:', profile);
+      console.log('LINK TO PROFILE PICTURE', profile.picture.data.url)
+      var fb_pro_pic = profile.picture.data.url;
 
       if (response.statusCode !== 200) {
         return res.status(500).send({ message: profile.error.message });
