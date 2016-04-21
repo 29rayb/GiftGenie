@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node server/app.js",
+    "postinstall": "bower i",
     "setup": "rm -rf node_modules client/vendor && npm i && bower i"
   },
   "repository": {
