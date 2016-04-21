@@ -36,7 +36,7 @@ input {
 }
 
 .navbar-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -46,19 +46,17 @@ input {
 }
 
 a.navbar-links {
-  font-family: Josefin Sans;
   font-family: Exo;
   color: #000;
 }
 
 a.navbar-links:hover {
-  cursor: pointer;
+  
 }
 
 li a.navbar-links {
   font-size: 18px;
-/*  margin-right: 35px;
-*/}
+}
 
 /* HOME*/
 
@@ -298,21 +296,28 @@ i.fa-pencil-square-o {
 
 /*media queries*/
 
-@media (max-width: 768px) {
-  .navbar-links {
-    color:yellow;
-  }
-}
-
 @media screen and (max-width: 697px ){
   .pro_pic_container, .pro_info, .search_fb {
     margin: 0 165%;
+    top: 40px;
   }
   .wishlist_container {
+    margin-top: 40px;
     margin-left: 20%;
   }
   .pro_info {
     color: yellow;
+  }
+}
+
+@media screen and (max-width: 446px){
+  .navbar-right li a.left, a.middle, a.right {
+    position: relative !important;
+    top: 35px !important;
+    left: -39px !important;
+  }
+  .navbar-container {
+    height: 80px;
   }
 }
 
