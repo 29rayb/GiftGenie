@@ -3,17 +3,13 @@ html {
   height: 100%;
 }
 
-button a {
-  color: #000;
-}
-
-button a:hover, div a:hover {
-  color: #000;
+button a:hover, div a:hover, i:hover {
   text-decoration: none;
+  cursor: pointer;
 }
 
-i:hover {
-  cursor: pointer ;
+input {
+  min-width: 145px;
 }
 
 /* NAVBAR.JADE*/
@@ -50,12 +46,15 @@ li a.navbar-links {
 /* HOME*/
 
 .logo_container {
-  position: absolute;
-  top: 12%;
+  padding-top: 100px;
   text-align: center;
-  margin: 0 26%;
-  max-width: 300px;
+  margin: 0 auto;
   min-width: 260px;
+}
+
+h1.logo {
+  font-size: 44px;
+  font-family: Exo;
 }
 
 p.logo {
@@ -63,6 +62,7 @@ p.logo {
   font-weight: 400;
   color: #666;
   font-size: 19px;
+  word-spacing: 2.5px;
 }
 
 .rach {
@@ -83,11 +83,9 @@ p.logo {
 }
 
 .home_container {
-  position: absolute;
   color: #000;
-  top: 27%;
-  text-align: center;
-  margin: 0 25%;
+  margin: 0 auto;
+  margin-top: 20px;
   border: 1px solid #DCDCDC;
   padding: 20px 25px;
   border-radius: 3%;
@@ -122,17 +120,16 @@ p.logo {
   height: 50px !important;
   background-color: #3C5A99 !important;
   color: #FFFFFF !important;
-  box-shadow: 0 2px 4px 0 #dcdcdc;
+}
+
+.fb_btn:hover{
+  box-shadow: 0 7px 4px 0 #dcdcdc;
 }
 
 .fb_logo {
   height: 25px;
   width: 25px;
   border-radius: 8%;
-}
-
-video {
-  width: 100%;
 }
 
 /* My-WishList*/
@@ -162,10 +159,6 @@ video {
   position: relative;
   border: 1px solid black;
   text-align: center;;
-}
-
-.search_items {
-  width: 200px;
 }
 
 .wishlist_item {
@@ -259,7 +252,9 @@ i.fa-pencil-square-o {
 
 /* FOOTER.JADE*/
 .footer {
-  position: fixed;
-  left: 45%;
-  bottom: 0;
+  position:fixed;
+  bottom: 0px;
+  width: 100%;
+  text-align: center;
+  color: #B4B4B4;
 }
