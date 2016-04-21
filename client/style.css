@@ -50,8 +50,8 @@ a.navbar-links {
   color: #000;
 }
 
-a.navbar-links:hover {
-  
+li a.navbar-links:hover {
+  font-weight: 600;
 }
 
 li a.navbar-links {
