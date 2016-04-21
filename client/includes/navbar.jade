@@ -1,5 +1,5 @@
 nav.navbar-container(ng-controller="NavbarCtrl")
-  .container-fluid
+  .container-fluid(ng-if="isAuthenticated()")
     .navbar-header
       a.navbar-brand.logo.navbar-links GiFTGENiE
     ul.nav.nav-pills.navbar-right

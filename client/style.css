@@ -1,3 +1,8 @@
+html {
+  line-height: 1.4;
+  height: 100%;
+}
+
 button a {
   color: #000;
 }
@@ -44,6 +49,22 @@ li a.navbar-links {
 
 /* HOME*/
 
+.logo_container {
+  position: absolute;
+  top: 12%;
+  text-align: center;
+  margin: 0 26%;
+  max-width: 300px;
+  min-width: 260px;
+}
+
+p.logo {
+  font-family: Georgia,Times,"Times New Roman",serif;
+  font-weight: 400;
+  color: #666;
+  font-size: 19px;
+}
+
 .rach {
   position: absolute;
   top:0;
@@ -64,13 +85,14 @@ li a.navbar-links {
 .home_container {
   position: absolute;
   color: #000;
-  top: 36%;
+  top: 27%;
   text-align: center;
   margin: 0 25%;
-}
-
-h3.title {
-  margin-top: -3px;
+  border: 1px solid #DCDCDC;
+  padding: 20px 25px;
+  border-radius: 3%;
+  box-shadow: 0 2px 4px 0 #dcdcdc;
+  max-width: 280px;
 }
 
 .button_container {
@@ -94,10 +116,19 @@ h3.title {
 }
 
 .fb_btn{
-  border: 1px solid black !important;
-  border-radius: 8%;
-  width: 150px !important;
+  border: 1px solid #DCDCDC !important;
+  border-radius: 3%;
+  width: 200px !important;
   height: 50px !important;
+  background-color: #3C5A99 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 4px 0 #dcdcdc;
+}
+
+.fb_logo {
+  height: 25px;
+  width: 25px;
+  border-radius: 8%;
 }
 
 video {
