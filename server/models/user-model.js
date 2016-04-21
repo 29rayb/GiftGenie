@@ -10,8 +10,8 @@ let userSchema = Schema({
   displayName: String,
   picture: String,
   facebook: String,
-  wished: [{ type: Schema.Types.ObjectId }],
-  accessToken: String
+  accessToken: String,
+  wished: [{ type: Schema.Types.ObjectId }]
 });
 
 //This generates the JSON web token.

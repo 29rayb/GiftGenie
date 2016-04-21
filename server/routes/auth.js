@@ -37,7 +37,7 @@ router.post('/facebook', function(req, res) {
       return res.status(500).send({ message: accessToken.error.message });
     }
 
-  // STEP 2. Retrieve profile information about the current user.
+    // STEP 2. Retrieve profile information about the current user.
     request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(err, response, profile) {
       console.log('THIS IS THE FACEBOOK PROFILE:', profile);
       console.log('LINK TO PROFILE PICTURE', profile.picture.data.url)
@@ -83,26 +83,24 @@ router.post('/facebook', function(req, res) {
           if (existingUser) {
             console.log("STEP 3 - auth route - existing user");
             var token = existingUser.createJWT();
-            console.log("We've created the JWT token.");
+            console.log(token, "We've created the JWT token.");
             return res.send({ token: token, user: user });
           }
           //Scenario b):
           var user = new User();
           user.facebook = profile.id;
           user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
-          // console.log('user picture', user.picture);
           user.displayName = profile.name;
           console.log("STEP 3 - auth route - creating new user");
           user.save(function() {
             console.log("We've created the JWT token.");
             var token = user.createJWT();
-            res.send({ token: token , user: user});
+            res.send({ token: token });
           });
         });
       }
     });
   });
 });
-
 
 module.exports = router;

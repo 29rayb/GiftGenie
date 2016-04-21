@@ -1,20 +1,13 @@
 'use strict';
 
-angular
-  .module('App')
-  .service('UserSvc', UserSvc)
-
-UserSvc.$inject = ['$http', '$location']
-
-function UserSvc($http){
-  this.theCurrentUser = function(cb){
-    $http.get('/API/users/me')
-    .then(function(resp){
-      console.log(resp.data);
-      cb(resp.status, resp)
-    }, function(err){
-      console.log(err)
-      cb(err.status)
-    });
-  }
-}
+angular.module('App')
+  .factory('Account', function($http) {
+    return {
+      getProfile: function() {
+        return $http.get('/api/me');
+      },
+      // updateProfile: function(profileData) {
+      //   return $http.put('/api/me', profileData);
+      // }
+    };
+  });
