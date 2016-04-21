@@ -311,6 +311,11 @@ i.fa-pencil-square-o {
 }
 
 @media screen and (max-width: 446px){
+  a.navbar-brand.logo{
+    position: absolute !important;
+    font-size: 40px;
+    margin-left: 60px !important;
+  }
   .navbar-right li a.left, a.middle, a.right {
     position: relative !important;
     top: 35px !important;
