@@ -9,7 +9,7 @@ button a:hover, div a:hover, i:hover {
 }
 
 input {
-  min-width: 145px;
+  min-width: 202px;
 }
 
 /* NAVBAR.JADE*/
@@ -177,8 +177,9 @@ p.logo {
   position: relative;
   border: 1px solid black;
   text-align: center;
-  min-width: 300px;
+  min-width: 320px;
   max-width: 700px;
+  margin-left: 58px;
 }
 
 .wishlist_item {
@@ -277,4 +278,27 @@ i.fa-pencil-square-o {
   width: 100%;
   text-align: center;
   color: #B4B4B4;
+}
+
+/*media queries*/
+
+@media screen and (max-width: 697px ){
+  .pro_pic_container, .pro_info {
+    margin: 0 165%;
+  }
+  .wishlist_container {
+    margin-left: 20%;
+  }
+  .pro_info {
+    color: yellow;
+  }
+}
+
+@media screen and (max-width: 427px){
+  .pro_pic_container, .pro_info {
+    margin: 0 130%;
+  }
+  .wishlist_container {
+    margin-left: 10.5%;
+  }
 }
