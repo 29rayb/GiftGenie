@@ -12,6 +12,13 @@ function MyWishListCtrl($scope, $state, $auth, $http){
     return $state.go('home');
   }
 
+    //   $http.post('/auth/facebook')
+    // .then(function(response){
+    //   console.log(response)
+    // }, function(err){
+    //   console.log(err)
+    // })
+
   // $http.get('/users/me')
   // .then(function(res) {
   //   $scope.user = res.data;

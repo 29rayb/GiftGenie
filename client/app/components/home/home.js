@@ -2,9 +2,9 @@
 
 angular
 .module('App')
-.controller('HomeCtrl', ['$scope', '$state', '$auth', HomeCtrl])
+.controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', HomeCtrl])
 
-function HomeCtrl($scope, $state, $auth){
+function HomeCtrl($scope, $state, $auth, $http){
   console.log('In The Home Controller')
 
   $scope.authenticate = function(provider, user) {
@@ -22,14 +22,5 @@ function HomeCtrl($scope, $state, $auth){
         console.error(err, 'Inside the Home Ctrl, we have an error!');
       });
   };
-
-
-
-
-
-
-
-
-
 
 }
