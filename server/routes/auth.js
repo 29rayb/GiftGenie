@@ -11,7 +11,7 @@ var User = require('../models/user-model');
 
 /*
 |----------------------------------
-| Facebook:                        |
+| Facebook Auth:                  |
 |----------------------------------
 */
 
@@ -96,7 +96,7 @@ router.post('/facebook', function(req, res) {
           user.save(function() {
             console.log("We've created the JWT token.");
             var token = user.createJWT();
-            res.send({ token: token });
+            res.send({ token: token , user: user});
           });
         });
       }

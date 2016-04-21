@@ -12,6 +12,9 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window){
     return $state.go('home');
   }
 
+
+
+
     //   $http.post('/auth/facebook')
     // .then(function(response){
     //   console.log(response)

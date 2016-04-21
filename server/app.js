@@ -23,10 +23,8 @@ app.use(bodyParser.urlencoded( {extended: true} ));
 app.use(express.static('client'));
 
 // ROUTES
-// app.use('*', require('./routes/index'));
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
-// app.use('/users', require('./routes/users'));
 
 app.listen(PORT, function(){
   console.log('Listening on port ', PORT);

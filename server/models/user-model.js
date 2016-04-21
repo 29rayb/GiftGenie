@@ -2,9 +2,7 @@
 
 const mongoose = require('mongoose'),
 jwt      = require('jwt-simple'),
-// bcrypt   = require('bcryptjs'),
 moment   = require('moment');
-// CONFIG   = require('../config/auth');
 
 let User, Schema = mongoose.Schema;
 
