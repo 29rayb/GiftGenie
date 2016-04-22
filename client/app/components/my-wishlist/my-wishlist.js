@@ -19,7 +19,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootSco
       console.log($rootScope.user, "This is the data from GET request.");
       console.log("Hey babe. #lovey-dovey");
     })
-    .catch(function(response) {
+    .catch(function(err) {
       console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
 
@@ -38,7 +38,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootSco
       $scope.item.link = '';
       console.log('Added new items')
     })
-    .catch(function(response) {
+    .catch(function(err) {
       console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
   }
