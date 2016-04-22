@@ -2,9 +2,9 @@
 
 angular
 .module('App')
-.controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'Account', '$rootScope', MyWishListCtrl])
+.controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', MyWishListCtrl])
 
-function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootScope){
+function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope){
   console.log('In My Wishlist Controller.')
 
   $scope.items = [];
@@ -13,19 +13,19 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootSco
     return $state.go('home');
   }
 
-    Account.getProfile()
+  UserSvc.getProfile()
     .then(function(response) {
       $rootScope.user = response.data;
       console.log($rootScope.user, "This is the data from GET request.");
       console.log("Hey babe. #lovey-dovey");
     })
-    .catch(function(err) {
-      console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-    });
+  .catch(function(err) {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
 
 
   $scope.add_new = function(item){
-    Account.add_new($rootScope.user)
+    UserSvc.add_new($rootScope.user)
     .then(function() {
       console.log('Inside add new method. Item:', item)
       $scope.name = item.name;

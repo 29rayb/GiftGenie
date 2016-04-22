@@ -3,24 +3,18 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jwt-simple');
-var ensureAuthenticated = require('../config/authenticate');
 
 var User = require('../models/user-model');
 var Item = require('../models/item-model');
 
-
-// ensureAuthenticated is repetitive / unnecessary because you already
-// defined it in the app.js with the following line
-// app.use('/api', authMiddleware, require('./routes/api'));
-
-router.get('/me', ensureAuthenticated, function(req, res) {
+router.get('/me', function(req, res) {
   console.log(req.user, "**GET REQUEST in API.JS!!**");
   User.findById(req.user, function(err, user) {
     res.send(user);
   })
 });
 
-router.post('/me', ensureAuthenticated, function(req, res) {
+router.post('/me', function(req, res) {
   console.log(req.user, "**<-- (MongoID) POST REQUEST in API.JS!!**");
   User.findById(req.user, function(err, user) {
     if (!user) {

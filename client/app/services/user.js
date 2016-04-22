@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('App')
-  .factory('Account', function($http) {
+  .factory('UserSvc', function($http) {
     return {
       getProfile: function() {
         return $http.get('/api/me');
