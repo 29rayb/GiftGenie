@@ -6,12 +6,6 @@ angular
 
 function NavbarCtrl($scope, $state, NavSvc, $auth){
 
-  // $scope.fb_pro_pic = function(){
-  //   NavSvc.get_fb_pro_pic(function(){
-      
-  //   });
-  // }
-
   $scope.isAuthenticated = function() {
     return $auth.isAuthenticated();
   };
