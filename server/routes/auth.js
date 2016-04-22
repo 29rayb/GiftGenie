@@ -16,7 +16,7 @@ var User = require('../models/user-model');
 */
 
 router.post('/facebook', function(req, res) {
-  var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name', 'picture', 'birthday'];
+  var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name', 'education'];
   var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
   var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + fields.join(',');
   var params = {

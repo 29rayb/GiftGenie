@@ -1,5 +1,4 @@
 'use strict';
-
 var mongoose = require('mongoose');
 var User = require('./user-model.js');
 var Schema = mongoose.Schema;
@@ -20,7 +19,8 @@ itemSchema.statics.submit = function(item, cb) {
 
   var addedItem = {
     link: link,
-    name: name
+    name: name,
+    user: User._id
   };
 
   var newItem = new Item(addedItem);
