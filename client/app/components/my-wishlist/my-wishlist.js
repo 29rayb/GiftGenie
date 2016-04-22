@@ -27,6 +27,17 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
+  // UserSvc.getPhotos()
+  //   console.log('yuguygyfyut')
+  //   .then(function(response) {
+  //     console.log('THIS IS THE GET PHOTOS RESPONSE', response)
+  //     console.log('THIS IS THE GET PHOTOS RESPONSE', response.data)
+  //   })
+  //   .catch(function(err) {
+  //     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  //   });
+
+
 
   $scope.add = function(item){
     UserSvc.add_new(item)
@@ -76,6 +87,20 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.log('edit item')
   }
 
+//RAY:
+  // $scope.delete = function($index){
+  //   UserSvc.delete_item($index)
+  //     .then(function(){
+  //       console.log('delete', $index);
+  //       var item_to_delete = $scope.items[$index];
+  //       console.log('item to delete', item_to_delete);
+  //       $scope.items.splice($index, 1);
+  //     })
+  //
+  //   // API.delete_item({ name: item_to_delete.name }, function (success) {
+  //   //   $scope.items.splice($index, 1);
+  //   // });
+  // }
 
   $scope.star = function(){
     console.log('starred this person');

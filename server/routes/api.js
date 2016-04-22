@@ -14,6 +14,13 @@ router.get('/me', function(req, res) {
   })
 });
 
+// router.get('/me/photos', function(req, res) {
+//   console.log(req.user, "**GET REQUEST in API.JS!!**");
+//   // User.findById(req.user, function(err, user) {
+//   //   res.send(user);
+//   // })
+// });
+
 router.post('/me/items', function(req, res) {
   console.log(req.user, "___#1___**<-- (MongoID) POST REQUEST in API.JS!!**");
   User.findById(req.user, function(err, user) {
@@ -33,6 +40,7 @@ router.post('/me/items', function(req, res) {
   });
 });
 
+//RACHEL:
 // router.delete('/me/items', function(req, res) {
 //   console.log(req.user, "___#1___**<-- (MongoID) DELETE REQUEST in API.JS!!**");
 //   User.findById(req.user, function(err, user) {
@@ -51,6 +59,20 @@ router.post('/me/items', function(req, res) {
 //       })
 //     });
 //   });
+// });
+
+
+//RAY:
+// router.delete('/me/items', function(req, res) {
+//   // console.log(req.user, "**GET REQUEST in API.JS!!**");
+//   User.findById(req.user, function(err, user) {
+//     console.log('user.items', user.items)
+//     var items = user.items;
+//     Item.findByIdAndRemove(items, function(err, items){
+//       console.log('THIS IS THE ITEMS', items)
+//       res.send(items)
+//     })
+//   })
 // });
 
 module.exports = router
