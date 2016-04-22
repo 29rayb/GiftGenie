@@ -24,12 +24,14 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootSco
     });
 
 
-  $scope.add_new = function(item){
-    Account.add_new($rootScope.user)
+  $scope.add = function(item){
+    ("BUTTON CLICK TRIGGERS FUNCTION.")
+    $scope.name = item.name;
+    $scope.link = item.link;
+
+    Account.add_new(item)
     .then(function() {
       console.log('Inside add new method. Item:', item)
-      $scope.name = item.name;
-      $scope.link = item.link;
       $scope.items.push({
         name: $scope.name,
         link: $scope.link

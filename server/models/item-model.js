@@ -32,12 +32,12 @@ itemSchema.statics.submit = function(item, cb) {
   newItem.save(function(err, savedItem){
     console.log('New item.');
     cb(err, savedItem);
-    User.findByIdAndUpdate(user._id, { $push: { item : addedItem }}, function(err, user) {
-      console.log(addedItem, "THE ITEM AHHAHAUHHUA");
-      if(err){
-        res.status(400).send(err);
-      }
-    });
+    // User.findByIdAndUpdate(user._id, { $push: { item : addedItem }}, function(err, user) {
+    //   console.log(addedItem, "THE ITEM AHHAHAUHHUA");
+    //   if(err){
+    //     res.status(400).send(err);
+    //   }
+    // });
   });
 }
 
