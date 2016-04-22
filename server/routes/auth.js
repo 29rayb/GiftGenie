@@ -60,15 +60,12 @@ router.post('/facebook', function(req, res) {
               return res.status(400).send({ message: 'User not found' });
             }
             //Or: (Success)
-            console.log('THIS IS THE USER', user);
             user.facebook = profile.id;
             user.picture = user.picture || 'https://graph.facebook.com/v2.3/' + profile.id + '/picture?type=large';
             user.displayName = user.displayName || profile.name;
-            user.displayName = user.email;
+            user.email = user.email || profile.email;
             user.save(function() {
-              console.log("Step 2: Inside user.save function");
               var token = user.createJWT();
-              console.log("Step 2 - JWT created.");
               res.send({ token: token, user:user });
             });
           });
@@ -77,7 +74,6 @@ router.post('/facebook', function(req, res) {
 
         // STEP 3. CREATE a new user account OR RETURN an existing one.
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
-
           //Scenario a):
           if (existingUser) {
             console.log("STEP 3 - auth route - existing user");
@@ -90,6 +86,7 @@ router.post('/facebook', function(req, res) {
           user.facebook = profile.id;
           user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
           user.displayName = profile.name;
+          user.email = profile.email;
           console.log("STEP 3 - auth route - creating new user");
           user.save(function() {
             console.log("We've created the JWT token.");
