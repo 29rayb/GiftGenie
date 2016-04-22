@@ -72,6 +72,12 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.item.name = item.name;
     $scope.item.link = item.link;
     console.log('edit item')
+    // need to add this when the backend is done, or else
+    // when user clicks on button to add, and clicks on x,
+    // then tries to add a new item, user will see the info
+    // for previously clicked edit item
+    //   $scope.item.name = '';
+    //   $scope.item.link = '';
   }
   $scope.save_changes = function(item){
     console.log('item to save changes', item)
@@ -82,24 +88,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.log('edit item')
   }
 
-//RAY:
-  // $scope.delete = function($index){
-  //   UserSvc.delete_item($index)
-  //     .then(function(){
-  //       console.log('delete', $index);
-  //       var item_to_delete = $scope.items[$index];
-  //       console.log('item to delete', item_to_delete);
-  //       $scope.items.splice($index, 1);
-  //     })
-  //
-  //   // API.delete_item({ name: item_to_delete.name }, function (success) {
-  //   //   $scope.items.splice($index, 1);
-  //   // });
-  // }
-
   $scope.star = function(){
     console.log('starred this person');
   }
-
-
 }
