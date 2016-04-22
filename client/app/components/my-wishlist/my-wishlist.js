@@ -36,11 +36,11 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       name: $scope.name,
       link: $scope.link
     })
-
     UserSvc.add_new(item)
     .then(function() {
       console.log('Inside add new method. Item:', item)
-
+      // this must be inside the service or it will just reset
+      // the scope variables to empty strings and won't be shown;
       $scope.item.name = '';
       $scope.item.link = '';
       console.log('Added new items')
