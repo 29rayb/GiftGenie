@@ -29,10 +29,8 @@ router.post('/me/items', function(req, res) {
     }
 
     Item.submit(req.body, function(err, savedItem) {
-      console.log("___#5___The full req.body we get back. (Back inside api.js route.)", req.body);
-      var item = req.body;
       console.log('___#6___Here is the item (api.js).', item);
-      user.items.push(item);
+      user.items.push(savedItem);
       console.log("___#7___New item has been pushed into User document in Mongo.");
       user.save(function(err, user) {
         res.send(user);
