@@ -17,11 +17,11 @@ function ensureAuthenticated(req, res, next) {
   }
 
   var token = req.headers.authorization.split(' ')[1];
-  console.log("********** THIS IS THE TOKEN ******", token);
+  // console.log("********** THIS IS THE TOKEN ******", token);
   var payload = null;
   try {
     payload = jwt.decode(token, process.env.JWT_SECRET);
-    console.log(payload, "HERE WE GO");
+    // console.log(payload, "HERE WE GO");
   }
   catch (err) {
     return res.status(401).send({ message: err.message });
@@ -30,7 +30,7 @@ function ensureAuthenticated(req, res, next) {
     return res.status(401).send({ message: 'Token has expired' });
   }
   req.user = payload.sub; //MONGO ID.
-  console.log("THIS IS THE MONGO ID:", req.user);
+  // console.log("THIS IS THE MONGO ID:", req.user);
   next();
 }
 

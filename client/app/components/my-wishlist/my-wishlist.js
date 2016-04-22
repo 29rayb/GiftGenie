@@ -2,9 +2,9 @@
 
 angular
 .module('App')
-.controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'Account', '$rootScope', MyWishListCtrl])
+.controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', MyWishListCtrl])
 
-function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootScope){
+function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope){
   console.log('In My Wishlist Controller.')
 
   $scope.items = [];
@@ -13,15 +13,18 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootSco
     return $state.go('home');
   }
 
-    Account.getProfile()
+  UserSvc.getProfile()
     .then(function(response) {
       $rootScope.user = response.data;
+      $rootScope.display_name = response.data.displayName
+      $rootScope.email = response.data.email
+      $rootScope.pro_pic = response.data.facebook
       console.log($rootScope.user, "This is the data from GET request.");
       console.log("Hey babe. #lovey-dovey");
     })
-    .catch(function(response) {
-      console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-    });
+  .catch(function(err) {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
 
 
   $scope.add = function(item){
@@ -29,7 +32,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootSco
     $scope.name = item.name;
     $scope.link = item.link;
 
-    Account.add_new(item)
+    UserSvc.add_new(item)
     .then(function() {
       console.log('Inside add new method. Item:', item)
       $scope.items.push({
@@ -40,7 +43,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, Account, $rootSco
       $scope.item.link = '';
       console.log('Added new items')
     })
-    .catch(function(response) {
+    .catch(function(err) {
       console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
   }
