@@ -15,11 +15,8 @@ var itemSchema = Schema({
 itemSchema.statics.submit = function(item, cb) {
   var link = item.link;
   var name = item.name;
-  // var user = item.user;
 
-  console.log("We're grabbing the item values.");
-
-  var User = mongoose.model('User');
+  console.log("___#2___We're grabbing the item values. (Item Model method!)");
 
   var addedItem = {
     link: link,
@@ -27,17 +24,11 @@ itemSchema.statics.submit = function(item, cb) {
   };
 
   var newItem = new Item(addedItem);
-  console.log(newItem, 'NEW ITEM');
+  console.log('___#3___This is the new item! (Item model method.)', newItem);
 
   newItem.save(function(err, savedItem){
-    console.log('New item.');
+    console.log('___#4___Saving new item to Item collection in Mongo.', savedItem);
     cb(err, savedItem);
-    // User.findByIdAndUpdate(user._id, { $push: { item : addedItem }}, function(err, user) {
-    //   console.log(addedItem, "THE ITEM AHHAHAUHHUA");
-    //   if(err){
-    //     res.status(400).send(err);
-    //   }
-    // });
   });
 }
 

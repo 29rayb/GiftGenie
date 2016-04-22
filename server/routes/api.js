@@ -16,37 +16,22 @@ router.get('/me', ensureAuthenticated, function(req, res) {
 });
 
 router.post('/me/items', ensureAuthenticated, function(req, res) {
-  console.log(req.user, "**<-- (MongoID) POST REQUEST in API.JS!!**");
+  console.log("___#1___ POST REQUEST in API.JS!! (This is our MongoID.) ", req.user);
   User.findById(req.user, function(err, user) {
     if (!user) {
       return res.status(400).send({ message: 'User not found' });
     }
 
     Item.submit(req.body, function(err, savedItem) {
-      console.log(req.body, "This is the full req.body");
-      console.log('This is a saved item', savedItem);
-      res.status(err ? 400 : 200).send(err || savedItem);
+      console.log("___#5___The full req.body we get back. (Back inside api.js route.)", req.body);
+      var item = req.body;
+      console.log('___#6___Here is the item (api.js).', item);
+      user.items.push(item);
+      console.log("___#7___New item has been pushed into User document in Mongo.");
+      user.save(function(err, user) {
+        res.send(user);
+      })
     });
-    
-    console.log("items should save.");
-    var itemId = req.body.id;
-    console.log(itemId, 'this is the item id.');
-    user.items.push(itemId);
-    user.save(function(err, user) {
-      res.send(user);
-    })
-    // user.displayName = req.body.displayName || user.displayName;
-    // console.log(req.body.displayName);
-    //
-    // items.link = req.body.item || user.displayName;
-    // console.log(items.link, "HERE 1");
-    //
-    // items.name = req.body.name || user.displayName;
-    // console.log(items.name, "HERE 2");
-
-    // user.save(function(err) {
-    //   res.status(200).end();
-    // });
   });
 });
 
