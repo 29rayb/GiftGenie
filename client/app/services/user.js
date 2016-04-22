@@ -7,7 +7,13 @@ angular.module('App')
         return $http.get('/api/me');
       },
       add_new: function(item) {
-        return $http.post('/api/me', item);
+        // this.add_new = function(item) {
+          console.log(item, "INSIDE ADD_NEW SERVICE");
+          return $http.post('/api/me/items', item);
+        // }
       }
+      // add_new: function(item) {
+      //   return $http.put('/api/me', item);
+      // }
     };
   });

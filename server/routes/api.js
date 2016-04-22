@@ -15,7 +15,7 @@ router.get('/me', ensureAuthenticated, function(req, res) {
   })
 });
 
-router.post('/me', ensureAuthenticated, function(req, res) {
+router.post('/me/items', ensureAuthenticated, function(req, res) {
   console.log(req.user, "**<-- (MongoID) POST REQUEST in API.JS!!**");
   User.findById(req.user, function(err, user) {
     if (!user) {
@@ -27,7 +27,14 @@ router.post('/me', ensureAuthenticated, function(req, res) {
       console.log('This is a saved item', savedItem);
       res.status(err ? 400 : 200).send(err || savedItem);
     });
- 
+    
+    console.log("items should save.");
+    var itemId = req.body.id;
+    console.log(itemId, 'this is the item id.');
+    user.items.push(itemId);
+    user.save(function(err, user) {
+      res.send(user);
+    })
     // user.displayName = req.body.displayName || user.displayName;
     // console.log(req.body.displayName);
     //
