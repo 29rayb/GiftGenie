@@ -13,38 +13,27 @@ var itemSchema = Schema({
 });
 
 itemSchema.statics.submit = function(item, cb) {
-  var link = item.link;
-  var name = item.name;
-  var facebook = item.facebook;
+  var User = mongoose.model('User');
 
-  console.log(item, "FINDING THE USER");
+    var addedItem = {
+      link: item.link,
+      name: item.name,
+    };
 
-    var User = mongoose.model('User');
-    User.findOne({ facebook : facebook }, function(err, user){
-      console.log(user, 'WHERE THE FUCK IS THE USER.........');
+    var newItem = new Item(addedItem);
+    console.log(newItem, 'NEW ITEM');
 
-      var addedItem = {
-        link: String,
-        name: String,
-        user: user._id
-      };
-
-      var newItem = new Item(addedItem);
-      console.log(newItem, 'NEW ITEM');
-
-      newItem.save(function(err, savedItem){
-        console.log('New item.');
-        cb(err, savedItem);
-
-        User.findByIdAndUpdate(user._id, { $push: { item : addedItem }}, function(err, user) {
-          console.log(addedItem, "THE ITEM AHHhHHHHHHHHHHUHUHUAHUAHAUHAUHAUAHUA");
-          if(err){
-            res.status(400).send(err);
-          }
-        });
+    newItem.save(function(err, savedItem){
+      console.log('New item.');
+      cb(err, savedItem);
+      User.findByIdAndUpdate(user._id, { $push: { item : addedItem }}, function(err, user) {
+        console.log(addedItem, "THE ITEM AHHAHAUHHUA");
+        if(err){
+          res.status(400).send(err);
+        }
       });
     });
-  }
+}
 
 Item = mongoose.model('Item', itemSchema);
 

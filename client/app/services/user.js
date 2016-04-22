@@ -6,8 +6,8 @@ angular.module('App')
       getProfile: function() {
         return $http.get('/api/me');
       },
-      add_new: function(profileData) {
-        return $http.put('/api/me', profileData);
+      add_new: function(item) {
+        return $http.post('/api/me', item);
       }
     };
   });
