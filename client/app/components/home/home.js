@@ -16,6 +16,8 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc){
         var token = res.data;
         // console.log(token, "This is our token. We're inside Home Ctlr.")
       UserSvc.getProfile()
+        // this has to be done before state.go because facebook_email is needed but
+        // after auth.authenticate because you are pressing the login with facebook button
         .then(function(response) {
           var facebookId = response.data._id;
           // var facebook_name = response.data.displayName;
