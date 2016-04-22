@@ -23,9 +23,10 @@ router.post('/me/items', function(req, res) {
 
     Item.submit(req.body, function(err, savedItem) {
       console.log("___#5___The full req.body we get back. (Back inside api.js route.)", req.body);
-      var item = req.body;
-      console.log('___#6___Here is the item (api.js).', item);
-      user.items.push(item);
+      console.log(savedItem, "what is the saved item???");
+      // var item = req.body;
+      // console.log('___#6___Here is the item (api.js).', item);
+      user.items.push(savedItem);
       console.log("___#7___New item has been pushed into User document in Mongo.");
       user.save(function(err, user) {
         res.send(user);
@@ -33,5 +34,25 @@ router.post('/me/items', function(req, res) {
     });
   });
 });
+
+// router.delete('/me/items', function(req, res) {
+//   console.log(req.user, "___#1___**<-- (MongoID) DELETE REQUEST in API.JS!!**");
+//   User.findById(req.user, function(err, user) {
+//     if (!user) {
+//       return res.status(400).send({ message: 'User not found' });
+//     }
+//
+//     Item.submit(req.body, function(err, savedItem) {
+//       console.log("___#5___The full req.body we get back. (Back inside api.js route.)", req.body);
+//       var item = req.body;
+//       console.log('___#6___Here is the item (api.js).', item);
+//       user.items.push(item);
+//       console.log("___#7___New item has been pushed into User document in Mongo.");
+//       user.save(function(err, user) {
+//         res.send(user);
+//       })
+//     });
+//   });
+// });
 
 module.exports = router

@@ -11,6 +11,10 @@ angular.module('App')
       var item;
       return $http.post('/api/me/items', item);
     }
+    // delete_item: function($index) {
+    //   var item;
+    //   return $http.delete('/api/me/items', $index);
+    // }
     // add_new: function(item) {
     //   return $http.put('/api/me', item);
     // }
