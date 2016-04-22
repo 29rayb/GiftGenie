@@ -2,12 +2,12 @@
 
   <div class="profile container col-xs-3">
     <div class="pro_pic_container col-xs-10">
-      <img ng-src="https://graph.facebook.com/{{user.facebook}}/picture?type=large" class="col-xs-12 pro_pic">
+      <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">
     </div>
     <div class="pro_info col-xs-10">
-      <p>{{user.displayName}}</p>
-      <p>Email:</p>
-      <p>Birthday:</p>
+      <p>{{display_name}}</p>
+      <p>{{email}}</p>
+      <p>{{birthday}}</p>
       <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>
     </div>
   </div>

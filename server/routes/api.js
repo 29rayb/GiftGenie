@@ -8,11 +8,17 @@ var User = require('../models/user-model');
 var Item = require('../models/item-model');
 
 router.get('/me', function(req, res) {
-  console.log(req.user, "**GET REQUEST in API.JS!!**");
+  // console.log(req.user, "**GET REQUEST in API.JS!!**");
   User.findById(req.user, function(err, user) {
     res.send(user);
   })
 });
+
+router.get('/books', function(req, res){
+  User.findById(req.user, function(err, user){
+    console.log('THIS IS THE BOOKS', user)
+  })
+})
 
 router.post('/me', function(req, res) {
   console.log(req.user, "**<-- (MongoID) POST REQUEST in API.JS!!**");

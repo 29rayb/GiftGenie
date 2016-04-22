@@ -16,6 +16,9 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   UserSvc.getProfile()
     .then(function(response) {
       $rootScope.user = response.data;
+      $rootScope.display_name = response.data.displayName
+      $rootScope.email = response.data.email
+      $rootScope.pro_pic = response.data.facebook
       console.log($rootScope.user, "This is the data from GET request.");
       console.log("Hey babe. #lovey-dovey");
     })

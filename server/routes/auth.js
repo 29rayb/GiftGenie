@@ -16,7 +16,7 @@ var User = require('../models/user-model');
 */
 
 router.post('/facebook', function(req, res) {
-  var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name', 'picture'];
+  var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name', 'picture', 'birthday'];
   var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
   var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + fields.join(',');
   var params = {
@@ -29,19 +29,16 @@ router.post('/facebook', function(req, res) {
   // STEP 1. Exchange authorization code for access token.
   //We are making a request to Facebook API using this code!
   request.get({ url: accessTokenUrl, qs: params, json: true }, function(err, response, accessToken) {
-    console.log(accessToken, 'THIS IS THE ACCESS TOKEN');
+    // console.log(accessToken, 'THIS IS THE ACCESS TOKEN');
     var storedAccessToken = accessToken;
-    console.log("stored access token:", storedAccessToken);
+    // console.log("stored access token:", storedAccessToken);
     if (response.statusCode !== 200) {
-      console.log("Step 1 - auth route.");
       return res.status(500).send({ message: accessToken.error.message });
     }
 
     // STEP 2. Retrieve profile information about the current user.
     request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(err, response, profile) {
       console.log('THIS IS THE FACEBOOK PROFILE:', profile);
-      console.log('LINK TO PROFILE PICTURE', profile.picture.data.url)
-      var fb_pro_pic = profile.picture.data.url;
 
       if (response.statusCode !== 200) {
         return res.status(500).send({ message: profile.error.message });
@@ -63,9 +60,11 @@ router.post('/facebook', function(req, res) {
               return res.status(400).send({ message: 'User not found' });
             }
             //Or: (Success)
+            console.log('THIS IS THE USER', user);
             user.facebook = profile.id;
             user.picture = user.picture || 'https://graph.facebook.com/v2.3/' + profile.id + '/picture?type=large';
             user.displayName = user.displayName || profile.name;
+            user.displayName = user.email;
             user.save(function() {
               console.log("Step 2: Inside user.save function");
               var token = user.createJWT();
@@ -83,7 +82,7 @@ router.post('/facebook', function(req, res) {
           if (existingUser) {
             console.log("STEP 3 - auth route - existing user");
             var token = existingUser.createJWT();
-            console.log(token, "We've created the JWT token.");
+            // console.log(token, "We've created the JWT token.");
             return res.send({ token: token, user: user });
           }
           //Scenario b):
