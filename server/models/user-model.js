@@ -14,6 +14,8 @@ let userSchema = Schema({
   picture: String,
   facebook: String,
   accessToken: String,
+  email: String,
+  birthday: String,
   items: [{ type: Schema.Types.Object, ref: "Item" }]
 });
 

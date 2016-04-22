@@ -2,12 +2,12 @@
 
 angular
 .module('App')
-.controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', MyWishListCtrl])
+.controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StoreSvc', '$rootScope', MyWishListCtrl])
 
-function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope){
+function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, StoreSvc, $rootScope){
   console.log('In My Wishlist Controller.')
 
-  $scope.items = [];
+  // $scope.items = [];
 
   if(!$auth.isAuthenticated()){
     return $state.go('home');
@@ -19,6 +19,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       $rootScope.display_name = response.data.displayName
       $rootScope.email = response.data.email
       $rootScope.pro_pic = response.data.facebook
+      $rootScope.items = response.data.items;
       console.log($rootScope.user, "This is the data from GET request.");
       console.log("Hey babe. #lovey-dovey");
     })
@@ -28,10 +29,6 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
 
   $scope.add = function(item){
-    ("BUTTON CLICK TRIGGERS FUNCTION.")
-    $scope.name = item.name;
-    $scope.link = item.link;
-
     UserSvc.add_new(item)
     .then(function() {
       console.log('Inside add new method. Item:', item)
