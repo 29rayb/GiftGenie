@@ -21,8 +21,8 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc){
         .then(function(response) {
           var facebookId = response.data._id;
           // var facebook_name = response.data.displayName;
-          var facebook_email = response.data.email;
-          $state.go('my-wishlist', {id: facebook_email})
+          // var facebook_email = response.data.email;
+          $state.go('my-wishlist', {id: facebookId})
         })
         .catch(function(err) {
           console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
