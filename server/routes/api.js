@@ -8,6 +8,11 @@ var ensureAuthenticated = require('../config/authenticate');
 var User = require('../models/user-model');
 var Item = require('../models/item-model');
 
+
+// ensureAuthenticated is repetitive / unnecessary because you already
+// defined it in the app.js with the following line
+// app.use('/api', authMiddleware, require('./routes/api'));
+
 router.get('/me', ensureAuthenticated, function(req, res) {
   console.log(req.user, "**GET REQUEST in API.JS!!**");
   User.findById(req.user, function(err, user) {
