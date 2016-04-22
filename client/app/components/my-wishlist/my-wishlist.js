@@ -48,7 +48,6 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     .catch(function(err) {
       console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
-
   }
 
   // $scope.delete = function($index){
