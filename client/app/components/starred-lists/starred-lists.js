@@ -2,10 +2,9 @@
 
 angular
   .module('App')
-  .controller('StarredListsCtrl', ['$scope', '$state', StarredListsCtrl])
+  .controller('StarredListsCtrl', ['$scope', '$state', '$stateParams', StarredListsCtrl])
 
-function StarredListsCtrl($scope, $state){
-  console.log('starred lists');
+function StarredListsCtrl($scope, $state, $stateParams){
 
   $scope.unstar = function($index){
     console.log('unstar wishlist');

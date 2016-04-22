@@ -7,9 +7,9 @@
 
   <div class="home_container">
     <div class="button_container">
-      <button ng-click="authenticate('facebook')" class="fb_btn">
+      <button ng-click="authenticate('facebook')" class="fb_btn" ui-sref="my-wishlist({id: facebook})">
         <img src="./images/facebook.jpg" alt="facebook-logo" class="fb_logo">
-        Login with Facebook
+        Login with Facebook {{facebook}}
       </button>
     </div>
   </div>

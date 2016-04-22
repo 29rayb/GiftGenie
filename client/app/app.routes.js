@@ -14,9 +14,9 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
       controller: 'HomeCtrl'
     })
     .state('my-wishlist', {
-      url: '/my-wishlist',
+      url: '/my-wishlist/:id',
       templateUrl: 'app/components/my-wishlist/my-wishlist.html',
-      controller: 'MyWishListCtrl'
+      controller: 'MyWishListCtrl',
     })
     .state('starred-lists', {
       url: '/starred-lists',
