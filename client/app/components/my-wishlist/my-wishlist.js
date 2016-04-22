@@ -11,8 +11,6 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   console.log('THESE ARE THE STATEPARMS', $stateParams)
   $scope.id = $stateParams.facebook;
 
-  // $scope.items = [];
-
   if(!$auth.isAuthenticated()){
     return $state.go('home');
   }
@@ -31,26 +29,18 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
-  // UserSvc.getPhotos()
-  //   console.log('yuguygyfyut')
-  //   .then(function(response) {
-  //     console.log('THIS IS THE GET PHOTOS RESPONSE', response)
-  //     console.log('THIS IS THE GET PHOTOS RESPONSE', response.data)
-  //   })
-  //   .catch(function(err) {
-  //     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  //   });
-
-
-
   $scope.add = function(item){
+    $scope.name = item.name;
+    $scope.link = item.link;
+    $scope.items.push({
+      name: $scope.name,
+      link: $scope.link
+    })
+
     UserSvc.add_new(item)
     .then(function() {
       console.log('Inside add new method. Item:', item)
-      $scope.items.push({
-        name: $scope.name,
-        link: $scope.link
-      })
+
       $scope.item.name = '';
       $scope.item.link = '';
       console.log('Added new items')
@@ -58,6 +48,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     .catch(function(err) {
       console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
+
   }
 
   // $scope.delete = function($index){
