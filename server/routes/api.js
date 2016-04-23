@@ -79,26 +79,38 @@ router.put('/me/items', function(req, res) {
   console.log(req.user, "___#1___**<-- (MongoID) DELETE REQUEST in API.JS!!**");
   console.log(req.body, "req.body");
 
-  var itemid = req.body._id;
-  console.log(itemid, "item to be removed");
+  var clicked = req.body;
+  var clickedItemId = req.body._id;
+  console.log(clickedItemId, "item to be removed");
 
-  var userid = req.user;
-  console.log(userid, "user");
+  var userId = req.user;
+  console.log(userId, "user");
 
-  User.findByIdAndUpdate(userid, {$pull : {items : req.body._id}}, function(err, user) {
-    console.log("Maybe its gone");
+  User.findById(userId).exec(function(err, user){
     if(err){
       res.status(400).send(err);
     }
-    User.findById(userid).exec(function(err, updatedUser){
-      if(err){
-        res.status(400).send(err);
-      }
-      Item.findByIdAndRemove(itemid, function(err, item){
-        console.log("IN HERE.");
+    var user;
+    var userItems = user.items;
+    console.log(userItems, "this is the users items");
+
+    Item.findByIdAndRemove(clickedItemId, function(err, item){
+      console.log("IN HERE.");
+
+      User.update({_id : req.user}, {$pull : {items : { _id : clickedItemId}}}, function(err, user) {
+        console.log(user, "this is the user");
+        console.log(userId, "userid");
+        console.log(userItems, "items");
+        console.log(clicked, "item");
+        console.log(clickedItemId, "itemid");
+        console.log("Maybe its gone");
+        if(err){
+          res.status(400).send(err);
+        }
         res.send(item);
       })
-    })
+
+    });
   });
 });
 
