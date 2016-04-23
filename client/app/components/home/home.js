@@ -22,6 +22,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc){
           var facebookId = response.data._id;
           // var facebook_name = response.data.displayName;
           // var facebook_email = response.data.email;
+          console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
           $state.go('my-wishlist', {id: facebookId})
         })
         .catch(function(err) {
