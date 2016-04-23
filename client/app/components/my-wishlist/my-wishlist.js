@@ -37,8 +37,6 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   //     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   //   });
 
-
-
   $scope.add = function(item){
     UserSvc.add_new(item)
     .then(function() {
@@ -56,38 +54,27 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     });
   }
 
-  // $scope.delete = function($index){
-  //   UserSvc.delete_item($index)
-  //   .then(function() {
-  //     console.log('delete', $index);
-  //     var item_to_delete = $scope.items[$index];
-  //     console.log('item to delete', item_to_delete);
-  //     $scope.items.splice($index, 1);
-  //   })
-  //   .catch(function(err) {
-  //     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  //   });
-  //   // API.delete_item({ name: item_to_delete.name }, function (success) {
-  //   //   $scope.items.splice($index, 1);
-  //   // });
-  // }
-
   $scope.edit = function(item){
-    console.log('item to edit', item)
+    $scope.item = {};
     $scope.item.name = item.name;
     $scope.item.link = item.link;
-    console.log('edit item')
-  }
-  $scope.save_changes = function(item){
-    console.log('item to save changes', item)
-    $scope.item.name = item.name;
-    $scope.item.link= item.link;
-    $scope.add_new(item);
-    $scope.delete();
-    console.log('edit item')
+    $scope.editItemId = item._id;
+    console.log($scope.editItemId, "Edit this Item.");
   }
 
-  //RAY:
+  $scope.save_changes = function(item, editItemId){
+    console.log('newly editted item for saving', item)
+    $scope.item.name = item.name;
+    $scope.item.link = item.link;
+    $scope.item.id = editItemId;
+    console.log($scope.item.id, "Yup, this item id.");
+    UserSvc.save_changes(item)
+    .then(function() {
+      console.log('Inside edit method. Item:', item)
+      console.log("HOW TO SAVE CHANGES ON FRONTEND?????");
+    })
+  }
+
   $scope.delete = function(item, $index){
     console.log(item, "HERES THE ITEM");
     var deletedItem = item._id;
@@ -104,6 +91,5 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.star = function(){
     console.log('starred this person');
   }
-
 
 }

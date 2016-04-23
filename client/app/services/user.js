@@ -14,11 +14,15 @@ angular.module('App')
       var item;
       return $http.post('/api/me/items', item);
     },
-
     delete_item: function(item) {
       console.log(item, "Item for deletion.");
       var item;
       return $http.put('/api/me/items', item);
+    },
+    save_changes: function(item) {
+      var item;
+      console.log(item, "Item for editting.");
+      return $http.put('/api/me/items/edit', item);
     }
   };
 });

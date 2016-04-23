@@ -24,7 +24,7 @@ router.get('/me', function(req, res) {
 
 //#2: Adding a new item to the wishlist.
 router.post('/me/items', function(req, res) {
-  console.log(req.user, "___#1___**<-- (MongoID) POST REQUEST in API.JS!!**");
+  console.log(req.user, "___#1___(MongoID) POST REQUEST in API.JS!!**");
   User.findById(req.user, function(err, user) {
     if (!user) {
       return res.status(400).send({ message: 'User not found' });
@@ -43,7 +43,7 @@ router.post('/me/items', function(req, res) {
 
 //Route #3: Deleting an item from the wishlist (removes it from both Mongo models).
 router.put('/me/items', function(req, res) {
-  console.log(req.user, "___#1___**<-- (MongoID) DELETE REQUEST in API.JS!!**");
+  console.log(req.user, "<-- (MongoID) DELETE REQUEST in API.JS!!**");
 
   var clicked = req.body;
   var clickedItemId = req.body._id;
@@ -60,5 +60,39 @@ router.put('/me/items', function(req, res) {
     });
   })
 });
+
+//Route #4: Editting an item on a wishlist (updates both Mongo models).
+
+router.put('/me/items/edit', function(req, res) {
+  console.log(req.user, "<-- (MongoID) EDIT REQUEST in API.JS!!**");
+  console.log(req.body, "req.body");
+  var editItem = req.body;
+  console.log(editItem, "editItem");
+  var editItemId = editItem._id;
+  console.log(editItemId, "id of editted item.");
+  // var clickedItemId = req.body._id;
+  // var clickedItemName = req.body.name;
+
+  // User.findByIdAndUpdate(req.user, {$pull : { "items" : { "name" : clickedItemName }}}, function(err, user) {
+  //   if(err){
+  //     res.status(400).send(err);
+  //   }
+  //
+  //   Item.findByIdAndRemove(clickedItemId, function(err, item){
+  //     console.log("**Item deleted from both models.");
+  //     res.send(user);
+  //   });
+  // })
+});
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router
