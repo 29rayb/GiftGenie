@@ -14,15 +14,15 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   }
 
   UserSvc.getProfile()
-    .then(function(response) {
-      $rootScope.user = response.data;
-      $rootScope.display_name = response.data.displayName
-      $rootScope.email = response.data.email
-      $rootScope.pro_pic = response.data.facebook
-      $rootScope.items = response.data.items;
-      console.log($rootScope.user, "This is the data from GET request.");
-      console.log("Hey babe. #lovey-dovey");
-    })
+  .then(function(response) {
+    $rootScope.user = response.data;
+    $rootScope.display_name = response.data.displayName
+    $rootScope.email = response.data.email
+    $rootScope.pro_pic = response.data.facebook
+    $rootScope.items = response.data.items;
+    console.log($rootScope.user, "This is the data from GET request.");
+    console.log("Hey babe. #lovey-dovey");
+  })
   .catch(function(err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
@@ -87,20 +87,19 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.log('edit item')
   }
 
-//RAY:
-  // $scope.delete = function($index){
-  //   UserSvc.delete_item($index)
-  //     .then(function(){
-  //       console.log('delete', $index);
-  //       var item_to_delete = $scope.items[$index];
-  //       console.log('item to delete', item_to_delete);
-  //       $scope.items.splice($index, 1);
-  //     })
-  //
-  //   // API.delete_item({ name: item_to_delete.name }, function (success) {
-  //   //   $scope.items.splice($index, 1);
-  //   // });
-  // }
+  //RAY:
+  $scope.delete = function(item, $index){
+    console.log(item, "HERES THE ITEM");
+    var deletedItem = item._id;
+    console.log(deletedItem, "id to remove");
+    UserSvc.delete_item(item, $index)
+    .then(function(){
+      console.log('id to delete', deletedItem);
+      var item_to_delete = $scope.items[$index];
+      console.log('item to delete', item_to_delete);
+      $scope.items.splice($index, 1);
+    })
+  }
 
   $scope.star = function(){
     console.log('starred this person');

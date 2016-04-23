@@ -14,16 +14,11 @@ angular.module('App')
       var item;
       return $http.post('/api/me/items', item);
     },
-    // delete_item: function($index) {
-    //   return $http.delete('/api/me/items', $index);
-    // }
-    // delete_item: function($index) {
-    //   var item;
-    //   return $http.delete('/api/me/items', $index);
-    // }
-    // add_new: function(item) {
-    //   return $http.put('/api/me', item);
-    // }
 
+    delete_item: function(item) {
+      console.log(item, "Item for deletion.");
+      var item;
+      return $http.put('/api/me/items', item);
+    }
   };
 });

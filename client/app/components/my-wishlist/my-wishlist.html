@@ -22,7 +22,7 @@
       <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
         <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
         <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
-        <i class="fa fa-trash" ng-click="delete($index)"></i>
+        <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
       </li>
     </ol>
   </div>
