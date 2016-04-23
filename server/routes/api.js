@@ -82,36 +82,30 @@ router.put('/me/items', function(req, res) {
   var clicked = req.body;
   var clickedItemId = req.body._id;
   console.log(clickedItemId, "item to be removed");
+  var clickedItemName = req.body.name;
+  console.log(clickedItemName, "clicked item name");
 
-  var userId = req.user;
-  console.log(userId, "user");
-
-  User.findById(userId).exec(function(err, user){
+  User.findByIdAndUpdate(req.user, {$pull : { "items" : { "name" : clickedItemName }}}, function(err, user) {
     if(err){
       res.status(400).send(err);
     }
-    var user;
-    var userItems = user.items;
-    console.log(userItems, "this is the users items");
-
     Item.findByIdAndRemove(clickedItemId, function(err, item){
       console.log("IN HERE.");
-
-      User.update({_id : req.user}, {$pull : {items : { _id : clickedItemId}}}, function(err, user) {
-        console.log(user, "this is the user");
-        console.log(userId, "userid");
-        console.log(userItems, "items");
-        console.log(clicked, "item");
-        console.log(clickedItemId, "itemid");
-        console.log("Maybe its gone");
-        if(err){
-          res.status(400).send(err);
-        }
-        res.send(item);
-      })
-
+      res.send(user);    
     });
-  });
+  })
+  // var userId = req.user;
+  // console.log(userId, "user");
+  //
+  // User.findById(userId).exec(function(err, user){
+  //   if(err){
+  //     res.status(400).send(err);
+  //   }
+  //   var user;
+  //   var userItems = user.items;
+  //   console.log(userItems, "this is the users items");
+
+  // });
 });
 
 
