@@ -1,8 +1,8 @@
 {
   "toFile": [
     {"from": "/(.+\.js)",
-     "to": "app/js/$1"},
-    {"from": "/\.css)",
+     "to": "/client/app/js/$1"},
+    {"from": "/(.+\.css)",
      "to": "/client/css$1"}
   ],
   "fromFile": [
