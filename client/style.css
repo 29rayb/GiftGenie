@@ -172,6 +172,7 @@ p.logo {
 
 .my_wishlist_title {
   border: 1px solid black;
+  color: yellow;
 }
 
 .pro_pic_container, .pro_info {
