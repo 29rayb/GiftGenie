@@ -16,6 +16,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   UserSvc.getProfile()
   .then(function(response) {
     $rootScope.user = response.data;
+    $rootScope.id = response.data._id;
     $rootScope.display_name = response.data.displayName
     $rootScope.email = response.data.email
     $rootScope.pro_pic = response.data.facebook
@@ -37,17 +38,23 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   //     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   //   });
 
-  $scope.add = function(item){
+  $scope.add = function(item, user){
+    $scope.item.name = item.name;
+    $scope.item.link = item.link;
+    var userId = $scope.user._id;
+    $scope.item.user = userId;
+
     UserSvc.add_new(item)
     .then(function() {
-      console.log('Inside add new method. Item:', item)
+      console.log('Inside Add_New method in Ctrl. Item:', item)
       $scope.items.push({
         name: $scope.name,
-        link: $scope.link
+        link: $scope.link,
+        user: userId
       })
       $scope.item.name = '';
       $scope.item.link = '';
-      console.log('Added new items')
+      console.log('Added new items.')
     })
     .catch(function(err) {
       console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
@@ -91,5 +98,4 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.star = function(){
     console.log('starred this person');
   }
-
 }

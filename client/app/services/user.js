@@ -12,6 +12,7 @@ angular.module('App')
     // },
     add_new: function(item) {
       var item;
+      console.log(item, "Here is the new item in our service.");
       return $http.post('/api/me/items', item);
     },
     delete_item: function(item) {

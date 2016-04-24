@@ -16,7 +16,7 @@ let userSchema = Schema({
   accessToken: String,
   email: String,
   birthday: String,
-  items: [{ type: Schema.Types.Object, ref: "Item" }]
+  items: [{ type: Schema.Types.ObjectId, ref: "Item" }]
 });
 
 //This generates the JSON web token.
