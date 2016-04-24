@@ -9,10 +9,11 @@ var Item = require('../models/item-model');
 
 //#1: Finding a user (to display their profile info).
 router.get('/me', function(req, res) {
-  // console.log(req.user, "**GET REQUEST in API.JS!!**");
+  console.log(req.user, "**GET REQUEST in API.JS!!**");
   User.findById(req.user, function(err, user) {
-    res.send(user);
-  })
+    res.status(err ? 400 : 200).send(err || user)
+  }).populate('items')
+// })
 });
 
 //#2: Adding a new item to the wishlist.

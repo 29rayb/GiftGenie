@@ -41,8 +41,8 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   //   });
 
   $scope.add = function(item, user){
-    $scope.item.name = item.name;
-    $scope.item.link = item.link;
+    $scope.name = item.name;
+    $scope.link = item.link;
     var userId = $scope.user._id;
     $scope.item.user = userId;
 
