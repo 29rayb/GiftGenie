@@ -72,15 +72,13 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   }
 
   $scope.save_changes = function(item, editItemId){
-    console.log('newly editted item for saving', item)
+    console.log('Newly editted item for saving', item)
     $scope.item.name = item.name;
     $scope.item.link = item.link;
     $scope.item.id = editItemId;
-    console.log($scope.item.id, "Yup, this item id.");
     UserSvc.save_changes(item)
-    .then(function() {
+    .then(function(item) {
       console.log('Inside edit method. Item:', item)
-      console.log("HOW TO SAVE CHANGES ON FRONTEND?????");
     })
   }
 

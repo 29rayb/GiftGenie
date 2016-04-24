@@ -53,38 +53,17 @@ router.put('/me/items/delete', function(req, res) {
 });
 
 //Route #4: Editting an item on a wishlist (updates both Mongo models).
-
 router.put('/me/items/edit', function(req, res) {
   console.log(req.user, "<-- (MongoID) EDIT REQUEST in API.JS!!**");
 
   var editItem = req.body;
-  console.log(editItem, "Editted item to save.");
   var editItemId = editItem.id;
-  console.log(editItemId, "id of editted item.");
-
   var editItemName = editItem.name;
   var editItemLink = editItem.link;
-  console.log(editItemName, "name of editted item.");
 
-  User.findById(req.user, function(err, user) {
-    if (!user) {
-      return res.status(400).send({ message: 'User not found' });
-    }
-    console.log(user, 'user');
-    console.log(user.items, "user items");
-    // var new = user.items.ObjectId.str;
-    // console.log(user.items.ObjectId.);
-
-    User.update({"items" : { $elemMatch: { "_id": editItemId.str }}}, { "name": editItemName, "link": editItemLink }, function(err, user) {
-      console.log('well were here');
-      if(err){
-        res.status(400).send(err);
-      }
-      Item.update( {"_id": editItemId}, { "name": editItemName,  "link": editItemLink }, function(err, item) {
-        console.log("YAY");
-        res.send(user);
-      });
-    });
+  Item.findByIdAndUpdate(editItemId, { "name": editItemName,  "link": editItemLink }, function(err, item) {
+    console.log("Item updated.");
+    res.send(item);
   });
 });
 
