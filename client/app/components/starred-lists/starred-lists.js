@@ -11,12 +11,17 @@ function StarredListsCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSv
     return $state.go('home');
   }
 
-  $scope.search = function(user, userFb){
+  $scope.search = function(user, user_id){
     console.log(user, 'heres the user');
     var user_id = user.facebook;
     console.log(user_id, "HERES WHAT WE NEED");
+    console.log($scope, "SCOPE");
+    $scope.friends = [];
     StarSvc.get_friends(user, user_id)
-    .then(function(user){
+    .then(function(user, user_id, data){
+      console.log(user, "USER");
+      console.log(data, "DATA");
+      $scope.user.friends = data.friends;
       console.log(user, "here are the friends we would get back");
       console.log('WTF');
     })
