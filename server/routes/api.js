@@ -41,10 +41,11 @@ router.post('/me/items', function(req, res) {
 });
 
 //Route #3: Deleting an item from the wishlist (removes it from both Mongo models).
-router.put('/me/items', function(req, res) {
+router.put('/me/items/delete', function(req, res) {
   console.log(req.user, "<-- (MongoID) DELETE REQUEST in API.JS!!**");
 
   var clicked = req.body;
+  console.log(clicked, "req.body");
   var clickedItemId = req.body._id;
   var clickedItemName = req.body.name;
 
