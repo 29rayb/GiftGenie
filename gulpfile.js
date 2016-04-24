@@ -81,10 +81,3 @@ psi('http://giftsgenies.herokuapp.com/#/', {nokey: 'true', strategy: 'mobile'}).
 //     .dest('client/images/screenshots')
 //     .run()
 //     .then(() => console.log('done'));
-
-
-
-
-
-
-
