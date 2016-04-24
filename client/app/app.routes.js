@@ -24,8 +24,6 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
       controller: 'StarredListsCtrl'
     })
   $authProvider.facebook({
-    clientId: '247255738962232',
-    requiredUrlParams: ['scope'],
-    scope: ['user_friends']
+    clientId: '247255738962232'
   });
 }
