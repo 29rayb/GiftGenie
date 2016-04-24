@@ -4,11 +4,22 @@ angular.module('App')
 
 .factory('StarSvc', function($http) {
   return {
-
-    get_friends: function(user, user_id) {
+    get_friends: function(user) {
       console.log("IN HERE. This is user in service", user);
-      console.log(user_id, "HEREs the id we will insert");
-      return $http.get(`/api/${user_id}/friendslists`, user, user_id);
+      return $http.get('/api/me/:id/friends', user);
     }
+  //   add_new: function(item) {
+  //     var item;
+  //     console.log(item, "Here is the new item in our service.");
+  //     return $http.post('/api/me/items', item);
+  //   },
+  //   delete_item: function(item) {
+  //     return $http.put('/api/me/items/delete', item);
+  //   },
+  //   save_changes: function(item) {
+  //     var item;
+  //     console.log(item, "Item for editting.");
+  //     return $http.put('/api/me/items/edit', item);
+  //   }
   };
 });
