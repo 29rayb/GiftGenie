@@ -35,10 +35,17 @@
       <!-- this is for when the app is deployed -->
       <!-- <div class="fb-comments" data-href="https://giftsgenies.herokuapp.com/#/" data-width="464" data-numposts="10"></div> -->
     </div>
+<<<<<<< HEAD
+=======
+    <ol ui-sortable ng-model="items" >
+      <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
+        <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
+        <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
+        <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
+      </li>
+    </ol>
+>>>>>>> social-login-with-facebook
   </div>
-    <div class="fb-comments wishlist_container container col-xs-8" data-href="http://localhost:3000/#/my-wishlist" data-numposts="10"></div>
-    <!-- this is for when the app is deployed -->
-    <!-- <div class="fb-comments" data-href="https://giftsgenies.herokuapp.com/#/" data-width="464" data-numposts="10"></div> -->
 </div>
 
 
@@ -74,7 +81,7 @@
         <input type="text" placeholder="Item Name" ng-model="item.name">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="save_changes(item)" data-dismiss="modal">Save changes</button>
+        <button type="button" class="btn btn-primary" ng-click="save_changes(item, editItemId)" data-dismiss="modal">Save changes</button>
       </div>
     </div>
   </div>

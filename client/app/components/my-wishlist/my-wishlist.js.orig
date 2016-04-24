@@ -16,19 +16,21 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   }
 
   UserSvc.getProfile()
-    .then(function(response) {
-      $rootScope.user = response.data;
-      $rootScope.display_name = response.data.displayName
-      $rootScope.email = response.data.email
-      $rootScope.pro_pic = response.data.facebook
-      $rootScope.items = response.data.items;
-      console.log($rootScope.user, "This is the data from GET request.");
-      console.log("Hey babe. #lovey-dovey");
-    })
+  .then(function(response) {
+    $rootScope.user = response.data;
+    $rootScope.display_name = response.data.displayName
+    $rootScope.email = response.data.email
+    $rootScope.pro_pic = response.data.facebook
+    $rootScope.items = response.data.items;
+    console.log($rootScope.user, "This is the data from GET request.");
+    console.log("Hey babe. #lovey-dovey");
+  })
   .catch(function(err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
+<<<<<<< HEAD
+=======
   // UserSvc.getPhotos()
   //   console.log('yuguygyfyut')
   //   .then(function(response) {
@@ -39,6 +41,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   //     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   //   });
 
+>>>>>>> social-login-with-facebook
   $scope.add = function(item){
     $scope.name = item.name;
     $scope.link = item.link;
@@ -60,28 +63,22 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     });
   }
 
-  // $scope.delete = function($index){
-  //   UserSvc.delete_item($index)
-  //   .then(function() {
-  //     console.log('delete', $index);
-  //     var item_to_delete = $scope.items[$index];
-  //     console.log('item to delete', item_to_delete);
-  //     $scope.items.splice($index, 1);
-  //   })
-  //   .catch(function(err) {
-  //     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  //   });
-  //   // API.delete_item({ name: item_to_delete.name }, function (success) {
-  //   //   $scope.items.splice($index, 1);
-  //   // });
-  // }
-
   $scope.edit = function(item){
     $scope.item = {};
     $scope.item.name = item.name;
     $scope.item.link = item.link;
+<<<<<<< HEAD
+    console.log('edit item')
+    // need to add this when the backend is done, or else
+    // when user clicks on button to add, and clicks on x,
+    // then tries to add a new item, user will see the info
+    // for previously clicked edit item
+    //   $scope.item.name = '';
+    //   $scope.item.link = '';
+=======
     $scope.editItemId = item._id;
     console.log($scope.editItemId, "Edit this Item.");
+>>>>>>> social-login-with-facebook
   }
 
   $scope.save_changes = function(item, editItemId){
@@ -97,6 +94,11 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     })
   }
 
+<<<<<<< HEAD
+  $scope.star = function(){
+    console.log('starred this person');
+  }
+=======
   $scope.delete = function(item, $index){
     console.log(item, "HERES THE ITEM");
     var deletedItem = item._id;
@@ -114,5 +116,5 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.log('starred this person');
   }
 
-
+>>>>>>> social-login-with-facebook
 }

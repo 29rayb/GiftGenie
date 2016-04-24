@@ -10,6 +10,8 @@ angular.module('App')
     add_new: function(item) {
       var item;
       return $http.post('/api/me/items', item);
+<<<<<<< HEAD
+=======
     },
     delete_item: function(item) {
       console.log(item, "Item for deletion.");
@@ -20,6 +22,7 @@ angular.module('App')
       var item;
       console.log(item, "Item for editting.");
       return $http.put('/api/me/items/edit', item);
+>>>>>>> social-login-with-facebook
     }
   };
 });
