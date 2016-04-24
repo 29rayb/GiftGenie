@@ -1,9 +1,4 @@
-<div ng-init="items = [{name:'Rachel Slater'},
-                         {name:'The Queen'},
-                         {name:'Princess Robyn'},
-                         {name:'Ginger Goddess'},
-                         {name:'Irish Lucky Charm'},
-                         {name:'Follow The Rainbow'}]"></div>
+<!-- <div ng-init="items = []"></div> -->
 
 <div class="main_container">
 
@@ -26,12 +21,13 @@
       <h2 class="my_wishlist_title">Starred</h2>
     </div>
     <div class="bottom_container">
-      <input type="text" placeholder="search starred wishlists" ng-model="search">
+      <button ng-click="search(user)">Facebook Friend Wishlist Lookup</button>
+      <!-- <input type="text" placeholder="search starred wishlists" ng-model="search"> -->
       <ol ui-sortable ng-model="items" class="wishlist_items">
         <li class="wishlist_items_container starred col-lg-4 col-xs-12 col-sm-6" ng-repeat="item in items | filter:search">
           <a href="" class="wishlist_item"><img src="http://m0.her.ie/wp-content/uploads/2014/06/grad-photo_opt.jpg" alt="" class="facebook_photo"></a>
           <a href="" ><p class="facebook_name">{{item.name}} </p></a>
-          <i class="fa fa-star starred_wslist" ng-click="unstar($index)"></i>
+          <i class="fa fa-star starred_wislist" ng-click="unstar($index)"></i>
         </li>
       </ol>
     </div>

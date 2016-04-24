@@ -94,4 +94,5 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.star = function(){
     console.log('starred this person');
   }
+
 }
