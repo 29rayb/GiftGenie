@@ -7,9 +7,6 @@ angular.module('App')
     getProfile: function() {
       return $http.get('/api/me');
     },
-    // getPhotos: function() {
-    //   return $http.get('/api/me/photos');
-    // },
     add_new: function(item) {
       var item;
       console.log(item, "Here is the new item in our service.");

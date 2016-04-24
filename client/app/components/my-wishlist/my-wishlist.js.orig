@@ -16,6 +16,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   }
 
   UserSvc.getProfile()
+<<<<<<< HEAD
   .then(function(response) {
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
@@ -26,6 +27,17 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.log($rootScope.user, "This is the data from GET request.");
     console.log("Hey babe. #lovey-dovey");
   })
+=======
+    .then(function(response) {
+      $rootScope.user = response.data;
+      $rootScope.display_name = response.data.displayName
+      $rootScope.email = response.data.email
+      $rootScope.pro_pic = response.data.facebook
+      $rootScope.items = response.data.items;
+      console.log($rootScope.user, "This is the data from GET request.");
+      console.log("Hey babe. #lovey-dovey");
+    })
+>>>>>>> 3ceba62a28c061c2f4adbe92daab1637bc8b6f12
   .catch(function(err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
@@ -40,6 +52,7 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   //     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   //   });
 
+<<<<<<< HEAD
   $scope.add = function(item, user){
     $scope.item.name = item.name;
     $scope.item.link = item.link;
@@ -54,6 +67,20 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
         link: $scope.link,
         user: userId
       })
+=======
+  $scope.add = function(item){
+    $scope.name = item.name;
+    $scope.link = item.link;
+    $scope.items.push({
+      name: $scope.name,
+      link: $scope.link
+    })
+    UserSvc.add_new(item)
+    .then(function() {
+      console.log('Inside add new method. Item:', item)
+      // this must be inside the service or it will just reset
+      // the scope variables to empty strings and won't be shown;
+>>>>>>> 3ceba62a28c061c2f4adbe92daab1637bc8b6f12
       $scope.item.name = '';
       $scope.item.link = '';
       console.log('Added new items.')
@@ -99,4 +126,9 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.star = function(){
     console.log('starred this person');
   }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 3ceba62a28c061c2f4adbe92daab1637bc8b6f12
 }

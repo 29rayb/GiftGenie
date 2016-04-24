@@ -15,13 +15,6 @@ router.get('/me', function(req, res) {
   })
 });
 
-// router.get('/me/photos', function(req, res) {
-//   console.log(req.user, "**GET REQUEST in API.JS!!**");
-//   // User.findById(req.user, function(err, user) {
-//   //   res.send(user);
-//   // })
-// });
-
 //#2: Adding a new item to the wishlist.
 router.post('/me/items', function(req, res) {
   console.log(req.user, "___#1___(MongoID) POST REQUEST in API.JS!!**");
@@ -70,6 +63,7 @@ router.put('/me/items/edit', function(req, res) {
   console.log(editItem, "Editted item to save.");
   var editItemId = editItem.id;
   console.log(editItemId, "id of editted item.");
+
   var editItemName = editItem.name;
   var editItemLink = editItem.link;
   console.log(editItemName, "name of editted item.");
@@ -95,16 +89,5 @@ router.put('/me/items/edit', function(req, res) {
     });
   });
 });
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;

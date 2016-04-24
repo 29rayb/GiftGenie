@@ -7,7 +7,10 @@
 
   <div class="home_container">
     <div class="button_container">
-      <button ng-click="authenticate('facebook')" class="fb_btn">
+<!--       make sure there is no slash after my-wishlist or it will screw up
+      the reason is because its already defined in app.routes.js
+      so id is automatically put into the url because its defined in app.routes.js -->
+      <button ng-click="authenticate('facebook')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">
         <img src="./images/facebook.jpg" alt="facebook-logo" class="fb_logo">
         Login with Facebook
       </button>
