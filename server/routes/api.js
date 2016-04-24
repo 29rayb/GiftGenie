@@ -67,9 +67,9 @@ router.put('/me/items/edit', function(req, res) {
 });
 
 // Route #5: Get request to find Facebook friends.
-router.get('/me/:id/friends', function(req, res) {
+router.get('/:userId/friendlists', function(req, res) {
   console.log(req.user, "<--Facebook friends GET REQUEST.**");
-  console.log(res, "<--Facebook friends.**");
+  console.log(res.data, "<--Facebook friends.**");
   User.findById(req.user, function(err, user) {
     console.log('USER INSIDE GET REQUEST', user);
     res.status(err ? 400 : 200).send(err || user)
