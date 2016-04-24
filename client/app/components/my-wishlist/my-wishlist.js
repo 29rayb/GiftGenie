@@ -85,11 +85,8 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   }
 
   $scope.delete = function(item, $index){
-    console.log(item, "HERES THE ITEM.");
-    console.log($index, "INDEX 1");
     UserSvc.delete_item(item, $index)
     .then(function(){
-      console.log($index, "INDEX 1");
       var item_to_delete = $scope.items[$index];
       console.log('item to delete', item_to_delete);
       $scope.items.splice($index, 1);

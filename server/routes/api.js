@@ -13,7 +13,7 @@ router.get('/me', function(req, res) {
   User.findById(req.user, function(err, user) {
     res.status(err ? 400 : 200).send(err || user)
   }).populate('items')
-// })
+  // })
 });
 
 //#2: Adding a new item to the wishlist.
@@ -39,15 +39,12 @@ router.put('/me/items/delete', function(req, res) {
   console.log(req.user, "<-- (MongoID) DELETE REQUEST in API.JS!!**");
 
   var clicked = req.body;
-  console.log(clicked, "req.body");
   var clickedItemId = req.body._id;
   var clickedItemName = req.body.name;
-
-  User.findByIdAndUpdate(req.user, {$pull : { "items" : { "name" : clickedItemName }}}, function(err, user) {
+  User.findByIdAndUpdate(req.user, {$pull : { "items" : clickedItemId }}, function(err, user) {
     if(err){
       res.status(400).send(err);
     }
-
     Item.findByIdAndRemove(clickedItemId, function(err, item){
       console.log("**Item deleted from both models.");
       res.send(user);

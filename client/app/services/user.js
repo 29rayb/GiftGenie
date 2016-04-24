@@ -12,9 +12,7 @@ angular.module('App')
       console.log(item, "Here is the new item in our service.");
       return $http.post('/api/me/items', item);
     },
-    delete_item: function(item, $index) {
-      console.log(item, "Item Id for deletion.");
-      console.log($index, "INDEX IN SERVICE");
+    delete_item: function(item) {
       return $http.put('/api/me/items/delete', item);
     },
     save_changes: function(item) {
