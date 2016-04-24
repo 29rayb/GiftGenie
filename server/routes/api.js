@@ -85,14 +85,4 @@ router.put('/me/items/edit', function(req, res) {
   // })
 });
 
-
-
-
-
-
-
-
-
-
-
 module.exports = router
