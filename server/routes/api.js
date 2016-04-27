@@ -13,10 +13,6 @@ router.get('/me', function(req, res) {
   User.findById(req.user, function(err, user) {
     res.status(err ? 400 : 200).send(err || user)
   }).populate('items')
-<<<<<<< HEAD
-=======
-// })
->>>>>>> parent of e9be401... delete method in routes updated - due to item schema changes
 });
 
 //#2: Adding a new item to the wishlist.
