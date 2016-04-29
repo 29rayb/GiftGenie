@@ -1,4 +1,4 @@
-# Public WishList https://travis-ci.org/ray-kim-12/public-wishlist.svg?branch=master
+# Public WishList [![Build Status](https://travis-ci.org/ray-kim-12/public-wishlist.svg?branch=master)](https://travis-ci.org/ray-kim-12/public-wishlist)
 
 ### Purpose:
 
