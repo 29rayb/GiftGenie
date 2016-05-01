@@ -7,6 +7,7 @@ let pngquant = require('imagemin-pngquant');
 let del = require('del');
 let changed = require('gulp-changed');
 let gutil = require('gulp-util');
+// to not get an error, also need to npm install jshint;
 let jshint = require('gulp-jshint');
 let babel = require('gulp-babel');
 let sass = require('gulp-sass');
@@ -16,24 +17,21 @@ let autoprefixer = require('gulp-autoprefixer');
 let rename = require('gulp-rename');
 let minifyHTML = require('gulp-htmlmin');
 let ngHtml2Js = require("gulp-ng-html2js");
+// strip console, alert, and debugger statements from JS code;
 let stripDebug =require('gulp-strip-debug');
 let uncss = require('gulp-uncss');
 let rev = require('gulp-rev');
 let revCollector = require('gulp-rev-collector');
-let git = require('gulp-git');
+// parse build blocks in HTML files to replace references;
+// gets all links and all scripts and compiles it into one;
 let useref = require('gulp-useref');
 let gulpIf = require('gulp-if');
 let ignore = require('gulp-ignore');
 let revReplace = require('gulp-rev-replace');
 let filter = require('gulp-filter');
 let git = require('gulp-git');
-
-
-var pump = require('pump');
-var stripDebug = require('gulp-strip-debug');
-var zip = require('gulp-zip');
-
-var psi = require('psi');
+// pagespped insights with reporting;
+let psi = require('psi');
 var Pageres = require('pageres');
 
 
@@ -55,13 +53,13 @@ let paths = {
 
 gulp.task('default', ['clean',  'css', 'scripts', 'refd', 'index', 'html', 'images', 'watch']);
 
-gulp.task('clean', function(){
+gulp.task('clean', () => {
   return gutil.log('gulp is running!!')
   return del(['build']);
 });
 
 // need the links and scripts from here;
-gulp.task('refd', function(){
+gulp.task('refd', () => {
   var jsFilter = filter("**/*.js", { restore: true });
   var cssFilter = filter("**/*.css", { restore: true });
   return gulp.src(paths.index)
@@ -78,7 +76,7 @@ gulp.task('refd', function(){
 })
 
 // need the index.html from here;
-gulp.task('index', function(){
+gulp.task('index', () => {
   return gulp.src(paths.index)
              .pipe(sourcemaps.init())
              .pipe(changed('build/hmtl'))
@@ -96,7 +94,7 @@ gulp.task('index', function(){
 })
 
 // need the templatecache-angular views.html from here;
-gulp.task('html', function(){
+gulp.task('html', () => {
   return gulp.src(paths.html)
              .pipe(sourcemaps.init())
              .pipe(changed('build/js/components'))
@@ -118,7 +116,7 @@ gulp.task('html', function(){
 })
 
 // dont really need anything from here;
-gulp.task('css', function(){
+gulp.task('css', () => {
   return gulp.src([paths.css])
              .pipe(sourcemaps.init())
              .pipe(changed('build/css', {extension: '.css'}))
@@ -141,7 +139,7 @@ gulp.task('css', function(){
 
 // for sass-only
 // change the build/scss to build/css when using sass
-gulp.task('build-css', function(){
+gulp.task('build-css', () => {
   return gulp.src(paths.scss)
              .pipe(sourcemaps.init())
              .pipe(changed('build/scss', {extension: '.css'}))
@@ -168,7 +166,7 @@ gulp.task('build-css', function(){
 })
 
 // don't really need anything from here;
-gulp.task('scripts', function(){
+gulp.task('scripts', () => {
   return gulp.src([paths.scripts])
              .pipe(sourcemaps.init()) // proecss the original sources
              .pipe(babel({presets: ['es2015']}))
@@ -189,7 +187,7 @@ gulp.task('scripts', function(){
 });
 
 // needs the images
-gulp.task('images', function(){
+gulp.task('images', () => {
   return gulp.src(paths.images)
              .pipe(changed('build/images'))
              .pipe(imagemin({
@@ -211,7 +209,7 @@ gulp.task('images', function(){
              .pipe(gulp.dest('build/images'))
 })
 
-gulp.task('watch', function(){
+gulp.task('watch', () => {
   gulp.watch(paths.scripts, ['scripts', 'jshint']);
   gulp.watch(paths.css, ['css']);
   // gulp.watch(paths.scss, ['build-css']);
@@ -220,22 +218,23 @@ gulp.task('watch', function(){
   gulp.watch(paths.index, ['refd', 'index']);
 });
 
-gulp.task('jshint', function(){
+gulp.task('jshint', () => {
   return gulp.src('paths.scripts')
              .pipe(jshint())
              .pipe(jshint.reporter('jshint-stylish'))
              .pipe(jshint.reporter('fail'));
 });
 
+// getting the pagespeed insights report
 psi('http://giftsgenies.herokuapp.com/#/').then(data => {
   console.log(data.ruleGroups.SPEED.score);
   console.log(data.pageStats);
 })
-
+// output a format report to the terminal
 psi.output('http://giftsgenies.herokuapp.com/#/').then(() => {
   console.log('donee')
 });
-
+// supply options to PSI and get back speed and usability scores;
 psi('http://giftsgenies.herokuapp.com/#/', {nokey: 'true', strategy: 'mobile'}).then(data => {
   console.log('Speed score: ' + data.ruleGroups.SPEED.score);
   console.log('Usability score: ' + data.ruleGroups.USABILITY.score);

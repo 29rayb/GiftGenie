@@ -46,7 +46,7 @@
   "directories": {},
   "dist": {
     "shasum": "5a3db23ef5dbd55b81fce0ec9a2ac6fccdebb81e",
-    "tarball": "http://registry.npmjs.org/uid-number/-/uid-number-0.0.5.tgz"
+    "tarball": "https://registry.npmjs.org/uid-number/-/uid-number-0.0.5.tgz"
   },
   "engines": {
     "node": "*"
