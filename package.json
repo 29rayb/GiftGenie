@@ -64,7 +64,6 @@
     "node": "5.2.0"
   },
   "devDependencies": {
-    "gulp-git": "^1.7.1",
     "imagemin-pngquant": "^4.2.2"
   }
 }
