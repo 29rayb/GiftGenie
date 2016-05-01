@@ -1,8 +1,8 @@
 'use strict';
 
 angular
-.module('App')
-.controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl])
+  .module('App')
+  .controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl])
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams){
   console.log('THESE ARE THE STATEPARMS', $stateParams.id)
@@ -48,6 +48,11 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     .catch(function(err) {
       console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
+    swal({title: "Good job!",
+      text: "You added the item!",
+      type: "success",
+      timer: 2000
+    })
   }
 
   $scope.edit = function(item){
