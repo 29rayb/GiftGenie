@@ -23,6 +23,7 @@
     "jquery": "^2.2.3",
     "font-awesome": "^4.6.1",
     "satellizer": "~0.14.0",
-    "angular-ui-sortable": "~0.14.0"
+    "angular-ui-sortable": "~0.14.0",
+    "sweetalert": "^1.1.3"
   }
 }
