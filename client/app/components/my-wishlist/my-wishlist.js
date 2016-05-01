@@ -2,43 +2,30 @@
 
 angular
 .module('App')
-.controller('MyWishListCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', MyWishListCtrl])
+.controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl])
 
-function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams){
-  console.log('In My Wishlist Controller.')
-
-  console.log('starred lists');
-  console.log('THESE ARE THE STATEPARMS', $stateParams)
-  $scope.id = $stateParams.facebook;
+function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams){
+  console.log('THESE ARE THE STATEPARMS', $stateParams.id)
+  $scope.id = $stateParams.id;
+  console.log('is this the id in the url', $scope.id)
 
   if(!$auth.isAuthenticated()){
     return $state.go('home');
   }
 
   UserSvc.getProfile()
-  .then(function(response) {
-    $rootScope.user = response.data;
-    $rootScope.id = response.data._id;
-    $rootScope.display_name = response.data.displayName
-    $rootScope.email = response.data.email
-    $rootScope.pro_pic = response.data.facebook
-    $rootScope.items = response.data.items;
-    console.log($rootScope.user, "This is the data from GET request.");
-    console.log("Hey babe. #lovey-dovey");
-  })
-  .catch(function(err) {
-    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  });
-
-  // UserSvc.getPhotos()
-  //   console.log('yuguygyfyut')
-  //   .then(function(response) {
-  //     console.log('THIS IS THE GET PHOTOS RESPONSE', response)
-  //     console.log('THIS IS THE GET PHOTOS RESPONSE', response.data)
-  //   })
-  //   .catch(function(err) {
-  //     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  //   });
+    .then(function(response) {
+      $rootScope.user = response.data;
+      $rootScope.id = response.data._id;
+      $rootScope.display_name = response.data.displayName
+      $rootScope.email = response.data.email
+      $rootScope.pro_pic = response.data.facebook
+      $rootScope.items = response.data.items;
+      console.log("This is the data from GET request.", $rootScope.user);
+    })
+    .catch(function(err) {
+      console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+    });
 
   $scope.add = function(item, user){
     $scope.name = item.name;
@@ -99,5 +86,4 @@ function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.star = function(){
     console.log('starred this person');
   }
-
 }

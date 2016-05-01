@@ -16,12 +16,12 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
     .state('my-wishlist', {
       url: '/my-wishlist/:id',
       templateUrl: 'app/components/my-wishlist/my-wishlist.html',
-      controller: 'MyWishListCtrl',
+      controller: 'WishlistCtrl'
     })
     .state('starred-lists', {
       url: '/starred-lists/:id',
       templateUrl: 'app/components/starred-lists/starred-lists.html',
-      controller: 'StarredListsCtrl'
+      controller: 'StarredCtrl'
     })
   $authProvider.facebook({
     clientId: '247255738962232'
