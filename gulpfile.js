@@ -26,6 +26,8 @@ let gulpIf = require('gulp-if');
 let ignore = require('gulp-ignore');
 let revReplace = require('gulp-rev-replace');
 let filter = require('gulp-filter');
+let git = require('gulp-git');
+
 
 var pump = require('pump');
 var stripDebug = require('gulp-strip-debug');
