@@ -8,6 +8,7 @@ let del = require('del');
 let changed = require('gulp-changed');
 let gutil = require('gulp-util');
 // to not get an error, also need to npm install jshint;
+// scans a program and reports about commonly made mistakes and potential bugs;
 let jshint = require('gulp-jshint');
 let babel = require('gulp-babel');
 let sass = require('gulp-sass');
@@ -24,7 +25,9 @@ let rev = require('gulp-rev');
 let revCollector = require('gulp-rev-collector');
 // parse build blocks in HTML files to replace references;
 // gets all links and all scripts and compiles it into one;
-let useref = require('gulp-useref');
+let useref = require('gulp-useref')
+let inject = require('gulp-inject');
+let wiredep =require('wiredep')
 let gulpIf = require('gulp-if');
 let ignore = require('gulp-ignore');
 let revReplace = require('gulp-rev-replace');
@@ -33,12 +36,11 @@ let git = require('gulp-git');
 // pagespped insights with reporting;
 let psi = require('psi');
 var Pageres = require('pageres');
-
-
-// this loads all the plugins in the package.json, but now
-// have to refer to them as plugins.name() rather than name()
-// so plugins.gulp-util rather than gutil
-// var plugins = require('gulp-load-plugins');
+let rimraf = require('rimraf');
+let bower = require('gulp-bower');
+let runSequence = require('run-sequence')
+let addsrc = require('gulp-add-src');
+let jade = require('gulp-jade');
 
 let paths = {
   scripts: 'client/app/**/*.js',
@@ -50,8 +52,17 @@ let paths = {
   html: 'client/app/components/**/*.html',
   index: './index.html'
 };
-
-gulp.task('default', ['clean',  'css', 'scripts', 'refd', 'index', 'html', 'images', 'watch']);
+// to make it run synchronously
+gulp.task('default', function(cb){
+  runSequence('clean',
+              ['css', 'scripts'],
+              'refd',
+              'index',
+              'html',
+              'images',
+              'watch',
+              cb);
+});
 
 gulp.task('clean', () => {
   return gutil.log('gulp is running!!')

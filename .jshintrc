@@ -1,0 +1,30 @@
+{
+  "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
+  "evil": false,
+  "esversion": 6,
+  "forin": true,
+  "freeze": true,
+  "futurehostile": true,
+  "globals": {
+    "jquery": true,
+    "node": true
+  },
+  "iterator": false,
+  "latedef": true,
+  "maxdepth": 2,
+  "maxparams": 5,
+  "maxstatements": 5,
+  "noarg": true,
+  "nocomma": true,
+  "nonbsp": true,
+  "nonew": true,
+  "notypeof": true,
+  "shadow": false,
+  "singleGroups": true,
+  "strict": true,
+  "undef": true,
+  "unused": true,
+  "varstmt": true
+}
