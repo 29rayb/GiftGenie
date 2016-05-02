@@ -23,6 +23,7 @@ let stripDebug =require('gulp-strip-debug');
 let uncss = require('gulp-uncss');
 let rev = require('gulp-rev');
 let revCollector = require('gulp-rev-collector');
+let revReplace = require('gulp-rev-replace');
 // parse build blocks in HTML files to replace references;
 // gets all links and all scripts and compiles it into one;
 let useref = require('gulp-useref')
@@ -30,10 +31,9 @@ let inject = require('gulp-inject');
 let wiredep =require('wiredep')
 let gulpIf = require('gulp-if');
 let ignore = require('gulp-ignore');
-let revReplace = require('gulp-rev-replace');
 let filter = require('gulp-filter');
 let git = require('gulp-git');
-// pagespped insights with reporting;
+// pagespeed insights with reporting;
 let psi = require('psi');
 var Pageres = require('pageres');
 let rimraf = require('rimraf');
@@ -52,6 +52,7 @@ let paths = {
   html: 'client/app/components/**/*.html',
   index: './index.html'
 };
+
 // to make it run synchronously
 gulp.task('default', function(cb){
   runSequence('clean',
