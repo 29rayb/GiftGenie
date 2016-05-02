@@ -43,9 +43,9 @@ let Pageres = require('pageres');
 let paths = {
   scripts: 'client/app/**/*.js',
   images: 'client/images/*',
-  css: 'client/*.css',
+  css: 'client/styles/*.css',
   html: 'client/app/components/**/*.html',
-  index: './index.html'
+  index: 'client/**/*.jade'
 };
 
 // to make it run synchronously
@@ -215,6 +215,6 @@ psi('http://giftsgenies.herokuapp.com/#/', {nokey: 'true', strategy: 'mobile'}).
 const pageres = new Pageres({delay: 2})
     .src('http://localhost:3000/', ['480x320', '1024x768', 'iphone 6'], {crop: true})
     .src('http://giftsgenies.herokuapp.com/#/', ['480x320', '1024x768', 'iphone 6'])
-    .dest('client/images/screenshots')
+    .dest('./responsive-testing')
     .run()
     .then(() => console.log('done'));

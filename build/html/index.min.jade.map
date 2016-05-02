@@ -1,0 +1,1 @@
+{"version":3,"names":[],"mappings":"","sources":["index.jade"],"sourcesContent":["doctype html\nhtml(lang='en')\n  head\n    include ./includes/head.jade\n    //- include analytics.js\n\n\n  body(ng-app=\"App\")\n    include facebook.js\n    include ./includes/navbar.jade\n    ui-view\n    include ./includes/footer.jade\n"],"file":"index.min.jade","sourceRoot":"/source/"}
