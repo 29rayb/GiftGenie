@@ -1,60 +1,55 @@
 'use strict';
 let gulp = require('gulp');
+let gutil = require('gulp-util');
 let concat = require('gulp-concat');
-let uglify = require('gulp-uglify');
+let del = require('del');
+let rimraf = require('rimraf');
+let addsrc = require('gulp-add-src');
+let changed = require('gulp-changed');
+let gulpIf = require('gulp-if');
+let ignore = require('gulp-ignore');
+let filter = require('gulp-filter');
+let rename = require('gulp-rename');
+let babel = require('gulp-babel');
 let imagemin = require('gulp-imagemin');
 let pngquant = require('imagemin-pngquant');
-let del = require('del');
-let changed = require('gulp-changed');
-let gutil = require('gulp-util');
-// to not get an error, also need to npm install jshint;
-// scans a program and reports about commonly made mistakes and potential bugs;
-let jshint = require('gulp-jshint');
-let babel = require('gulp-babel');
-let sass = require('gulp-sass');
+let bower = require('gulp-bower');
+let runSequence = require('run-sequence')
+let jade = require('gulp-jade');
 let sourcemaps = require('gulp-sourcemaps');
-let minifyCSS = require('gulp-cssnano');
-let autoprefixer = require('gulp-autoprefixer');
-let rename = require('gulp-rename');
-let minifyHTML = require('gulp-htmlmin');
-let ngHtml2Js = require("gulp-ng-html2js");
-// strip console, alert, and debugger statements from JS code;
-let stripDebug =require('gulp-strip-debug');
-let uncss = require('gulp-uncss');
 let rev = require('gulp-rev');
 let revCollector = require('gulp-rev-collector');
 let revReplace = require('gulp-rev-replace');
+let minifyCSS = require('gulp-cssnano');
+let uncss = require('gulp-uncss');
+let autoprefixer = require('gulp-autoprefixer');
+let minifyHTML = require('gulp-htmlmin');
+// to not get an error, also need to npm install jshint;
+// scans a program and reports about commonly made mistakes and potential bugs;
+let jshint = require('gulp-jshint');
+let uglify = require('gulp-uglify');
+// strip console, alert, and debugger statements from JS code;
+let stripDebug =require('gulp-strip-debug');
+let ngHtml2Js = require("gulp-ng-html2js");
 // parse build blocks in HTML files to replace references;
 // gets all links and all scripts and compiles it into one;
 let useref = require('gulp-useref')
 let inject = require('gulp-inject');
 let wiredep =require('wiredep')
-let gulpIf = require('gulp-if');
-let ignore = require('gulp-ignore');
-let filter = require('gulp-filter');
-let git = require('gulp-git');
 // pagespeed insights with reporting;
 let psi = require('psi');
-var Pageres = require('pageres');
-let rimraf = require('rimraf');
-let bower = require('gulp-bower');
-let runSequence = require('run-sequence')
-let addsrc = require('gulp-add-src');
-let jade = require('gulp-jade');
+let Pageres = require('pageres');
 
 let paths = {
   scripts: 'client/app/**/*.js',
   images: 'client/images/*',
-  cssAssets: 'client/vendor/**/*.css',
-  jsAssets: 'client/vendor/**/*.js',
-  // scss: 'client/*.scss',
   css: 'client/*.css',
   html: 'client/app/components/**/*.html',
   index: './index.html'
 };
 
 // to make it run synchronously
-gulp.task('default', function(cb){
+gulp.task('default', (cb) => {
   runSequence('clean',
               ['css', 'scripts'],
               'refd',
@@ -148,35 +143,6 @@ gulp.task('css', () => {
 
 })
 
-
-// for sass-only
-// change the build/scss to build/css when using sass
-gulp.task('build-css', () => {
-  return gulp.src(paths.scss)
-             .pipe(sourcemaps.init())
-             .pipe(changed('build/scss', {extension: '.css'}))
-             .pipe(sass({outputStyle: 'compressed'}).on('error', gutil.log))
-             .pipe(autoprefixer({
-                browsers: ['last 2 versions'],
-                cascade: false
-              }))
-             .pipe(concat({path: 'style.css', cwd: ''}))
-             .pipe(uncss({
-                html: ['index.html', paths.html]
-              }))
-             .pipe(gulp.dest('build/scss'))
-             .pipe(rename({suffix: '.min'}))
-             .pipe(minifyCSS().on('error', gutil.log))
-             .pipe(rev())
-             .pipe(sourcemaps.write('.'))
-             // can't get it to work
-             // .pipe(rev.manifest({
-             //    base: 'build/css',
-             //    merge: true
-             //  }))
-             .pipe(gulp.dest('build/scss'))
-})
-
 // don't really need anything from here;
 gulp.task('scripts', () => {
   return gulp.src([paths.scripts])
@@ -212,12 +178,6 @@ gulp.task('images', () => {
                   {cleanupIDs: false}
                 ]
               }))
-             .pipe(rev())
-             // doesn't work
-             // .pipe(rev.manifest({
-             //    base: 'build/images',
-             //    merge: true
-             //  }))
              .pipe(gulp.dest('build/images'))
 })
 
@@ -252,10 +212,9 @@ psi('http://giftsgenies.herokuapp.com/#/', {nokey: 'true', strategy: 'mobile'}).
   console.log('Usability score: ' + data.ruleGroups.USABILITY.score);
 });
 
-// working;
-// const pageres = new Pageres({delay: 2})
-//     .src('http://localhost:3000/', ['480x320', '1024x768', 'iphone 6'], {crop: true})
-//     .src('http://giftsgenies.herokuapp.com/#/', ['480x320', '1024x768', 'iphone 6'])
-//     .dest('client/images/screenshots')
-//     .run()
-//     .then(() => console.log('done'));
+const pageres = new Pageres({delay: 2})
+    .src('http://localhost:3000/', ['480x320', '1024x768', 'iphone 6'], {crop: true})
+    .src('http://giftsgenies.herokuapp.com/#/', ['480x320', '1024x768', 'iphone 6'])
+    .dest('client/images/screenshots')
+    .run()
+    .then(() => console.log('done'));

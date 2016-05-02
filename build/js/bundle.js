@@ -100,86 +100,87 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
-  void 0;
-  $scope.id = $stateParams.id;
-  void 0;
-
-  if (!$auth.isAuthenticated()) {
-    return $state.go('home');
-  }
-
-  UserSvc.getProfile().then(function (response) {
-    $rootScope.user = response.data;
-    $rootScope.id = response.data._id;
-    $rootScope.display_name = response.data.displayName;
-    $rootScope.email = response.data.email;
-    $rootScope.pro_pic = response.data.facebook;
-    $rootScope.items = response.data.items;
     void 0;
-  }).catch(function (err) {
+    $scope.id = $stateParams.id;
     void 0;
-  });
 
-  $scope.add = function (item, user) {
-    $scope.name = item.name;
-    $scope.link = item.link;
-    var userId = $scope.user._id;
-    $scope.item.user = userId;
+    if (!$auth.isAuthenticated()) {
+        return $state.go('home');
+    }
 
-    UserSvc.add_new(item).then(function () {
-      void 0;
-      $scope.items.push({
-        name: $scope.name,
-        link: $scope.link,
-        user: userId
-      });
-      $scope.item.name = '';
-      $scope.item.link = '';
-      void 0;
+    UserSvc.getProfile().then(function (response) {
+        $rootScope.user = response.data;
+        $rootScope.id = response.data._id;
+        $rootScope.display_name = response.data.displayName;
+        $rootScope.email = response.data.email;
+        $rootScope.pro_pic = response.data.facebook;
+        $rootScope.items = response.data.items;
+        void 0;
     }).catch(function (err) {
-      void 0;
+        void 0;
     });
-    swal({ title: "Good job!",
-      text: "You added the item!",
-      type: "success",
-      timer: 2000
-    });
-  };
 
-  $scope.edit = function (item) {
-    $scope.item = {};
-    $scope.item.name = item.name;
-    $scope.item.link = item.link;
-    $scope.editItemId = item._id;
-    void 0;
-  };
+    $scope.add = function (item, user) {
+        $scope.name = item.name;
+        $scope.link = item.link;
+        var userId = $scope.user._id;
+        $scope.item.user = userId;
 
-  $scope.save_changes = function (item, editItemId) {
-    void 0;
-    $scope.item.name = item.name;
-    $scope.item.link = item.link;
-    $scope.item.id = editItemId;
-    void 0;
-    UserSvc.save_changes(item).then(function () {
-      void 0;
-      void 0;
-    });
-  };
+        UserSvc.add_new(item).then(function () {
+            void 0;
+            $scope.items.push({
+                name: $scope.name,
+                link: $scope.link,
+                user: userId
+            });
+            $scope.item.name = '';
+            $scope.item.link = '';
+            void 0;
+        }).catch(function (err) {
+            void 0;
+        });
+        swal({
+            title: "Good job!",
+            text: "You added the item!",
+            type: "success",
+            timer: 2000
+        });
+    };
 
-  $scope.delete = function (item, $index) {
-    void 0;
-    void 0;
-    UserSvc.delete_item(item, $index).then(function () {
-      void 0;
-      var item_to_delete = $scope.items[$index];
-      void 0;
-      $scope.items.splice($index, 1);
-    });
-  };
+    $scope.edit = function (item) {
+        $scope.item = {};
+        $scope.item.name = item.name;
+        $scope.item.link = item.link;
+        $scope.editItemId = item._id;
+        void 0;
+    };
 
-  $scope.star = function () {
-    void 0;
-  };
+    $scope.save_changes = function (item, editItemId) {
+        void 0;
+        $scope.item.name = item.name;
+        $scope.item.link = item.link;
+        $scope.item.id = editItemId;
+        void 0;
+        UserSvc.save_changes(item).then(function () {
+            void 0;
+            void 0;
+        });
+    };
+
+    $scope.delete = function (item, $index) {
+        void 0;
+        void 0;
+        UserSvc.delete_item(item, $index).then(function () {
+            void 0;
+            var item_to_delete = $scope.items[$index];
+            void 0;
+            $scope.items.splice($index, 1);
+        });
+    };
+
+    $scope.star = function () {
+        void 0;
+    };
 }
 'use strict';
 
