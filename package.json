@@ -52,7 +52,6 @@
     "gulp-if"           : "^2.0.0",
     "gulp-ignore"       : "^2.0.1",
     "gulp-imagemin"     : "^2.4.0",
-    "gulp-inject"       : "^4.0.0",
     "gulp-jade"         : "^1.1.0",
     "gulp-jscs"         : "^3.0.2",
     "gulp-jshint"       : "^2.0.0",
@@ -70,7 +69,6 @@
     "pageres"           : "^4.1.1",
     "psi"               : "^2.0.3",
     "rimraf"            : "^2.5.2",
-    "run-sequence"      : "^1.1.5",
-    "wiredep"           : "^4.0.0"
+    "run-sequence"      : "^1.1.5"
   }
 }
