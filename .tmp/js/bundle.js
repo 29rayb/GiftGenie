@@ -51,17 +51,17 @@ angular.module('App').factory('UserSvc', function ($http) {
     },
     add_new: function add_new(item) {
       var item;
-      void 0;
+      console.log(item, "Here is the new item in our service.");
       return $http.post('/api/me/items', item);
     },
     delete_item: function delete_item(item, $index) {
-      void 0;
-      void 0;
+      console.log(item, "Item Id for deletion.");
+      console.log($index, "INDEX IN SERVICE");
       return $http.put('/api/me/items/delete', item);
     },
     save_changes: function save_changes(item) {
       var item;
-      void 0;
+      console.log(item, "Item for editting.");
       return $http.put('/api/me/items/edit', item);
     }
   };
@@ -85,13 +85,13 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
         var facebookId = response.data._id;
         // var facebook_name = response.data.displayName;
         // var facebook_email = response.data.email;
-        void 0;
+        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
         $state.go('my-wishlist', { id: facebookId });
       }).catch(function (err) {
-        void 0;
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
       });
     }).catch(function (err) {
-      void 0;
+      console.error(err, 'Inside the Home Ctrl, we have an error!');
     });
   };
 }
@@ -100,9 +100,9 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
-    void 0;
+    console.log('THESE ARE THE STATEPARMS', $stateParams.id);
     $scope.id = $stateParams.id;
-    void 0;
+    console.log('is this the id in the url', $scope.id);
 
     if (!$auth.isAuthenticated()) {
         return $state.go('home');
@@ -115,9 +115,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
         $rootScope.email = response.data.email;
         $rootScope.pro_pic = response.data.facebook;
         $rootScope.items = response.data.items;
-        void 0;
+        console.log("This is the data from GET request.", $rootScope.user);
     }).catch(function (err) {
-        void 0;
+        console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
 
     $scope.add = function (item, user) {
@@ -127,7 +127,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
         $scope.item.user = userId;
 
         UserSvc.add_new(item).then(function () {
-            void 0;
+            console.log('Inside Add_New method in Ctrl. Item:', item);
             $scope.items.push({
                 name: $scope.name,
                 link: $scope.link,
@@ -135,9 +135,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
             });
             $scope.item.name = '';
             $scope.item.link = '';
-            void 0;
+            console.log('Added new items.');
         }).catch(function (err) {
-            void 0;
+            console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
         });
         swal({
             title: "Good job!",
@@ -152,34 +152,34 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
         $scope.item.name = item.name;
         $scope.item.link = item.link;
         $scope.editItemId = item._id;
-        void 0;
+        console.log($scope.editItemId, "Edit this Item.");
     };
 
     $scope.save_changes = function (item, editItemId) {
-        void 0;
+        console.log('newly editted item for saving', item);
         $scope.item.name = item.name;
         $scope.item.link = item.link;
         $scope.item.id = editItemId;
-        void 0;
+        console.log($scope.item.id, "Yup, this item id.");
         UserSvc.save_changes(item).then(function () {
-            void 0;
-            void 0;
+            console.log('Inside edit method. Item:', item);
+            console.log("HOW TO SAVE CHANGES ON FRONTEND?????");
         });
     };
 
     $scope.delete = function (item, $index) {
-        void 0;
-        void 0;
+        console.log(item, "HERES THE ITEM.");
+        console.log($index, "INDEX 1");
         UserSvc.delete_item(item, $index).then(function () {
-            void 0;
+            console.log($index, "INDEX 1");
             var item_to_delete = $scope.items[$index];
-            void 0;
+            console.log('item to delete', item_to_delete);
             $scope.items.splice($index, 1);
         });
     };
 
     $scope.star = function () {
-        void 0;
+        console.log('starred this person');
     };
 }
 'use strict';
@@ -220,7 +220,7 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
 'use strict';
 
 angular.module('App').controller('ProfileCardCtrl', function ($scope) {
-  void 0;
+  console.log('yo');
 }).directive('profile-card', function () {
   return {
     restrict: 'E',
