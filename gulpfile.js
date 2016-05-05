@@ -1,5 +1,5 @@
 'use strict';
-let gulp = require('gulp');
+const gulp = require('gulp');
 let gutil = require('gulp-util');
 let concat = require('gulp-concat');
 let del = require('del');
@@ -14,7 +14,9 @@ let babel = require('gulp-babel');
 let imagemin = require('gulp-imagemin');
 let pngquant = require('imagemin-pngquant');
 let bower = require('gulp-bower');
-let runSequence = require('run-sequence')
+// runs a sequence of gulp tasks in the specified order;
+// hack until gulp 4.0 which supports defining task dependencies
+const runSequence = require('run-sequence')
 let jade = require('gulp-jade');
 let sourcemaps = require('gulp-sourcemaps');
 let rev = require('gulp-rev');
@@ -62,7 +64,7 @@ gulp.task('default', (cb) => {
 
 gulp.task('clean', () => {
   return gutil.log('gulp is running!!')
-  return del(['build']);
+  return del(['dist']);
 });
 
 // need the links and scripts from here;
@@ -79,14 +81,14 @@ gulp.task('refd', () => {
              .pipe(cssFilter.restore)
              .pipe(rev())
              .pipe(revReplace())
-             .pipe(gulp.dest('build/index'))
+             .pipe(gulp.dest('dist/index'))
 })
 
 // need the index.html from here;
 gulp.task('index', () => {
   return gulp.src(paths.index)
              .pipe(sourcemaps.init())
-             .pipe(changed('build/hmtl'))
+             .pipe(changed('dist/hmtl'))
              .pipe(rename({suffix: '.min'}))
              .pipe(minifyHTML({
                 collapseWhitespace:true,
@@ -97,14 +99,14 @@ gulp.task('index', () => {
                 removeStyleLinkTypeAttributes: true,
               }))
              .pipe(sourcemaps.write('.'))
-             .pipe(gulp.dest('build/html'))
+             .pipe(gulp.dest('dist/html'))
 })
 
 // need the templatecache-angular views.html from here;
 gulp.task('html', () => {
   return gulp.src(paths.html)
              .pipe(sourcemaps.init())
-             .pipe(changed('build/js/components'))
+             .pipe(changed('dist/js/components'))
              .pipe(ngHtml2Js({
                 moduleName: function(file){
                   let pathParts = file.path.split('/');
@@ -115,18 +117,18 @@ gulp.task('html', () => {
                 }
               }))
              .pipe(concat('components.js'))
-             .pipe(gulp.dest('build/js'))
+             .pipe(gulp.dest('dist/js'))
              .pipe(rename({suffix: '.min'}))
              .pipe(uglify().on('error', gutil.log))
              .pipe(sourcemaps.write('.'))
-             .pipe(gulp.dest('build/js'))
+             .pipe(gulp.dest('dist/js'))
 })
 
 // dont really need anything from here;
 gulp.task('css', () => {
   return gulp.src([paths.css])
              .pipe(sourcemaps.init())
-             .pipe(changed('build/css', {extension: '.css'}))
+             .pipe(changed('dist/css', {extension: '.css'}))
              .pipe(autoprefixer({
                 browsers: ['last 2 versions'],
                 cascade: false
@@ -134,12 +136,12 @@ gulp.task('css', () => {
              .pipe(uncss({
               html: ['index.html', paths.html]
              }))
-             .pipe(gulp.dest('build/css'))
+             .pipe(gulp.dest('dist/css'))
              .pipe(rename({suffix: '.min'}))
              .pipe(minifyCSS().on('error', gutil.log))
              .pipe(rev())
              .pipe(sourcemaps.write('.'))
-             .pipe(gulp.dest('build/css'))
+             .pipe(gulp.dest('dist/css'))
 
 })
 
@@ -148,26 +150,26 @@ gulp.task('scripts', () => {
   return gulp.src([paths.scripts])
              .pipe(sourcemaps.init()) // proecss the original sources
              .pipe(babel({presets: ['es2015']}))
-             .pipe(changed('build/js'))
+             .pipe(changed('dist/js'))
              .pipe(stripDebug())
              .pipe(concat({path: 'bundle.js', cwd: ''}))
-             .pipe(gulp.dest('build/js'))
+             .pipe(gulp.dest('dist/js'))
              .pipe(rename({suffix: '.min'}))
              .pipe(uglify().on('error', gutil.log))
              .pipe(rev())
              .pipe(sourcemaps.write('.')) // add the map to modified source
              // can't get it to work
              // .pipe(rev.manifest({
-             //    base: 'build/js',
+             //    base: 'dist/js',
              //    merge: true
              //  }))
-             .pipe(gulp.dest('build/js'))
+             .pipe(gulp.dest('dist/js'))
 });
 
-// needs the images
+// perfect;
 gulp.task('images', () => {
   return gulp.src(paths.images)
-             .pipe(changed('build/images'))
+             .pipe(changed('dist/images'))
              .pipe(imagemin({
                 proressive: true,
                 interlaced: true,
@@ -178,13 +180,13 @@ gulp.task('images', () => {
                   {cleanupIDs: false}
                 ]
               }))
-             .pipe(gulp.dest('build/images'))
+             .pipe(gulp.dest('dist/images'))
 })
 
 gulp.task('watch', () => {
   gulp.watch(paths.scripts, ['scripts', 'jshint']);
   gulp.watch(paths.css, ['css']);
-  // gulp.watch(paths.scss, ['build-css']);
+  // gulp.watch(paths.scss, ['dist-css']);
   gulp.watch(paths.images, ['images']);
   gulp.watch(paths.html, ['html']);
   gulp.watch(paths.index, ['refd', 'index']);
