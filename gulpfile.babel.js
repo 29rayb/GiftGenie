@@ -1,39 +1,39 @@
 'use strict';
-const gulp = require('gulp');
-const gutil = require('gulp-util');
-const concat = require('gulp-concat');
-const del = require('del');
-let addsrc = require('gulp-add-src');
-const changed = require('gulp-changed');
-const gulpIf = require('gulp-if');
-let ignore = require('gulp-ignore');
-const rename = require('gulp-rename');
-const babel = require('gulp-babel');
-const imagemin = require('gulp-imagemin');
-const pngquant = require('imagemin-pngquant');
+import gulp from 'gulp';
+import gutil from 'gulp-util';
+import concat from 'gulp-concat';
+import del from 'del';
+// let addsrc from 'gulp-add-src';
+import changed from 'gulp-changed';
+import gulpIf from 'gulp-if';
+// let ignore from 'gulp-ignore';
+import rename from 'gulp-rename';
+import babel from 'gulp-babel';
+import imagemin from 'gulp-imagemin';
+import pngquant from 'imagemin-pngquant';
 // runs a sequence of gulp tasks in the specified order;
 // hack until gulp 4.0 which supports defining task dependencies
-const runSequence = require('run-sequence')
-const jade = require('gulp-jade');
-const sourcemaps = require('gulp-sourcemaps');
-const rev = require('gulp-rev');
-const minifyCSS = require('gulp-cssnano');
-const uncss = require('gulp-uncss');
-const autoprefixer = require('gulp-autoprefixer');
-const minifyHTML = require('gulp-htmlmin');
+import runSequence from 'run-sequence'
+import jade from 'gulp-jade';
+import sourcemaps from 'gulp-sourcemaps';
+import rev from 'gulp-rev';
+import minifyCSS from 'gulp-cssnano';
+import uncss from 'gulp-uncss';
+import autoprefixer from 'gulp-autoprefixer';
+import minifyHTML from 'gulp-htmlmin';
 // to not get an error, also need to npm install jshint;
 // scans a program and reports about commonly made mistakes and potential bugs;
-const jshint = require('gulp-jshint');
-const uglify = require('gulp-uglify');
+import jshint from 'gulp-jshint';
+import uglify from 'gulp-uglify';
 // strip console, alert, and debugger statements from JS code;
-const stripDebug =require('gulp-strip-debug');
-const ngHtml2Js = require("gulp-ng-html2js");
+import stripDebug from 'gulp-strip-debug';
+import ngHtml2Js from "gulp-ng-html2js";
 // parse build blocks in HTML files to replace references;
 // gets all links and all scripts and compiles it into one;
-let useref = require('gulp-useref')
+// let useref from 'gulp-useref'
 // pagespeed insights with reporting;
-const psi = require('psi');
-const Pageres = require('pageres');
+import psi from 'psi';
+import Pageres from 'pageres';
 
 let paths = {
   scripts: 'client/app/**/*.js',
