@@ -5,9 +5,9 @@ angular
     .controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl])
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
-    console.log('THESE ARE THE STATEPARMS', $stateParams.id)
+    // console.log('THESE ARE THE STATEPARMS', $stateParams.id)
     $scope.id = $stateParams.id;
-    console.log('is this the id in the url', $scope.id)
+    // console.log('is this the id in the url', $scope.id)
 
     if (!$auth.isAuthenticated()) {
         return $state.go('home');
@@ -21,7 +21,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
             $rootScope.email = response.data.email
             $rootScope.pro_pic = response.data.facebook
             $rootScope.items = response.data.items;
-            console.log("This is the data from GET request.", $rootScope.user);
+            // console.log("This is the data from GET request.", $rootScope.user);
         })
         .catch(function(err) {
             console.error(err, 'Inside the Wishlist Ctrl, we have an error!');

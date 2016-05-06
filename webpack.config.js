@@ -3,6 +3,7 @@ module.exports = {
   entry: './client/app/app.js',
   // will be outputted file you'll reference in your index.jade
   output: {
+    // root;
     path: __dirname,
     filename: 'bundle.js'
   },
@@ -10,24 +11,37 @@ module.exports = {
     //yo
   ],
   module: {
+    // additional node modules that hekp 'load' or 'import' files of various types
+    // into browser acceptable formats like JS, Stylesheets and so on;
+    // Webpack searches for CSS files dependecies inside the modules;
     loaders: [
-      // load nothing yet;
+      {
+        test: /\.js$/,  // test for .js file, if it passes, use the loader
+        exclude: /node_modules/,
+        loader: 'babel'
+      },
+      // to dump style.css into the <style> tag inside the HTML
+      // chaining works from right to left and are separated by !
+      {
+        test: /\.css$/,
+        loader: 'style!css' // same as style-loader!css-loader;
+      }
     ]
-  },
-  resolve: {
-    // this tells webpack where actually to find jquery because
-    // you'll need it in the provideplugin
-    alias: {
-      jquery: path.resolve(__dirname, './client/vendor/jquery/dist/jquery.min.js')
-    }
-  },
-  plugins: [
-    // this tells webpack to provide the "$" variable globally in all
-    // your app files as jquery
-    new webpack.ProvidePlugin({
-      $: "jquery",
-    })
-  ]
+  }
+  // resolve: {
+  //   // this tells webpack where actually to find jquery because
+  //   // you'll need it in the provideplugin
+  //   alias: {
+  //     jquery: path.resolve(__dirname, './client/vendor/jquery/dist/jquery.min.js')
+  //   }
+  // },
+  // plugins: [
+  //   // this tells webpack to provide the "$" variable globally in all
+  //   // your app files as jquery
+  //   new webpack.ProvidePlugin({
+  //     $: "jquery",
+  //   })
+  // ]
 };
 
 // require.context allows us to grab hold of all files in a directory,
