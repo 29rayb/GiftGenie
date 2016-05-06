@@ -61,6 +61,7 @@ gulp.task('clean', () => {
 });
 
 // done
+// try to apply the uncss to the vendor/css
 gulp.task('css', () => {
   return gulp.src([paths.css])
              .pipe(changed('.dist/css', {extension: '.css'}))

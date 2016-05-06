@@ -1,6 +1,7 @@
 module.exports = {
-  // name: 'server code, output to ./server',
+  // think of it as your Angular `app.js` file;
   entry: './client/app/app.js',
+  // will be outputted file you'll reference in your index.jade
   output: {
     path: __dirname,
     filename: 'bundle.js'
@@ -9,8 +10,24 @@ module.exports = {
     //yo
   ],
   module: {
-
-  }
+    loaders: [
+      // load nothing yet;
+    ]
+  },
+  resolve: {
+    // this tells webpack where actually to find jquery because
+    // you'll need it in the provideplugin
+    alias: {
+      jquery: path.resolve(__dirname, './client/vendor/jquery/dist/jquery.min.js')
+    }
+  },
+  plugins: [
+    // this tells webpack to provide the "$" variable globally in all
+    // your app files as jquery
+    new webpack.ProvidePlugin({
+      $: "jquery",
+    })
+  ]
 };
 
 // require.context allows us to grab hold of all files in a directory,
