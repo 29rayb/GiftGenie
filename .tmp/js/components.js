@@ -32,6 +32,54 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
+  module = angular.module('starredLists');
+} catch (e) {
+  module = angular.module('starredLists', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('starred-lists/starred-lists.html',
+    '<!-- <div ng-init="items = []"></div> -->\n' +
+    '\n' +
+    '<div class="main_container">\n' +
+    '\n' +
+    '  <div class="container col-xs-3">\n' +
+    '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10">\n' +
+    '    <div class="pro_pic_container col-xs-10">\n' +
+    '      <!-- the following info will only be seen once searched and clicked on -->\n' +
+    '      <video src="./images/rach.MOV" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
+    '    </div>\n' +
+    '    <div class="pro_info col-xs-10">\n' +
+    '      <p>MY NAME</p>\n' +
+    '      <p>Email:</p>\n' +
+    '      <p>Birthday:</p>\n' +
+    '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '\n' +
+    '  <div class="wishlist_container container col-xs-8">\n' +
+    '    <div class="title_container">\n' +
+    '      <h2 class="my_wishlist_title">Starred</h2>\n' +
+    '    </div>\n' +
+    '    <div class="bottom_container">\n' +
+    '      <button ng-click="search(user)">Facebook Friend Wishlist Lookup</button>\n' +
+    '      <!-- <input type="text" placeholder="search starred wishlists" ng-model="search"> -->\n' +
+    '      <ol ui-sortable ng-model="items" class="wishlist_items">\n' +
+    '        <li class="wishlist_items_container starred col-lg-4 col-xs-12 col-sm-6" ng-repeat="item in items | filter:search">\n' +
+    '          <a href="" class="wishlist_item"><img src="http://m0.her.ie/wp-content/uploads/2014/06/grad-photo_opt.jpg" alt="" class="facebook_photo"></a>\n' +
+    '          <a href="" ><p class="facebook_name">{{item.name}} </p></a>\n' +
+    '          <i class="fa fa-star starred_wislist" ng-click="unstar($index)"></i>\n' +
+    '        </li>\n' +
+    '      </ol>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '\n' +
+    '</div>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('myWishlist');
 } catch (e) {
   module = angular.module('myWishlist', []);
@@ -115,54 +163,6 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
-    '</div>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('starredLists');
-} catch (e) {
-  module = angular.module('starredLists', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('starred-lists/starred-lists.html',
-    '<!-- <div ng-init="items = []"></div> -->\n' +
-    '\n' +
-    '<div class="main_container">\n' +
-    '\n' +
-    '  <div class="container col-xs-3">\n' +
-    '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10">\n' +
-    '    <div class="pro_pic_container col-xs-10">\n' +
-    '      <!-- the following info will only be seen once searched and clicked on -->\n' +
-    '      <video src="./images/rach.MOV" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
-    '    </div>\n' +
-    '    <div class="pro_info col-xs-10">\n' +
-    '      <p>MY NAME</p>\n' +
-    '      <p>Email:</p>\n' +
-    '      <p>Birthday:</p>\n' +
-    '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '\n' +
-    '  <div class="wishlist_container container col-xs-8">\n' +
-    '    <div class="title_container">\n' +
-    '      <h2 class="my_wishlist_title">Starred</h2>\n' +
-    '    </div>\n' +
-    '    <div class="bottom_container">\n' +
-    '      <button ng-click="search(user)">Facebook Friend Wishlist Lookup</button>\n' +
-    '      <!-- <input type="text" placeholder="search starred wishlists" ng-model="search"> -->\n' +
-    '      <ol ui-sortable ng-model="items" class="wishlist_items">\n' +
-    '        <li class="wishlist_items_container starred col-lg-4 col-xs-12 col-sm-6" ng-repeat="item in items | filter:search">\n' +
-    '          <a href="" class="wishlist_item"><img src="http://m0.her.ie/wp-content/uploads/2014/06/grad-photo_opt.jpg" alt="" class="facebook_photo"></a>\n' +
-    '          <a href="" ><p class="facebook_name">{{item.name}} </p></a>\n' +
-    '          <i class="fa fa-star starred_wislist" ng-click="unstar($index)"></i>\n' +
-    '        </li>\n' +
-    '      </ol>\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '\n' +
     '</div>\n' +
     '');
 }]);

@@ -74,9 +74,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
   $scope.authenticate = function (provider, user) {
     //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
     //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    $auth.authenticate(provider, user);
-    console.log('provider', provider);
-    console.log('user', user).then(function (res) {
+    $auth.authenticate(provider, user).then(function (res) {
       // console.log(res, 'This is the auth response in Home Ctlr.');
       var token = res.data;
       // console.log(token, "This is our token. We're inside Home Ctlr.")
@@ -102,9 +100,9 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
-    console.log('THESE ARE THE STATEPARMS', $stateParams.id);
+    // console.log('THESE ARE THE STATEPARMS', $stateParams.id)
     $scope.id = $stateParams.id;
-    console.log('is this the id in the url', $scope.id);
+    // console.log('is this the id in the url', $scope.id)
 
     if (!$auth.isAuthenticated()) {
         return $state.go('home');
@@ -117,7 +115,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
         $rootScope.email = response.data.email;
         $rootScope.pro_pic = response.data.facebook;
         $rootScope.items = response.data.items;
-        console.log("This is the data from GET request.", $rootScope.user);
+        // console.log("This is the data from GET request.", $rootScope.user);
     }).catch(function (err) {
         console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
