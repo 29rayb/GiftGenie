@@ -32,7 +32,6 @@
     "morgan": "^1.7.0",
     "nodemon": "^1.9.1",
     "path": "^0.12.7",
-    "pug": "^0.1.0",
     "querystring": "^0.2.0",
     "request": "^2.72.0",
     "satellizer": "^0.14.0",
