@@ -7,7 +7,7 @@
     "start": "nodemon server/app.js",
     "postinstall": "bower i",
     "setup": "rm -rf node_modules client/vendor && npm i && bower i",
-    "test": "mocha"
+    "test": "mocha test/mocha-chai.js"
   },
   "repository": {
     "type": "git",
