@@ -4,3 +4,15 @@ notifications:
   email: false
 
 before_install:
+
+install:
+  - npm install
+
+after_success:
+
+deploy:
+  skip_cleanup: true
+  provider: heroku
+
+matrix:
+  fast_finish: true
