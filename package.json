@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server/app.js",
     "postinstall": "bower i",
-    "setup": "rm -rf node_modules client/vendor && npm i && bower i"
+    "setup": "rm -rf node_modules client/vendor && npm i && bower i",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -65,8 +66,10 @@
     "gulp-uncss": "^1.0.5",
     "gulp-useref": "^3.1.0",
     "imagemin-pngquant": "^4.2.2",
+    "istanbul": "^0.4.3",
     "jshint": "^2.9.2",
     "jshint-stylish": "^2.1.0",
+    "mocha": "^2.4.5",
     "pageres": "^4.1.1",
     "psi": "^2.0.3",
     "run-sequence": "^1.1.5",

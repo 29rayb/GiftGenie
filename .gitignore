@@ -1,2 +1,5 @@
 client/vendor
 responsive-testing
+npm-debug.log
+rev-manifest.json
+server/.env
