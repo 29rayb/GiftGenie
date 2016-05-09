@@ -223,6 +223,10 @@ i.fa-pencil-square-o {
   width: 200px;
 }
 
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
 :-moz-placeholder {
   /* Firefox 18- */
   text-align: center;
