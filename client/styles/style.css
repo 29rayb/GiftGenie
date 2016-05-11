@@ -1,398 +1,459 @@
-html {
-    line-height: 1.4;
-    height: 100%;
+/* ______________
+|              |
+|  Shared:     |
+|______________| */
+
+.pageTitleText {
+  font-family: 'Josefin Sans', cursive;
+  text-align: center;
+  font-size: 45px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-button a:hover, div a:hover, i:hover {
-    text-decoration: none;
-    cursor: pointer;
+.footer {
+  clear: both;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: #B4B4B4;
+  font-family: 'Josefin Sans', cursive;
+  font-size: 3vh;
+  margin-bottom: 1.5%;
 }
 
-/* NAVBAR.JADE*/
+footer .icon {
+  width: 40px;
+  height: 40px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+h2 {
+  font-family: 'Josefin Sans', cursive;
+}
+
+
+/* ______________
+|              |
+|  Navbar:     |
+|______________| */
+
+#navLogo {
+  width: 9%;
+  display: inline-block;
+  float: left;
+  margin-right: 2%;
+}
+
+.navbar-brand {
+  font-family: 'Josefin Sans', cursive;
+  font-size: 6vh;
+  margin-left: -1%;
+  margin-top: -0.5%;
+}
 
 .nav-pills {
-    margin-top: 13px;
+  font-family: 'Josefin Sans', cursive;
+  font-size: 3.5vh;
 }
 
-.nav-pills li {
-    min-width: 135px;
-    position : absolute;
-    right    : 0;
+/* Underline From Left */
+.hvr-underline-from-left {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow: hidden;
 }
-.navbar-links.left {
-    color: black;
-    margin-right: 215px;
+.hvr-underline-from-left:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  background: white;
+  height: 4px;
+  -webkit-transition-property: right;
+  transition-property: right;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
 }
-
-.navbar-links.middle {
-    margin-right: 100px;
-}
-
-.navbar-links.right {
-    margin-left: 50px;
-}
-
-.navbar-container {
-  position  : fixed;
-  top       : 0;
-  left      : 0;
-  width     : 100%;
-  background: rgba(250, 250, 250, 0.7);
-  color     : #333;
-  transition: all .25s ease-in-out;
-}
-
-a.navbar-links {
-    font-family: Exo;
-    color: #000;
-}
-
-li a.navbar-links:hover {
-    font-weight: 600;
+.hvr-underline-from-left:hover:before, .hvr-underline-from-left:focus:before, .hvr-underline-from-left:active:before {
+  right: 0;
 }
 
-li a.navbar-links {
-    font-size: 18px;
+/* ______________
+|              |
+|  Home:       |
+|______________| */
+
+#mainHomeContainer {
+  float: none;
+  /* padding-top: 1%; */
+  /* margin-top: 2%; */
+  /* min-height: 80vh; */
+  height: 90%;
 }
 
-/* HOME*/
-
-.logo_container {
-    padding-top: 100px;
-    text-align: center;
-    margin: 0 auto;
-    min-width: 260px;
+#homepageImageDiv {
+  width: 100%;
+  height: 90%;
+  text-align: center;
+  position: relative;
+  top: 0;
+  left: 0;
+  float: right;
+  margin-right: -10%;
 }
 
-h1.logo {
-    font-size: 44px;
-    font-family: Exo;
+#backgroundImage {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  margin: 0 auto;
 }
 
-p.logo {
-    font-family: Georgia,Times,"Times New Roman",serif;
-    font-weight: 400;
-    color: #666;
-    font-size: 19px;
-    word-spacing: 2.5px;
+#shape1 {
+  border: 5px solid #FF0DD9;
+  background-color: #FF0DD9;
+  z-index: 100;
+  position: relative;
+  color: black;
+  font-size: 30vh;
+  animation-duration: 4s;
+  animation-delay: 1s;
+}
+#shape3 {
+  border: 5px solid #FF0DD9;
+  background-color: #FF0DD9;
+  z-index: 100;
+  position: relative;
+  color: black;
+  font-size: 30vh;
+  animation-duration: 5s;
+  animation-delay: 0.5s;
+}
+#shape6 {
+  border: 5px solid #FF0DD9;
+  background-color: #FF0DD9;
+  z-index: 100;
+  position: relative;
+  color: black;
+  font-size: 30vh;
+  animation-duration: 3s;
+  animation-delay: 2s;
+}
+#shape8 {
+  border: 5px solid #FF0DD9;
+  background-color: #FF0DD9;
+  z-index: 100;
+  position: relative;
+  color: black;
+  font-size: 30vh;
+  animation-duration: 3s;
+  animation-delay: 2s;
 }
 
-.rach {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1000;
-    opacity: 0.7;
-    width: 100%;
-    height: 100%;
+#shape2 {
+  border: 5px solid #60FF9F;
+  background-color: #60FF9F;
+  z-index: 100;
+  position: relative;
+  color: black;
+  font-size: 30vh;
+  animation-duration: 4s;
+  animation-delay: 0.5s;
 }
 
-.wrapper {
-    position: absolute;
-    width: 48%;
-    left: 0;
-    height: 250px;
+#shape4 {
+  border: 5px solid #60FF9F;
+  background-color: #60FF9F;
+  z-index: 100;
+  position: relative;
+  color: black;
+  font-size: 30vh;
+  animation-duration: 6s;
+  animation-delay: 1s;
 }
 
-.home_container {
-    color: #000;
-    margin: 0 auto;
-    margin-top: 20px;
-    border: 1px solid #DCDCDC;
-    padding: 20px 25px;
-    border-radius: 3%;
-    box-shadow: 0 2px 4px 0 #dcdcdc;
-    max-width: 280px;
+#shape5 {
+  border: 5px solid #60FF9F;
+  background-color: #60FF9F;
+  z-index: 100;
+  position: relative;
+  color: black;
+  font-size: 30vh;
+  animation-duration: 6s;
+  animation-delay: 1.5s;
 }
 
-.button_container {
-    position: relative;
-    margin-top: 3%;
+#shape7 {
+  border: 5px solid #60FF9F;
+  background-color: #60FF9F;
+  z-index: 100;
+  position: relative;
+  color: black;
+  font-size: 30vh;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
 }
 
-.wishlist_button_container button, .button_container button {
-    width: 100px;
-    height: 40px;
-    margin: 0px 14px;
-    background-color: transparent;
-    border: none;
+.homeRow {
+  max-height: 20%;
+}
+/* ______________
+|              |
+|  Instructor: |
+|______________| */
+
+#instructorContainer {
+  -moz-transition:all 1s ease;
+  -webkit-transition:all 1s ease;
+  -o-transition:all 1s ease;
+  -ms-transition:all 1s ease;
+  transition:all 1s ease;
+  text-align: center;
+  float: none;
+  padding-top: 1%;
+  margin: 0 auto;
+  font-family: 'Josefin Sans', cursive;
+  min-height: 80vh;
 }
 
-.wishlist_button_container button:hover, .button_container button:hover {
-    border: 1px solid transparent;
-    background-color: rgba(250, 250, 250, 0.7);
-    color: #333;
-    transition: all .25s ease-in-out;
+#instructorPhotoContainer {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.fb_btn {
-    border: 1px solid #DCDCDC !important;
-    border-radius: 3%;
-    width: 200px !important;
-    height: 50px !important;
-    background-color: #3C5A99 !important;
-    color: #FFFFFF !important;
+#instructorPhoto {
+  opacity: 1;
+  border: solid black 10px;
+  max-width: 25%;
+  display: block;
+  height: auto;
 }
 
-.fb_btn:hover {
-    box-shadow: 0 7px 4px 0 #dcdcdc;
+
+#instructorText {
+  width: 100%;
+  font-family: 'Josefin Sans', cursive;
+  font-size: 2.8vh;
+  text-align: center;
+  padding-bottom: 3%;
+  padding-top: 1%;
+  margin: 0 auto;
 }
 
-.fb_logo {
-    height: 25px;
-    width: 25px;
-    border-radius: 8%;
+.thumbnail {
+  border: none;
 }
 
-/* My-WishList*/
+/* ______________
+|              |
+|  Dates:      |
+|______________| */
 
-.main_container {
-    width: 100%;
-    margin: 0 auto;
-    top: 50px;
-    max-width: 1100px;
+#mainDetailsContainer {
+  padding: 2%;
+  margin: 0 auto;
+  height: 95%;
 }
 
-.main_container .container {
-    margin-top: 50px;
+#calendarContainer {
+  height: 100%;
+  text-align: center;
+  font-family: 'Josefin Sans', cursive;
+  margin: 0 auto;
+  padding-top: 2%;
+  float: right;
 }
 
-.title_container {
-    border: 1px solid orange;
-    height: 80px;
+.fc-event {
+  font-size: 3.1vh;
+  text-align: center;
 }
 
-.title_container h2 {
-    text-align: center;
+span.fc-title {
+  padding: 1% !important;
+  text-overflow: ellipsis;
+  white-space: pre-line;
 }
 
-.top_container {
-    border: 1px solid pink;
-    height: 86px;
+#infoContainer {
+  border: 3px solid white;
+  float: left;
+  text-align: center;
+  font-family: 'Josefin Sans', cursive;
+  margin-top: 2%;
+  margin-left: 2%;
+  padding: 1%;
 }
 
-.my_wishlist_title {
-    border: 1px solid black;
-    color: yellow;
+#detailHeader1 {
+  font-size: 3vh;
+  color: #00BFFF;
 }
 
-.pro_pic_container, .pro_info {
-    border: 1px solid black;
-    padding: 6px 0;
-    min-width: 202px;
-    max-width: 202px;
+#detailHeader2 {
+  font-size: 2.5vh;
+  color: #00BFFF;
 }
 
-.pro_pic {
-    min-width: 200px;
-    max-width: 200px;
-    min-height: 200px;
-    max-height: 200px;
-    padding: 0px 4px;
-    border: 4px solid #fff;
-    border-radius: 5%;
+#detailText {
+  font-size: 2.5vh;
 }
 
-.pro_info {
-    padding-left: 5px;
+#infoHeader {
+  font-size: 5vh;
+  color: #00BFFF;
+  padding-bottom: 1%;
+  padding-top: 2%;
 }
 
-.add_btn {
-    position: absolute;
-    left: 25px;
-    margin-top: 8px;
-    background-color: transparent;
-    color: #435EAC;
+/* ______________
+|              |
+|  Booking:    |
+|______________| */
+
+/*This container is shared.*/
+#mainContainer {
+  text-align: center;
+  float: none;
+  padding-top: 1%;
+  margin-top: 2%;
+  font-family: 'Josefin Sans', cursive;
+  min-height: 80vh;
 }
 
-.add_btn:hover {
-    background-color: #435EAC;
-    color: #FFF;
+#courseAvailabilityDiv {
+  text-align: center;
 }
 
-.star_btn {
-    color: gold;
-    width: 60px;
+.courseTitleA {
+  border: 10px solid black;
+  background: #3498db;
+  font-size: 3vh;
+  padding: 2%;
+  text-align: center;
+  margin: 2%;
 }
 
-.wishlist_container {
-    position: relative;
-    border: 1px solid black;
-    text-align: center;
-    min-width: 320px;
-    max-width: 700px;
-    margin-left: 58px;
+select {
+  color: black;
 }
 
-.bottom_container {
-    border: 1px solid purple;
+#greenButton {
+  font-size: 2.5vh;
+  margin: 1.5%;
 }
 
-.wishlist_item {
-    font-size: 26px;
-    color: #000;
-    position: absolute;
-    left: 0;
+#fullBookingDiv {
+  padding: 3%;
+  font-family: 'Josefin Sans', cursive;
+  border: 15px solid #3498db;
+  margin-top: 1%;
+  margin-bottom: 2%;
 }
 
-i.fa-trash {
-    position: absolute;
-    right: 0px;
+label {
+  font-size: 2.5vh;
+  margin-left: 5%;
 }
 
-i.fa-pencil-square-o {
-    position: absolute;
-    right: 32px;
+.form-horizontal {
+  margin-top: 4%;
 }
 
-.wishlist_items_container a, .wishlist_items_container i {
-    margin: 0 50px;
-    font-size: 16px;
+.form-control, option {
+  font-size: 2.5vh;
 }
 
-.wishlist_items {
-    margin-left: -10px;
-    margin-top: 15px;
+/* ______________
+|              |
+|  Deposit:    |
+|______________| */
+
+#paymentDiv {
+  margin: 0 auto;
+  font-size: 3vh;
+  font-family: 'Josefin Sans', cursive;
+  border: 15px solid #3498db;
 }
 
-.like_share_container {
-    border: 1px solid black;
-    padding: 10px;
-    height: 77px;
+/* ______________
+|              |
+|  Curriculum: |
+|______________| */
+
+
+#curriculumContainer {
+  text-align: center;
+  font-family: 'Josefin Sans', cursive;
+  margin-top: 2%;
+  margin-bottom: 1%;
+  padding-bottom: 2%;
 }
 
-.fb_comments_container {
-    border: 1px solid red;
-    margin-top: 30px;
+.curriculumRow {
+  max-width: 50%;
+  text-align: center;
+  margin: 0 auto;
 }
 
-/*Starred-WishLists*/
-
-.wishlist_button_container {
-    border: 1px solid black;
-    padding: 5px;
-    height: 79px;
+#courseBreakdownDiv {
+  border: 10px solid lightgreen;
+  width: 100%;
+  padding: 2%;
+  text-align: center;
+  margin: 0 auto;
+  font-family: 'Josefin Sans', cursive;
+  overflow: scroll;
 }
 
-.wishlist_button_container.starred {
-    margin-top: 20px;
-    margin-bottom: -70px;
+.curriculumTitle {
+  font-family: 'Josefin Sans', cursive;
+  text-align: center;
+  font-size: 2.5vw;
+  padding-bottom: 3%;
 }
 
-.fa-star.starred_wslist {
-    color: gold;
-    position: relative;
-    top: -84px;
-    float: left;
-    right: 26px;
-    font-size: 25px !important;
+#keywordsDiv {
+  border: 10px solid lightblue;
+  width: 100%;
+  padding: 2%;
+  margin: 0 auto;
+  font-family: 'Josefin Sans', cursive;
 }
 
-.fa-star.starred_wslist:hover {
-    color: black;
-    transition: all .25s ease-in-out;
+#partHeader {
+  text-align: center;
 }
 
-.search_fb {
-    width: 200px;
+.courseBreakdownList {
+  font-size: 1.2vw;
+  font-family: 'Josefin Sans', cursive;
 }
 
-::-webkit-input-placeholder {
-    text-align: center;
+.keywordsList {
+  font-size: 1.2vw;
+  font-family: 'Josefin Sans', cursive;
 }
 
-:-moz-placeholder {
-    /* Firefox 18- */
-    text-align: center;
-}
-
-::-moz-placeholder {
-    /* Firefox 19+ */
-    text-align: center;
-}
-
-:-ms-input-placeholder {
-    text-align: center;
-}
-
-.facebook_name {
-    position: relative;
-    text-align: left;
-    top: 87px;
-    left: 35px;
-    font-size: 15px;
-    color: #fff;
-    max-width: 130px;
-}
-
-.facebook_name:hover {
-    color: #fff;
-    background-color: rgba(250, 250, 250, 0.7);
-    color: #333;
-    transition: all .25s ease-in-out;
-    width: 130px;
-}
-
-.facebook_photo {
-    width: 130px;
-    height: 130px;
-}
-
-.starred {
-    height: 140px;
-}
-
-/* FOOTER.JADE*/
-.footer {
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    text-align: center;
-    color: #B4B4B4;
-}
-
-/*media queries*/
-
-@media screen and (max-width: 697px) {
-    .pro_pic_container, .pro_info, .search_fb {
-        margin: 0 165%;
-        top: 40px;
-    }
-
-    .wishlist_container {
-        margin-top: 40px;
-        margin-left: 20%;
-    }
-
-    .pro_info {
-        color: yellow;
-    }
-}
-
-@media screen and (max-width: 446px) {
-    a.navbar-brand.logo {
-        position: absolute !important;
-        font-size: 40px;
-        margin-left: 60px !important;
-    }
-
-    .navbar-right li a.left, a.middle, a.right {
-        position: relative !important;
-        top: 35px !important;
-        left: -39px !important;
-    }
-
-    .navbar-container {
-        height: 80px;
-    }
-}
-
-@media screen and (max-width: 427px) {
-    .pro_pic_container, .pro_info, .search_fb {
-        margin: 0 130%;
-    }
-
-    .wishlist_container {
-        margin-left: 10.5%;
-    }
+#curriculumTable {
+  margin: 0 auto;
+  text-align: center;
+  max-width: 70%;
+  min-width: 465px;
 }
