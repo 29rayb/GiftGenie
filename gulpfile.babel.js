@@ -3,10 +3,8 @@ import gulp from 'gulp';
 import gutil from 'gulp-util';
 import concat from 'gulp-concat';
 import del from 'del';
-// let addsrc from 'gulp-add-src';
 import changed from 'gulp-changed';
 import gulpIf from 'gulp-if';
-// let ignore from 'gulp-ignore';
 import rename from 'gulp-rename';
 import babel from 'gulp-babel';
 import imagemin from 'gulp-imagemin';
@@ -16,7 +14,6 @@ import pngquant from 'imagemin-pngquant';
 import runSequence from 'run-sequence'
 import jade from 'gulp-jade';
 import sourcemaps from 'gulp-sourcemaps';
-import rev from 'gulp-rev';
 import minifyCSS from 'gulp-cssnano';
 import uncss from 'gulp-uncss';
 import autoprefixer from 'gulp-autoprefixer';
@@ -30,7 +27,6 @@ import stripDebug from 'gulp-strip-debug';
 import ngHtml2Js from "gulp-ng-html2js";
 // parse build blocks in HTML files to replace references;
 // gets all links and all scripts and compiles it into one;
-// let useref from 'gulp-useref'
 // pagespeed insights with reporting;
 import psi from 'psi';
 import Pageres from 'pageres';
@@ -56,46 +52,41 @@ gulp.task('default', (cb) => {
 
 gulp.task('clean', () => {
   return gutil.log('gulp is running!!')
-  return del(['.tmp'])
-  return del(['.dist'])
+  return del(['tmp'])
+  return del(['client/dist'])
 });
 
 // done
 // try to apply the uncss to the vendor/css
 gulp.task('css', () => {
   return gulp.src([paths.css])
-             .pipe(changed('.dist/css', {extension: '.css'}))
+             .pipe(changed('client/dist/css', {extension: '.css'}))
              .pipe(sourcemaps.init())
-             .pipe(uncss({
-                html: ['index.html',
-                       paths.components]
-              }))
              .pipe(autoprefixer({
                 browsers: ['last 3 versions'],
                 cascade: false
               }))
-             .pipe(gulp.dest('.tmp/css'))
+             .pipe(gulp.dest('tmp/css'))
              .pipe(rename({suffix: '.min'}))
              .pipe(minifyCSS().on('error', gutil.log))
-             .pipe(rev())
              .pipe(sourcemaps.write('.'))
-             .pipe(gulp.dest('.dist/css'))
+             .pipe(gulp.dest('client/dist/css'))
 
 })
 
 // done
 gulp.task('scripts', ['jshint'], () => {
   return gulp.src([paths.scripts])
-             .pipe(changed('.dist/js'))
+             .pipe(changed('client/dist/js'))
              .pipe(sourcemaps.init()) // proecss the original sources
              .pipe(babel({presets: ['es2015']}))
              .pipe(concat('bundle.js'))
-             .pipe(gulp.dest('.tmp/js'))
+             .pipe(gulp.dest('tmp/js'))
              .pipe(rename({suffix: '.min'}))
              .pipe(stripDebug())
              .pipe(uglify().on('error', gutil.log))
              .pipe(sourcemaps.write('.')) // add the map to modified source
-             .pipe(gulp.dest('.dist/js'))
+             .pipe(gulp.dest('client/dist/js'))
 });
 
 // done
@@ -110,13 +101,13 @@ gulp.task('jshint', () => {
 // would be awesome to incorporate gulp-useref;
 gulp.task('jade', () => {
   return gulp.src(paths.jade)
-             .pipe(changed('.dist/index'))
+             .pipe(changed('client/dist/index'))
              // .pipe(useref()) doesn't work: gets rid of comments
              // during converting Jade to HTML
              .pipe(jade({
                 pretty: true
               }))
-             .pipe(gulpIf('index.html', gulp.dest('.tmp/index')))
+             .pipe(gulpIf('index.html', gulp.dest('tmp/index')))
              .pipe(minifyHTML({
                 collapseWhitespace:true,
                 minifyJS:true,
@@ -125,14 +116,14 @@ gulp.task('jade', () => {
                 removeStyleLinkTypeAttributes: true,
               }))
              .pipe(rename({suffix: '.min'}))
-             .pipe(gulpIf('index.min.html', gulp.dest('.dist/index')))
+             .pipe(gulpIf('index.min.html', gulp.dest('client/dist/index')))
 
 })
 
 // templatecaching for quick retrieval: done;
 gulp.task('components', () => {
   return gulp.src(paths.components)
-             .pipe(changed('.dist/js/components'))
+             .pipe(changed('client/dist/js/components'))
              .pipe(sourcemaps.init())
              .pipe(ngHtml2Js({
                 moduleName: function(file){
@@ -144,18 +135,18 @@ gulp.task('components', () => {
                 }
               }))
              .pipe(concat('components.js'))
-             .pipe(gulp.dest('.tmp/js'))
+             .pipe(gulp.dest('tmp/js'))
              .pipe(rename({suffix: '.min'}))
              .pipe(stripDebug())
              .pipe(uglify().on('error', gutil.log))
              .pipe(sourcemaps.write('.'))
-             .pipe(gulp.dest('.dist/js'))
+             .pipe(gulp.dest('client/dist/js'))
 })
 
 // done
 gulp.task('images', () => {
   return gulp.src(paths.images)
-             .pipe(changed('.dist/images'))
+             .pipe(changed('client/dist/images'))
              .pipe(imagemin({
                 proressive: true,
                 interlaced: true,
@@ -167,8 +158,7 @@ gulp.task('images', () => {
                 ],
                 use: [pngquant()]
               }))
-             .pipe(rev())
-             .pipe(gulp.dest('.dist/images'))
+             .pipe(gulp.dest('client/dist/images'))
 })
 
 gulp.task('watch', () => {

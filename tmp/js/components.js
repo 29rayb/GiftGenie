@@ -6,7 +6,6 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('home/home.html',
-    '  <!-- <img src="./images/gift-wrapper.png" alt="gift-wrapper" class="wrapper"> -->\n' +
     '\n' +
     '  <div class="logo_container">\n' +
     '    <h1 class="logo">GiFTGENiE</h1>\n' +
