@@ -3,3 +3,4 @@ responsive-testing
 npm-debug.log
 rev-manifest.json
 server/.env
+.DS_Store
