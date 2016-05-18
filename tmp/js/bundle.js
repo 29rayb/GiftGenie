@@ -34,17 +34,25 @@ NavSvc.$inject = ['$http'];
 function NavSvc($http) {}
 'use strict';
 
-angular.module('App').factory('StarSvc', function ($http) {
+angular.module('App').factory('StarSvc', StarSvc);
+
+StarSvc.$inject = ['$http'];
+
+function StarSvc($http) {
   return {
     // get_friends: function(user) {
     //   console.log("IN HERE. This is user in service", user);
     //   return $http.get('/api/me/:id/friends', user);
     // }
   };
-});
+};
 'use strict';
 
-angular.module('App').factory('UserSvc', function ($http) {
+angular.module('App').factory('UserSvc', UserSvc);
+
+UserSvc.$inject = ['$http'];
+
+function UserSvc($http) {
   return {
     getProfile: function getProfile() {
       return $http.get('/api/me');
@@ -65,7 +73,36 @@ angular.module('App').factory('UserSvc', function ($http) {
       return $http.put('/api/me/items/edit', item);
     }
   };
-});
+};
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    $auth.authenticate(provider, user).then(function (res) {
+      console.log(res, 'This is the auth response in Home Ctlr.');
+      var token = res.data;
+      console.log(token, "This is our token. We're inside Home Ctlr.");
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data._id;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
+  };
+}
 'use strict';
 
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
@@ -164,35 +201,6 @@ function NavbarCtrl($scope, $state, NavSvc, $auth) {
   $scope.logout = function () {
     $auth.logout();
     $state.go('home');
-  };
-}
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    $auth.authenticate(provider, user).then(function (res) {
-      // console.log(res, 'This is the auth response in Home Ctlr.');
-      var token = res.data;
-      // console.log(token, "This is our token. We're inside Home Ctlr.")
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data._id;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-      });
-    }).catch(function (err) {
-      console.error(err, 'Inside the Home Ctrl, we have an error!');
-    });
   };
 }
 'use strict';

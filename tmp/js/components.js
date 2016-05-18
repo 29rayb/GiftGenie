@@ -6,25 +6,24 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('home/home.html',
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div>\n' +
     '\n' +
-    '  <div class="logo_container">\n' +
-    '    <h1 class="logo">GiFTGENiE</h1>\n' +
-    '    <p class="logo">No More Unwanted Gifts</p>\n' +
-    '  </div>\n' +
-    '\n' +
-    '  <div class="home_container">\n' +
-    '    <div class="button_container">\n' +
+    '<div class="home_container">\n' +
+    '  <div class="button_container">\n' +
     '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '      the reason is because its already defined in app.routes.js\n' +
-    '      so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '      <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '        <img src="./images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '        Login with Facebook\n' +
-    '      </button>\n' +
-    '    </div>\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
     '  </div>\n' +
+    '</div>\n' +
     '\n' +
-    '<video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay loop muted>\n' +
+    '<video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted>\n' +
     '');
 }]);
 })();
@@ -46,6 +45,7 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="pro_info col-xs-10">\n' +
     '      <p>{{display_name}}</p>\n' +
     '      <p>{{email}}</p>\n' +
+    '      <!-- need to get birthday from api call -->\n' +
     '      <p>{{birthday}}</p>\n' +
     '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
     '    </div>\n' +
@@ -127,15 +127,13 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('starred-lists/starred-lists.html',
-    '<!-- <div ng-init="items = []"></div> -->\n' +
-    '\n' +
     '<div class="main_container">\n' +
     '\n' +
     '  <div class="container col-xs-3">\n' +
     '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10">\n' +
     '    <div class="pro_pic_container col-xs-10">\n' +
     '      <!-- the following info will only be seen once searched and clicked on -->\n' +
-    '      <video src="./images/rach.MOV" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
+    '      <video src="dist/images/love.mp4" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
     '    </div>\n' +
     '    <div class="pro_info col-xs-10">\n' +
     '      <p>MY NAME</p>\n' +

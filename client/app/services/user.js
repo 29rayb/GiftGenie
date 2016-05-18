@@ -1,8 +1,12 @@
 'use strict';
 
-angular.module('App')
+angular
+  .module('App')
+  .factory('UserSvc', UserSvc)
 
-.factory('UserSvc', function($http) {
+UserSvc.$inject = ['$http']
+
+function UserSvc ($http) {
   return {
     getProfile: function() {
       return $http.get('/api/me');
@@ -23,4 +27,4 @@ angular.module('App')
       return $http.put('/api/me/items/edit', item);
     }
   };
-});
+};

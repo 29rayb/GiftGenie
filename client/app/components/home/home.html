@@ -1,19 +1,18 @@
+<div class="logo_container">
+  <h1 class="logo">GiFTGENiE</h1>
+  <p class="logo">No More Unwanted Gifts</p>
+</div>
 
-  <div class="logo_container">
-    <h1 class="logo">GiFTGENiE</h1>
-    <p class="logo">No More Unwanted Gifts</p>
-  </div>
-
-  <div class="home_container">
-    <div class="button_container">
+<div class="home_container">
+  <div class="button_container">
 <!--       make sure there is no slash after my-wishlist or it will screw up
-      the reason is because its already defined in app.routes.js
-      so id is automatically put into the url because its defined in app.routes.js -->
-      <button ng-click="authenticate('facebook')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">
-        <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">
-        Login with Facebook
-      </button>
-    </div>
+    the reason is because its already defined in app.routes.js
+    so id is automatically put into the url because its defined in app.routes.js -->
+    <button ng-click="authenticate('facebook')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">
+      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">
+      Login with Facebook
+    </button>
   </div>
+</div>
 
 <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted>
