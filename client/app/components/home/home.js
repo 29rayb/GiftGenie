@@ -10,9 +10,9 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc){
     //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
     $auth.authenticate(provider, user)
       .then(function(res) {
-        // console.log(res, 'This is the auth response in Home Ctlr.');
+        console.log(res, 'This is the auth response in Home Ctlr.');
         var token = res.data;
-        // console.log(token, "This is our token. We're inside Home Ctlr.")
+        console.log(token, "This is our token. We're inside Home Ctlr.")
       UserSvc.getProfile()
         // this has to be done before state.go because facebook_email is needed but
         // after auth.authenticate because you are pressing the login with facebook button
@@ -28,7 +28,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc){
         });
     })
     .catch(function(err){
-      console.error(err, 'Inside the Home Ctrl, we have an error!');
+      console.error('Inside the Home Ctrl, we have an error!', err);
     });
   };
 
