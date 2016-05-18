@@ -6,7 +6,7 @@ angular
 
 function MyWishListCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams){
   console.log('In My Wishlist Controller.')
-
+  
   console.log('starred lists');
   console.log('THESE ARE THE STATEPARMS', $stateParams)
   $scope.id = $stateParams.facebook;

@@ -17,6 +17,7 @@ function StarredListsCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSv
     console.log(user_id, "HERES WHAT WE NEED");
     console.log($scope, "SCOPE");
     $scope.friends = [];
+    
     StarSvc.get_friends(user, user_id)
     .then(function(user, user_id, data){
       console.log(user, "USER");
