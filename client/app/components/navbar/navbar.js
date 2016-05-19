@@ -5,10 +5,10 @@ angular
   .controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
 
 function NavbarCtrl($scope, $state, NavSvc, $auth){
-  $scope.isAuthenticated = function() {
+  $scope.isAuthenticated = () => {
     return $auth.isAuthenticated();
   };
-  $scope.logout = function(){
+  $scope.logout = () => {
     $auth.logout();
     $state.go('home')
   }
