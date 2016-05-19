@@ -1,8 +1,8 @@
 'use strict';
 
 angular
-    .module('App')
-    .controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl])
+  .module('App')
+  .controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl])
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
     // console.log('THESE ARE THE STATEPARMS', $stateParams.id)
