@@ -56,8 +56,8 @@ module.run(['$templateCache', function($templateCache) {
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
     '    </div>\n' +
     '    <div class="top_container">\n' +
-    '      <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div>\n' +
-    '    </div>\n' +
+    '<!--       <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div>\n' +
+    ' -->    </div>\n' +
     '    <div class="bottom_container">\n' +
     '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
     '      <input type="text" placeholder="search saved items" ng-model="search" class="items">\n' +
@@ -70,8 +70,8 @@ module.run(['$templateCache', function($templateCache) {
     '      </ol>\n' +
     '    </div>\n' +
     '    <div class="fb_comments_container">\n' +
-    '      <div class="fb-comments" data-href="http://localhost:3000/#/my-wishlist" data-numposts="5" data-order=by="social" data-width="280"></div>\n' +
-    '      <!-- this is for when the app is deployed -->\n' +
+    '<!--       <div class="fb-comments" data-href="http://localhost:3000/#/my-wishlist" data-numposts="5" data-order=by="social" data-width="280"></div>\n' +
+    ' -->      <!-- this is for when the app is deployed -->\n' +
     '      <!-- <div class="fb-comments" data-href="https://giftsgenies.herokuapp.com/#/" data-width="464" data-numposts="10"></div> -->\n' +
     '    </div>\n' +
     '  </div>\n' +
@@ -88,7 +88,7 @@ module.run(['$templateCache', function($templateCache) {
     '        <h4 class="modal-title" id="myModalLabel">Add an Item to your WishList</h4>\n' +
     '      </div>\n' +
     '      <div class="modal-body">\n' +
-    '        <input type="text" placeholder="link" ng-model="item.link" > <br>\n' +
+    '        <input type="text" placeholder="link" ng-model="item.link" autofocus> <br>\n' +
     '        <input type="text" placeholder="Item Name" ng-model="item.name">\n' +
     '      </div>\n' +
     '      <div class="modal-footer">\n' +
@@ -98,7 +98,7 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '\n' +
-    '<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">\n' +
+    '<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-keydown="$event.which === 13 && save_changes(item, editItemId)">\n' +
     '  <div class="modal-dialog" role="document">\n' +
     '    <div class="modal-content">\n' +
     '      <div class="modal-header">\n' +

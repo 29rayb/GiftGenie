@@ -18,7 +18,6 @@ function UserSvc ($http) {
     },
     delete_item: (item, $index) => {
       console.log(item, "Item Id for deletion.");
-      console.log($index, "INDEX IN SERVICE");
       return $http.put('/api/me/items/delete', item);
     },
     save_changes: (item) => {

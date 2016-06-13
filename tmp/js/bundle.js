@@ -64,7 +64,6 @@ function UserSvc($http) {
     },
     delete_item: function delete_item(item, $index) {
       console.log(item, "Item Id for deletion.");
-      console.log($index, "INDEX IN SERVICE");
       return $http.put('/api/me/items/delete', item);
     },
     save_changes: function save_changes(item) {
@@ -74,6 +73,9 @@ function UserSvc($http) {
     }
   };
 };
+'use strict';
+
+angular.module;
 'use strict';
 
 angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
@@ -105,6 +107,19 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
 }
 'use strict';
 
+angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
+
+function NavbarCtrl($scope, $state, NavSvc, $auth) {
+  $scope.isAuthenticated = function () {
+    return $auth.isAuthenticated();
+  };
+  $scope.logout = function () {
+    $auth.logout();
+    $state.go('home');
+  };
+}
+'use strict';
+
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
@@ -132,10 +147,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
         $scope.name = item.name;
         $scope.link = item.link;
         var userId = $scope.user._id;
-        // $scope.item.user = userId;
+        $scope.item.user = userId;
 
         UserSvc.add_new(item).then(function () {
-            console.log('Inside Add_New method in Ctrl. Item:', item);
             $scope.items.push({
                 name: $scope.name,
                 link: $scope.link,
@@ -143,7 +157,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
             });
             $scope.item.name = '';
             $scope.item.link = '';
-            console.log('Added new items.');
         }).catch(function (err) {
             console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
         });
@@ -157,51 +170,35 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     $scope.edit = function (item) {
         $scope.item = {};
-        $scope.item.name = item.name;
         $scope.item.link = item.link;
+        $scope.item.name = item.name;
         $scope.editItemId = item._id;
-        console.log($scope.editItemId, "Edit this Item.");
     };
 
     $scope.save_changes = function (item, editItemId) {
-        console.log('newly editted item for saving', item);
         $scope.item.name = item.name;
         $scope.item.link = item.link;
         $scope.item.id = editItemId;
-        console.log($scope.item.id, "Yup, this item id.");
         UserSvc.save_changes(item).then(function () {
-            console.log('Inside edit method. Item:', item);
-            console.log("HOW TO SAVE CHANGES ON FRONTEND?????");
+            window.location.reload(true);
+        }).catch(function () {
+            console.error('saving method doesnt work');
         });
     };
 
     $scope.delete = function (item, $index) {
-        console.log(item, "HERES THE ITEM.");
-        console.log($index, "INDEX 1");
         UserSvc.delete_item(item, $index).then(function () {
-            console.log($index, "INDEX 1");
             var item_to_delete = $scope.items[$index];
-            console.log('item to delete', item_to_delete);
             $scope.items.splice($index, 1);
+        }).catch(function () {
+            console.error('deleting the item did not work (not necessarily true) ');
         });
+        // window.location.reload(true)
     };
 
     $scope.star = function () {
         console.log('starred this person');
     };
-}
-'use strict';
-
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
-
-function NavbarCtrl($scope, $state, NavSvc, $auth) {
-  $scope.isAuthenticated = function () {
-    return $auth.isAuthenticated();
-  };
-  $scope.logout = function () {
-    $auth.logout();
-    $state.go('home');
-  };
 }
 'use strict';
 

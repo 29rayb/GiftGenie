@@ -78,6 +78,8 @@ router.put('/me/items/edit', function(req, res) {
     // var new = user.items.ObjectId.str;
     // console.log(user.items.ObjectId.);
 
+
+    // cannot read property 'str' of undefined error needs to be fixed;
     User.update( {"items" : { $elemMatch: { "_id": editItemId.str }}},
                            { "name": editItemName, "link": editItemLink },
                            function(err, user) {
