@@ -13,7 +13,6 @@ import pngquant from 'imagemin-pngquant';
 // hack until gulp 4.0 which supports defining task dependencies
 import runSequence from 'run-sequence'
 import jade from 'gulp-jade';
-import sourcemaps from 'gulp-sourcemaps';
 import minifyCSS from 'gulp-cssnano';
 import uncss from 'gulp-uncss';
 import autoprefixer from 'gulp-autoprefixer';
@@ -61,7 +60,6 @@ gulp.task('clean', () => {
 gulp.task('css', () => {
   return gulp.src([paths.css])
              .pipe(changed('client/dist/css', {extension: '.css'}))
-             .pipe(sourcemaps.init())
              .pipe(autoprefixer({
                 browsers: ['last 3 versions'],
                 cascade: false
@@ -69,7 +67,6 @@ gulp.task('css', () => {
              .pipe(gulp.dest('tmp/css'))
              .pipe(rename({suffix: '.min'}))
              .pipe(minifyCSS().on('error', gutil.log))
-             .pipe(sourcemaps.write('.'))
              .pipe(gulp.dest('client/dist/css'))
 
 })
@@ -78,14 +75,12 @@ gulp.task('css', () => {
 gulp.task('scripts', ['jshint'], () => {
   return gulp.src([paths.scripts])
              .pipe(changed('client/dist/js'))
-             .pipe(sourcemaps.init()) // proecss the original sources
              .pipe(babel({presets: ['es2015']}))
              .pipe(concat('bundle.js'))
              .pipe(gulp.dest('tmp/js'))
              .pipe(rename({suffix: '.min'}))
              .pipe(stripDebug())
              .pipe(uglify().on('error', gutil.log))
-             .pipe(sourcemaps.write('.')) // add the map to modified source
              .pipe(gulp.dest('client/dist/js'))
 });
 
@@ -124,7 +119,6 @@ gulp.task('jade', () => {
 gulp.task('components', () => {
   return gulp.src(paths.components)
              .pipe(changed('client/dist/js/components'))
-             .pipe(sourcemaps.init())
              .pipe(ngHtml2Js({
                 moduleName: function(file){
                   let pathParts = file.path.split('/');
@@ -139,7 +133,6 @@ gulp.task('components', () => {
              .pipe(rename({suffix: '.min'}))
              .pipe(stripDebug())
              .pipe(uglify().on('error', gutil.log))
-             .pipe(sourcemaps.write('.'))
              .pipe(gulp.dest('client/dist/js'))
 })
 
