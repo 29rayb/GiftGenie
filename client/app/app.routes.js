@@ -18,12 +18,19 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
       templateUrl: 'app/components/my-wishlist/my-wishlist.html',
       controller: 'WishlistCtrl'
     })
+    .state('settings', {
+      url: '/settings/:id',
+      templateUrl: 'app/components/settings/settings.html',
+      controller: 'SettingsCtrl'
+    })
     .state('starred-lists', {
       url: '/starred-lists/:id',
       templateUrl: 'app/components/starred-lists/starred-lists.html',
       controller: 'StarredCtrl'
     })
   $authProvider.facebook({
-    clientId: '247255738962232'
+    clientId: '247255738962232',
+    requiredUrlParams: ['scope'],
+    scope: ['user_friends']
   });
 }

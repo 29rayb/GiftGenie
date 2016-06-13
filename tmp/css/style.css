@@ -236,6 +236,11 @@ p.logo {
     left: 0;
 }
 
+i.fa-heart-o {
+    position:absolute;
+    right: 66px;
+}
+
 i.fa-trash {
     position: absolute;
     right: 0px;

@@ -8,9 +8,9 @@ StarSvc.$inject = ['$http'];
 
 function StarSvc ($http) {
   return {
-    // get_friends: function(user) {
-    //   console.log("IN HERE. This is user in service", user);
-    //   return $http.get('/api/me/:id/friends', user);
-    // }
+    get_friends: function() {
+      console.log("IN HERE. This is user in service");
+      return $http.get('/api/me/:id/friends');
+    }
   };
 };

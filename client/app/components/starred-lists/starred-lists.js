@@ -15,14 +15,14 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   }
 
   $scope.search = () => {
-    // console.log(user, 'heres the user');
-    // StarSvc.get_friends(user)
-    // .then(function(user){
-    //   console.log(user, "here are the friends we would get back");
-    //   console.log('WTF');
-    // })
-    // .catch(function(err) {
-    //   console.error(err, 'Inside the Starred Ctrl, we have an error!');
-    // });
+    // var facebookId = .facebook;
+    // console.log('facebookId', facebookId)
+    StarSvc.get_friends()
+    .then(function(){
+      console.log("here are the friends we would get back");
+    })
+    .catch(function(err) {
+      console.error(err, 'have no friends');
+    });
   }
 }

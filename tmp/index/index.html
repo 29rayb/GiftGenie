@@ -22,8 +22,8 @@
     <script src="app/components/navbar/navbar.js"></script>
     <script src="app/components/my-wishlist/my-wishlist.js"></script>
     <script src="app/components/starred-lists/starred-lists.js"></script>
+    <script src="app/components/settings/settings.js"></script>
     <script src="app/shared/profile-card/profile-card.js"></script>
-    <script src="app/directives/autofocus.js"></script>
     <script src="app/services/nav.js"></script>
     <script src="app/services/user.js"></script>
     <script src="app/services/starred.js"></script>
@@ -32,7 +32,7 @@
     <nav ng-controller="NavbarCtrl" class="navbar-container">
       <div ng-if="isAuthenticated()" class="container-fluid"><a class="navbar-brand logo navbar-links">GiFTGENiE</a>
         <ul class="nav nav-pills navbar-right">
-          <li><span ng-if="isAuthenticated()"><a ui-sref="my-wishlist" class="navbar-links left">My WishList</a></span></li>
+          <li><span ng-if="isAuthenticated()"><a ui-sref="my-wishlist" class="navbar-links left">{{display_name}}</a></span></li>
           <li><span ng-if="isAuthenticated()"><a ui-sref="starred-lists" class="navbar-links middle">Starred Lists</a></span></li>
           <li><span ng-if="isAuthenticated()"><a ng-click="logout()" class="navbar-links right">Logout</a></span></li>
         </ul>

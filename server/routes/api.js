@@ -99,13 +99,31 @@ router.put('/me/items/edit', function(req, res) {
 });
 
 // Route #5: Get request to find Facebook friends.
-// router.get('/me/:id/friends', function(req, res) {
-//   console.log(req.user, "<--Facebook friends GET REQUEST.**");
-//   console.log(res, "<--Facebook friends.**");
-//   User.findById(req.user, function(err, user) {
-//     console.log('USER INSIDE GET REQUEST', user);
-//     res.status(err ? 400 : 200).send(err || user)
-//   });
-// })
+router.get('/me/:id/friends', function(req, res) {
+  console.log(req.user, "<-- ME");
+  console.log(res, "<--Facebook friends.**");
+  User.findById(req.user, function(err, user) {
+    console.log('USER INSIDE GET REQUEST', user);
+    res.status(err ? 400 : 200).send(err || user)
+  });
+})
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -24,6 +24,9 @@ function UserSvc ($http) {
       var item;
       console.log(item, "Item for editting.");
       return $http.put('/api/me/items/edit', item);
+    },
+    starPerson: (user) => {
+      console.log('starring this user', user)
     }
   };
 };

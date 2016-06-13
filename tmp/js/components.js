@@ -47,23 +47,29 @@ module.run(['$templateCache', function($templateCache) {
     '      <p>{{email}}</p>\n' +
     '      <!-- need to get birthday from api call -->\n' +
     '      <p>{{birthday}}</p>\n' +
-    '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
+    '      <button ng-click="star(user)" class="star_btn">\n' +
+    '        <i class="fa fa-star"></i>\n' +
+    '      </button>\n' +
+    '      <button ng-click="goToSettings()" class="settings">\n' +
+    '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
+    '      </button>\n' +
     '    </div>\n' +
     '  </div>\n' +
     '\n' +
-    '  <div class="wishlist_container container col-xs-8">\n' +
+    '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
     '    </div>\n' +
     '    <div class="top_container">\n' +
-    '<!--       <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div>\n' +
-    ' -->    </div>\n' +
+    '      <!-- <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div> -->\n' +
+    '    </div>\n' +
     '    <div class="bottom_container">\n' +
     '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
     '      <input type="text" placeholder="search saved items" ng-model="search" class="items">\n' +
     '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
+    '          <i class="fa fa-heart-o" ng-click="like(item)"></i>\n' +
     '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
     '          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
     '        </li>\n' +
@@ -77,7 +83,24 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '\n' +
+    '<!-- settings -->\n' +
     '\n' +
+    '<div class="main_container" ng-if="settings">\n' +
+    '  <div class="wishlist_container container col-xs-8">\n' +
+    '    <div class="title_container">\n' +
+    '      <h2 class="my_wishlist_title">Settings Container</h2>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div class="top_container">\n' +
+    '      Privacy:\n' +
+    '      <input type="radio" name="privacy" value="public" ng-click="makePublic()" checked> Public\n' +
+    '      <input type="radio" name="privacy" value="private" ng-click="makePrivate()"> Private\n' +
+    '      <div ng-if="public">Your Account is Public</div>\n' +
+    '      <div ng-if="private">Your Account is Private</div>\n' +
+    '    </div>\n' +
+    '\n' +
+    '  </div>\n' +
+    '</div>\n' +
     '\n' +
     '<!-- Modal -->\n' +
     '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">\n' +
@@ -88,7 +111,7 @@ module.run(['$templateCache', function($templateCache) {
     '        <h4 class="modal-title" id="myModalLabel">Add an Item to your WishList</h4>\n' +
     '      </div>\n' +
     '      <div class="modal-body">\n' +
-    '        <input type="text" placeholder="link" ng-model="item.link" autofocus> <br>\n' +
+    '        <input type="text" placeholder="link" ng-model="item.link" > <br>\n' +
     '        <input type="text" placeholder="Item Name" ng-model="item.name">\n' +
     '      </div>\n' +
     '      <div class="modal-footer">\n' +
@@ -148,7 +171,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <h2 class="my_wishlist_title">Starred</h2>\n' +
     '    </div>\n' +
     '    <div class="bottom_container">\n' +
-    '      <button ng-click="search(user)">Facebook Friend Wishlist Lookup</button>\n' +
+    '      <button ng-click="search()">Facebook Friend Wishlist Lookup</button>\n' +
     '      <!-- <input type="text" placeholder="search starred wishlists" ng-model="search"> -->\n' +
     '      <ol ui-sortable ng-model="items" class="wishlist_items">\n' +
     '        <li class="wishlist_items_container starred col-lg-4 col-xs-12 col-sm-6" ng-repeat="item in items | filter:search">\n' +
@@ -162,5 +185,17 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '</div>\n' +
     '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('settings');
+} catch (e) {
+  module = angular.module('settings', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('settings/settings.html',
+    '<h1>SettingsCtrl</h1>');
 }]);
 })();

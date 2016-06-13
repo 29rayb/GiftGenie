@@ -19,7 +19,7 @@
       <h2 class="my_wishlist_title">Starred</h2>
     </div>
     <div class="bottom_container">
-      <button ng-click="search(user)">Facebook Friend Wishlist Lookup</button>
+      <button ng-click="search()">Facebook Friend Wishlist Lookup</button>
       <!-- <input type="text" placeholder="search starred wishlists" ng-model="search"> -->
       <ol ui-sortable ng-model="items" class="wishlist_items">
         <li class="wishlist_items_container starred col-lg-4 col-xs-12 col-sm-6" ng-repeat="item in items | filter:search">

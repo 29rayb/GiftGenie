@@ -16,13 +16,19 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
     url: '/my-wishlist/:id',
     templateUrl: 'app/components/my-wishlist/my-wishlist.html',
     controller: 'WishlistCtrl'
+  }).state('settings', {
+    url: '/settings/:id',
+    templateUrl: 'app/components/settings/settings.html',
+    controller: 'SettingsCtrl'
   }).state('starred-lists', {
     url: '/starred-lists/:id',
     templateUrl: 'app/components/starred-lists/starred-lists.html',
     controller: 'StarredCtrl'
   });
   $authProvider.facebook({
-    clientId: '247255738962232'
+    clientId: '247255738962232',
+    requiredUrlParams: ['scope'],
+    scope: ['user_friends']
   });
 }
 'use strict';
@@ -70,12 +76,12 @@ function UserSvc($http) {
       var item;
       console.log(item, "Item for editting.");
       return $http.put('/api/me/items/edit', item);
+    },
+    starPerson: function starPerson(user) {
+      console.log('starring this user', user);
     }
   };
 };
-'use strict';
-
-angular.module;
 'use strict';
 
 angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
@@ -123,82 +129,104 @@ function NavbarCtrl($scope, $state, NavSvc, $auth) {
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
-    // console.log('THESE ARE THE STATEPARMS', $stateParams.id)
-    $scope.id = $stateParams.id;
-    // console.log('is this the id in the url', $scope.id)
+  // console.log('THESE ARE THE STATEPARMS', $stateParams.id)
+  $scope.id = $stateParams.id;
+  $scope.settings = false;
 
-    if (!$auth.isAuthenticated()) {
-        return $state.go('home');
-    }
+  // console.log('is this the id in the url', $scope.id)
 
-    UserSvc.getProfile().then(function (response) {
-        $rootScope.user = response.data;
-        $rootScope.id = response.data._id;
-        $rootScope.display_name = response.data.displayName;
-        $rootScope.email = response.data.email;
-        $rootScope.pro_pic = response.data.facebook;
-        $rootScope.items = response.data.items;
-        // console.log("This is the data from GET request.", $rootScope.user);
+  if (!$auth.isAuthenticated()) {
+    return $state.go('home');
+  }
+
+  UserSvc.getProfile().then(function (response) {
+    $rootScope.user = response.data;
+    $rootScope.id = response.data._id;
+    $rootScope.display_name = response.data.displayName;
+    $rootScope.email = response.data.email;
+    $rootScope.pro_pic = response.data.facebook;
+    $rootScope.items = response.data.items;
+    // console.log("This is the data from GET request.", $rootScope.user);
+  }).catch(function (err) {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
+
+  $scope.add = function (item, user) {
+    $scope.name = item.name;
+    $scope.link = item.link;
+    var userId = $scope.user._id;
+    $scope.item.user = userId;
+
+    UserSvc.add_new(item).then(function () {
+      $scope.items.push({
+        name: $scope.name,
+        link: $scope.link,
+        user: userId
+      });
+      $scope.item.name = '';
+      $scope.item.link = '';
     }).catch(function (err) {
-        console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+      console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
+    swal({
+      title: "Good job!",
+      text: "You added the item!",
+      type: "success",
+      timer: 2000
+    });
+    // shouldn't need this if done right;
+    window.location.reload(true);
+  };
 
-    $scope.add = function (item, user) {
-        $scope.name = item.name;
-        $scope.link = item.link;
-        var userId = $scope.user._id;
-        $scope.item.user = userId;
+  $scope.edit = function (item) {
+    $scope.item = {};
+    $scope.item.link = item.link;
+    $scope.item.name = item.name;
+    $scope.editItemId = item._id;
+  };
 
-        UserSvc.add_new(item).then(function () {
-            $scope.items.push({
-                name: $scope.name,
-                link: $scope.link,
-                user: userId
-            });
-            $scope.item.name = '';
-            $scope.item.link = '';
-        }).catch(function (err) {
-            console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-        });
-        swal({
-            title: "Good job!",
-            text: "You added the item!",
-            type: "success",
-            timer: 2000
-        });
+  $scope.save_changes = function (item, editItemId) {
+    $scope.item.name = item.name;
+    $scope.item.link = item.link;
+    $scope.item.id = editItemId;
+    UserSvc.save_changes(item).then(function () {
+      // shouldn't need this if done right;
+      window.location.reload(true);
+    }).catch(function () {
+      console.error('saving method doesnt work');
+    });
+  };
+
+  $scope.delete = function (item, $index) {
+    $scope.items.splice($index, 1);
+    UserSvc.delete_item(item, $index);
+  };
+
+  $scope.star = function (user) {
+    console.log('starred this person');
+    UserSvc.starPerson(user);
+  };
+
+  $scope.goToSettings = function () {
+    $scope.settings = true;
+    $scope.public = true;
+    $scope.private = false;
+    $scope.makePrivate = function () {
+      $scope.private = true;
+      $scope.public = false;
     };
-
-    $scope.edit = function (item) {
-        $scope.item = {};
-        $scope.item.link = item.link;
-        $scope.item.name = item.name;
-        $scope.editItemId = item._id;
+    $scope.makePublic = function () {
+      $scope.private = false;
+      $scope.public = true;
     };
+  };
+}
+'use strict';
 
-    $scope.save_changes = function (item, editItemId) {
-        $scope.item.name = item.name;
-        $scope.item.link = item.link;
-        $scope.item.id = editItemId;
-        UserSvc.save_changes(item).then(function () {
-            window.location.reload(true);
-        }).catch(function () {
-            console.error('saving method doesnt work');
-        });
-    };
+angular.module('App').controller('SettingsCtrl', SettingsCtrl);
 
-    $scope.delete = function (item, $index) {
-        UserSvc.delete_item(item, $index).then(function () {
-            var item_to_delete = $scope.items[$index];
-            $scope.items.splice($index, 1);
-        }).catch(function () {
-            console.error('deleting the item did not work (not necessarily true) ');
-        });
-        // window.location.reload(true)
-    };
-
-    $scope.star = function () {
-        console.log('starred this person');
-    };
+function SettingsCtrl() {
+  console.log('in the settings ctrl');
 }
 'use strict';
 
