@@ -56,7 +56,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
     '    </div>\n' +
     '    <div class="top_container">\n' +
-    '      <div class="fb-like col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div>\n' +
+    '      <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div>\n' +
     '    </div>\n' +
     '    <div class="bottom_container">\n' +
     '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
@@ -85,7 +85,7 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="modal-content">\n' +
     '      <div class="modal-header">\n' +
     '        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
-    '        <h4 class="modal-title" id="myModalLabel" ng-click="getUserMongoId()">Add an Item to your WishList</h4>\n' +
+    '        <h4 class="modal-title" id="myModalLabel">Add an Item to your WishList</h4>\n' +
     '      </div>\n' +
     '      <div class="modal-body">\n' +
     '        <input type="text" placeholder="link" ng-model="item.link" > <br>\n' +

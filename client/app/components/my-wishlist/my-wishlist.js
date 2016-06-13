@@ -31,7 +31,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       $scope.name = item.name;
       $scope.link = item.link;
       var userId = $scope.user._id;
-      $scope.item.user = userId;
+      // $scope.item.user = userId;
 
       UserSvc.add_new(item)
           .then(() => {
@@ -89,7 +89,17 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
           })
     }
 
-    $scope.star = () => {
+    $scope.star = function () {
       console.log('starred this person');
     }
 }
+
+
+
+
+
+
+
+
+
+

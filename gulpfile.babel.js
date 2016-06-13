@@ -141,7 +141,7 @@ gulp.task('images', () => {
   return gulp.src(paths.images)
              .pipe(changed('client/dist/images'))
              .pipe(imagemin({
-                proressive: true,
+                progressive: true,
                 interlaced: true,
                 multipass: true,
                 optimizationLevel: 5,

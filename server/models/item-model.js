@@ -27,7 +27,7 @@ itemSchema.statics.submit = function(item, cb) {
       name: name,
       user: userId
     };
-        
+
     var newItem = new Item(addedItem);
     console.log('___#3___This is the new item! (Item model method.)', newItem);
 

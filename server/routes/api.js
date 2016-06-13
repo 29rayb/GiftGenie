@@ -42,6 +42,7 @@ router.put('/me/items/delete', function(req, res) {
   var clickedItemId = req.body._id;
   var clickedItemName = req.body.name;
 
+//Figure out why using 'name' instead of the 'id'.
   User.findByIdAndUpdate(req.user, {$pull : { "items" : { "name" : clickedItemName }}}, function(err, user) {
     if(err){
       res.status(400).send(err);
@@ -57,7 +58,7 @@ router.put('/me/items/delete', function(req, res) {
 //Route #4: Editting an item on a wishlist (updates both Mongo models).
 
 router.put('/me/items/edit', function(req, res) {
-  console.log(req.user, "<-- (MongoID) EDIT REQUEST in API.JS!!**");
+  // console.log(req.user, "<-- (MongoID) EDIT REQUEST in API.JS!!**");
 
   var editItem = req.body;
   console.log(editItem, "Editted item to save.");
@@ -77,27 +78,32 @@ router.put('/me/items/edit', function(req, res) {
     // var new = user.items.ObjectId.str;
     // console.log(user.items.ObjectId.);
 
-    User.update({"items" : { $elemMatch: { "_id": editItemId.str }}}, { "name": editItemName, "link": editItemLink }, function(err, user) {
-      console.log('well were here');
-      if(err){
-        res.status(400).send(err);
-      }
-      Item.update( {"_id": editItemId}, { "name": editItemName,  "link": editItemLink }, function(err, item) {
-        console.log("YAY");
-        res.send(user);
-      });
-    });
+    User.update( {"items" : { $elemMatch: { "_id": editItemId.str }}},
+                           { "name": editItemName, "link": editItemLink },
+                           function(err, user) {
+                            console.log('well were here');
+                            if(err){
+                              res.status(400).send(err);
+                            }
+                            Item.update( {"_id": editItemId},
+                                         { "name": editItemName,
+                                           "link": editItemLink },
+                                          function(err, item) {
+                                            console.log("YAY");
+                                            res.send(user);
+                                          });
+                          });
   });
 });
 
 // Route #5: Get request to find Facebook friends.
-router.get('/me/:id/friends', function(req, res) {
-  console.log(req.user, "<--Facebook friends GET REQUEST.**");
-  console.log(res, "<--Facebook friends.**");
-  User.findById(req.user, function(err, user) {
-    console.log('USER INSIDE GET REQUEST', user);
-    res.status(err ? 400 : 200).send(err || user)
-  });
-})
+// router.get('/me/:id/friends', function(req, res) {
+//   console.log(req.user, "<--Facebook friends GET REQUEST.**");
+//   console.log(res, "<--Facebook friends.**");
+//   User.findById(req.user, function(err, user) {
+//     console.log('USER INSIDE GET REQUEST', user);
+//     res.status(err ? 400 : 200).send(err || user)
+//   });
+// })
 
 module.exports = router;

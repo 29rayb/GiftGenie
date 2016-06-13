@@ -10,6 +10,10 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     return $state.go('home');
   }
 
+  $scope.star = () => {
+    console.log('star in starred list')
+  }
+
   $scope.search = () => {
     // console.log(user, 'heres the user');
     // StarSvc.get_friends(user)
