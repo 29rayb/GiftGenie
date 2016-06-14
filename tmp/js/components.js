@@ -89,6 +89,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <div class="wishlist_container container col-xs-8">\n' +
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">Settings Container</h2>\n' +
+    '      <div ng-click="backToWlist()"><a>Back To My WishList</a></div>\n' +
     '    </div>\n' +
     '\n' +
     '    <div class="top_container">\n' +
@@ -185,17 +186,5 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '</div>\n' +
     '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('settings');
-} catch (e) {
-  module = angular.module('settings', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('settings/settings.html',
-    '<h1>SettingsCtrl</h1>');
 }]);
 })();

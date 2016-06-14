@@ -23,12 +23,18 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
   }).state('starred-lists', {
     url: '/starred-lists/:id',
     templateUrl: 'app/components/starred-lists/starred-lists.html',
-    controller: 'StarredCtrl'
+    controller: 'StarredCtrl',
+    resolve: {
+      getUser: function getUser(UserSvc) {
+        return UserSvc.getProfile();
+      }
+    }
   });
+
   $authProvider.facebook({
     clientId: '247255738962232',
     requiredUrlParams: ['scope'],
-    scope: ['user_friends']
+    scope: ['user_friends', 'email']
   });
 }
 'use strict';
@@ -46,10 +52,10 @@ StarSvc.$inject = ['$http'];
 
 function StarSvc($http) {
   return {
-    // get_friends: function(user) {
-    //   console.log("IN HERE. This is user in service", user);
-    //   return $http.get('/api/me/:id/friends', user);
-    // }
+    get_friends: function get_friends() {
+      console.log("IN HERE. This is user in service");
+      return $http.get('/api/me/:id/friends');
+    }
   };
 };
 'use strict';
@@ -113,24 +119,12 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
 }
 'use strict';
 
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
-
-function NavbarCtrl($scope, $state, NavSvc, $auth) {
-  $scope.isAuthenticated = function () {
-    return $auth.isAuthenticated();
-  };
-  $scope.logout = function () {
-    $auth.logout();
-    $state.go('home');
-  };
-}
-'use strict';
-
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
   // console.log('THESE ARE THE STATEPARMS', $stateParams.id)
   $scope.id = $stateParams.id;
+  $rootScope.fbook = $stateParams.facebook;
   $scope.settings = false;
 
   // console.log('is this the id in the url', $scope.id)
@@ -220,19 +214,29 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       $scope.public = true;
     };
   };
+
+  $scope.backToWlist = function () {
+    $scope.settings = false;
+  };
 }
 'use strict';
 
-angular.module('App').controller('SettingsCtrl', SettingsCtrl);
+angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
 
-function SettingsCtrl() {
-  console.log('in the settings ctrl');
+function NavbarCtrl($scope, $state, NavSvc, $auth) {
+  $scope.isAuthenticated = function () {
+    return $auth.isAuthenticated();
+  };
+  $scope.logout = function () {
+    $auth.logout();
+    $state.go('home');
+  };
 }
 'use strict';
 
-angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', StarredCtrl]);
+angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', StarredCtrl]);
 
-function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams) {
+function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, getUser, $stateParams) {
 
   if (!$auth.isAuthenticated()) {
     return $state.go('home');
@@ -243,15 +247,13 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   };
 
   $scope.search = function () {
-    // console.log(user, 'heres the user');
-    // StarSvc.get_friends(user)
-    // .then(function(user){
-    //   console.log(user, "here are the friends we would get back");
-    //   console.log('WTF');
-    // })
-    // .catch(function(err) {
-    //   console.error(err, 'Inside the Starred Ctrl, we have an error!');
-    // });
+    // var facebookId = .facebook;
+    // console.log('facebookId', facebookId)
+    StarSvc.get_friends().then(function () {
+      console.log("here are the friends we would get back");
+    }).catch(function (err) {
+      console.error(err, 'have no friends');
+    });
   };
 }
 'use strict';
