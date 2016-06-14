@@ -31,6 +31,24 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
   $authProvider.facebook({
     clientId: '247255738962232',
     requiredUrlParams: ['scope'],
-    scope: ['user_friends']
+    scope: ['user_friends',
+            'user_about_me',
+            'email',
+            'favorite_athletes',
+            'favorite_teams',
+            'inspirational_people',
+            'is_verified',
+            'sports',
+            'user_actions.books',
+            'user_actions.music',
+            'user_birthday',
+            'user_education_history',
+            'user_groups',
+            'user_hometown',
+            'user_likes',
+            'user_location',
+            'user_photos',
+
+           ]
   });
 }

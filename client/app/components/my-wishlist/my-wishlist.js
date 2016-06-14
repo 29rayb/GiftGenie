@@ -104,6 +104,10 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       }
     }
 
+    $scope.backToWlist = () => {
+      $scope.settings = false;
+    }
+
 }
 
 
