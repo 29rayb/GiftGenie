@@ -221,19 +221,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
-
-function NavbarCtrl($scope, $state, NavSvc, $auth) {
-  $scope.isAuthenticated = function () {
-    return $auth.isAuthenticated();
-  };
-  $scope.logout = function () {
-    $auth.logout();
-    $state.go('home');
-  };
-}
-'use strict';
-
 angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', StarredCtrl]);
 
 function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, getUser, $stateParams) {
@@ -254,6 +241,19 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, ge
     }).catch(function (err) {
       console.error(err, 'have no friends');
     });
+  };
+}
+'use strict';
+
+angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
+
+function NavbarCtrl($scope, $state, NavSvc, $auth) {
+  $scope.isAuthenticated = function () {
+    return $auth.isAuthenticated();
+  };
+  $scope.logout = function () {
+    $auth.logout();
+    $state.go('home');
   };
 }
 'use strict';
