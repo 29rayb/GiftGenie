@@ -2,9 +2,9 @@
 
 angular
   .module('App')
-  .controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', StarredCtrl])
+  .controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', StarredCtrl])
 
-function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams){
+function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, getUser, $stateParams){
 
   if(!$auth.isAuthenticated()){
     return $state.go('home');

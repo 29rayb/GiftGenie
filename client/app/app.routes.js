@@ -26,8 +26,14 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
     .state('starred-lists', {
       url: '/starred-lists/:id',
       templateUrl: 'app/components/starred-lists/starred-lists.html',
-      controller: 'StarredCtrl'
+      controller: 'StarredCtrl',
+      resolve: {
+        getUser: function(UserSvc) {
+          return UserSvc.getProfile();
+        }
+      }
     })
+
   $authProvider.facebook({
     clientId: '247255738962232',
     requiredUrlParams: ['scope'],
