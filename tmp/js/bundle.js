@@ -34,7 +34,7 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
   $authProvider.facebook({
     clientId: '247255738962232',
     requiredUrlParams: ['scope'],
-    scope: ['user_friends', 'email']
+    scope: ['user_friends', 'email', 'user_birthday', 'user_likes']
   });
 }
 'use strict';
@@ -54,7 +54,7 @@ function StarSvc($http) {
   return {
     get_friends: function get_friends() {
       console.log("IN HERE. This is user in service");
-      return $http.get('/api/me/:id/friends');
+      return $http.get('/api/me/friends');
     }
   };
 };
@@ -104,7 +104,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
       // this has to be done before state.go because facebook_email is needed but
       // after auth.authenticate because you are pressing the login with facebook button
       .then(function (response) {
-        var facebookId = response.data._id;
+        var facebookId = response.data.facebook;
         // var facebook_name = response.data.displayName;
         // var facebook_email = response.data.email;
         console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
@@ -134,12 +134,19 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   }
 
   UserSvc.getProfile().then(function (response) {
+    console.log(response.data, "response");
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
+    $rootScope.birthday = response.data.birthday;
     $rootScope.display_name = response.data.displayName;
     $rootScope.email = response.data.email;
     $rootScope.pro_pic = response.data.facebook;
     $rootScope.items = response.data.items;
+    $rootScope.friends = response.data.friends[0].name;
+
+    $rootScope.friendsLength = response.data.friends.length;
+
+    console.log(response.data.friends.length, 'friend length');
     // console.log("This is the data from GET request.", $rootScope.user);
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
@@ -221,9 +228,36 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', StarredCtrl]);
+angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
 
-function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, getUser, $stateParams) {
+function NavbarCtrl($scope, $state, NavSvc, $auth) {
+
+  $scope.friendsContainer = false;
+
+  $scope.isAuthenticated = function () {
+    return $auth.isAuthenticated();
+  };
+  $scope.logout = function () {
+    $auth.logout();
+    $state.go('home');
+  };
+
+  $scope.letterSearch = function (friend) {
+    if ($scope.friendsContainer === false) {
+      $scope.friendsContainer = true;
+      return (/w/i(friend.substring(0, 1))
+      );
+    } else {
+      $scope.friendsContainer = false;
+    }
+    console.log('friendsContainer', $scope.friendsContainer);
+  };
+}
+'use strict';
+
+angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
+
+function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
 
   if (!$auth.isAuthenticated()) {
     return $state.go('home');
@@ -236,24 +270,11 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, ge
   $scope.search = function () {
     // var facebookId = .facebook;
     // console.log('facebookId', facebookId)
-    StarSvc.get_friends().then(function () {
-      console.log("here are the friends we would get back");
+    StarSvc.get_friends().then(function (res) {
+      console.log(res.data, "here are the friends we would get back");
     }).catch(function (err) {
       console.error(err, 'have no friends');
     });
-  };
-}
-'use strict';
-
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
-
-function NavbarCtrl($scope, $state, NavSvc, $auth) {
-  $scope.isAuthenticated = function () {
-    return $auth.isAuthenticated();
-  };
-  $scope.logout = function () {
-    $auth.logout();
-    $state.go('home');
   };
 }
 'use strict';

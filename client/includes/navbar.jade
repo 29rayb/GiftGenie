@@ -1,6 +1,9 @@
 nav.navbar-container(ng-controller="NavbarCtrl")
   .container-fluid(ng-if="isAuthenticated()")
     a.navbar-brand.logo.navbar-links GiFTGENiE
+    input(type="text" placeholder="Search for Friends" ng-model="friends" ng-keypress="searchFriends()").friendInput
+    ul.friends_container(ng-if="friendsContainer")
+      li {{ friends }}
     ul.nav.nav-pills.navbar-right
       li
         span(ng-if='isAuthenticated()')
@@ -11,3 +14,4 @@ nav.navbar-container(ng-controller="NavbarCtrl")
       li
         span(ng-if='isAuthenticated()')
           a(ng-click="logout()").navbar-links.right Logout
+

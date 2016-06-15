@@ -10,14 +10,11 @@ button a:hover, div a:hover, i:hover {
 
 /* NAVBAR.JADE*/
 
-.nav-pills {
-    margin-top: 13px;
-}
-
 .nav-pills li {
     min-width: 135px;
     position: absolute;
     right: 0;
+    top: 5px;
 }
 
 .navbar-links.left {
@@ -43,6 +40,12 @@ button a:hover, div a:hover, i:hover {
     transition: all .25s ease-in-out;
 }
 
+.friendInput {
+    position: absolute;
+    top: 5px;
+    width: 250px;
+}
+
 a.navbar-links {
     font-family: Exo;
     color: #000;
@@ -55,6 +58,17 @@ li a.navbar-links:hover {
 li a.navbar-links {
     font-size: 18px;
 }
+
+.friends_container {
+    position: absolute;
+    top: 35px;
+    left: 133px;
+    width: 250px;
+    height: 250px;
+    background-color: #ff0;
+    z-index: 9999;
+}
+
 
 /* HOME*/
 

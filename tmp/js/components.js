@@ -47,6 +47,8 @@ module.run(['$templateCache', function($templateCache) {
     '      <p>{{email}}</p>\n' +
     '      <!-- need to get birthday from api call -->\n' +
     '      <p>{{birthday}}</p>\n' +
+    '      <p>{{friends}}</p>\n' +
+    '\n' +
     '      <button ng-click="star(user)" class="star_btn">\n' +
     '        <i class="fa fa-star"></i>\n' +
     '      </button>\n' +
@@ -161,7 +163,7 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '    <div class="pro_info col-xs-10">\n' +
     '      <p>MY NAME</p>\n' +
-    '      <p>Email:</p>\n' +
+    '      <p>{{email}}</p>\n' +
     '      <p>Birthday:</p>\n' +
     '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
     '    </div>\n' +
