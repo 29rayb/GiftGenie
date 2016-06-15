@@ -33,7 +33,7 @@
       <div ng-if="isAuthenticated()" class="container-fluid"><a class="navbar-brand logo navbar-links">GiFTGENiE</a>
         <input type="text" placeholder="Search for Friends" ng-model="search" ng-keypress="searchFriends()" ng-focus="focused()" ng-blur="blurred()" class="friendInput">
         <ul ng-if="friendsContainer" ng-models="friends" class="friends_container">
-          <li ng-repeat="name in nameArr | filter:search" class="searchedFriend"><img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=small" class="searchFriendsPic">{{ name }}</li>
+          <li ng-repeat="name in nameArr | filter:search" class="searchedFriend"><img ng-repeat="id in idArr" ng-src="https://graph.facebook.com/{{id}}/picture?type=small" class="searchFriendsPic">{{ name }}</li>
         </ul>
         <ul class="nav nav-pills navbar-right">
           <li><span ng-if="isAuthenticated()"><a ui-sref="my-wishlist" class="navbar-links left">{{display_name}}</a></span></li>

@@ -16,22 +16,22 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
 
   $scope.searchFriends = () => {
     var length = $rootScope.friendsLength
-    $scope.idArr = [],
-    $scope.nameArr = [];
+    $scope.userModel = [];
     UserSvc.getProfile()
       .then((res) => {
         for (var i = 0; i < length; i++){
-          console.log('this is the object', res.data.friends)
-          $scope.id = res.data.friends[i].id
-          $scope.idArr.push($scope.id)
-          $scope.name = res.data.friends[i].name
-          $scope.nameArr.push($scope.name);
+          $scope.userModel[i] = {
+            "name": res.data.friends[i].name,
+            "id": res.data.friends[i].id
+          };
         }
+        console.log('userModel', $scope.userModel)
       })
   }
 
   $scope.focused = () => {
     $scope.friendsContainer = true;
+    $scope.searchFriends()
   }
 
   $scope.blurred = () => {
