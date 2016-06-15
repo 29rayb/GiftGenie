@@ -2,9 +2,9 @@
 
 angular
   .module('App')
-  .controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', StarredCtrl])
+  .controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl])
 
-function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, getUser, $stateParams){
+function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope){
 
   if(!$auth.isAuthenticated()){
     return $state.go('home');
@@ -18,8 +18,8 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, ge
     // var facebookId = .facebook;
     // console.log('facebookId', facebookId)
     StarSvc.get_friends()
-    .then(function(){
-      console.log("here are the friends we would get back");
+    .then(function(res){
+      console.log(res.data, "here are the friends we would get back");
     })
     .catch(function(err) {
       console.error(err, 'have no friends');

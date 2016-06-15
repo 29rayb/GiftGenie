@@ -18,12 +18,19 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     UserSvc.getProfile()
       .then((response) => {
+        console.log(response.data, "response")
           $rootScope.user = response.data;
           $rootScope.id = response.data._id;
+          $rootScope.birthday = response.data.birthday;
           $rootScope.display_name = response.data.displayName
           $rootScope.email = response.data.email
           $rootScope.pro_pic = response.data.facebook
           $rootScope.items = response.data.items;
+          $rootScope.friends = response.data.friends[0].name;
+
+          $rootScope.friendsLength = response.data.friends.length;
+
+          console.log(response.data.friends.length, 'friend length')
           // console.log("This is the data from GET request.", $rootScope.user);
       })
       .catch((err) => {

@@ -16,7 +16,7 @@ var User = require('../models/user-model');
 */
 
 router.post('/facebook', function(req, res) {
-  var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name', 'education'];
+  var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name', 'education', 'birthday', 'friends'];
   var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
   var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + fields.join(',');
   var params = {
@@ -37,6 +37,8 @@ router.post('/facebook', function(req, res) {
     // STEP 2. Retrieve profile information about the current user.
     request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(err, response, profile) {
       console.log('THIS IS THE FACEBOOK PROFILE:', profile);
+                  console.log("friends", profile.friends.data)
+
 
       if (response.statusCode !== 200) {
         return res.status(500).send({ message: profile.error.message });
@@ -58,10 +60,13 @@ router.post('/facebook', function(req, res) {
               return res.status(400).send({ message: 'User not found' });
             }
             //Or: (Success)
+
             user.facebook = profile.id;
             user.picture = user.picture || 'https://graph.facebook.com/v2.3/' + profile.id + '/picture?type=large';
             user.displayName = user.displayName || profile.name;
             user.email = user.email || profile.email;
+            user.birthday = user.birthday || profile.birthday;
+            user.friends = user.friends.data || profile.friends.data;
             user.save(function() {
               var token = user.createJWT();
               res.send({ token: token, user:user });
@@ -85,6 +90,8 @@ router.post('/facebook', function(req, res) {
           user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
           user.displayName = profile.name;
           user.email = profile.email;
+          user.birthday = profile.birthday;
+          user.friends = profile.friends.data;
           console.log("STEP 3 - auth route - creating new user");
           user.save(function() {
             console.log("We've created the JWT token.");
