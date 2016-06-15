@@ -17,7 +17,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc){
         // this has to be done before state.go because facebook_email is needed but
         // after auth.authenticate because you are pressing the login with facebook button
         .then((response) => {
-          var facebookId = response.data._id;
+          var facebookId = response.data.facebook;
           // var facebook_name = response.data.displayName;
           // var facebook_email = response.data.email;
           console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
