@@ -2,12 +2,9 @@
 
 angular
   .module('App')
-  .controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
+  .controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
 
-function NavbarCtrl($scope, $state, NavSvc, $auth){
-  $scope.friendsContainer = false;
-
-  $scope.friendsContainer = false;
+function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
 
   $scope.isAuthenticated = () => {
     return $auth.isAuthenticated();
@@ -18,9 +15,27 @@ function NavbarCtrl($scope, $state, NavSvc, $auth){
   }
 
   $scope.searchFriends = () => {
+    var length = $rootScope.friendsLength
+    $scope.idArr = [],
+    $scope.nameArr = [];
+    UserSvc.getProfile()
+      .then((res) => {
+        for (var i = 0; i < length; i++){
+          console.log('this is the object', res.data.friends)
+          $scope.id = res.data.friends[i].id
+          $scope.idArr.push($scope.id)
+          $scope.name = res.data.friends[i].name
+          $scope.nameArr.push($scope.name);
+        }
+      })
+  }
 
+  $scope.focused = () => {
     $scope.friendsContainer = true;
-    console.log('friendsContainer', $scope.friendsContainer)
+  }
+
+  $scope.blurred = () => {
+    $scope.friendsContainer = false;
   }
 
 }

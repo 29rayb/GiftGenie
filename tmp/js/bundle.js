@@ -141,7 +141,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.display_name = response.data.displayName;
     $rootScope.email = response.data.email;
     $rootScope.pro_pic = response.data.facebook;
+    console.log('THIS IS THE PRO PIC ID', $rootScope.pro_pic);
     $rootScope.items = response.data.items;
+    // $rootScope.pro_pic = response.data.picture
     $rootScope.friends = response.data.friends[0].name;
 
     $rootScope.friendsLength = response.data.friends.length;
@@ -228,11 +230,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
+angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
 
-function NavbarCtrl($scope, $state, NavSvc, $auth) {
-
-  $scope.friendsContainer = false;
+function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
 
   $scope.isAuthenticated = function () {
     return $auth.isAuthenticated();
@@ -242,15 +242,26 @@ function NavbarCtrl($scope, $state, NavSvc, $auth) {
     $state.go('home');
   };
 
-  $scope.letterSearch = function (friend) {
-    if ($scope.friendsContainer === false) {
-      $scope.friendsContainer = true;
-      return (/w/i(friend.substring(0, 1))
-      );
-    } else {
-      $scope.friendsContainer = false;
-    }
-    console.log('friendsContainer', $scope.friendsContainer);
+  $scope.searchFriends = function () {
+    var length = $rootScope.friendsLength;
+    $scope.idArr = [], $scope.nameArr = [];
+    UserSvc.getProfile().then(function (res) {
+      for (var i = 0; i < length; i++) {
+        console.log('this is the object', res.data.friends);
+        $scope.id = res.data.friends[i].id;
+        $scope.idArr.push($scope.id);
+        $scope.name = res.data.friends[i].name;
+        $scope.nameArr.push($scope.name);
+      }
+    });
+  };
+
+  $scope.focused = function () {
+    $scope.friendsContainer = true;
+  };
+
+  $scope.blurred = function () {
+    $scope.friendsContainer = false;
   };
 }
 'use strict';

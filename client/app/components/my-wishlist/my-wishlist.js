@@ -25,7 +25,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
           $rootScope.display_name = response.data.displayName
           $rootScope.email = response.data.email
           $rootScope.pro_pic = response.data.facebook
+          console.log('THIS IS THE PRO PIC ID', $rootScope.pro_pic)
           $rootScope.items = response.data.items;
+          // $rootScope.pro_pic = response.data.picture 
           $rootScope.friends = response.data.friends[0].name;
 
           $rootScope.friendsLength = response.data.friends.length;
