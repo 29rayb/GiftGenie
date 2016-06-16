@@ -34,7 +34,6 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     })
   }
 
-
   // ui-sref="my-wishlist({id: {{user.id}}})"
 
   $scope.searchFriends = () => {

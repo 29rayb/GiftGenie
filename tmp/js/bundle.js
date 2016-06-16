@@ -82,6 +82,10 @@ function UserSvc($http) {
     getProfile: function getProfile() {
       return $http.get('/api/me');
     },
+    friendProfile: function friendProfile(friendId) {
+      console.log(friendId, 'Friend');
+      return $http.post('/api/friend', { params: { fid: friendId } });
+    },
     add_new: function add_new(item) {
       var item;
       console.log(item, "Here is the new item in our service.");
@@ -117,13 +121,6 @@ function faqCtrl($rootScope, $scope, getUser) {
   $scope.getAnswer = function () {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
-}
-'use strict';
-
-angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', FriendlistCtrl]);
-
-function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
-  console.log("hey");
 }
 
 'use strict';
@@ -281,36 +278,34 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
+angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', FriendlistCtrl]);
 
-function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
+function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
+  console.log("hey");
 
-  if (!$auth.isAuthenticated()) {
-    return $state.go('home');
-  }
+  console.log($stateParams, 'state params');
+  var friendId = $stateParams.fid;
 
-  $scope.star = function () {
-    console.log('star in starred list');
-  };
+  UserSvc.friendProfile(friendId).then(function (response) {
+    console.log(response.data, "response");
+    $scope.user = response.data;
+    $scope.id = response.data._id;
+    $scope.birthday = response.data.birthday;
+    $scope.display_name = response.data.displayName;
+    $scope.email = response.data.email;
+    $scope.pro_pic = response.data.facebook;
+    console.log('THIS IS THE PRO PIC ID', $scope.pro_pic);
+    $scope.items = response.data.items;
+    // $scope.pro_pic = response.data.picture
+    $scope.friends = response.data.friends[0].name;
 
-  $rootScope.display_name = getUser.data.displayName;
-  $rootScope.email = getUser.data.email;
-  $rootScope.birthday = getUser.data.birthday;
+    $scope.friendsLength = response.data.friends.length;
 
-  $scope.friendsContainer = true;
-  $scope.search = function () {
-    // var facebookId = .facebook;
-    // console.log('facebookId', facebookId)
-    StarSvc.get_friends().then(function (res) {
-      console.log(res.data, "here are the friends we would get back");
-    }).catch(function (err) {
-      console.error(err, 'have no friends');
-    });
-  };
-
-  $scope.show_user_info = function () {
-    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
-  };
+    console.log(response.data.friends.length, 'friend length');
+    console.log("This is the data from GET request.", $scope.user);
+  }).catch(function (err) {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
 }
 'use strict';
 
@@ -370,6 +365,39 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
   };
 
   // $scope.searchFriends();
+}
+'use strict';
+
+angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
+
+function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
+
+  if (!$auth.isAuthenticated()) {
+    return $state.go('home');
+  }
+
+  $scope.star = function () {
+    console.log('star in starred list');
+  };
+
+  $rootScope.display_name = getUser.data.displayName;
+  $rootScope.email = getUser.data.email;
+  $rootScope.birthday = getUser.data.birthday;
+
+  $scope.friendsContainer = true;
+  $scope.search = function () {
+    // var facebookId = .facebook;
+    // console.log('facebookId', facebookId)
+    StarSvc.get_friends().then(function (res) {
+      console.log(res.data, "here are the friends we would get back");
+    }).catch(function (err) {
+      console.error(err, 'have no friends');
+    });
+  };
+
+  $scope.show_user_info = function () {
+    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
+  };
 }
 'use strict';
 

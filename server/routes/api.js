@@ -116,4 +116,14 @@ router.put('/me/star', function(req, res){
 })
 
 
+router.post('/friend', function(req, res){
+  // console.log('FRIEND FACEBOOK ID', req.body.params)
+  var friendId = req.body.params.fid;
+  User.findOne({'facebook': friendId}, function(err, user){
+    // console.log('friend', user)
+    if (err) console.error(err)
+    res.send(user)
+  })
+})
+
 module.exports = router;

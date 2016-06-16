@@ -11,6 +11,10 @@ function UserSvc ($http) {
     getProfile: () => {
       return $http.get('/api/me');
     },
+    friendProfile: (friendId) => {
+      console.log(friendId, 'Friend')
+      return $http.post('/api/friend', {params: {fid: friendId}});
+    },
     add_new: (item) => {
       var item;
       console.log(item, "Here is the new item in our service.");

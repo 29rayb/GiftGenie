@@ -1,14 +1,51 @@
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
-<h1>hey</h1>
+<div class="main_container">
+
+  <div class="profile container col-xs-3">
+    <div class="pro_pic_container col-xs-10">
+      <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">
+    </div>
+    <div class="pro_info col-xs-10">
+      <p><i class="fa fa-user"></i>
+        <a href=""></a>
+        {{display_name}}
+      </p>
+      <p><i class="fa fa-envelope-o"></i>{{email}}</p>
+      <!-- need to get birthday from api call -->
+      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>
+
+      <button ng-click="star(user)" class="star_btn">
+        <i class="fa fa-star"></i>
+      </button>
+      <button ng-click="goToSettings()" class="settings">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="wishlist_container container col-xs-8" ng-if="!settings">
+    <div class="title_container">
+      <h2 class="my_wishlist_title">My WishList</h2>
+    </div>
+    <div class="top_container">
+      <!-- <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div> -->
+    </div>
+    <div class="bottom_container">
+      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>
+      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">
+      <ol ui-sortable ng-model="items" class="wishlist_items" >
+        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
+          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
+          <i class="fa fa-heart-o" ng-click="like(item, $index)" ng-class="like_heart"></i>
+          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
+          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
+        </li>
+      </ol>
+    </div>
+    <div class="fb_comments_container">
+<!--       <div class="fb-comments" data-href="http://localhost:3000/#/my-wishlist" data-numposts="5" data-order=by="social" data-width="280"></div>
+ -->      <!-- this is for when the app is deployed -->
+      <!-- <div class="fb-comments" data-href="https://giftsgenies.herokuapp.com/#/" data-width="464" data-numposts="10"></div> -->
+    </div>
+  </div>
+</div>
+

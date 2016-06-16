@@ -29,31 +29,6 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('friendWishlist');
-} catch (e) {
-  module = angular.module('friendWishlist', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('friend-wishlist/friend-wishlist.html',
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>\n' +
-    '<h1>hey</h1>');
-}]);
-})();
-
-(function(module) {
-try {
   module = angular.module('home');
 } catch (e) {
   module = angular.module('home', []);
@@ -78,6 +53,69 @@ module.run(['$templateCache', function($templateCache) {
     '</div>\n' +
     '\n' +
     '<video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('friendWishlist');
+} catch (e) {
+  module = angular.module('friendWishlist', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('friend-wishlist/friend-wishlist.html',
+    '<div class="main_container">\n' +
+    '\n' +
+    '  <div class="profile container col-xs-3">\n' +
+    '    <div class="pro_pic_container col-xs-10">\n' +
+    '      <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">\n' +
+    '    </div>\n' +
+    '    <div class="pro_info col-xs-10">\n' +
+    '      <p><i class="fa fa-user"></i>\n' +
+    '        <a href=""></a>\n' +
+    '        {{display_name}}\n' +
+    '      </p>\n' +
+    '      <p><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
+    '      <!-- need to get birthday from api call -->\n' +
+    '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
+    '\n' +
+    '      <button ng-click="star(user)" class="star_btn">\n' +
+    '        <i class="fa fa-star"></i>\n' +
+    '      </button>\n' +
+    '      <button ng-click="goToSettings()" class="settings">\n' +
+    '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
+    '      </button>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '\n' +
+    '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
+    '    <div class="title_container">\n' +
+    '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
+    '    </div>\n' +
+    '    <div class="top_container">\n' +
+    '      <!-- <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div> -->\n' +
+    '    </div>\n' +
+    '    <div class="bottom_container">\n' +
+    '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
+    '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
+    '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
+    '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
+    '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
+    '          <i class="fa fa-heart-o" ng-click="like(item, $index)" ng-class="like_heart"></i>\n' +
+    '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
+    '          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
+    '        </li>\n' +
+    '      </ol>\n' +
+    '    </div>\n' +
+    '    <div class="fb_comments_container">\n' +
+    '<!--       <div class="fb-comments" data-href="http://localhost:3000/#/my-wishlist" data-numposts="5" data-order=by="social" data-width="280"></div>\n' +
+    ' -->      <!-- this is for when the app is deployed -->\n' +
+    '      <!-- <div class="fb-comments" data-href="https://giftsgenies.herokuapp.com/#/" data-width="464" data-numposts="10"></div> -->\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
     '');
 }]);
 })();
