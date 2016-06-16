@@ -116,28 +116,30 @@ function faqCtrl($rootScope, $scope, getUser) {
 }
 'use strict';
 
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', '$rootScope', 'UserSvc', HomeCtrl]);
 
-function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
+function HomeCtrl($scope, $state, $auth, $http, $rootScope, UserSvc) {
   $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
     $auth.authenticate(provider, user).then(function (res) {
       console.log(res, 'This is the auth response in Home Ctlr.');
       var token = res.data;
       console.log(token, "This is our token. We're inside Home Ctlr.");
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
-        $state.go('my-wishlist', { id: facebookId });
+      UserSvc.getProfile().then(function (res) {
+        console.log(res, "RESPONSE FROM THE CALLLLLLLLLLLLLL*");
+        // $scope.loggedInPerson = res.data;
+        console.log('DATA ID INSIDE!!!!!!!', res.data._id);
+        var idWeNeed = res.data.facebook;
+        console.log(idWeNeed, 'id NEEDED');
+        console.log(res.data, 'res.data');
+        $scope.id = idWeNeed;
+        // var facebookId = res.data.facebook;
+        // $rootScope.facebookid = facebookId;
       }).catch(function (err) {
         console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
       });
+      console.log('$rootscope', $rootScope.birthday);
+      console.log('$scope', $scope);
+      $state.go('my-wishlist');
     }).catch(function (err) {
       console.error('Inside the Home Ctrl, we have an error!', err);
     });
@@ -269,39 +271,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
-
-function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
-
-  if (!$auth.isAuthenticated()) {
-    return $state.go('home');
-  }
-
-  $scope.star = function () {
-    console.log('star in starred list');
-  };
-
-  $rootScope.display_name = getUser.data.displayName;
-  $rootScope.email = getUser.data.email;
-  $rootScope.birthday = getUser.data.birthday;
-
-  $scope.friendsContainer = true;
-  $scope.search = function () {
-    // var facebookId = .facebook;
-    // console.log('facebookId', facebookId)
-    StarSvc.get_friends().then(function (res) {
-      console.log(res.data, "here are the friends we would get back");
-    }).catch(function (err) {
-      console.error(err, 'have no friends');
-    });
-  };
-
-  $scope.show_user_info = function () {
-    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
-  };
-}
-'use strict';
-
 angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
 
 function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
@@ -338,6 +307,39 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
   };
 
   // $scope.searchFriends();
+}
+'use strict';
+
+angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
+
+function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
+
+  if (!$auth.isAuthenticated()) {
+    return $state.go('home');
+  }
+
+  $scope.star = function () {
+    console.log('star in starred list');
+  };
+
+  $rootScope.display_name = getUser.data.displayName;
+  $rootScope.email = getUser.data.email;
+  $rootScope.birthday = getUser.data.birthday;
+
+  $scope.friendsContainer = true;
+  $scope.search = function () {
+    // var facebookId = .facebook;
+    // console.log('facebookId', facebookId)
+    StarSvc.get_friends().then(function (res) {
+      console.log(res.data, "here are the friends we would get back");
+    }).catch(function (err) {
+      console.error(err, 'have no friends');
+    });
+  };
+
+  $scope.show_user_info = function () {
+    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
+  };
 }
 'use strict';
 

@@ -40,10 +40,15 @@ router.put('/me/items/delete', function(req, res) {
   var clicked = req.body;
   console.log(clicked, "req.body");
   var clickedItemId = req.body._id;
+  console.log(clickedItemId, 'clicked item id');
   var clickedItemName = req.body.name;
+  console.log(clickedItemName, 'clicked item name');
 
-//Figure out why using 'name' instead of the 'id'.
-  User.findByIdAndUpdate(req.user, {$pull : { "items" : { "name" : clickedItemName }}}, function(err, user) {
+  var mongoose = require('mongoose');
+  var objectId = mongoose.Types.ObjectId(clickedItemId);
+  console.log(objectId, 'item object!');
+
+  User.findByIdAndUpdate(req.user, {$pull : { "items" : objectId }}, function(err, user) {
     if(err){
       res.status(400).send(err);
     }
@@ -81,20 +86,20 @@ router.put('/me/items/edit', function(req, res) {
 
     // cannot read property 'str' of undefined error needs to be fixed;
     User.update( {"items" : { $elemMatch: { "_id": editItemId.str }}},
-                           { "name": editItemName, "link": editItemLink },
-                           function(err, user) {
-                            console.log('well were here');
-                            if(err){
-                              res.status(400).send(err);
-                            }
-                            Item.update( {"_id": editItemId},
-                                         { "name": editItemName,
-                                           "link": editItemLink },
-                                          function(err, item) {
-                                            console.log("YAY");
-                                            res.send(user);
-                                          });
-                          });
+    { "name": editItemName, "link": editItemLink },
+    function(err, user) {
+      console.log('well were here');
+      if(err){
+        res.status(400).send(err);
+      }
+      Item.update( {"_id": editItemId},
+      { "name": editItemName,
+      "link": editItemLink },
+      function(err, item) {
+        console.log("YAY");
+        res.send(user);
+      });
+    });
   });
 });
 
@@ -112,21 +117,3 @@ router.put('/me/star', function(req, res){
 
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

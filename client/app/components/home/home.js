@@ -2,34 +2,36 @@
 
 angular
   .module('App')
-  .controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl])
+  .controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', '$rootScope', 'UserSvc', HomeCtrl])
 
-function HomeCtrl($scope, $state, $auth, $http, UserSvc){
+function HomeCtrl($scope, $state, $auth, $http, $rootScope, UserSvc){
   $scope.authenticate = function(provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
     $auth.authenticate(provider, user)
-      .then((res) => {
-        console.log(res, 'This is the auth response in Home Ctlr.');
-        var token = res.data;
-        console.log(token, "This is our token. We're inside Home Ctlr.")
+    .then(function(res) {
+      console.log(res, 'This is the auth response in Home Ctlr.');
+      var token = res.data;
+      console.log(token, "This is our token. We're inside Home Ctlr.")
       UserSvc.getProfile()
-        // this has to be done before state.go because facebook_email is needed but
-        // after auth.authenticate because you are pressing the login with facebook button
-        .then((response) => {
-          var facebookId = response.data.facebook;
-          // var facebook_name = response.data.displayName;
-          // var facebook_email = response.data.email;
-          console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-          $state.go('my-wishlist', {id: facebookId})
-        })
-        .catch((err) => {
-          console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-        });
+      .then(function(res) {
+        console.log(res, "RESPONSE FROM THE CALLLLLLLLLLLLLL*");
+        // $scope.loggedInPerson = res.data;
+        console.log('DATA ID INSIDE!!!!!!!', res.data._id);
+        var idWeNeed = res.data.facebook;
+        console.log(idWeNeed, 'id NEEDED');
+        console.log(res.data, 'res.data');
+        $scope.id = idWeNeed;
+        // var facebookId = res.data.facebook;
+        // $rootScope.facebookid = facebookId;
+      })
+      .catch((err) => {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+      console.log('$rootscope', $rootScope.birthday);
+      console.log('$scope', $scope);
+      $state.go('my-wishlist')
     })
     .catch((err) => {
       console.error('Inside the Home Ctrl, we have an error!', err);
     });
   };
-
 }
