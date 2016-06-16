@@ -8,7 +8,16 @@ angular.module('app.routes', []).config(['$stateProvider', '$urlRouterProvider',
 function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
   // $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/');
-  $stateProvider.state('home', {
+  $stateProvider.state('faq', {
+    url: '/faq',
+    templateUrl: 'app/components/faq/faq.html',
+    controller: 'faqCtrl',
+    resolve: {
+      getUser: function getUser(UserSvc) {
+        return UserSvc.getProfile();
+      }
+    }
+  }).state('home', {
     url: '/',
     templateUrl: 'app/components/home/home.html',
     controller: 'HomeCtrl'
@@ -88,6 +97,22 @@ function UserSvc($http) {
     }
   };
 };
+'use strict';
+
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl]);
+
+function faqCtrl($rootScope, $scope, getUser) {
+  $rootScope.display_name = getUser.data.displayName;
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
+    answer: "2nd" }, { question: "3. 3rd",
+    answer: "3rd" }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
 'use strict';
 
 angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
@@ -181,6 +206,19 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     window.location.reload(true);
   };
 
+  $scope.like_heart = "unliked_item";
+
+  $scope.like = function (item, $index) {
+
+    console.log('index of the item you liked', $index);
+    console.log('this is the item you liked', item);
+    if ($scope.like_heart === "liked_item") {
+      $scope.like_heart = "unliked_item";
+    } else {
+      $scope.like_heart = "liked_item";
+    }
+  };
+
   $scope.edit = function (item) {
     $scope.item = {};
     $scope.item.link = item.link;
@@ -244,20 +282,21 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
 
   $scope.searchFriends = function () {
     var length = $rootScope.friendsLength;
-    $scope.idArr = [], $scope.nameArr = [];
+    $scope.userModel = [];
     UserSvc.getProfile().then(function (res) {
+      // works because both arrays have same length;
       for (var i = 0; i < length; i++) {
-        console.log('this is the object', res.data.friends);
-        $scope.id = res.data.friends[i].id;
-        $scope.idArr.push($scope.id);
-        $scope.name = res.data.friends[i].name;
-        $scope.nameArr.push($scope.name);
+        $scope.userModel[i] = {
+          "name": res.data.friends[i].name,
+          "id": res.data.friends[i].id
+        };
       }
     });
   };
 
   $scope.focused = function () {
     $scope.friendsContainer = true;
+    $scope.searchFriends();
   };
 
   $scope.blurred = function () {
@@ -277,6 +316,10 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   $scope.star = function () {
     console.log('star in starred list');
   };
+
+  $rootScope.display_name = getUser.data.displayName;
+  $rootScope.email = getUser.data.email;
+  $rootScope.birthday = getUser.data.birthday;
 
   $scope.search = function () {
     // var facebookId = .facebook;

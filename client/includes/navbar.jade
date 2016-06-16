@@ -1,7 +1,8 @@
 nav.navbar-container(ng-controller="NavbarCtrl")
   .container-fluid(ng-if="isAuthenticated()")
     a.navbar-brand.logo.navbar-links GiFTGENiE
-    input(type="text" placeholder="Search for Friends" ng-model="search" ng-keypress="searchFriends()" ng-focus="focused()" ng-blur="blurred()").friendInput
+    input(type="text" placeholder="Search Friends" ng-model="search" ng-keypress="searchFriends()" ng-focus="focused()" ng-blur="blurred()").friendInput
+    i.fa.fa-search
     ul.friends_container(ng-if="friendsContainer" ng-models="friends")
       li.searchedFriend(ng-repeat="user in userModel | filter:search")
         img(ng-src="https://graph.facebook.com/{{user.id}}/picture?type=small").searchFriendsPic

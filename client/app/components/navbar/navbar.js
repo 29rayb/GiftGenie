@@ -19,13 +19,13 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     $scope.userModel = [];
     UserSvc.getProfile()
       .then((res) => {
+        // works because both arrays have same length;
         for (var i = 0; i < length; i++){
           $scope.userModel[i] = {
             "name": res.data.friends[i].name,
             "id": res.data.friends[i].id
           };
         }
-        console.log('userModel', $scope.userModel)
       })
   }
 

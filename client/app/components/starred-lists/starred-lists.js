@@ -14,6 +14,12 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     console.log('star in starred list')
   }
 
+  $rootScope.display_name = getUser.data.displayName
+  $rootScope.email = getUser.data.email
+  $rootScope.birthday = getUser.data.birthday;
+
+
+
   $scope.search = () => {
     // var facebookId = .facebook;
     // console.log('facebookId', facebookId)

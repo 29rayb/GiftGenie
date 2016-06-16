@@ -1,5 +1,34 @@
 (function(module) {
 try {
+  module = angular.module('faq');
+} catch (e) {
+  module = angular.module('faq', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('faq/faq.html',
+    '<div class="main_container">\n' +
+    '\n' +
+    '  <div class="faq container">\n' +
+    '    <h1>Frquently Asked Questions</h1>\n' +
+    '    <div class="search_faq_container">\n' +
+    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <ul class="faquestions">\n' +
+    '      <li ng-repeat="faq in faqs | filter:search">\n' +
+    '        <h5 ng-click="getAnswer()">{{faq.question}} </h5><br>\n' +
+    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}} </h6>\n' +
+    '      </li>\n' +
+    '    </ul>\n' +
+    '  </div>\n' +
+    '\n' +
+    '\n' +
+    '</div>');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('home');
 } catch (e) {
   module = angular.module('home', []);
@@ -43,10 +72,13 @@ module.run(['$templateCache', function($templateCache) {
     '      <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">\n' +
     '    </div>\n' +
     '    <div class="pro_info col-xs-10">\n' +
-    '      <p>{{display_name}}</p>\n' +
-    '      <p>{{email}}</p>\n' +
+    '      <p><i class="fa fa-user"></i>\n' +
+    '        <a href=""></a>\n' +
+    '        {{display_name}}\n' +
+    '      </p>\n' +
+    '      <p><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
     '      <!-- need to get birthday from api call -->\n' +
-    '      <p>{{birthday}}</p>\n' +
+    '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '\n' +
     '      <button ng-click="star(user)" class="star_btn">\n' +
     '        <i class="fa fa-star"></i>\n' +
@@ -66,11 +98,11 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '    <div class="bottom_container">\n' +
     '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
-    '      <input type="text" placeholder="search saved items" ng-model="search" class="items">\n' +
+    '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
     '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
-    '          <i class="fa fa-heart-o" ng-click="like(item)"></i>\n' +
+    '          <i class="fa fa-heart-o" ng-click="like(item, $index)" ng-class="like_heart"></i>\n' +
     '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
     '          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
     '        </li>\n' +
@@ -113,7 +145,7 @@ module.run(['$templateCache', function($templateCache) {
     '        <h4 class="modal-title" id="myModalLabel">Add an Item to your WishList</h4>\n' +
     '      </div>\n' +
     '      <div class="modal-body">\n' +
-    '        <input type="text" placeholder="link" ng-model="item.link" > <br>\n' +
+    '        <input type="text" placeholder="Link" ng-model="item.link" > <br>\n' +
     '        <input type="text" placeholder="Item Name" ng-model="item.name">\n' +
     '      </div>\n' +
     '      <div class="modal-footer">\n' +
@@ -154,16 +186,16 @@ module.run(['$templateCache', function($templateCache) {
   $templateCache.put('starred-lists/starred-lists.html',
     '<div class="main_container">\n' +
     '\n' +
-    '  <div class="container col-xs-3">\n' +
+    '  <div class="profile container col-xs-3">\n' +
     '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10">\n' +
     '    <div class="pro_pic_container col-xs-10">\n' +
     '      <!-- the following info will only be seen once searched and clicked on -->\n' +
     '      <video src="dist/images/love.mp4" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
     '    </div>\n' +
     '    <div class="pro_info col-xs-10">\n' +
-    '      <p>MY NAME</p>\n' +
+    '      <p>{{display_name}}</p>\n' +
     '      <p>{{email}}</p>\n' +
-    '      <p>Birthday:</p>\n' +
+    '      <p>{{birthday}}</p>\n' +
     '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
     '    </div>\n' +
     '  </div>\n' +
@@ -173,15 +205,6 @@ module.run(['$templateCache', function($templateCache) {
     '      <h2 class="my_wishlist_title">Starred</h2>\n' +
     '    </div>\n' +
     '    <div class="bottom_container">\n' +
-    '      <button ng-click="search()">Facebook Friend Wishlist Lookup</button>\n' +
-    '      <!-- <input type="text" placeholder="search starred wishlists" ng-model="search"> -->\n' +
-    '      <ol ui-sortable ng-model="items" class="wishlist_items">\n' +
-    '        <li class="wishlist_items_container starred col-lg-4 col-xs-12 col-sm-6" ng-repeat="item in items | filter:search">\n' +
-    '          <a href="" class="wishlist_item"><img src="http://m0.her.ie/wp-content/uploads/2014/06/grad-photo_opt.jpg" alt="" class="facebook_photo"></a>\n' +
-    '          <a href="" ><p class="facebook_name">{{item.name}} </p></a>\n' +
-    '          <i class="fa fa-star starred_wislist" ng-click="unstar($index)"></i>\n' +
-    '        </li>\n' +
-    '      </ol>\n' +
     '    </div>\n' +
     '  </div>\n' +
     '\n' +
