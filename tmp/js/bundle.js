@@ -245,6 +245,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   };
 
   $scope.star = function (user) {
+
     UserSvc.starPerson(user);
   };
 
@@ -264,6 +265,39 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
   $scope.backToWlist = function () {
     $scope.settings = false;
+  };
+}
+'use strict';
+
+angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
+
+function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
+
+  if (!$auth.isAuthenticated()) {
+    return $state.go('home');
+  }
+
+  $scope.star = function () {
+    console.log('star in starred list');
+  };
+
+  $rootScope.display_name = getUser.data.displayName;
+  $rootScope.email = getUser.data.email;
+  $rootScope.birthday = getUser.data.birthday;
+
+  $scope.friendsContainer = true;
+  $scope.search = function () {
+    // var facebookId = .facebook;
+    // console.log('facebookId', facebookId)
+    StarSvc.get_friends().then(function (res) {
+      console.log(res.data, "here are the friends we would get back");
+    }).catch(function (err) {
+      console.error(err, 'have no friends');
+    });
+  };
+
+  $scope.show_user_info = function () {
+    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
 }
 'use strict';
@@ -304,39 +338,6 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
   };
 
   // $scope.searchFriends();
-}
-'use strict';
-
-angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
-
-function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
-
-  if (!$auth.isAuthenticated()) {
-    return $state.go('home');
-  }
-
-  $scope.star = function () {
-    console.log('star in starred list');
-  };
-
-  $rootScope.display_name = getUser.data.displayName;
-  $rootScope.email = getUser.data.email;
-  $rootScope.birthday = getUser.data.birthday;
-
-  $scope.friendsContainer = true;
-  $scope.search = function () {
-    // var facebookId = .facebook;
-    // console.log('facebookId', facebookId)
-    StarSvc.get_friends().then(function (res) {
-      console.log(res.data, "here are the friends we would get back");
-    }).catch(function (err) {
-      console.error(err, 'have no friends');
-    });
-  };
-
-  $scope.show_user_info = function () {
-    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
-  };
 }
 'use strict';
 
