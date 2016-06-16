@@ -28,6 +28,11 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
       templateUrl: 'app/components/my-wishlist/my-wishlist.html',
       controller: 'WishlistCtrl'
     })
+    .state('friend-wishlist', {
+      url: '/my-wishlist/:id/friends/:fid',
+      templateUrl: 'app/components/friend-wishlist/friend-wishlist.html',
+      controller: 'FriendlistCtrl'
+    })
     .state('settings', {
       url: '/settings/:id',
       templateUrl: 'app/components/settings/settings.html',

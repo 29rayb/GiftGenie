@@ -29,6 +29,31 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
+  module = angular.module('friendWishlist');
+} catch (e) {
+  module = angular.module('friendWishlist', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('friend-wishlist/friend-wishlist.html',
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>\n' +
+    '<h1>hey</h1>');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('home');
 } catch (e) {
   module = angular.module('home', []);

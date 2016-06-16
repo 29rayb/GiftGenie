@@ -14,6 +14,29 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     $state.go('home')
   }
 
+  $scope.goToWishList = () => {
+    UserSvc.getProfile()
+    .then((response) => {
+      var facebookId = response.data.facebook;
+      // var facebook_name = response.data.displayName;
+      // var facebook_email = response.data.email;
+      console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+      $state.go('my-wishlist', {id: facebookId})
+    })
+  }
+
+  $scope.goToOthers = (user) => {
+    UserSvc.getProfile()
+      .then((response) => {
+      var myId = response.data.facebook;
+      console.log('MyId', myId)
+      $state.go('friend-wishlist', {id: myId, fid: user.id});
+    })
+  }
+
+
+  // ui-sref="my-wishlist({id: {{user.id}}})"
+
   $scope.searchFriends = () => {
     var length = $rootScope.friendsLength
     $rootScope.userModel = [];

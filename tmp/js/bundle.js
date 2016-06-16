@@ -25,6 +25,10 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
     url: '/my-wishlist/:id',
     templateUrl: 'app/components/my-wishlist/my-wishlist.html',
     controller: 'WishlistCtrl'
+  }).state('friend-wishlist', {
+    url: '/my-wishlist/:id/friends/:fid',
+    templateUrl: 'app/components/friend-wishlist/friend-wishlist.html',
+    controller: 'FriendlistCtrl'
   }).state('settings', {
     url: '/settings/:id',
     templateUrl: 'app/components/settings/settings.html',
@@ -116,30 +120,36 @@ function faqCtrl($rootScope, $scope, getUser) {
 }
 'use strict';
 
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', '$rootScope', 'UserSvc', HomeCtrl]);
+angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', FriendlistCtrl]);
 
-function HomeCtrl($scope, $state, $auth, $http, $rootScope, UserSvc) {
+function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
+  console.log("hey");
+}
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
   $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
     $auth.authenticate(provider, user).then(function (res) {
       console.log(res, 'This is the auth response in Home Ctlr.');
-      var token = res.data;
-      console.log(token, "This is our token. We're inside Home Ctlr.");
-      UserSvc.getProfile().then(function (res) {
-        console.log(res, "RESPONSE FROM THE CALLLLLLLLLLLLLL*");
-        // $scope.loggedInPerson = res.data;
-        console.log('DATA ID INSIDE!!!!!!!', res.data._id);
-        var idWeNeed = res.data.facebook;
-        console.log(idWeNeed, 'id NEEDED');
-        console.log(res.data, 'res.data');
-        $scope.id = idWeNeed;
-        // var facebookId = res.data.facebook;
-        // $rootScope.facebookid = facebookId;
+      // var token = res.data;
+      // console.log(token, "This is our token. We're inside Home Ctlr.")
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
+        $state.go('my-wishlist', { id: facebookId });
       }).catch(function (err) {
         console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
       });
-      console.log('$rootscope', $rootScope.birthday);
-      console.log('$scope', $scope);
-      $state.go('my-wishlist');
     }).catch(function (err) {
       console.error('Inside the Home Ctrl, we have an error!', err);
     });
@@ -271,45 +281,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
-
-function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
-
-  $scope.isAuthenticated = function () {
-    return $auth.isAuthenticated();
-  };
-  $scope.logout = function () {
-    $auth.logout();
-    $state.go('home');
-  };
-
-  $scope.searchFriends = function () {
-    var length = $rootScope.friendsLength;
-    $rootScope.userModel = [];
-    UserSvc.getProfile().then(function (res) {
-      // works because both arrays have same length;
-      for (var i = 0; i < length; i++) {
-        $rootScope.userModel[i] = {
-          "name": res.data.friends[i].name,
-          "id": res.data.friends[i].id
-        };
-      }
-    });
-  };
-
-  $scope.focused = function () {
-    $scope.friendsContainer = true;
-    $scope.searchFriends();
-  };
-
-  $scope.blurred = function () {
-    $scope.friendsContainer = false;
-  };
-
-  // $scope.searchFriends();
-}
-'use strict';
-
 angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
 
 function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
@@ -340,6 +311,65 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   $scope.show_user_info = function () {
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
+}
+'use strict';
+
+angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
+
+function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
+
+  $scope.isAuthenticated = function () {
+    return $auth.isAuthenticated();
+  };
+  $scope.logout = function () {
+    $auth.logout();
+    $state.go('home');
+  };
+
+  $scope.goToWishList = function () {
+    UserSvc.getProfile().then(function (response) {
+      var facebookId = response.data.facebook;
+      // var facebook_name = response.data.displayName;
+      // var facebook_email = response.data.email;
+      console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
+      $state.go('my-wishlist', { id: facebookId });
+    });
+  };
+
+  $scope.goToOthers = function (user) {
+    UserSvc.getProfile().then(function (response) {
+      var myId = response.data.facebook;
+      console.log('MyId', myId);
+      $state.go('friend-wishlist', { id: myId, fid: user.id });
+    });
+  };
+
+  // ui-sref="my-wishlist({id: {{user.id}}})"
+
+  $scope.searchFriends = function () {
+    var length = $rootScope.friendsLength;
+    $rootScope.userModel = [];
+    UserSvc.getProfile().then(function (res) {
+      // works because both arrays have same length;
+      for (var i = 0; i < length; i++) {
+        $rootScope.userModel[i] = {
+          "name": res.data.friends[i].name,
+          "id": res.data.friends[i].id
+        };
+      }
+    });
+  };
+
+  $scope.focused = function () {
+    $scope.friendsContainer = true;
+    $scope.searchFriends();
+  };
+
+  $scope.blurred = function () {
+    $scope.friendsContainer = false;
+  };
+
+  // $scope.searchFriends();
 }
 'use strict';
 
