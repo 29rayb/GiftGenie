@@ -25,7 +25,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
           $rootScope.display_name = response.data.displayName
           $rootScope.email = response.data.email
           $rootScope.pro_pic = response.data.facebook
+          console.log('THIS IS THE PRO PIC ID', $rootScope.pro_pic)
           $rootScope.items = response.data.items;
+          // $rootScope.pro_pic = response.data.picture 
           $rootScope.friends = response.data.friends[0].name;
 
           $rootScope.friendsLength = response.data.friends.length;
@@ -66,6 +68,19 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       window.location.reload(true)
     }
 
+    $scope.like_heart = "unliked_item"
+
+    $scope.like = (item, $index) => {
+
+      console.log('index of the item you liked', $index)
+      console.log('this is the item you liked', item)
+      if($scope.like_heart === "liked_item"){
+        $scope.like_heart = "unliked_item"
+      } else {
+        $scope.like_heart = "liked_item"
+      }
+    }
+
     $scope.edit = (item) => {
       $scope.item = {};
       $scope.item.link = item.link;
@@ -93,7 +108,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     }
 
     $scope.star = function (user) {
-      console.log('starred this person');
       UserSvc.starPerson(user)
     }
 
@@ -114,6 +128,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.backToWlist = () => {
       $scope.settings = false;
     }
+
 
 }
 

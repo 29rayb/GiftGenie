@@ -8,7 +8,16 @@ angular.module('app.routes', []).config(['$stateProvider', '$urlRouterProvider',
 function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
   // $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/');
-  $stateProvider.state('home', {
+  $stateProvider.state('faq', {
+    url: '/faq',
+    templateUrl: 'app/components/faq/faq.html',
+    controller: 'faqCtrl',
+    resolve: {
+      getUser: function getUser(UserSvc) {
+        return UserSvc.getProfile();
+      }
+    }
+  }).state('home', {
     url: '/',
     templateUrl: 'app/components/home/home.html',
     controller: 'HomeCtrl'
@@ -85,9 +94,26 @@ function UserSvc($http) {
     },
     starPerson: function starPerson(user) {
       console.log('starring this user', user);
+      return $http.put('/api/me/star', user);
     }
   };
 };
+'use strict';
+
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl]);
+
+function faqCtrl($rootScope, $scope, getUser) {
+  $rootScope.display_name = getUser.data.displayName;
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
+    answer: "2nd" }, { question: "3. 3rd",
+    answer: "3rd" }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
 'use strict';
 
 angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
@@ -141,7 +167,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.display_name = response.data.displayName;
     $rootScope.email = response.data.email;
     $rootScope.pro_pic = response.data.facebook;
+    console.log('THIS IS THE PRO PIC ID', $rootScope.pro_pic);
     $rootScope.items = response.data.items;
+    // $rootScope.pro_pic = response.data.picture
     $rootScope.friends = response.data.friends[0].name;
 
     $rootScope.friendsLength = response.data.friends.length;
@@ -179,6 +207,19 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     window.location.reload(true);
   };
 
+  $scope.like_heart = "unliked_item";
+
+  $scope.like = function (item, $index) {
+
+    console.log('index of the item you liked', $index);
+    console.log('this is the item you liked', item);
+    if ($scope.like_heart === "liked_item") {
+      $scope.like_heart = "unliked_item";
+    } else {
+      $scope.like_heart = "liked_item";
+    }
+  };
+
   $scope.edit = function (item) {
     $scope.item = {};
     $scope.item.link = item.link;
@@ -204,7 +245,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   };
 
   $scope.star = function (user) {
-    console.log('starred this person');
     UserSvc.starPerson(user);
   };
 
@@ -228,11 +268,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', NavbarCtrl]);
+angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
 
-function NavbarCtrl($scope, $state, NavSvc, $auth) {
-
-  $scope.friendsContainer = false;
+function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
 
   $scope.isAuthenticated = function () {
     return $auth.isAuthenticated();
@@ -242,16 +280,30 @@ function NavbarCtrl($scope, $state, NavSvc, $auth) {
     $state.go('home');
   };
 
-  $scope.letterSearch = function (friend) {
-    if ($scope.friendsContainer === false) {
-      $scope.friendsContainer = true;
-      return (/w/i(friend.substring(0, 1))
-      );
-    } else {
-      $scope.friendsContainer = false;
-    }
-    console.log('friendsContainer', $scope.friendsContainer);
+  $scope.searchFriends = function () {
+    var length = $rootScope.friendsLength;
+    $rootScope.userModel = [];
+    UserSvc.getProfile().then(function (res) {
+      // works because both arrays have same length;
+      for (var i = 0; i < length; i++) {
+        $rootScope.userModel[i] = {
+          "name": res.data.friends[i].name,
+          "id": res.data.friends[i].id
+        };
+      }
+    });
   };
+
+  $scope.focused = function () {
+    $scope.friendsContainer = true;
+    $scope.searchFriends();
+  };
+
+  $scope.blurred = function () {
+    $scope.friendsContainer = false;
+  };
+
+  // $scope.searchFriends();
 }
 'use strict';
 
@@ -267,6 +319,11 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     console.log('star in starred list');
   };
 
+  $rootScope.display_name = getUser.data.displayName;
+  $rootScope.email = getUser.data.email;
+  $rootScope.birthday = getUser.data.birthday;
+
+  $scope.friendsContainer = true;
   $scope.search = function () {
     // var facebookId = .facebook;
     // console.log('facebookId', facebookId)
@@ -275,6 +332,10 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     }).catch(function (err) {
       console.error(err, 'have no friends');
     });
+  };
+
+  $scope.show_user_info = function () {
+    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
 }
 'use strict';

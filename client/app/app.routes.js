@@ -8,6 +8,16 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
   // $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/');
   $stateProvider
+    .state('faq', {
+      url: '/faq',
+      templateUrl: 'app/components/faq/faq.html',
+      controller: 'faqCtrl',
+      resolve: {
+        getUser: function(UserSvc) {
+          return UserSvc.getProfile();
+        }
+      }
+    })
     .state('home', {
       url: '/',
       templateUrl: 'app/components/home/home.html',

@@ -23,6 +23,7 @@
     <script src="app/components/navbar/navbar.js"></script>
     <script src="app/components/my-wishlist/my-wishlist.js"></script>
     <script src="app/components/starred-lists/starred-lists.js"></script>
+    <script src="app/components/faq/faq.js"></script>
     <script src="app/shared/profile-card/profile-card.js"></script>
     <script src="app/services/nav.js"></script>
     <script src="app/services/user.js"></script>
@@ -31,10 +32,10 @@
   <body ng-app="App">
     <nav ng-controller="NavbarCtrl" class="navbar-container">
       <div ng-if="isAuthenticated()" class="container-fluid"><a class="navbar-brand logo navbar-links">GiFTGENiE</a>
-        <input type="text" placeholder="Search for Friends" ng-model="friends" class="friendInput">
-        <div class="friends_container">
-          <li ng-if="friendsContainer" ng-repeat="friend in friends | filter:letterSearch" class="friends_container"></li>
-        </div>
+        <input type="text" placeholder="Search Friends" ng-model="search" ng-keypress="searchFriends()" ng-focus="focused()" ng-blur="blurred()" class="friendInput"><i class="fa fa-search"></i>
+        <ul ng-if="friendsContainer" ng-models="friends" class="friends_container">
+          <li ng-repeat="user in userModel | filter:search" class="searchedFriend"><img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=small" class="searchFriendsPic">{{ user.name }}</li>
+        </ul>
         <ul class="nav nav-pills navbar-right">
           <li><span ng-if="isAuthenticated()"><a ui-sref="my-wishlist" class="navbar-links left">{{display_name}}</a></span></li>
           <li><span ng-if="isAuthenticated()"><a ui-sref="starred-lists" class="navbar-links middle">Starred Lists</a></span></li>
@@ -43,6 +44,6 @@
       </div>
     </nav>
     <ui-view></ui-view>
-    <footer class="footer">© 2016 -- All Rights Reserved. #Raychel</footer>
+    <footer class="footer">© 2016 - All Rights Reserved. #Raychel        <i ui-sref="faq" class="fa fa-info-circle"></i></footer>
   </body>
 </html>

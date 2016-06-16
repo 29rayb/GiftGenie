@@ -14,20 +14,19 @@ button a:hover, div a:hover, i:hover {
     min-width: 135px;
     position: absolute;
     right: 0;
-    top: 5px;
+    top: 10px;
 }
 
 .navbar-links.left {
-    color: black;
-    margin-right: 215px;
+    margin-right: 240px;
 }
 
 .navbar-links.middle {
-    margin-right: 100px;
+    margin-right: 120px;
 }
 
 .navbar-links.right {
-    margin-left: 50px;
+    margin-left: 40px;
 }
 
 .navbar-container {
@@ -35,20 +34,22 @@ button a:hover, div a:hover, i:hover {
     top: 0;
     left: 0;
     width: 100%;
-    background: rgba(250, 250, 250, 0.7);
-    color: #333;
+    height: 50px;
+    background: rgba(0,0,0,0.8);
     transition: all .25s ease-in-out;
 }
 
 .friendInput {
     position: absolute;
-    top: 5px;
+    top: 10px;
     width: 250px;
+    /*z-index: -5;*/
 }
 
 a.navbar-links {
     font-family: Exo;
-    color: #000;
+    color: #fff;
+    margin-top: 5px;
 }
 
 li a.navbar-links:hover {
@@ -64,11 +65,43 @@ li a.navbar-links {
     top: 35px;
     left: 133px;
     width: 250px;
-    height: 250px;
-    background-color: #ff0;
     z-index: 9999;
 }
 
+.friends_container li {
+  list-style-type: none;
+  background-color: #fff;
+  width: 250px;
+  margin-left: -40px;
+  height: 60px;
+  color: #000;
+}
+
+.friends_container li:hover {
+  background-color: rgb(189, 198, 207);
+  cursor: pointer;
+}
+
+.searchFriendsPic {
+  padding: 5px 10px;
+  margin-right: 10px;
+}
+
+.fa.fa-search {
+  width: 30px;
+  height: 30px;
+  margin-top: 10px;
+  margin-left: 250px;
+  background: #333;
+  border: 1px solid #fff;
+}
+
+i.fa.fa-search::before {
+  color: #fff;
+  position: relative;
+  top: 5px;
+  left: 5px;
+}
 
 /* HOME*/
 
@@ -169,7 +202,7 @@ p.logo {
 }
 
 .main_container .container {
-    margin-top: 50px;
+    margin-top: 70px;
 }
 
 .title_container {
@@ -188,7 +221,10 @@ p.logo {
 
 .my_wishlist_title {
     border: 1px solid black;
-    color: yellow;
+}
+
+.profile.container {
+  z-index: -1000;
 }
 
 .pro_pic_container, .pro_info {
@@ -212,17 +248,30 @@ p.logo {
     padding-left: 5px;
 }
 
+.pro_info i {
+  margin-right: 10px;
+}
+
 .add_btn {
-    position: absolute;
-    left: 25px;
-    margin-top: 8px;
-    background-color: transparent;
-    color: #435EAC;
+  position: absolute;
+  left: 30px;
+  margin-top: 5px;
+  border: 1px solid #435eac;
+  background: transparent;
+  color: #435eac;
+  width: 100px;
 }
 
 .add_btn:hover {
     background-color: #435EAC;
     color: #FFF;
+}
+
+input.searchItems {
+  position: relative;
+  top: 4px;
+  height: 40px;
+  width: 300px;
 }
 
 .star_btn {
@@ -240,7 +289,7 @@ p.logo {
 }
 
 .bottom_container {
-    border: 1px solid purple;
+  border: 1px solid purple;
 }
 
 .wishlist_item {
@@ -251,8 +300,15 @@ p.logo {
 }
 
 i.fa-heart-o {
-    position:absolute;
-    right: 66px;
+  position:absolute;
+  right: 66px;
+}
+
+i.fa-heart-o:hover,
+i.fa-trash:hover,
+i.fa-pencil-square-o:hover
+ {
+  font-weight: bold;
 }
 
 i.fa-trash {
@@ -260,9 +316,18 @@ i.fa-trash {
     right: 0px;
 }
 
+
 i.fa-pencil-square-o {
     position: absolute;
     right: 32px;
+}
+
+.liked_item {
+  background-color: yellow;
+}
+
+.unliked_item {
+  background-color: none;
 }
 
 .wishlist_items_container a, .wishlist_items_container i {
@@ -273,6 +338,14 @@ i.fa-pencil-square-o {
 .wishlist_items {
     margin-left: -10px;
     margin-top: 15px;
+}
+
+.wishlist_items li {
+  height: 30px;
+}
+
+.wishlist_item:hover {
+  background-color: rgb(189, 198, 207);
 }
 
 .like_share_container {
@@ -361,6 +434,64 @@ i.fa-pencil-square-o {
 .starred {
     height: 140px;
 }
+
+.user_card img {
+  min-width: 200px;
+  max-width: 200px;
+  max-height: 200px;
+  min-height: 200px;
+}
+
+.user_card img:hover {
+  cursor: pointer;
+}
+
+.user_name {
+  width: 200px;
+  background-color: rgb(189, 198, 207);
+}
+
+/*FAQ*/
+
+.faq.container {
+  padding: 15px;
+  border: 1px solid #000;
+  height: 500px;
+}
+
+.faq.container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.faquestions li {
+  list-style-type: none;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 25px;
+  max-width: 425px;
+}
+
+.faquestions h5:hover {
+  cursor:pointer;
+}
+
+.faq_answers {
+  background-color: green;
+  margin-left: 25px;
+}
+
+.search_faq_container {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+input.search_faqs {
+  display: inline-block;
+  width: 500px;
+}
+
 
 /* FOOTER.JADE*/
 .footer {

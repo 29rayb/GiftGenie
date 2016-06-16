@@ -1,30 +1,29 @@
 (function(module) {
 try {
-  module = angular.module('home');
+  module = angular.module('faq');
 } catch (e) {
-  module = angular.module('home', []);
+  module = angular.module('faq', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div>\n' +
+  $templateCache.put('faq/faq.html',
+    '<div class="main_container">\n' +
     '\n' +
-    '<div class="home_container">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
+    '  <div class="faq container">\n' +
+    '    <h1>Frquently Asked Questions</h1>\n' +
+    '    <div class="search_faq_container">\n' +
+    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <ul class="faquestions">\n' +
+    '      <li ng-repeat="faq in faqs | filter:search">\n' +
+    '        <h5 ng-click="getAnswer()">{{faq.question}} </h5><br>\n' +
+    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}} </h6>\n' +
+    '      </li>\n' +
+    '    </ul>\n' +
     '  </div>\n' +
-    '</div>\n' +
     '\n' +
-    '<video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted>\n' +
-    '');
+    '\n' +
+    '</div>');
 }]);
 })();
 
@@ -43,11 +42,13 @@ module.run(['$templateCache', function($templateCache) {
     '      <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">\n' +
     '    </div>\n' +
     '    <div class="pro_info col-xs-10">\n' +
-    '      <p>{{display_name}}</p>\n' +
-    '      <p>{{email}}</p>\n' +
+    '      <p><i class="fa fa-user"></i>\n' +
+    '        <a href=""></a>\n' +
+    '        {{display_name}}\n' +
+    '      </p>\n' +
+    '      <p><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
     '      <!-- need to get birthday from api call -->\n' +
-    '      <p>{{birthday}}</p>\n' +
-    '      <p>{{friends}}</p>\n' +
+    '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '\n' +
     '      <button ng-click="star(user)" class="star_btn">\n' +
     '        <i class="fa fa-star"></i>\n' +
@@ -67,11 +68,11 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '    <div class="bottom_container">\n' +
     '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
-    '      <input type="text" placeholder="search saved items" ng-model="search" class="items">\n' +
+    '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
     '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
-    '          <i class="fa fa-heart-o" ng-click="like(item)"></i>\n' +
+    '          <i class="fa fa-heart-o" ng-click="like(item, $index)" ng-class="like_heart"></i>\n' +
     '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
     '          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
     '        </li>\n' +
@@ -114,7 +115,7 @@ module.run(['$templateCache', function($templateCache) {
     '        <h4 class="modal-title" id="myModalLabel">Add an Item to your WishList</h4>\n' +
     '      </div>\n' +
     '      <div class="modal-body">\n' +
-    '        <input type="text" placeholder="link" ng-model="item.link" > <br>\n' +
+    '        <input type="text" placeholder="Link" ng-model="item.link" > <br>\n' +
     '        <input type="text" placeholder="Item Name" ng-model="item.name">\n' +
     '      </div>\n' +
     '      <div class="modal-footer">\n' +
@@ -147,6 +148,36 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
+  module = angular.module('home');
+} catch (e) {
+  module = angular.module('home', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/home.html',
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="home_container">\n' +
+    '  <div class="button_container">\n' +
+    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('starredLists');
 } catch (e) {
   module = angular.module('starredLists', []);
@@ -155,16 +186,16 @@ module.run(['$templateCache', function($templateCache) {
   $templateCache.put('starred-lists/starred-lists.html',
     '<div class="main_container">\n' +
     '\n' +
-    '  <div class="container col-xs-3">\n' +
-    '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10">\n' +
+    '  <div class="profile container col-xs-3">\n' +
+    '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10" ng-model="user.name">\n' +
     '    <div class="pro_pic_container col-xs-10">\n' +
     '      <!-- the following info will only be seen once searched and clicked on -->\n' +
     '      <video src="dist/images/love.mp4" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
     '    </div>\n' +
     '    <div class="pro_info col-xs-10">\n' +
-    '      <p>MY NAME</p>\n' +
+    '      <p>{{display_name}}</p>\n' +
     '      <p>{{email}}</p>\n' +
-    '      <p>Birthday:</p>\n' +
+    '      <p>{{birthday}}</p>\n' +
     '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
     '    </div>\n' +
     '  </div>\n' +
@@ -173,20 +204,20 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">Starred</h2>\n' +
     '    </div>\n' +
-    '    <div class="bottom_container">\n' +
-    '      <button ng-click="search()">Facebook Friend Wishlist Lookup</button>\n' +
-    '      <!-- <input type="text" placeholder="search starred wishlists" ng-model="search"> -->\n' +
-    '      <ol ui-sortable ng-model="items" class="wishlist_items">\n' +
-    '        <li class="wishlist_items_container starred col-lg-4 col-xs-12 col-sm-6" ng-repeat="item in items | filter:search">\n' +
-    '          <a href="" class="wishlist_item"><img src="http://m0.her.ie/wp-content/uploads/2014/06/grad-photo_opt.jpg" alt="" class="facebook_photo"></a>\n' +
-    '          <a href="" ><p class="facebook_name">{{item.name}} </p></a>\n' +
-    '          <i class="fa fa-star starred_wislist" ng-click="unstar($index)"></i>\n' +
-    '        </li>\n' +
-    '      </ol>\n' +
+    '    <div class="bottom_container col-xs-12">\n' +
+    '\n' +
+    '      <div ng-model="friends">\n' +
+    '        <div ng-repeat="user in userModel | filter:user.name">\n' +
+    '          <div class="user_card col-xs-12 col-sm-6">\n' +
+    '            <img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=large" ng-click="show_user_info()"> <br>\n' +
+    '            <h6 class="user_name" ng-if="clicked_card">{{user.name}}</h6>\n' +
+    '          </div>\n' +
+    '        </div>\n' +
+    '      </div>\n' +
+    '\n' +
     '    </div>\n' +
     '  </div>\n' +
     '\n' +
-    '</div>\n' +
-    '');
+    '</div>');
 }]);
 })();
