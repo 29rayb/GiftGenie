@@ -94,6 +94,7 @@ function UserSvc($http) {
     },
     starPerson: function starPerson(user) {
       console.log('starring this user', user);
+      return $http.put('/api/me/star', user);
     }
   };
 };
@@ -244,7 +245,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   };
 
   $scope.star = function (user) {
-    console.log('starred this person');
     UserSvc.starPerson(user);
   };
 
@@ -282,11 +282,11 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
 
   $scope.searchFriends = function () {
     var length = $rootScope.friendsLength;
-    $scope.userModel = [];
+    $rootScope.userModel = [];
     UserSvc.getProfile().then(function (res) {
       // works because both arrays have same length;
       for (var i = 0; i < length; i++) {
-        $scope.userModel[i] = {
+        $rootScope.userModel[i] = {
           "name": res.data.friends[i].name,
           "id": res.data.friends[i].id
         };
@@ -302,6 +302,8 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
   $scope.blurred = function () {
     $scope.friendsContainer = false;
   };
+
+  // $scope.searchFriends();
 }
 'use strict';
 
@@ -321,6 +323,7 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   $rootScope.email = getUser.data.email;
   $rootScope.birthday = getUser.data.birthday;
 
+  $scope.friendsContainer = true;
   $scope.search = function () {
     // var facebookId = .facebook;
     // console.log('facebookId', facebookId)
@@ -329,6 +332,10 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     }).catch(function (err) {
       console.error(err, 'have no friends');
     });
+  };
+
+  $scope.show_user_info = function () {
+    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
 }
 'use strict';

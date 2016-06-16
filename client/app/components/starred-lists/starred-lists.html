@@ -1,7 +1,7 @@
 <div class="main_container">
 
   <div class="profile container col-xs-3">
-    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10">
+    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10" ng-model="user.name">
     <div class="pro_pic_container col-xs-10">
       <!-- the following info will only be seen once searched and clicked on -->
       <video src="dist/images/love.mp4" class="col-xs-12 pro_pic" autoplay loop muted></video>
@@ -18,7 +18,17 @@
     <div class="title_container">
       <h2 class="my_wishlist_title">Starred</h2>
     </div>
-    <div class="bottom_container">
+    <div class="bottom_container col-xs-12">
+
+      <div ng-model="friends">
+        <div ng-repeat="user in userModel | filter:user.name">
+          <div class="user_card col-xs-12 col-sm-6">
+            <img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=large" ng-click="show_user_info()"> <br>
+            <h6 class="user_name" ng-if="clicked_card">{{user.name}}</h6>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 

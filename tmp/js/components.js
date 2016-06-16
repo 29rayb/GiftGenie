@@ -29,36 +29,6 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('home');
-} catch (e) {
-  module = angular.module('home', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div>\n' +
-    '\n' +
-    '<div class="home_container">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '\n' +
-    '<video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
   module = angular.module('myWishlist');
 } catch (e) {
   module = angular.module('myWishlist', []);
@@ -178,6 +148,36 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
+  module = angular.module('home');
+} catch (e) {
+  module = angular.module('home', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/home.html',
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="home_container">\n' +
+    '  <div class="button_container">\n' +
+    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('starredLists');
 } catch (e) {
   module = angular.module('starredLists', []);
@@ -187,7 +187,7 @@ module.run(['$templateCache', function($templateCache) {
     '<div class="main_container">\n' +
     '\n' +
     '  <div class="profile container col-xs-3">\n' +
-    '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10">\n' +
+    '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10" ng-model="user.name">\n' +
     '    <div class="pro_pic_container col-xs-10">\n' +
     '      <!-- the following info will only be seen once searched and clicked on -->\n' +
     '      <video src="dist/images/love.mp4" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
@@ -204,11 +204,20 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">Starred</h2>\n' +
     '    </div>\n' +
-    '    <div class="bottom_container">\n' +
+    '    <div class="bottom_container col-xs-12">\n' +
+    '\n' +
+    '      <div ng-model="friends">\n' +
+    '        <div ng-repeat="user in userModel | filter:user.name">\n' +
+    '          <div class="user_card col-xs-12 col-sm-6">\n' +
+    '            <img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=large" ng-click="show_user_info()"> <br>\n' +
+    '            <h6 class="user_name" ng-if="clicked_card">{{user.name}}</h6>\n' +
+    '          </div>\n' +
+    '        </div>\n' +
+    '      </div>\n' +
+    '\n' +
     '    </div>\n' +
     '  </div>\n' +
     '\n' +
-    '</div>\n' +
-    '');
+    '</div>');
 }]);
 })();

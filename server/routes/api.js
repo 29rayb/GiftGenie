@@ -106,6 +106,19 @@ router.put('/me/items/edit', function(req, res) {
 //   });
 // })
 
+// Favorite User's Wishlist
+router.put('/me/star', function(req, res){
+  console.log('favorites array to update', req.body.favorites)
+  console.log('@@@@@@req.user', req.user)
+  User.findById(req.user, function(err, user){
+    if (!user){
+      return res.status(400).send({messages: 'User Not Found'})
+    }
+    console.log('!!!!!!!!!user in the robomongo', user)
+  })
+})
+
+
 module.exports = router;
 
 

@@ -18,8 +18,7 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   $rootScope.email = getUser.data.email
   $rootScope.birthday = getUser.data.birthday;
 
-
-
+  $scope.friendsContainer = true;
   $scope.search = () => {
     // var facebookId = .facebook;
     // console.log('facebookId', facebookId)
@@ -30,5 +29,9 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     .catch(function(err) {
       console.error(err, 'have no friends');
     });
+  }
+
+  $scope.show_user_info = () => {
+    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   }
 }

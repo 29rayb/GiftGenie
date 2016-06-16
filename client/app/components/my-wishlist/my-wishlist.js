@@ -108,7 +108,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     }
 
     $scope.star = function (user) {
-      console.log('starred this person');
       UserSvc.starPerson(user)
     }
 

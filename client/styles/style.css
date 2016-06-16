@@ -435,6 +435,22 @@ i.fa-pencil-square-o {
     height: 140px;
 }
 
+.user_card img {
+  min-width: 200px;
+  max-width: 200px;
+  max-height: 200px;
+  min-height: 200px;
+}
+
+.user_card img:hover {
+  cursor: pointer;
+}
+
+.user_name {
+  width: 200px;
+  background-color: rgb(189, 198, 207);
+}
+
 /*FAQ*/
 
 .faq.container {

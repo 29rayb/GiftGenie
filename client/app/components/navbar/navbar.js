@@ -16,12 +16,12 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
 
   $scope.searchFriends = () => {
     var length = $rootScope.friendsLength
-    $scope.userModel = [];
+    $rootScope.userModel = [];
     UserSvc.getProfile()
       .then((res) => {
         // works because both arrays have same length;
         for (var i = 0; i < length; i++){
-          $scope.userModel[i] = {
+          $rootScope.userModel[i] = {
             "name": res.data.friends[i].name,
             "id": res.data.friends[i].id
           };
@@ -38,4 +38,5 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     $scope.friendsContainer = false;
   }
 
+  // $scope.searchFriends();
 }
