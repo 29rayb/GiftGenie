@@ -111,6 +111,7 @@ router.put('/me/star', function(req, res){
     if (!user){
       return res.status(400).send({messages: 'User Not Found'})
     }
+    User.update({"favorites": {$push: {req}} })
     console.log('!!!!!!!!!user in the robomongo', user)
   })
 })
@@ -125,5 +126,16 @@ router.post('/friend', function(req, res){
     res.send(user)
   })
 })
+
+
+// List of all followers
+
+
+
+
+
+
+
+
 
 module.exports = router;

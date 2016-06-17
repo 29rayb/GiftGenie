@@ -108,7 +108,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     }
 
     $scope.star = function (user) {
-
+      console.log('this is the user you are favoriting', user)
       UserSvc.starPerson(user)
     }
 
