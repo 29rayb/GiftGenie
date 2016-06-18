@@ -131,11 +131,4 @@ router.post('/friend', function(req, res){
 // List of all followers
 
 
-
-
-
-
-
-
-
 module.exports = router;
