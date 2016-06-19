@@ -103,6 +103,10 @@ function UserSvc($http) {
     starPerson: function starPerson(user) {
       console.log('starring this user', user);
       return $http.put('/api/me/star', user);
+    },
+    saveOrder: function saveOrder(newOrder) {
+      console.log('new order in service', newOrder);
+      return $http.put('/api/me/items/order', newOrder);
     }
   };
 };
@@ -189,6 +193,7 @@ angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
   // console.log('THESE ARE THE STATEPARMS', $stateParams.id)
+
   $scope.id = $stateParams.id;
   $rootScope.fbook = $stateParams.facebook;
   $scope.settings = false;
@@ -305,6 +310,19 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
   $scope.backToWlist = function () {
     $scope.settings = false;
+  };
+
+  $scope.sort_list = function () {
+    var newOrder = $scope.items;
+    console.log('updated order array', newOrder);
+    UserSvc.saveOrder(newOrder);
+  };
+
+  $scope.sortableOptions = {
+    update: function update(e, ui) {
+      $scope.sort_list();
+    },
+    axis: 'y'
   };
 }
 'use strict';

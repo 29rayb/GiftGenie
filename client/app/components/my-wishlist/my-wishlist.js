@@ -6,6 +6,7 @@ angular
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
     // console.log('THESE ARE THE STATEPARMS', $stateParams.id)
+
     $scope.id = $stateParams.id;
     $rootScope.fbook = $stateParams.facebook;
     $scope.settings = false;
@@ -129,6 +130,17 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.backToWlist = () => {
       $scope.settings = false;
     }
+
+    $scope.sort_list = () => {
+      var newOrder = $scope.items 
+      console.log('updated order array', newOrder)
+      UserSvc.saveOrder(newOrder)
+    }
+
+    $scope.sortableOptions = {
+      update: function(e, ui){ $scope.sort_list() },
+      axis: 'y'
+    };
 
 
 }

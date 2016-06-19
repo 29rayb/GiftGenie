@@ -32,8 +32,9 @@
     <div class="bottom_container">
       <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>
       <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">
-      <ol ui-sortable ng-model="items" class="wishlist_items" >
+      <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >
         <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
+          <!-- <i ng-mouseup="sort_list(item, $index)"> {{$index+1}}</i> -->
           <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
           <i class="fa fa-heart-o" ng-click="like(item, $index)" ng-class="like_heart"></i>
           <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>

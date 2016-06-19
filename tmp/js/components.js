@@ -162,8 +162,9 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="bottom_container">\n' +
     '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
     '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
-    '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
+    '      <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
+    '          <!-- <i ng-mouseup="sort_list(item, $index)"> {{$index+1}}</i> -->\n' +
     '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
     '          <i class="fa fa-heart-o" ng-click="like(item, $index)" ng-class="like_heart"></i>\n' +
     '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +

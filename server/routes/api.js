@@ -103,6 +103,10 @@ router.put('/me/items/edit', function(req, res) {
   });
 });
 
+router.put('/me/items/order', function(req, res){
+  console.log('this is req body', req.body)
+})
+
 // Favorite User's Wishlist
 router.put('/me/star', function(req, res){
   console.log('favorites array to update', req.body.favorites)

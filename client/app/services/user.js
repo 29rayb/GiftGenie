@@ -32,6 +32,10 @@ function UserSvc ($http) {
     starPerson: (user) => {
       console.log('starring this user', user)
       return $http.put('/api/me/star', user)
+    },
+    saveOrder: (newOrder) => {
+      console.log('new order in service', newOrder);
+      return $http.put('/api/me/items/order', newOrder);
     }
   };
 };
