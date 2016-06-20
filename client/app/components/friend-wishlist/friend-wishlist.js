@@ -1,37 +1,48 @@
 'use strict';
 
 angular
-  .module('App')
-  .controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl])
+.module('App')
+.controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl])
 
-  function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
+function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
-    $rootScope.display_name = getUser.data.displayName
+  $rootScope.display_name = getUser.data.displayName
 
-    console.log($stateParams, 'state params');
-    var friendId = $stateParams.fid;
+  console.log($stateParams, 'state params');
+  var friendId = $stateParams.fid;
 
-    UserSvc.friendProfile(friendId)
-      .then((response) => {
-        console.log(response.data, "response")
-          $scope.user = response.data;
-          $scope.id = response.data._id;
-          $scope.birthday = response.data.birthday;
-          $scope.display_name = response.data.displayName
-          $scope.email = response.data.email
-          $scope.pro_pic = response.data.facebook
-          console.log('THIS IS THE PRO PIC ID', $scope.pro_pic)
-          $scope.items = response.data.items;
-          console.log('friends items', $scope.items);
-          // $scope.pro_pic = response.data.picture 
-          $scope.friends = response.data.friends[0].name;
+  UserSvc.friendProfile(friendId)
+  .then((response) => {
+    console.log(response.data, "response")
+    $scope.user = response.data.user;
+    $scope.id = response.data.user._id;
+    $scope.birthday = response.data.user.birthday;
+    $scope.display_name = response.data.user.displayName
+    $scope.email = response.data.user.email
+    $scope.pro_pic = response.data.user.facebook
+    $scope.items = response.data.items;
+    console.log('friends items', $scope.items);
+    $scope.allFriendFriends = response.data.user.friends;
 
-          $scope.friendsLength = response.data.friends.length;
+    var friendFriendArray = [];
+    for (var i=0; i<response.data.user.friends.length; i++) {
+      var friendFriendName = response.data.user.friends[i].name;
+      friendFriendArray.push(friendFriendName);
+    }
 
-          console.log(response.data.friends.length, 'friend length')
-          console.log("This is the data from GET request.", $scope.user);
-      })
-      .catch((err) => {
-          console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-      });
-  }
+    $scope.friends = friendFriendArray;
+    $scope.friendsLength = friendFriendArray.length;
+  })
+  .catch((err) => {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
+
+
+
+      $scope.star = function (user) {
+        console.log(user, 'user')
+        
+      // console.log('this is the user you are favoriting', user)
+      UserSvc.starPerson(user)
+    }
+}
