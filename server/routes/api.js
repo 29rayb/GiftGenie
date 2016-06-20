@@ -104,12 +104,21 @@ router.put('/me/star', function(req, res){
     if (!user){
       return res.status(400).send({messages: 'User Not Found'})
     }
+
+    console.log('favorites array', user.favorites)
+    console.log('req.user', req.user)
     if (user.favorites.indexOf(req.user) > -1){
-      console.log('item already in the favorites array');
+      User.update({"_id": req.user}, {$pull: {"favorites": req.user}}, function(err, user){
+      if(err){ res.status(400).send(err);}
+        console.log('wishlist already in the favorites array');
+        console.log('wishlist unfavorited');
+      })
       return;
     }
+
     // why can't we $push user.facebook ? it doesn;t save in robomongo
     User.update({"_id": req.user}, {$push: {"favorites": req.user}}, function(err, user){
+      if(err){ res.status(400).send(err);}
       console.log('this is the user that was added to your favorite', user)
       res.send(user)
     })
@@ -131,6 +140,7 @@ router.post('/friend', function(req, res){
     var eachItem = friendItems[i];
     // console.log(allFriendItems, 'ALL')
     Item.findById({'_id': eachItem}, function(err, item) {
+      if(err){ res.status(400).send(err);}
       allFriendItems.push(item)
       console.log(item, 'item')
     })
@@ -141,7 +151,7 @@ router.post('/friend', function(req, res){
     items: allFriendItems
   }
   // console.log(data, 'DATA')
-    if (err) console.error(err)
+    if(err){ res.status(400).send(err);}
     res.send(data)
   })
 })

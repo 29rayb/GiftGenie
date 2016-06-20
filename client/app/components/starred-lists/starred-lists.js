@@ -17,6 +17,7 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   $rootScope.display_name = getUser.data.displayName
   $rootScope.email = getUser.data.email
   $rootScope.birthday = getUser.data.birthday;
+  $rootScope.favorites = getUser.data.favorites;
 
   $scope.friendsContainer = true;
 
