@@ -124,7 +124,7 @@ router.post('/friend', function(req, res){
     var mongoose = require('mongoose');
     friendItems = friendItems.map(function(id) { return mongoose.Types.ObjectId(id) });
 
-    var allFriendItems = [];
+    // var allFriendItems = [];
 
     Item.find( {_id: { $in : friendItems }}, function(err, items) {
 
