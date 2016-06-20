@@ -128,7 +128,7 @@ router.post('/friend', function(req, res){
 
     Item.find( {_id: { $in : friendItems }}, function(err, items) {
 
-      console.log(items, '<-------Items');
+      console.log(items, '<-------Items.');
       var allItems = items;
 
       var data = {
