@@ -72,17 +72,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     $scope.like_heart = false
 
-    // $scope.like_item = ($index) => {
-
-    //   console.log('index of the item you liked', $index)
-
-    //   if($scope.like_heart === "liked_item"){
-    //     $scope.like_heart = "unliked_item"
-    //   } else {
-    //     $scope.like_heart = "liked_item"
-    //   }
-    // }
-
     $scope.edit = (item) => {
       $scope.item = {};
       $scope.item.link = item.link;
@@ -109,10 +98,12 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       UserSvc.delete_item(item, $index)
     }
 
-    $scope.star = function (user) {
-      console.log('this is the user you are favoriting', user)
-      UserSvc.starPerson(user)
-    }
+    $scope.favoriteWishlist = false;
+
+    // $scope.star = function (user) {
+    //   console.log('this is the user you are favoriting', user)
+    //   UserSvc.starPerson(user)
+    // }
 
     $scope.goToSettings = () => {
       $scope.settings = true;
