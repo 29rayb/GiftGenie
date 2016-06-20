@@ -69,18 +69,19 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       window.location.reload(true)
     }
 
-    $scope.like_heart = "unliked_item"
 
-    $scope.like = (item, $index) => {
+    $scope.like_heart = false
 
-      console.log('index of the item you liked', $index)
-      console.log('this is the item you liked', item)
-      if($scope.like_heart === "liked_item"){
-        $scope.like_heart = "unliked_item"
-      } else {
-        $scope.like_heart = "liked_item"
-      }
-    }
+    // $scope.like_item = ($index) => {
+
+    //   console.log('index of the item you liked', $index)
+
+    //   if($scope.like_heart === "liked_item"){
+    //     $scope.like_heart = "unliked_item"
+    //   } else {
+    //     $scope.like_heart = "liked_item"
+    //   }
+    // }
 
     $scope.edit = (item) => {
       $scope.item = {};
