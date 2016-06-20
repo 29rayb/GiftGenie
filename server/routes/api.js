@@ -3,6 +3,8 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jwt-simple');
+// var async = require("async");
+
 
 var User = require('../models/user-model');
 var Item = require('../models/item-model');
@@ -91,7 +93,7 @@ router.put('/me/items/order', function(req, res){
   }
 
   User.findById(req.user, function(err, user){
-    var userItems = user.items; 
+    var userItems = user.items;
     User.update({"_id": req.user}, {$set : {"items" : newUserItems}}, function(err, user){
       res.send(user)
     })
@@ -113,37 +115,30 @@ router.put('/me/items/order', function(req, res){
 
 
 router.post('/friend', function(req, res){
-  // console.log('FRIEND FACEBOOK ID', req.body.params)
   var friendId = req.body.params.fid;
   User.findOne({'facebook': friendId}, function(err, user){
-
-    console.log('friend', user)
     var friendItems = user.items;
-    console.log(friendItems, 'items FRIEND *********')
+    console.log(friendItems, 'items');
+    var mongoose = require('mongoose');
+    friendItems = friendItems.map(function(id) { return mongoose.Types.ObjectId(id) });
 
-for(var i=0; i<friendItems.length; i++) {
-var allFriendItems = [];
-  var eachItem = friendItems[i];
-  console.log(allFriendItems, 'ALL')
-  Item.findById({'_id': eachItem}, function(err, item) {
-  allFriendItems.push(item)
-    console.log(item, 'item')
-  })
-}
+    var allFriendItems = [];
 
-var data = {
-  user: user,
-  items: allFriendItems
-}
+    Item.find( {_id: { $in : friendItems }}, function(err, items) {
 
-console.log(data, 'DATA')
+      console.log(items, '<-------Items');
+      var allItems = items;
 
-    if (err) console.error(err)
-    res.send(data)
+      var data = {
+        user: user,
+        items: allItems
+      }
+      console.log(data, 'Data returned.')
+      if (err) console.error(err)
+      res.send(data)
+    })
   })
 })
 
-
-// List of all followers
 
 module.exports = router;

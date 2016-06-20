@@ -29,7 +29,7 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     UserSvc.getProfile()
       .then((response) => {
       var myId = response.data.facebook;
-      console.log('MyId', myId)
+      console.log('MyId TRYING TO CHANGE PAGE', myId)
       $state.go('friend-wishlist', {id: myId, fid: user.id});
     })
   }

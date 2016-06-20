@@ -131,6 +131,41 @@ function faqCtrl($rootScope, $scope, getUser) {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
+'use strict';
+
+angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
+
+function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
+
+  $rootScope.display_name = getUser.data.displayName;
+
+  console.log($stateParams, 'state params');
+  var friendId = $stateParams.fid;
+
+  UserSvc.friendProfile(friendId).then(function (response) {
+    console.log(response.data, "response");
+    $scope.user = response.data.user;
+    $scope.id = response.data.user._id;
+    $scope.birthday = response.data.user.birthday;
+    $scope.display_name = response.data.user.displayName;
+    $scope.email = response.data.user.email;
+    $scope.pro_pic = response.data.user.facebook;
+    $scope.items = response.data.items;
+    console.log('friends items', $scope.items);
+    $scope.allFriendFriends = response.data.user.friends;
+
+    var friendFriendArray = [];
+    for (var i = 0; i < response.data.user.friends.length; i++) {
+      var friendFriendName = response.data.user.friends[i].name;
+      friendFriendArray.push(friendFriendName);
+    }
+
+    $scope.friends = friendFriendArray;
+    $scope.friendsLength = friendFriendArray.length;
+  }).catch(function (err) {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
+}
 
 'use strict';
 
@@ -160,39 +195,6 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
       console.error('Inside the Home Ctrl, we have an error!', err);
     });
   };
-}
-'use strict';
-
-angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
-
-function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
-
-  $rootScope.display_name = getUser.data.displayName;
-
-  console.log($stateParams, 'state params');
-  var friendId = $stateParams.fid;
-
-  UserSvc.friendProfile(friendId).then(function (response) {
-    console.log(response.data, "response");
-    $scope.user = response.data;
-    $scope.id = response.data._id;
-    $scope.birthday = response.data.birthday;
-    $scope.display_name = response.data.displayName;
-    $scope.email = response.data.email;
-    $scope.pro_pic = response.data.facebook;
-    console.log('THIS IS THE PRO PIC ID', $scope.pro_pic);
-    $scope.items = response.data.items;
-    console.log('friends items', $scope.items);
-    // $scope.pro_pic = response.data.picture
-    $scope.friends = response.data.friends[0].name;
-
-    $scope.friendsLength = response.data.friends.length;
-
-    console.log(response.data.friends.length, 'friend length');
-    console.log("This is the data from GET request.", $scope.user);
-  }).catch(function (err) {
-    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  });
 }
 'use strict';
 
@@ -359,7 +361,7 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
   $scope.goToOthers = function (user) {
     UserSvc.getProfile().then(function (response) {
       var myId = response.data.facebook;
-      console.log('MyId', myId);
+      console.log('MyId TRYING TO CHANGE PAGE', myId);
       $state.go('friend-wishlist', { id: myId, fid: user.id });
     });
   };
