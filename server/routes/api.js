@@ -99,17 +99,18 @@ router.put('/me/items/order', function(req, res){
 })
 
 // Favorite User's Wishlist
-// router.put('/me/star', function(req, res){
-//   console.log('favorites array to update', req.body.favorites)
-//   console.log('@@@@@@req.user', req.user)
-//   User.findById(req.user, function(err, user){
-//     if (!user){
-//       return res.status(400).send({messages: 'User Not Found'})
-//     }
-//     User.update({"favorites": {$push: {req}} })
-//     console.log('!!!!!!!!!user in the robomongo', user)
-//   })
-// })
+router.put('/me/star', function(req, res){
+  User.findById(req.user, function(err, user){
+    if (!user){
+      return res.status(400).send({messages: 'User Not Found'})
+    }
+    // why can't we $push user.facebook ? it doesn;t save in robomongo
+    User.update({"_id": req.user}, {$push: {"favorites": req.user}}, function(err, user){
+      console.log('this is the user that was added to your favorite', user)
+      res.send(user)
+    })
+  })
+})
 
 
 router.post('/friend', function(req, res){
@@ -117,31 +118,46 @@ router.post('/friend', function(req, res){
   var friendId = req.body.params.fid;
   User.findOne({'facebook': friendId}, function(err, user){
 
-    console.log('friend', user)
-    var friendItems = user.items;
-    console.log(friendItems, 'items FRIEND *********')
+  // console.log('friend', user)
+  var friendItems = user.items;
+  // console.log(friendItems, 'items FRIEND *********')
 
-for(var i=0; i<friendItems.length; i++) {
-var allFriendItems = [];
-  var eachItem = friendItems[i];
-  console.log(allFriendItems, 'ALL')
-  Item.findById({'_id': eachItem}, function(err, item) {
-  allFriendItems.push(item)
-    console.log(item, 'item')
-  })
-}
+  for(var i=0; i<friendItems.length; i++) {
+    var allFriendItems = [];
+    var eachItem = friendItems[i];
+    // console.log(allFriendItems, 'ALL')
+    Item.findById({'_id': eachItem}, function(err, item) {
+      allFriendItems.push(item)
+      console.log(item, 'item')
+    })
+  }
 
-var data = {
-  user: user,
-  items: allFriendItems
-}
-
-console.log(data, 'DATA')
-
+  var data = {
+    user: user,
+    items: allFriendItems
+  }
+  // console.log(data, 'DATA')
     if (err) console.error(err)
     res.send(data)
   })
 })
+
+
+// like this item
+router.put('/items/liked', function(req, res){
+  var itemToLikeObj = req.body;
+  // console.log('itemToLikeObj', itemToLikeObj)
+  User.findById(req.user, function(err, user){
+    // console.log('this is supposed to be whoever liked the item', user)
+    Item.findById( {'_id': itemToLikeObj._id}, function(err, item){
+      console.log('item to like', item)
+    })
+  })
+})
+
+
+
+
 
 
 // List of all followers

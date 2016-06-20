@@ -13,7 +13,6 @@ let userSchema = Schema({
   displayName: String,
   picture: String,
   facebook: String,
-  // accessToken: String,
   email: String,
   birthday: String,
   favorites: [{type: Schema.Types.ObjectId, ref: "User"}],

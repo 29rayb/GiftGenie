@@ -36,6 +36,10 @@ function UserSvc ($http) {
     saveOrder: (newOrder) => {
       console.log('new order in service', newOrder);
       return $http.put('/api/me/items/order', newOrder);
+    },
+    likeItem: (item) => {
+      console.log('like this item', item);
+      return $http.put('/api/items/liked', item);
     }
   };
 };

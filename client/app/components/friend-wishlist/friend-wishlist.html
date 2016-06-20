@@ -9,13 +9,11 @@
         <a href=""></a>
         {{display_name}}
       </p>
-      <p><i class="fa fa-envelope-o"></i>{{email}}</p>
-      <!-- need to get birthday from api call -->
       <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>
+      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>
 
-      <button ng-click="star(user)" class="star_btn">
-        <i class="fa fa-star"></i>
-      </button>
+      <button class="btn btn-primary follow_button">Follow</button>
+
       <button ng-click="goToSettings()" class="settings">
         <i class="fa fa-cog" aria-hidden="true"></i>
       </button>
@@ -25,6 +23,9 @@
   <div class="wishlist_container container col-xs-8" ng-if="!settings">
     <div class="title_container">
       <h2 class="my_wishlist_title">My WishList</h2>
+      <button ng-click="star(user)" class="star_btn">
+        <i class="fa fa-star"></i>
+      </button>
     </div>
     <div class="top_container">
       <!-- <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div> -->

@@ -41,6 +41,7 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     $rootScope.userModel = [];
     UserSvc.getProfile()
       .then((res) => {
+        console.log('@#%#$@!$#%@#!#!$', res)
         // works because both arrays have same length;
         for (var i = 0; i < length; i++){
           $rootScope.userModel[i] = {
@@ -50,6 +51,15 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
         }
       })
   }
+
+  // $scope.getFavorites = () => {
+
+  // }
+
+  // UserSvc.getProfile()
+  // .then((res) => {
+  //   console.log('!@#!@#!@#@#@!#@!#@', res)
+  // })
 
   $scope.focused = () => {
     $scope.friendsContainer = true;

@@ -8,6 +8,7 @@ var Item;
 var itemSchema = Schema({
   link: String,
   name: String,
+  liked: Boolean,
   user: {type: Schema.Types.ObjectId, ref: "User"}
 });
 

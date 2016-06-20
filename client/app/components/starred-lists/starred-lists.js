@@ -19,17 +19,21 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   $rootScope.birthday = getUser.data.birthday;
 
   $scope.friendsContainer = true;
-  $scope.search = () => {
-    // var facebookId = .facebook;
-    // console.log('facebookId', facebookId)
-    StarSvc.get_friends()
-    .then(function(res){
-      console.log(res.data, "here are the friends we would get back");
-    })
-    .catch(function(err) {
-      console.error(err, 'have no friends');
-    });
-  }
+
+  // $scope.search = () => {
+  //   // var facebookId = .facebook;
+  //   // console.log('facebookId', facebookId)
+  //   StarSvc.get_friends()
+  //     .then(function(res){
+  //       console.log(res.data, "here are the friends we would get back");
+  //     })
+  //     .catch(function(err) {
+  //       console.error(err, 'have no friends');
+  //     });
+  // }
+  // 
+
+  $scope.
 
   $scope.show_user_info = () => {
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;

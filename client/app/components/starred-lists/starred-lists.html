@@ -20,7 +20,7 @@
     </div>
     <div class="bottom_container col-xs-12">
 
-      <div ng-model="friends">
+<!--       <div ng-model="favorites">
         <div ng-repeat="user in userModel | filter:user.name">
           <div class="user_card col-xs-12 col-sm-6">
             <img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=large" ng-click="show_user_info()"> <br>
@@ -28,8 +28,18 @@
           </div>
         </div>
       </div>
+ -->
+    <div ng-model="favorites">
+      <li ng-repeat="favorite in favorites">{{favorite}}</li>
+
+    </div>
 
     </div>
   </div>
 
 </div>
+
+
+
+
+
