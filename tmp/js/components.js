@@ -142,6 +142,8 @@ module.run(['$templateCache', function($templateCache) {
     '      <p><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
     '      <!-- need to get birthday from api call -->\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
+    '      <p>Followers: </p>\n' +
+    '      <p>Following: </p>\n' +
     '\n' +
     '      <button ng-click="favoriteWishlist = !favoriteWishlist" ng-class="{star_btn: favoriteWishlist}">\n' +
     '        <i class="fa fa-star"></i>\n' +

@@ -116,9 +116,11 @@ router.put('/me/items/order', function(req, res){
 
 router.post('/friend', function(req, res){
   var friendId = req.body.params.fid;
+
   User.findOne({'facebook': friendId}, function(err, user){
     var friendItems = user.items;
     console.log(friendItems, 'items');
+
     var mongoose = require('mongoose');
     friendItems = friendItems.map(function(id) { return mongoose.Types.ObjectId(id) });
 
@@ -133,7 +135,8 @@ router.post('/friend', function(req, res){
         user: user,
         items: allItems
       }
-      console.log(data, 'Data returned.')
+
+      console.log(data, 'DATA')
       if (err) console.error(err)
       res.send(data)
     })

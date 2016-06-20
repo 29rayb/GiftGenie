@@ -131,7 +131,6 @@ function faqCtrl($rootScope, $scope, getUser) {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
-<<<<<<< HEAD
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
@@ -199,73 +198,6 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
 }
 'use strict';
 
-=======
-'use strict';
-
-angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
-
-function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
-
-  $rootScope.display_name = getUser.data.displayName;
-
-  console.log($stateParams, 'state params');
-  var friendId = $stateParams.fid;
-
-  UserSvc.friendProfile(friendId).then(function (response) {
-    console.log(response.data, "response");
-    $scope.user = response.data;
-    $scope.id = response.data._id;
-    $scope.birthday = response.data.birthday;
-    $scope.display_name = response.data.displayName;
-    $scope.email = response.data.email;
-    $scope.pro_pic = response.data.facebook;
-    console.log('THIS IS THE PRO PIC ID', $scope.pro_pic);
-    $scope.items = response.data.items;
-    console.log('friends items', $scope.items);
-    // $scope.pro_pic = response.data.picture
-    $scope.friends = response.data.friends[0].name;
-
-    $scope.friendsLength = response.data.friends.length;
-
-    console.log(response.data.friends.length, 'friend length');
-    console.log("This is the data from GET request.", $scope.user);
-  }).catch(function (err) {
-    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  });
-}
-
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    $auth.authenticate(provider, user).then(function (res) {
-      console.log(res, 'This is the auth response in Home Ctlr.');
-      // var token = res.data;
-      // console.log(token, "This is our token. We're inside Home Ctlr.")
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-      });
-    }).catch(function (err) {
-      console.error('Inside the Home Ctrl, we have an error!', err);
-    });
-  };
-}
-'use strict';
-
->>>>>>> 407b97463f7f7296f61e6447b4b88c3806a120f2
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
