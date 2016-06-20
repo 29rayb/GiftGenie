@@ -104,6 +104,10 @@ router.put('/me/star', function(req, res){
     if (!user){
       return res.status(400).send({messages: 'User Not Found'})
     }
+    if (user.favorites.indexOf(req.user) > -1){
+      console.log('item already in the favorites array');
+      return;
+    }
     // why can't we $push user.facebook ? it doesn;t save in robomongo
     User.update({"_id": req.user}, {$push: {"favorites": req.user}}, function(err, user){
       console.log('this is the user that was added to your favorite', user)

@@ -33,7 +33,6 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   // }
   // 
 
-  $scope.
 
   $scope.show_user_info = () => {
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
