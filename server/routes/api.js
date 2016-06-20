@@ -83,11 +83,10 @@ router.put('/me/items/edit', function(req, res) {
 
 router.put('/me/items/order', function(req, res){
   var newUserItems = [];
-  var newItemsOrder = req.body;
-  var ourUser = req.user._id;
+  var newItemsOrderArr = req.body;
 
-  for (var i = 0; i < newItemsOrder.length; i++){
-    var mongoId = newItemsOrder[i]._id;
+  for (var i = 0; i < newItemsOrderArr.length; i++){
+    var mongoId = newItemsOrderArr[i]._id;
     newUserItems.push(mongoId);
   }
 
@@ -117,9 +116,30 @@ router.post('/friend', function(req, res){
   // console.log('FRIEND FACEBOOK ID', req.body.params)
   var friendId = req.body.params.fid;
   User.findOne({'facebook': friendId}, function(err, user){
-    // console.log('friend', user)
+
+    console.log('friend', user)
+    var friendItems = user.items;
+    console.log(friendItems, 'items FRIEND *********')
+
+for(var i=0; i<friendItems.length; i++) {
+var allFriendItems = [];
+  var eachItem = friendItems[i];
+  console.log(allFriendItems, 'ALL')
+  Item.findById({'_id': eachItem}, function(err, item) {
+  allFriendItems.push(item)
+    console.log(item, 'item')
+  })
+}
+
+var data = {
+  user: user,
+  items: allFriendItems
+}
+
+console.log(data, 'DATA')
+
     if (err) console.error(err)
-    res.send(user)
+    res.send(data)
   })
 })
 

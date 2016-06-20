@@ -31,7 +31,12 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
     .state('friend-wishlist', {
       url: '/my-wishlist/:id/friends/:fid',
       templateUrl: 'app/components/friend-wishlist/friend-wishlist.html',
-      controller: 'FriendlistCtrl'
+      controller: 'FriendlistCtrl',
+      resolve: {
+        getUser: function(UserSvc) {
+          return UserSvc.getProfile();
+        }
+      }
     })
     .state('settings', {
       url: '/settings/:id',

@@ -2,10 +2,11 @@
 
 angular
   .module('App')
-  .controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', FriendlistCtrl])
+  .controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl])
 
-  function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
-    console.log("hey")
+  function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
+
+    $rootScope.display_name = getUser.data.displayName
 
     console.log($stateParams, 'state params');
     var friendId = $stateParams.fid;
@@ -21,6 +22,7 @@ angular
           $scope.pro_pic = response.data.facebook
           console.log('THIS IS THE PRO PIC ID', $scope.pro_pic)
           $scope.items = response.data.items;
+          console.log('friends items', $scope.items);
           // $scope.pro_pic = response.data.picture 
           $scope.friends = response.data.friends[0].name;
 
