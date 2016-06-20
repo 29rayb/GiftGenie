@@ -125,27 +125,6 @@ console.log(req.body, 'req.body')
       res.send(user)
     })
   });
-
-
-  //   console.log('favorites array', user.favorites)
-  //   console.log('req.user', req.user)
-  //   
-  //   if (user.favorites.indexOf(req.user) > -1){
-  //     User.update({"_id": req.user}, {$pull: {"favorites": req.user}}, function(err, user){
-  //     if(err){ res.status(400).send(err);}
-  //       console.log('wishlist already in the favorites array');
-  //       console.log('wishlist unfavorited');
-  //     })
-  //     return;
-  //   }
-
-  //   // why can't we $push user.facebook ? it doesn;t save in robomongo
-  //   User.update({"_id": req.user}, {$push: {"favorites": req.user}}, function(err, user){
-  //     if(err){ res.status(400).send(err);}
-  //     console.log('this is the user that was added to your favorite', user)
-  //     res.send(user)
-  //   })
-  // })
 })
 
 
@@ -180,8 +159,29 @@ router.post('/friend', function(req, res){
 })
 
 
+// like items;
+router.put('/items/liked', function(req, res){
+  var likedItem = req.body._id
+    User.findById(req.user, function(err, user){
+
+      if (user.liked.indexOf(likedItem) > -1) {
+        console.log('item already liked')
+        User.update({"_id": req.user}, {$pull: {"liked": likedItem}}, function(err, user){
+          if (err) {res.status(400).send(err)}
+          console.log('item unliked')
+        })
+        return;
+      }
 
 
+      console.log('user INSIDE @#$#$%Y#@$%^$#%^&$', user)
+      User.update({"_id": req.user}, {$push: {"liked": likedItem}}, function(err, user){
+        if (err) {res.status(400).send(err)}
+          console.log('liked item added')
+        res.send(user);
+      })
+    })
+})
 
 
 // List of all followers

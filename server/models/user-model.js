@@ -17,7 +17,8 @@ let userSchema = Schema({
   birthday: String,
   favorites: [{type: Schema.Types.ObjectId, ref: "User"}],
   items: [{ type: Schema.Types.ObjectId, ref: "Item" }],
-  friends: Array
+  friends: Array,
+  liked: [{ type: Schema.Types.ObjectId, ref: "Item" }]
 });
 
 //This generates the JSON web token.
