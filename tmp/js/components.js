@@ -143,7 +143,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <!-- need to get birthday from api call -->\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '\n' +
-    '      <button ng-click="star(user)" class="star_btn">\n' +
+    '      <button ng-click="favoriteWishlist = !favoriteWishlist" ng-class="{star_btn: favoriteWishlist}">\n' +
     '        <i class="fa fa-star"></i>\n' +
     '      </button>\n' +
     '      <button ng-click="goToSettings()" class="settings">\n' +
@@ -164,9 +164,8 @@ module.run(['$templateCache', function($templateCache) {
     '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
     '      <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
-    '          <!-- <i ng-mouseup="sort_list(item, $index)"> {{$index+1}}</i> -->\n' +
     '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
-    '          <i class="fa fa-heart-o" ng-click="like(item, $index)" ng-class="like_heart"></i>\n' +
+    '          <i class="fa fa-heart-o" ng-click="like_heart = !like_heart" ng-class="{liked_item: like_heart}"></i>\n' +
     '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
     '          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
     '        </li>\n' +

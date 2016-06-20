@@ -13,7 +13,7 @@
       <!-- need to get birthday from api call -->
       <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>
 
-      <button ng-click="star(user)" class="star_btn">
+      <button ng-click="favoriteWishlist = !favoriteWishlist" ng-class="{star_btn: favoriteWishlist}">
         <i class="fa fa-star"></i>
       </button>
       <button ng-click="goToSettings()" class="settings">
@@ -34,9 +34,8 @@
       <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">
       <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >
         <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
-          <!-- <i ng-mouseup="sort_list(item, $index)"> {{$index+1}}</i> -->
           <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
-          <i class="fa fa-heart-o" ng-click="like(item, $index)" ng-class="like_heart"></i>
+          <i class="fa fa-heart-o" ng-click="like_heart = !like_heart" ng-class="{liked_item: like_heart}"></i>
           <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
           <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
         </li>
