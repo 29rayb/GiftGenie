@@ -17,7 +17,7 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   .then((response) => {
     var favsLength = response.data.user.favorites.length;
     var favObj = response.data.favoritesData
-    console.log(favObj)
+    // console.log(favObj)
     $scope.favsModel = [];
     for (var i = 0; i < favsLength; i++){
       // var favsName = favObj[i].displayName;

@@ -138,6 +138,36 @@ function faqCtrl($rootScope, $scope, getUser) {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    $auth.authenticate(provider, user).then(function (res) {
+      // console.log(res, 'This is the auth response in Home Ctlr.');
+      // var token = res.data;
+      // console.log(token, "This is our token. We're inside Home Ctlr.")
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
+  };
+}
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
@@ -170,7 +200,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       var each_likeable_item = friendItems[i];
       if (likedItemsArr.indexOf(each_likeable_item) > -1) {
         allTheLikedItemsArr.push(i);
-        // console.log('!@#!@#!@#!@321', allTheLikedItemsArr)
+        console.log('!@#!@#!@#!@321', allTheLikedItemsArr);
         $rootScope.like_heart = allTheLikedItemsArr;
       }
     }
@@ -193,19 +223,27 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   });
 
   $scope.like_item = function (item, $index) {
-    // console.log('this is the like item', item)
-    // console.log('this is the INDEXXXXXX item', $index)
+    console.log('this is the like item', item);
+    console.log('this is the INDEXXXXXX item', $index);
 
-    if ($rootScope.like_heart.indexOf($index) > -1) {
-      // console.log('this index is already liked in the front end')
-      // console.log('before slicing ',$rootScope.like_heart)
+    // if no items are liked, don't see the changes right away;
+    // if all items are liked, don't see the changes right away;
+
+    // if ( $rootScope.like_heart != undefined  && $rootScope.like_heart.indexOf($index) > -1 ) {
+    if ($rootScope.like_heart != undefined && $rootScope.like_heart.indexOf($index) > -1) {
+      console.log('this index is already liked in the front end');
+      console.log('before deleting ', $rootScope.like_heart);
       delete $rootScope.like_heart[$index];
-      // $rootScope.like_heart.slice($index, 1);
-      // console.log('after slicing', $rootScope.like_heart)
+      console.log('after deleting', $rootScope.like_heart);
     } else {
+      if ($rootScope.like_heart != undefined) {
+        console.log('before pushing index into like_heart', $rootScope.like_heart);
+        // if ($rootScope.like_heart !== undefined)
         $rootScope.like_heart.push($index);
-        // console.log('item liked and added to array to be colored on front end')
+        console.log('after pushing index into like_heart', $rootScope.like_heart);
+        console.log('item liked and added to array to be colored on front end');
       }
+    }
 
     UserSvc.likeItem(item).then(function (res) {
       // console.log('response from item being liked', res);
@@ -222,36 +260,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     }
     // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user);
-  };
-}
-
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    $auth.authenticate(provider, user).then(function (res) {
-      // console.log(res, 'This is the auth response in Home Ctlr.');
-      // var token = res.data;
-      // console.log(token, "This is our token. We're inside Home Ctlr.")
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-      });
-    }).catch(function (err) {
-      console.error('Inside the Home Ctrl, we have an error!', err);
-    });
   };
 }
 'use strict';
@@ -460,7 +468,7 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   UserSvc.showFavoritesData().then(function (response) {
     var favsLength = response.data.user.favorites.length;
     var favObj = response.data.favoritesData;
-    console.log(favObj);
+    // console.log(favObj)
     $scope.favsModel = [];
     for (var i = 0; i < favsLength; i++) {
       // var favsName = favObj[i].displayName;

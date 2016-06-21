@@ -33,7 +33,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       var each_likeable_item = friendItems[i];
       if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
         allTheLikedItemsArr.push(i)
-        // console.log('!@#!@#!@#!@321', allTheLikedItemsArr)
+        console.log('!@#!@#!@#!@321', allTheLikedItemsArr)
         $rootScope.like_heart =  allTheLikedItemsArr;
       }
     }
@@ -57,18 +57,26 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   });
 
   $scope.like_item = (item, $index) => {
-    // console.log('this is the like item', item)
-    // console.log('this is the INDEXXXXXX item', $index)
+    console.log('this is the like item', item)
+    console.log('this is the INDEXXXXXX item', $index)
 
-    if ($rootScope.like_heart.indexOf($index) > -1){
-      // console.log('this index is already liked in the front end')
-      // console.log('before slicing ',$rootScope.like_heart)
+    // if no items are liked, don't see the changes right away;
+    // if all items are liked, don't see the changes right away;
+
+    // if ( $rootScope.like_heart != undefined  && $rootScope.like_heart.indexOf($index) > -1 ) {
+    if ($rootScope.like_heart != undefined && $rootScope.like_heart.indexOf($index) > -1 ) {
+      console.log('this index is already liked in the front end')
+      console.log('before deleting ',$rootScope.like_heart)
       delete $rootScope.like_heart[$index]
-      // $rootScope.like_heart.slice($index, 1);
-      // console.log('after slicing', $rootScope.like_heart)
+      console.log('after deleting', $rootScope.like_heart)
     } else {
-      $rootScope.like_heart.push($index)
-      // console.log('item liked and added to array to be colored on front end')
+      if ($rootScope.like_heart != undefined ){
+        console.log('before pushing index into like_heart',$rootScope.like_heart)
+        // if ($rootScope.like_heart !== undefined)
+        $rootScope.like_heart.push($index)
+        console.log('after pushing index into like_heart',$rootScope.like_heart)
+        console.log('item liked and added to array to be colored on front end')
+      }
     }
 
     UserSvc.likeItem(item)

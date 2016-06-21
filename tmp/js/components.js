@@ -51,11 +51,13 @@ module.run(['$templateCache', function($templateCache) {
     '      <p>Followers: {{friendsLengthh}} </p>\n' +
     '      <p>Following: {{friendsLengthh}} </p>\n' +
     '\n' +
-    '      <button class="btn btn-primary follow_button">Follow</button>\n' +
-    '\n' +
-    '      <button ng-click="goToSettings()" class="btn btn-info settings">\n' +
-    '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
+    '      <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">\n' +
+    '        <div ng-if="hover">Unfollow</div>\n' +
+    '        <div ng-if="!hover">Follow <span ng-if="alreadyFollowing">Following</span></div>\n' +
     '      </button>\n' +
+    '<!--       <button ng-click="goToSettings()" class="btn btn-info settings">\n' +
+    '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
+    '      </button> -->\n' +
     '    </div>\n' +
     '  </div>\n' +
     '\n' +
@@ -76,8 +78,8 @@ module.run(['$templateCache', function($templateCache) {
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
     '          <i class="fa fa-heart-o" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>\n' +
-    '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
-    '          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
+    '          <!-- <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i> -->\n' +
+    '          <!-- <i class="fa fa-trash" ng-click="delete(item, $index)"></i> -->\n' +
     '        </li>\n' +
     '      </ol>\n' +
     '    </div>\n' +
@@ -147,10 +149,10 @@ module.run(['$templateCache', function($templateCache) {
     '      <p>Followers: {{friendsLength}} </p>\n' +
     '      <p>Following: {{friendsLength}} </p>\n' +
     '\n' +
-    '      <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">\n' +
+    '<!--       <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">\n' +
     '        <div ng-if="hover">Unfollow</div>\n' +
     '        <div ng-if="!hover">Follow <span ng-if="alreadyFollowing">Following</span></div>\n' +
-    '      </button>\n' +
+    '      </button> -->\n' +
     '\n' +
     '      <button ng-click="goToSettings()" class=" btn btn-info settings">\n' +
     '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
@@ -175,8 +177,8 @@ module.run(['$templateCache', function($templateCache) {
     '      <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
-    '          <i class="fa fa-heart-o" ng-click="like_heart = !like_heart; like_item(item)" ng-class="{liked_item: like_heart}"></i>\n' +
-    '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
+    '<!--           <i class="fa fa-heart-o" ng-click="like_heart = !like_heart; like_item(item)" ng-class="{liked_item: like_heart}"></i>\n' +
+    ' -->          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
     '          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
     '        </li>\n' +
     '      </ol>\n' +
