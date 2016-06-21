@@ -58,20 +58,18 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.like_item = (item, $index) => {
     // console.log('this is the like item', item)
-    console.log('this is the INDEXXXXXX item', $index)
+    // console.log('this is the INDEXXXXXX item', $index)
 
     if ($rootScope.like_heart.indexOf($index) > -1){
-      console.log('this index is already liked in the front end')
-      console.log('before slicing ',$rootScope.like_heart)
+      // console.log('this index is already liked in the front end')
+      // console.log('before slicing ',$rootScope.like_heart)
       delete $rootScope.like_heart[$index]
       // $rootScope.like_heart.slice($index, 1);
-      console.log('after slicing', $rootScope.like_heart)
+      // console.log('after slicing', $rootScope.like_heart)
     } else {
       $rootScope.like_heart.push($index)
-      console.log('item liked and added to array to be colored on front end')
+      // console.log('item liked and added to array to be colored on front end')
     }
-
-    console.log('!!!!!!!@!@!@!@!@!@!@!',$rootScope.like_heart)
 
     UserSvc.likeItem(item)
       .then((res) => {
