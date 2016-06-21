@@ -12,6 +12,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.settings = false;
     $scope.like_heart = false;
     $scope.favoriteWishlist = false;
+    // $scope.notFollowing = true;
 
     // console.log('is this the id in the url', $scope.id)
 
