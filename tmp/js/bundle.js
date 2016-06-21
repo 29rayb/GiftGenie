@@ -114,7 +114,7 @@ function UserSvc($http) {
       return $http.put('/api/me/items/order', newOrder);
     },
     likeItem: function likeItem(item) {
-      console.log('like this item', item);
+      // console.log('like this item', item);
       return $http.put('/api/items/liked', item);
     },
     showFavoritesData: function showFavoritesData() {
@@ -136,69 +136,6 @@ function faqCtrl($rootScope, $scope, getUser) {
 
   $scope.getAnswer = function () {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
-  };
-}
-'use strict';
-
-angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
-
-function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
-
-  $rootScope.display_name = getUser.data.displayName;
-  $scope.like_heart = false;
-
-  console.log('getuser @#$%^&*$#^&*#', getUser);
-  var likedItemsArr = getUser.data.liked;
-  console.log('likedItemsArr', likedItemsArr);
-
-  // console.log($stateParams, 'state params');
-  var friendId = $stateParams.fid;
-
-  UserSvc.friendProfile(friendId).then(function (response) {
-    console.log(response.data, "response");
-    $scope.user = response.data.user;
-    $scope.id = response.data.user._id;
-    $scope.birthday = response.data.user.birthday;
-    $scope.display_name = response.data.user.displayName;
-    $scope.email = response.data.user.email;
-    $scope.pro_pic = response.data.user.facebook;
-    $scope.items = response.data.items;
-    $scope.friendsLengthh = response.data.user.friends.length;
-    // console.log('friends items', $scope.items);
-    $scope.allFriendFriends = response.data.user.friends;
-
-    var friendFriendArray = [];
-    for (var i = 0; i < response.data.user.friends.length; i++) {
-      var friendFriendName = response.data.user.friends[i].name;
-      friendFriendArray.push(friendFriendName);
-    }
-
-    console.log(likedItemsArr);
-    for (var i = 0; i < likedItemsArr.length; i++) {
-      // likedItemsArr[i].addClass("liked_item");
-    }
-
-    $scope.friends = friendFriendArray;
-    $scope.friendsLength = friendFriendArray.length;
-  }).catch(function (err) {
-    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  });
-
-  // $scope.alreadyLiked = true;
-
-  $scope.like_item = function (item) {
-    UserSvc.likeItem(item).then(function (res) {
-      console.log('response from item being liked', res);
-    }).catch(function (err) {
-      console.log('error from item being liked', err);
-    });
-  };
-
-  $scope.star = function (user) {
-    console.log(user, 'user');
-
-    // console.log('this is the user you are favoriting', user)
-    UserSvc.starPerson(user);
   };
 }
 
@@ -229,6 +166,100 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
     }).catch(function (err) {
       console.error('Inside the Home Ctrl, we have an error!', err);
     });
+  };
+}
+'use strict';
+
+angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
+
+function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
+
+  var favoritesIdArr = getUser.data.favorites;
+
+  $rootScope.display_name = getUser.data.displayName;
+  // $scope.like_heart = false;
+
+  var likedItemsArr = getUser.data.liked;
+  var friendId = $stateParams.fid;
+
+  UserSvc.friendProfile(friendId).then(function (response) {
+    // console.log(response.data, "response")
+    $scope.user = response.data.user;
+    $scope.id = response.data.user._id;
+    $scope.birthday = response.data.user.birthday;
+    $scope.display_name = response.data.user.displayName;
+    $scope.email = response.data.user.email;
+    $scope.pro_pic = response.data.user.facebook;
+    $scope.items = response.data.items;
+    $scope.friendsLengthh = response.data.user.friends.length;
+    $scope.allFriendFriends = response.data.user.friends;
+
+    var friendItems = response.data.user.items;
+    var allTheLikedItemsArr = [];
+    for (var i = 0; i < friendItems.length; i++) {
+      var each_likeable_item = friendItems[i];
+      if (likedItemsArr.indexOf(each_likeable_item) > -1) {
+        allTheLikedItemsArr.push(i);
+        console.log('!@#!@#!@#!@321', allTheLikedItemsArr);
+        $rootScope.like_heart = allTheLikedItemsArr;
+      }
+    }
+
+    var friendFavId = response.data.user._id;
+    if (favoritesIdArr.indexOf(friendFavId) > -1) {
+      $rootScope.yellowStar = 'star_btn';
+    }
+
+    var friendFriendArray = [];
+    for (var i = 0; i < response.data.user.friends.length; i++) {
+      var friendFriendName = response.data.user.friends[i].name;
+      friendFriendArray.push(friendFriendName);
+    }
+
+    $scope.friends = friendFriendArray;
+    $scope.friendsLength = friendFriendArray.length;
+  }).catch(function (err) {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
+
+  $scope.like_item = function (item, $index) {
+    console.log('this is the like item', item);
+    console.log('this is the INDEXXXXXX item', $index);
+
+    // if no items are liked, don't see the changes right away;
+    // if all items are liked, don't see the changes right away;
+
+    // if ( $rootScope.like_heart != undefined  && $rootScope.like_heart.indexOf($index) > -1 ) {
+    if ($rootScope.like_heart != undefined && $rootScope.like_heart.indexOf($index) > -1) {
+      console.log('this index is already liked in the front end');
+      console.log('before deleting ', $rootScope.like_heart);
+      delete $rootScope.like_heart[$index];
+      console.log('after deleting', $rootScope.like_heart);
+    } else {
+      if ($rootScope.like_heart != undefined) {
+        console.log('before pushing index into like_heart', $rootScope.like_heart);
+        // if ($rootScope.like_heart !== undefined)
+        $rootScope.like_heart.push($index);
+        console.log('after pushing index into like_heart', $rootScope.like_heart);
+        console.log('item liked and added to array to be colored on front end');
+      }
+    }
+
+    UserSvc.likeItem(item).then(function (res) {
+      // console.log('response from item being liked', res);
+    }).catch(function (err) {
+      console.log('error from item being liked', err);
+    });
+  };
+
+  $scope.star = function (user) {
+    if ($rootScope.yellowStar === undefined) {
+      $rootScope.yellowStar = 'star_btn';
+    } else {
+      $rootScope.yellowStar = undefined;
+    }
+    // console.log('this is the user you are favoriting', user)
+    UserSvc.starPerson(user);
   };
 }
 'use strict';
@@ -437,7 +468,7 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   UserSvc.showFavoritesData().then(function (response) {
     var favsLength = response.data.user.favorites.length;
     var favObj = response.data.favoritesData;
-    console.log(favObj);
+    // console.log(favObj)
     $scope.favsModel = [];
     for (var i = 0; i < favsLength; i++) {
       // var favsName = favObj[i].displayName;
