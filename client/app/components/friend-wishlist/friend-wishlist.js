@@ -16,7 +16,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   UserSvc.friendProfile(friendId)
   .then((response) => {
-    console.log(response.data, "response")
+    // console.log(response.data, "response")
     $scope.user = response.data.user;
     $scope.id = response.data.user._id;
     $scope.birthday = response.data.user.birthday;
@@ -28,17 +28,19 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.allFriendFriends = response.data.user.friends;
 
     var friendItems = response.data.user.items;
-
+    var allTheLikedItemsArr= [];
     for (var i = 0; i < friendItems.length; i++){
-
       var each_likeable_item = friendItems[i];
-
       if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
-        console.log('HERE IS A LIKED ONE!!!!!', friendItems[i])
-        $rootScope.like_heart =  each_likeable_item;
-        console.log($scope.like_heart, 'HEREERRRRRRRR')
+        allTheLikedItemsArr.push(i)
+        console.log('!@#!@#!@#!@321', allTheLikedItemsArr)
+        $rootScope.like_heart =  allTheLikedItemsArr;
       }
     }
+    // allTheLikedItemsArr.map(function(eachItem){
+    //   console.log('!@#!@#!@#!@#!@#!@#!@#!@#', eachItem)
+    //   $rootScope.like_heart = eachItem;
+    // })
 
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1){
