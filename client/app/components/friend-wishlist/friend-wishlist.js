@@ -6,10 +6,13 @@ angular
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
+  console.log('getUSER@#$^#$@!{#@)$#%#@)%@$%$', getUser.data.favorites)
+
+  var favoritesIdArr = getUser.data.favorites;
+
   $rootScope.display_name = getUser.data.displayName
   $scope.like_heart = false;
 
-  console.log('getuser @#$%^&*$#^&*#', getUser)
   var likedItemsArr = getUser.data.liked
   console.log('likedItemsArr', likedItemsArr)
 
@@ -27,8 +30,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.pro_pic = response.data.user.facebook
     $scope.items = response.data.items;
     $scope.friendsLengthh = response.data.user.friends.length;
-    // console.log('friends items', $scope.items);
     $scope.allFriendFriends = response.data.user.friends;
+    var friendFavId = response.data.user._id;
+    if (favoritesIdArr.indexOf(friendFavId) > -1){
+      $scope.yellowStar = 'star_btn';
+    }
 
     var friendFriendArray = [];
     for (var i=0; i<response.data.user.friends.length; i++) {

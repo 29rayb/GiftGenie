@@ -25,7 +25,10 @@
   <div class="wishlist_container container col-xs-8" ng-if="!settings">
     <div class="title_container">
       <h2 class="my_wishlist_title">My WishList</h2>
-      <button ng-click="favoriteWishlist = !favoriteWishlist; star(user);" ng-class="{star_btn: favoriteWishlist}">
+<!--       <button ng-click="favoriteWishlist = !favoriteWishlist; star(user);" ng-class="{star_btn: favoriteWishlist, star_btn: yellowStar  }">
+        <i class="fa fa-star"></i>
+      </button>  -->
+      <button ng-click="star(user)" ng-class="yellowStar">
         <i class="fa fa-star"></i>
       </button>
     </div>
