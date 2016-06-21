@@ -37,7 +37,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
     console.log(likedItemsArr)
     for (var i = 0; i < likedItemsArr.length; i++){
-      likedItemsArr[i].addClass("liked_item");
+      // likedItemsArr[i].addClass("liked_item");
     }
 
 
@@ -64,6 +64,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.star = function (user) {
     console.log(user, 'user')
+
     // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user)
   }

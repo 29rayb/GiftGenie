@@ -20,26 +20,17 @@
     </div>
     <div class="bottom_container col-xs-12">
 
-<!--       <div ng-model="favorites">
-        <div ng-repeat="user in userModel | filter:user.name">
-          <div class="user_card col-xs-12 col-sm-6">
-            <img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=large" ng-click="show_user_info()"> <br>
-            <h6 class="user_name" ng-if="clicked_card">{{user.name}}</h6>
-          </div>
+    <div ng-model="favorites">
+      <div ng-repeat="favorite in favsModel | filter:favorite.name">
+        <div class="user_card col-xs-12 col-sm-6">
+
+          <img ng-src="https://graph.facebook.com/{{favorite.id}}/picture?type=large" ng-click="show_user_info()"></img>
+          <h6 class="user_name" ng-if="clicked_card">{{favorite.name}}</h6>
         </div>
       </div>
- -->
-    <div ng-model="favorites">
-      <li ng-repeat="favorite in favorites">{{favorite}}</li>
-
     </div>
 
     </div>
   </div>
 
 </div>
-
-
-
-
-

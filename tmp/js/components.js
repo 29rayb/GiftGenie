@@ -285,18 +285,12 @@ module.run(['$templateCache', function($templateCache) {
     ' -->\n' +
     '    <div ng-model="favorites">\n' +
     '      <li ng-repeat="favorite in favorites">{{favorite}}</li>\n' +
-    '\n' +
     '    </div>\n' +
     '\n' +
     '    </div>\n' +
     '  </div>\n' +
     '\n' +
     '</div>\n' +
-    '\n' +
-    '\n' +
-    '\n' +
-    '\n' +
-    '\n' +
     '');
 }]);
 })();

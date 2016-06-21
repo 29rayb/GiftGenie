@@ -125,6 +125,27 @@ console.log(req.body, 'req.body')
       res.send(user)
     })
   });
+
+
+  //   console.log('favorites array', user.favorites)
+  //   console.log('req.user', req.user)
+  //   
+  //   if (user.favorites.indexOf(req.user) > -1){
+  //     User.update({"_id": req.user}, {$pull: {"favorites": req.user}}, function(err, user){
+  //     if(err){ res.status(400).send(err);}
+  //       console.log('wishlist already in the favorites array');
+  //       console.log('wishlist unfavorited');
+  //     })
+  //     return;
+  //   }
+
+  //   // why can't we $push user.facebook ? it doesn;t save in robomongo
+  //   User.update({"_id": req.user}, {$push: {"favorites": req.user}}, function(err, user){
+  //     if(err){ res.status(400).send(err);}
+  //     console.log('this is the user that was added to your favorite', user)
+  //     res.send(user)
+  //   })
+  // })
 })
 
 
@@ -133,6 +154,8 @@ router.post('/friend', function(req, res){
   var friendId = req.body.params.fid;
 
   User.findOne({'facebook': friendId}, function(err, user){
+
+    console.log(user.items, 'USER*************************');
     var friendItems = user.items;
     console.log(friendItems, 'items');
 
@@ -152,6 +175,31 @@ router.post('/friend', function(req, res){
       }
 
       console.log(data, 'DATA')
+      if (err) console.error(err)
+      res.send(data)
+    })
+  })
+})
+
+router.get('/favorites/data', function(req, res) {
+  User.findById(req.user, function(err, user){
+    if (!user){
+      return res.status(400).send({messages: 'User Not Found'})
+    }
+
+    var faves = user.favorites;
+    var mongoose = require('mongoose');
+    faves = faves.map(function(id) { return mongoose.Types.ObjectId(id) });
+
+    User.find( {_id: { $in : faves }}, function(err, faves) {
+      var allFaveData = faves;
+
+      var data = {
+        user: user,
+        favoritesData: faves
+      }
+
+      console.log(data, 'THE DATA.')
       if (err) console.error(err)
       res.send(data)
     })
