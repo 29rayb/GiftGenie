@@ -38,7 +38,7 @@
       <ol ui-sortable ng-model="items" class="wishlist_items" >
         <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
           <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
-          <i class="fa fa-heart-o" ng-click="like_item(item)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>
+          <i class="fa fa-heart-o" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>
           <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
           <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
         </li>
