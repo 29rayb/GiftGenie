@@ -180,4 +180,27 @@ router.get('/favorites/data', function(req, res) {
   })
 })
 
+// like items;
+router.put('/items/liked', function(req, res){
+  var likedItem = req.body._id
+    User.findById(req.user, function(err, user){
+
+      if (user.liked.indexOf(likedItem) > -1) {
+        console.log('item already liked')
+        User.update({"_id": req.user}, {$pull: {"liked": likedItem}}, function(err, user){
+          if (err) {res.status(400).send(err)}
+          console.log('item unliked')
+        })
+        return;
+      }
+
+      console.log('user INSIDE @#$#$%Y#@$%^$#%^&$', user)
+      User.update({"_id": req.user}, {$push: {"liked": likedItem}}, function(err, user){
+        if (err) {res.status(400).send(err)}
+          console.log('liked item added')
+        res.send(user);
+      })
+    })
+})
+
 module.exports = router;

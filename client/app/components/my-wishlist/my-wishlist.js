@@ -21,7 +21,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     UserSvc.getProfile()
       .then((response) => {
-        console.log(response.data, "response")
+        // console.log(response.data, "response")
           $rootScope.user = response.data;
           $rootScope.id = response.data._id;
           $rootScope.birthday = response.data.birthday;
@@ -71,7 +71,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     }
 
     $scope.like_item = (item) => {
-      console.log('like this item', item)
+      // console.log('like this item', item)
       UserSvc.likeItem(item)
     }
 

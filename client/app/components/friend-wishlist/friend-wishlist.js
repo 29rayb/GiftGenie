@@ -7,6 +7,7 @@ angular
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
   $rootScope.display_name = getUser.data.displayName
+  $scope.like_heart = false;
 
   console.log($stateParams, 'state params');
   var friendId = $stateParams.fid;
@@ -36,6 +37,16 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
+
+  $scope.like_item = (item) => {
+    UserSvc.likeItem(item)
+      .then((res) => {
+        console.log('response from item being liked', res);
+      })
+      .catch((err) => {
+        console.log('error from item being liked', err)
+      })
+  }
 
 
 

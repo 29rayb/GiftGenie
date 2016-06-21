@@ -145,6 +145,7 @@ angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth',
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
   $rootScope.display_name = getUser.data.displayName;
+  $scope.like_heart = false;
 
   console.log($stateParams, 'state params');
   var friendId = $stateParams.fid;
@@ -173,6 +174,14 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
+  $scope.like_item = function (item) {
+    UserSvc.likeItem(item).then(function (res) {
+      console.log('response from item being liked', res);
+    }).catch(function (err) {
+      console.log('error from item being liked', err);
+    });
+  };
+
   $scope.star = function (user) {
     console.log(user, 'user');
 
@@ -190,7 +199,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
     //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
     //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
     $auth.authenticate(provider, user).then(function (res) {
-      console.log(res, 'This is the auth response in Home Ctlr.');
+      // console.log(res, 'This is the auth response in Home Ctlr.');
       // var token = res.data;
       // console.log(token, "This is our token. We're inside Home Ctlr.")
       UserSvc.getProfile()
@@ -200,7 +209,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
         var facebookId = response.data.facebook;
         // var facebook_name = response.data.displayName;
         // var facebook_email = response.data.email;
-        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
         $state.go('my-wishlist', { id: facebookId });
       }).catch(function (err) {
         console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
@@ -230,7 +239,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   }
 
   UserSvc.getProfile().then(function (response) {
-    console.log(response.data, "response");
+    // console.log(response.data, "response")
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
@@ -277,7 +286,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   };
 
   $scope.like_item = function (item) {
-    console.log('like this item', item);
+    // console.log('like this item', item)
     UserSvc.likeItem(item);
   };
 

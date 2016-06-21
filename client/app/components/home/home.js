@@ -11,7 +11,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc){
     //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
     $auth.authenticate(provider, user)
       .then((res) => {
-        console.log(res, 'This is the auth response in Home Ctlr.');
+        // console.log(res, 'This is the auth response in Home Ctlr.');
         // var token = res.data;
         // console.log(token, "This is our token. We're inside Home Ctlr.")
       UserSvc.getProfile()
@@ -21,7 +21,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc){
           var facebookId = response.data.facebook;
           // var facebook_name = response.data.displayName;
           // var facebook_email = response.data.email;
-          console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+          // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
           $state.go('my-wishlist', {id: facebookId})
         })
         .catch((err) => {
