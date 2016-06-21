@@ -14,18 +14,20 @@
       <p>Followers: {{friendsLengthh}} </p>
       <p>Following: {{friendsLengthh}} </p>
 
-      <button class="btn btn-primary follow_button">Follow</button>
-
-      <button ng-click="goToSettings()" class="btn btn-info settings">
-        <i class="fa fa-cog" aria-hidden="true"></i>
+      <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">
+        <div ng-if="hover">Unfollow</div>
+        <div ng-if="!hover">Follow <span ng-if="alreadyFollowing">Following</span></div>
       </button>
+<!--       <button ng-click="goToSettings()" class="btn btn-info settings">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+      </button> -->
     </div>
   </div>
 
   <div class="wishlist_container container col-xs-8" ng-if="!settings">
     <div class="title_container">
       <h2 class="my_wishlist_title">My WishList</h2>
-      <button ng-click="favoriteWishlist = !favoriteWishlist; star(user);" ng-class="{star_btn: favoriteWishlist}">
+      <button ng-click="star(user)" ng-class="yellowStar">
         <i class="fa fa-star"></i>
       </button>
     </div>
@@ -38,9 +40,9 @@
       <ol ui-sortable ng-model="items" class="wishlist_items" >
         <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
           <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
-          <i class="fa fa-heart-o" ng-click="like_heart = !like_heart; like_item(item)" ng-class="{liked_item: like_heart, liked_item: alreadyLiked} "></i>
-          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
-          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
+          <i class="fa fa-heart-o" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>
+          <!-- <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i> -->
+          <!-- <i class="fa fa-trash" ng-click="delete(item, $index)"></i> -->
         </li>
       </ol>
     </div>
