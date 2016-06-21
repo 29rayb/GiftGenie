@@ -124,37 +124,16 @@ function UserSvc($http) {
 };
 'use strict';
 
-angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl]);
-
-function faqCtrl($rootScope, $scope, getUser) {
-  $rootScope.display_name = getUser.data.displayName;
-
-  $scope.faqs = [{ question: "1. Why arent my links working?",
-    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
-    answer: "2nd" }, { question: "3. 3rd",
-    answer: "3rd" }];
-
-  $scope.getAnswer = function () {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
-  };
-}
-'use strict';
-
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
-  console.log('getUSER@#$^#$@!{#@)$#%#@)%@$%$', getUser.data.favorites);
-
   var favoritesIdArr = getUser.data.favorites;
 
   $rootScope.display_name = getUser.data.displayName;
-  $scope.like_heart = false;
+  // $scope.like_heart = false;
 
   var likedItemsArr = getUser.data.liked;
-  console.log('likedItemsArr', likedItemsArr);
-
-  // console.log($stateParams, 'state params');
   var friendId = $stateParams.fid;
 
   UserSvc.friendProfile(friendId).then(function (response) {
@@ -168,9 +147,23 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.items = response.data.items;
     $scope.friendsLengthh = response.data.user.friends.length;
     $scope.allFriendFriends = response.data.user.friends;
+
+    var friendItems = response.data.user.items;
+
+    for (var i = 0; i < friendItems.length; i++) {
+
+      var each_likeable_item = friendItems[i];
+
+      if (likedItemsArr.indexOf(each_likeable_item) > -1) {
+        console.log('HERE IS A LIKED ONE!!!!!', friendItems[i]);
+        $rootScope.like_heart = each_likeable_item;
+        console.log($scope.like_heart, 'HEREERRRRRRRR');
+      }
+    }
+
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1) {
-      $scope.yellowStar = 'star_btn';
+      $rootScope.yellowStar = 'star_btn';
     }
 
     var friendFriendArray = [];
@@ -179,18 +172,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       friendFriendArray.push(friendFriendName);
     }
 
-    console.log(likedItemsArr);
-    for (var i = 0; i < likedItemsArr.length; i++) {
-      // likedItemsArr[i].addClass("liked_item");
-    }
-
     $scope.friends = friendFriendArray;
     $scope.friendsLength = friendFriendArray.length;
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
-
-  // $scope.alreadyLiked = true;
 
   $scope.like_item = function (item) {
     UserSvc.likeItem(item).then(function (res) {
@@ -201,8 +187,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   };
 
   $scope.star = function (user) {
-    console.log(user, 'user');
-
+    if ($rootScope.yellowStar === undefined) {
+      $rootScope.yellowStar = 'star_btn';
+    } else {
+      $rootScope.yellowStar = undefined;
+    }
     // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user);
   };
@@ -235,6 +224,22 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
     }).catch(function (err) {
       console.error('Inside the Home Ctrl, we have an error!', err);
     });
+  };
+}
+'use strict';
+
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl]);
+
+function faqCtrl($rootScope, $scope, getUser) {
+  $rootScope.display_name = getUser.data.displayName;
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
+    answer: "2nd" }, { question: "3. 3rd",
+    answer: "3rd" }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
 'use strict';
@@ -371,64 +376,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
-
-function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
-
-  $scope.isAuthenticated = function () {
-    return $auth.isAuthenticated();
-  };
-  $scope.logout = function () {
-    $auth.logout();
-    $state.go('home');
-  };
-
-  $scope.goToWishList = function () {
-    UserSvc.getProfile().then(function (response) {
-      var facebookId = response.data.facebook;
-      // var facebook_name = response.data.displayName;
-      // var facebook_email = response.data.email;
-      console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
-      $state.go('my-wishlist', { id: facebookId });
-    });
-  };
-
-  $scope.goToOthers = function (user) {
-    UserSvc.getProfile().then(function (response) {
-      var myId = response.data.facebook;
-      console.log('MyId TRYING TO CHANGE PAGE', myId);
-      $state.go('friend-wishlist', { id: myId, fid: user.id });
-    });
-  };
-
-  // ui-sref="my-wishlist({id: {{user.id}}})"
-
-  $scope.searchFriends = function () {
-    var length = $rootScope.friendsLength;
-    $rootScope.userModel = [];
-    UserSvc.getProfile().then(function (res) {
-      console.log('@#%#$@!$#%@#!#!$', res);
-      // works because both arrays have same length;
-      for (var i = 0; i < length; i++) {
-        $rootScope.userModel[i] = {
-          "name": res.data.friends[i].name,
-          "id": res.data.friends[i].id
-        };
-      }
-    });
-  };
-
-  $scope.focused = function () {
-    $scope.friendsContainer = true;
-    $scope.searchFriends();
-  };
-
-  $scope.blurred = function () {
-    $scope.friendsContainer = false;
-  };
-}
-'use strict';
-
 angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
 
 function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
@@ -501,6 +448,64 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
 
   $scope.show_user_info = function () {
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
+  };
+}
+'use strict';
+
+angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
+
+function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
+
+  $scope.isAuthenticated = function () {
+    return $auth.isAuthenticated();
+  };
+  $scope.logout = function () {
+    $auth.logout();
+    $state.go('home');
+  };
+
+  $scope.goToWishList = function () {
+    UserSvc.getProfile().then(function (response) {
+      var facebookId = response.data.facebook;
+      // var facebook_name = response.data.displayName;
+      // var facebook_email = response.data.email;
+      console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
+      $state.go('my-wishlist', { id: facebookId });
+    });
+  };
+
+  $scope.goToOthers = function (user) {
+    UserSvc.getProfile().then(function (response) {
+      var myId = response.data.facebook;
+      console.log('MyId TRYING TO CHANGE PAGE', myId);
+      $state.go('friend-wishlist', { id: myId, fid: user.id });
+    });
+  };
+
+  // ui-sref="my-wishlist({id: {{user.id}}})"
+
+  $scope.searchFriends = function () {
+    var length = $rootScope.friendsLength;
+    $rootScope.userModel = [];
+    UserSvc.getProfile().then(function (res) {
+      console.log('@#%#$@!$#%@#!#!$', res);
+      // works because both arrays have same length;
+      for (var i = 0; i < length; i++) {
+        $rootScope.userModel[i] = {
+          "name": res.data.friends[i].name,
+          "id": res.data.friends[i].id
+        };
+      }
+    });
+  };
+
+  $scope.focused = function () {
+    $scope.friendsContainer = true;
+    $scope.searchFriends();
+  };
+
+  $scope.blurred = function () {
+    $scope.friendsContainer = false;
   };
 }
 'use strict';

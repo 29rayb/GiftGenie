@@ -6,17 +6,12 @@ angular
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
-  console.log('getUSER@#$^#$@!{#@)$#%#@)%@$%$', getUser.data.favorites)
-
   var favoritesIdArr = getUser.data.favorites;
 
   $rootScope.display_name = getUser.data.displayName
-  $scope.like_heart = false;
+  // $scope.like_heart = false;
 
   var likedItemsArr = getUser.data.liked
-  console.log('likedItemsArr', likedItemsArr)
-
-  // console.log($stateParams, 'state params');
   var friendId = $stateParams.fid;
 
   UserSvc.friendProfile(friendId)
@@ -31,9 +26,23 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.items = response.data.items;
     $scope.friendsLengthh = response.data.user.friends.length;
     $scope.allFriendFriends = response.data.user.friends;
+
+    var friendItems = response.data.user.items;
+
+    for (var i = 0; i < friendItems.length; i++){
+
+      var each_likeable_item = friendItems[i];
+
+      if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
+        console.log('HERE IS A LIKED ONE!!!!!', friendItems[i])
+        $rootScope.like_heart =  each_likeable_item;
+        console.log($scope.like_heart, 'HEREERRRRRRRR')
+      }
+    }
+
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1){
-      $scope.yellowStar = 'star_btn';
+      $rootScope.yellowStar = 'star_btn';
     }
 
     var friendFriendArray = [];
@@ -42,20 +51,12 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       friendFriendArray.push(friendFriendName);
     }
 
-    console.log(likedItemsArr)
-    for (var i = 0; i < likedItemsArr.length; i++){
-      // likedItemsArr[i].addClass("liked_item");
-    }
-
-
     $scope.friends = friendFriendArray;
     $scope.friendsLength = friendFriendArray.length;
   })
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
-
-  // $scope.alreadyLiked = true;
 
   $scope.like_item = (item) => {
     UserSvc.likeItem(item)
@@ -70,8 +71,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
 
   $scope.star = function (user) {
-    console.log(user, 'user')
-
+    if ($rootScope.yellowStar === undefined){
+      $rootScope.yellowStar = 'star_btn'
+    } else {
+      $rootScope.yellowStar = undefined
+    }
     // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user)
   }

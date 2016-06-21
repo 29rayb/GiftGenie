@@ -29,6 +29,36 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
+  module = angular.module('home');
+} catch (e) {
+  module = angular.module('home', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/home.html',
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="home_container">\n' +
+    '  <div class="button_container">\n' +
+    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('friendWishlist');
 } catch (e) {
   module = angular.module('friendWishlist', []);
@@ -62,9 +92,6 @@ module.run(['$templateCache', function($templateCache) {
     '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
-    '<!--       <button ng-click="favoriteWishlist = !favoriteWishlist; star(user);" ng-class="{star_btn: favoriteWishlist, star_btn: yellowStar  }">\n' +
-    '        <i class="fa fa-star"></i>\n' +
-    '      </button>  -->\n' +
     '      <button ng-click="star(user)" ng-class="yellowStar">\n' +
     '        <i class="fa fa-star"></i>\n' +
     '      </button>\n' +
@@ -78,7 +105,8 @@ module.run(['$templateCache', function($templateCache) {
     '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
-    '          <i class="fa fa-heart-o" ng-click="like_heart = !like_heart; like_item(item)" ng-class="{liked_item: like_heart, liked_item: alreadyLiked} "></i>\n' +
+    '          <!-- <i class="fa fa-heart-o" ng-click="like_heart = !like_heart; like_item(item)" ng-class="{liked_item: like_heart, liked_item: alreadyLiked} "></i> -->\n' +
+    '          <i class="fa fa-heart-o" ng-click="like_item(item)" ng-class="{liked_item : $index == like_heart}"></i>\n' +
     '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
     '          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
     '        </li>\n' +
@@ -92,36 +120,6 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('home');
-} catch (e) {
-  module = angular.module('home', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div>\n' +
-    '\n' +
-    '<div class="home_container">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '\n' +
-    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
     '');
 }]);
 })();
@@ -165,9 +163,9 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
     '\n' +
-    '      <button ng-click="favoriteWishlist = !favoriteWishlist; star(user);" ng-class="{star_btn: favoriteWishlist}">\n' +
+    '<!--       <button ng-click="favoriteWishlist = !favoriteWishlist; star(user);" ng-class="{star_btn: favoriteWishlist}">\n' +
     '        <i class="fa fa-star"></i>\n' +
-    '      </button>\n' +
+    '      </button> -->\n' +
     '    </div>\n' +
     '    <div class="top_container">\n' +
     '      <!-- <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div> -->\n' +
