@@ -33,7 +33,9 @@ router.post('/me/items', function(req, res) {
 
 //Route #3: Deleting an item from the wishlist (removes it from both Mongo models).
 router.put('/me/items/delete', function(req, res) {
+  // var clicked = req.body;
   var clickedItemId = req.body._id;
+  // var clickedItemName = req.body.name;
 
   var mongoose = require('mongoose');
   var objectId = mongoose.Types.ObjectId(clickedItemId);
@@ -100,8 +102,9 @@ router.put('/me/items/order', function(req, res){
 
 // Favorite User's Wishlist
 router.put('/me/star', function(req, res){
-  console.log(req.body, 'req.body')
+console.log(req.body, 'req.body')
   var starred_friend = req.body._id;
+
   User.findById(req.user, function(err, user){
     if (!user){
       return res.status(400).send({messages: 'User Not Found'})
@@ -110,21 +113,44 @@ router.put('/me/star', function(req, res){
     if (user.favorites.indexOf(starred_friend) > -1){
       User.update({"_id": req.user}, {$pull: {"favorites": starred_friend}}, function(err, user){
         if(err){ res.status(400).send(err);}
-        console.log('wishlist already in the favorites array');
-        console.log('wishlist unfavorited');
-      })
+          console.log('wishlist already in the favorites array');
+          console.log('wishlist unfavorited');
+        })
       return;
     }
+
     User.update({"_id": req.user}, {$push: {"favorites": starred_friend}}, function(err, user){
       if(err){ res.status(400).send(err);}
       console.log('this is the user that was added to your favorite', user)
       res.send(user)
     })
   });
+
+
+  //   console.log('favorites array', user.favorites)
+  //   console.log('req.user', req.user)
+  //
+  //   if (user.favorites.indexOf(req.user) > -1){
+  //     User.update({"_id": req.user}, {$pull: {"favorites": req.user}}, function(err, user){
+  //     if(err){ res.status(400).send(err);}
+  //       console.log('wishlist already in the favorites array');
+  //       console.log('wishlist unfavorited');
+  //     })
+  //     return;
+  //   }
+
+  //   // why can't we $push user.facebook ? it doesn;t save in robomongo
+  //   User.update({"_id": req.user}, {$push: {"favorites": req.user}}, function(err, user){
+  //     if(err){ res.status(400).send(err);}
+  //     console.log('this is the user that was added to your favorite', user)
+  //     res.send(user)
+  //   })
+  // })
 })
 
 
 router.post('/friend', function(req, res){
+  // console.log('FRIEND FACEBOOK ID', req.body.params)
   var friendId = req.body.params.fid;
 
   User.findOne({'facebook': friendId}, function(err, user){
@@ -180,6 +206,7 @@ router.get('/favorites/data', function(req, res) {
   })
 })
 
+
 // like items;
 router.put('/items/liked', function(req, res){
   var likedItem = req.body._id
@@ -202,5 +229,6 @@ router.put('/items/liked', function(req, res){
       })
     })
 })
+
 
 module.exports = router;

@@ -48,10 +48,12 @@ module.run(['$templateCache', function($templateCache) {
     '      </p>\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
+    '      <p>Followers: {{friendsLengthh}} </p>\n' +
+    '      <p>Following: {{friendsLengthh}} </p>\n' +
     '\n' +
     '      <button class="btn btn-primary follow_button">Follow</button>\n' +
     '\n' +
-    '      <button ng-click="goToSettings()" class="settings">\n' +
+    '      <button ng-click="goToSettings()" class="btn btn-info settings">\n' +
     '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
     '      </button>\n' +
     '    </div>\n' +
@@ -60,7 +62,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
-    '      <button ng-click="star(user)" class="star_btn">\n' +
+    '      <button ng-click="favoriteWishlist = !favoriteWishlist; star(user);" ng-class="{star_btn: favoriteWishlist}">\n' +
     '        <i class="fa fa-star"></i>\n' +
     '      </button>\n' +
     '    </div>\n' +
@@ -73,7 +75,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
-    '          <i class="fa fa-heart-o" ng-click="like_heart = !like_heart; like_item(item)" ng-class="{liked_item: like_heart}"></i>\n' +
+    '          <i class="fa fa-heart-o" ng-click="like_heart = !like_heart; like_item(item)" ng-class="{liked_item: like_heart, liked_item: alreadyLiked} "></i>\n' +
     '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
     '          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
     '        </li>\n' +
@@ -87,36 +89,6 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('home');
-} catch (e) {
-  module = angular.module('home', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div>\n' +
-    '\n' +
-    '<div class="home_container">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '\n' +
-    '<video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted>\n' +
     '');
 }]);
 })();
@@ -142,10 +114,13 @@ module.run(['$templateCache', function($templateCache) {
     '      </p>\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
-    '      <p>Followers: </p>\n' +
-    '      <p>Following: </p>\n' +
+    '      <p>Followers: {{friendsLength}} </p>\n' +
+    '      <p>Following: {{friendsLength}} </p>\n' +
     '\n' +
-    '      <button class="btn btn-primary follow_button">Follow</button>\n' +
+    '      <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">\n' +
+    '        <div ng-if="hover">Unfollow</div>\n' +
+    '        <div ng-if="!hover">Follow <span ng-if="alreadyFollowing">Following</span></div>\n' +
+    '      </button>\n' +
     '\n' +
     '      <button ng-click="goToSettings()" class=" btn btn-info settings">\n' +
     '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
@@ -246,6 +221,36 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
+  module = angular.module('home');
+} catch (e) {
+  module = angular.module('home', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/home.html',
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="home_container">\n' +
+    '  <div class="button_container">\n' +
+    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('starredLists');
 } catch (e) {
   module = angular.module('starredLists', []);
@@ -274,17 +279,14 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '    <div class="bottom_container col-xs-12">\n' +
     '\n' +
-    '<!--       <div ng-model="favorites">\n' +
-    '        <div ng-repeat="user in userModel | filter:user.name">\n' +
-    '          <div class="user_card col-xs-12 col-sm-6">\n' +
-    '            <img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=large" ng-click="show_user_info()"> <br>\n' +
-    '            <h6 class="user_name" ng-if="clicked_card">{{user.name}}</h6>\n' +
-    '          </div>\n' +
+    '    <div ng-model="favorites">\n' +
+    '      <div ng-repeat="favorite in favsModel | filter:favorite.name">\n' +
+    '        <div class="user_card col-xs-12 col-sm-6" ng-click="goToOthers(favorite)">\n' +
+    '\n' +
+    '          <img ng-src="https://graph.facebook.com/{{favorite.id}}/picture?type=large" ng-click="show_user_info()"></img>\n' +
+    '          <!-- <h6 class="user_name" ng-if="clicked_card">{{favorite.name}}</h6> -->\n' +
     '        </div>\n' +
     '      </div>\n' +
-    ' -->\n' +
-    '    <div ng-model="favorites">\n' +
-    '      <li ng-repeat="favorite in favorites">{{favorite}}</li>\n' +
     '    </div>\n' +
     '\n' +
     '    </div>\n' +

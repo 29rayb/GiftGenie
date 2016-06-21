@@ -163,7 +163,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.email = response.data.user.email;
     $scope.pro_pic = response.data.user.facebook;
     $scope.items = response.data.items;
-    $scope.friendsLengthh = response.data.user.friends.length;
     // console.log('friends items', $scope.items);
     $scope.allFriendFriends = response.data.user.friends;
 
@@ -175,7 +174,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
     console.log(likedItemsArr);
     for (var i = 0; i < likedItemsArr.length; i++) {
-      // likedItemsArr[i].addClass("liked_item");
+      likedItemsArr[i].addClass("liked_item");
     }
 
     $scope.friends = friendFriendArray;
@@ -196,7 +195,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.star = function (user) {
     console.log(user, 'user');
-
     // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user);
   };
@@ -211,7 +209,11 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
     //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
     //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
     $auth.authenticate(provider, user).then(function (res) {
+<<<<<<< HEAD
       // console.log(res, 'This is the auth response in Home Ctlr.');
+=======
+      console.log(res, 'This is the auth response in Home Ctlr.');
+>>>>>>> a6157e16a8bbeb7ace1c75e01729f44df90b645d
       // var token = res.data;
       // console.log(token, "This is our token. We're inside Home Ctlr.")
       UserSvc.getProfile()
@@ -221,7 +223,11 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
         var facebookId = response.data.facebook;
         // var facebook_name = response.data.displayName;
         // var facebook_email = response.data.email;
+<<<<<<< HEAD
         // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+=======
+        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
+>>>>>>> a6157e16a8bbeb7ace1c75e01729f44df90b645d
         $state.go('my-wishlist', { id: facebookId });
       }).catch(function (err) {
         console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
@@ -243,7 +249,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $scope.settings = false;
   $scope.like_heart = false;
   $scope.favoriteWishlist = false;
-  // $scope.notFollowing = true;
 
   // console.log('is this the id in the url', $scope.id)
 
@@ -412,6 +417,15 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
     });
   };
 
+  // $scope.getFavorites = () => {
+
+  // }
+
+  // UserSvc.getProfile()
+  // .then((res) => {
+  //   console.log('!@#!@#!@#@#@!#@!#@', res)
+  // })
+
   $scope.focused = function () {
     $scope.friendsContainer = true;
     $scope.searchFriends();
@@ -420,6 +434,8 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
   $scope.blurred = function () {
     $scope.friendsContainer = false;
   };
+
+  // $scope.searchFriends();
 }
 'use strict';
 
@@ -435,39 +451,10 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   // var favoritesIdsArray = $scope.favorites;
 
   UserSvc.showFavoritesData().then(function (response) {
-    var favsLength = response.data.user.favorites.length;
-    var favObj = response.data.favoritesData;
-    console.log(favObj);
-    $scope.favsModel = [];
-    for (var i = 0; i < favsLength; i++) {
-      // var favsName = favObj[i].displayName;
-      // favsNameArr.push(favsName);
-      // var favsPic = favObj[i].picture;
-      // favsPicArr.push(favsPic);
-      $scope.favsModel[i] = {
-        "name": favObj[i].displayName,
-        "id": favObj[i].facebook
-      };
-    }
-    // console.log($scope.favsModel)
+    console.log(response.data, '<---------------FAVORITES DATA!!');
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
-
-  $scope.goToOthers = function (favorite) {
-    UserSvc.getProfile().then(function (response) {
-      var myId = response.data.facebook;
-      // var fid = favorite.id;
-      // console.log('MyId TRYING TO CHANGE PAGE', myId)
-      $state.go('friend-wishlist', { id: myId, fid: favorite.id });
-    });
-  };
-
-  // var friendFriendArray = [];
-  // for (var i=0; i<response.data.user.friends.length; i++) {
-  //   var friendFriendName = response.data.user.friends[i].name;
-  //   friendFriendArray.push(friendFriendName);
-  // }
 
   $scope.star = function () {
     console.log('star in starred list');

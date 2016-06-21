@@ -15,11 +15,51 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
 
   UserSvc.showFavoritesData()
   .then((response) => {
-    console.log(response.data, '<---------------FAVORITES DATA!!');
+    var favsLength = response.data.user.favorites.length;
+    var favObj = response.data.favoritesData
+    console.log(favObj)
+    $scope.favsModel = [];
+    for (var i = 0; i < favsLength; i++){
+      // var favsName = favObj[i].displayName;
+      // favsNameArr.push(favsName);
+      // var favsPic = favObj[i].picture;
+      // favsPicArr.push(favsPic);
+      $scope.favsModel[i] = {
+        "name": favObj[i].displayName,
+        "id": favObj[i].facebook
+      };
+    }
+    // console.log($scope.favsModel)
   })
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
+
+  $scope.goToOthers = (favorite) => {
+    UserSvc.getProfile()
+      .then((response) => {
+      var myId = response.data.facebook;
+      // var fid = favorite.id;
+      // console.log('MyId TRYING TO CHANGE PAGE', myId)
+      $state.go('friend-wishlist', {id: myId, fid: favorite.id});
+    })
+  }
+
+
+
+
+    // var friendFriendArray = [];
+    // for (var i=0; i<response.data.user.friends.length; i++) {
+    //   var friendFriendName = response.data.user.friends[i].name;
+    //   friendFriendArray.push(friendFriendName);
+    // }
+
+
+
+
+
+
+
 
 
   $scope.star = () => {

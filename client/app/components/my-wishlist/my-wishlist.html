@@ -11,10 +11,13 @@
       </p>
       <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>
       <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>
-      <p>Followers: </p>
-      <p>Following: </p>
+      <p>Followers: {{friendsLength}} </p>
+      <p>Following: {{friendsLength}} </p>
 
-      <button class="btn btn-primary follow_button">Follow</button>
+      <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">
+        <div ng-if="hover">Unfollow</div>
+        <div ng-if="!hover">Follow <span ng-if="alreadyFollowing">Following</span></div>
+      </button>
 
       <button ng-click="goToSettings()" class=" btn btn-info settings">
         <i class="fa fa-cog" aria-hidden="true"></i>

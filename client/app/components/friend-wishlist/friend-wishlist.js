@@ -9,7 +9,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $rootScope.display_name = getUser.data.displayName
   $scope.like_heart = false;
 
-  console.log($stateParams, 'state params');
+  console.log('getuser @#$%^&*$#^&*#', getUser)
+  var likedItemsArr = getUser.data.liked
+  console.log('likedItemsArr', likedItemsArr)
+
+  // console.log($stateParams, 'state params');
   var friendId = $stateParams.fid;
 
   UserSvc.friendProfile(friendId)
@@ -22,7 +26,8 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.email = response.data.user.email
     $scope.pro_pic = response.data.user.facebook
     $scope.items = response.data.items;
-    console.log('friends items', $scope.items);
+    $scope.friendsLengthh = response.data.user.friends.length;
+    // console.log('friends items', $scope.items);
     $scope.allFriendFriends = response.data.user.friends;
 
     var friendFriendArray = [];
@@ -31,12 +36,20 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       friendFriendArray.push(friendFriendName);
     }
 
+    console.log(likedItemsArr)
+    for (var i = 0; i < likedItemsArr.length; i++){
+      // likedItemsArr[i].addClass("liked_item");
+    }
+
+
     $scope.friends = friendFriendArray;
     $scope.friendsLength = friendFriendArray.length;
   })
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
+
+  // $scope.alreadyLiked = true;
 
   $scope.like_item = (item) => {
     UserSvc.likeItem(item)
@@ -46,7 +59,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       .catch((err) => {
         console.log('error from item being liked', err)
       })
-  }
+    }
 
 
 
