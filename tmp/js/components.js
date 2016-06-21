@@ -46,14 +46,11 @@ module.run(['$templateCache', function($templateCache) {
     '        <a href=""></a>\n' +
     '        {{display_name}}\n' +
     '      </p>\n' +
-    '      <p><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
-    '      <!-- need to get birthday from api call -->\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
     '\n' +
-    '      <button ng-click="star(user)" class="star_btn">\n' +
-    '        <i class="fa fa-star"></i>\n' +
-    '      </button>\n' +
+    '      <button class="btn btn-primary follow_button">Follow</button>\n' +
+    '\n' +
     '      <button ng-click="goToSettings()" class="settings">\n' +
     '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
     '      </button>\n' +
@@ -91,35 +88,6 @@ module.run(['$templateCache', function($templateCache) {
     '</div>\n' +
     '\n' +
     '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('faq');
-} catch (e) {
-  module = angular.module('faq', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('faq/faq.html',
-    '<div class="main_container">\n' +
-    '\n' +
-    '  <div class="faq container">\n' +
-    '    <h1>Frquently Asked Questions</h1>\n' +
-    '    <div class="search_faq_container">\n' +
-    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <ul class="faquestions">\n' +
-    '      <li ng-repeat="faq in faqs | filter:search">\n' +
-    '        <h5 ng-click="getAnswer()">{{faq.question}} </h5><br>\n' +
-    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}} </h6>\n' +
-    '      </li>\n' +
-    '    </ul>\n' +
-    '  </div>\n' +
-    '\n' +
-    '\n' +
-    '</div>');
 }]);
 })();
 
@@ -172,17 +140,14 @@ module.run(['$templateCache', function($templateCache) {
     '        <a href=""></a>\n' +
     '        {{display_name}}\n' +
     '      </p>\n' +
-    '      <p><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
-    '      <!-- need to get birthday from api call -->\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
     '      <p>Followers: </p>\n' +
     '      <p>Following: </p>\n' +
     '\n' +
-    '      <button ng-click="favoriteWishlist = !favoriteWishlist" ng-class="{star_btn: favoriteWishlist}">\n' +
-    '        <i class="fa fa-star"></i>\n' +
-    '      </button>\n' +
-    '      <button ng-click="goToSettings()" class="settings">\n' +
+    '      <button class="btn btn-primary follow_button">Follow</button>\n' +
+    '\n' +
+    '      <button ng-click="goToSettings()" class=" btn btn-info settings">\n' +
     '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
     '      </button>\n' +
     '    </div>\n' +
@@ -205,7 +170,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
-    '          <i class="fa fa-heart-o" ng-click="like_heart = !like_heart" ng-class="{liked_item: like_heart}"></i>\n' +
+    '          <i class="fa fa-heart-o" ng-click="like_heart = !like_heart; like_item(item)" ng-class="{liked_item: like_heart}"></i>\n' +
     '          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
     '          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
     '        </li>\n' +
@@ -281,36 +246,6 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('home');
-} catch (e) {
-  module = angular.module('home', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div>\n' +
-    '\n' +
-    '<div class="home_container">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '\n' +
-    '<video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
   module = angular.module('starredLists');
 } catch (e) {
   module = angular.module('starredLists', []);
@@ -350,18 +285,12 @@ module.run(['$templateCache', function($templateCache) {
     ' -->\n' +
     '    <div ng-model="favorites">\n' +
     '      <li ng-repeat="favorite in favorites">{{favorite}}</li>\n' +
-    '\n' +
     '    </div>\n' +
     '\n' +
     '    </div>\n' +
     '  </div>\n' +
     '\n' +
     '</div>\n' +
-    '\n' +
-    '\n' +
-    '\n' +
-    '\n' +
-    '\n' +
     '');
 }]);
 })();

@@ -107,8 +107,6 @@ function UserSvc($http) {
     },
     starPerson: function starPerson(user) {
       console.log('starring this user', user);
-      // var starred_friend_id = user.facebook;
-      // console.log(starred_friend_id, 'facebook')
       return $http.put('/api/me/star', user);
     },
     saveOrder: function saveOrder(newOrder) {
@@ -118,6 +116,9 @@ function UserSvc($http) {
     likeItem: function likeItem(item) {
       console.log('like this item', item);
       return $http.put('/api/items/liked', item);
+    },
+    showFavoritesData: function showFavoritesData() {
+      return $http.get('/api/favorites/data');
     }
   };
 };
@@ -177,6 +178,36 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
     // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user);
+  };
+}
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    $auth.authenticate(provider, user).then(function (res) {
+      console.log(res, 'This is the auth response in Home Ctlr.');
+      // var token = res.data;
+      // console.log(token, "This is our token. We're inside Home Ctlr.")
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
   };
 }
 'use strict';
@@ -310,36 +341,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     axis: 'y'
   };
 }
-
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    $auth.authenticate(provider, user).then(function (res) {
-      console.log(res, 'This is the auth response in Home Ctlr.');
-      // var token = res.data;
-      // console.log(token, "This is our token. We're inside Home Ctlr.")
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-      });
-    }).catch(function (err) {
-      console.error('Inside the Home Ctrl, we have an error!', err);
-    });
-  };
-}
 'use strict';
 
 angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
@@ -418,6 +419,15 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   if (!$auth.isAuthenticated()) {
     return $state.go('home');
   }
+
+  // $scope.favorites = getUser.data.favorites;
+  // var favoritesIdsArray = $scope.favorites;
+
+  UserSvc.showFavoritesData().then(function (response) {
+    console.log(response.data, '<---------------FAVORITES DATA!!');
+  }).catch(function (err) {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
 
   $scope.star = function () {
     console.log('star in starred list');

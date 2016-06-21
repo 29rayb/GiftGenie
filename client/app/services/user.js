@@ -31,8 +31,6 @@ function UserSvc ($http) {
     },
     starPerson: (user) => {
       console.log('starring this user', user)
-      // var starred_friend_id = user.facebook;
-      // console.log(starred_friend_id, 'facebook')
       return $http.put('/api/me/star', user)
     },
     saveOrder: (newOrder) => {
@@ -42,6 +40,9 @@ function UserSvc ($http) {
     likeItem: (item) => {
       console.log('like this item', item);
       return $http.put('/api/items/liked', item);
+    },
+    showFavoritesData: () => {
+      return $http.get('/api/favorites/data');
     }
   };
 };

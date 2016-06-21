@@ -1,14 +1,26 @@
 'use strict';
 
 angular
-  .module('App')
-  .controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl])
+.module('App')
+.controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl])
 
 function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope){
 
   if(!$auth.isAuthenticated()){
     return $state.go('home');
   }
+
+// $scope.favorites = getUser.data.favorites;
+// var favoritesIdsArray = $scope.favorites;
+
+  UserSvc.showFavoritesData()
+  .then((response) => {
+    console.log(response.data, '<---------------FAVORITES DATA!!');
+  })
+  .catch((err) => {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
+
 
   $scope.star = () => {
     console.log('star in starred list')
@@ -32,10 +44,10 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   //       console.error(err, 'have no friends');
   //     });
   // }
-  // 
-
+  //
 
   $scope.show_user_info = () => {
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   }
+
 }
