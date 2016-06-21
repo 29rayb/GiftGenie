@@ -52,15 +52,6 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
       })
   }
 
-  // $scope.getFavorites = () => {
-
-  // }
-
-  // UserSvc.getProfile()
-  // .then((res) => {
-  //   console.log('!@#!@#!@#@#@!#@!#@', res)
-  // })
-
   $scope.focused = () => {
     $scope.friendsContainer = true;
     $scope.searchFriends()
@@ -69,6 +60,4 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
   $scope.blurred = () => {
     $scope.friendsContainer = false;
   }
-
-  // $scope.searchFriends();
 }

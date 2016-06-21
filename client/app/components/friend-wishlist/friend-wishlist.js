@@ -26,6 +26,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.email = response.data.user.email
     $scope.pro_pic = response.data.user.facebook
     $scope.items = response.data.items;
+    $scope.friendsLengthh = response.data.user.friends.length;
     // console.log('friends items', $scope.items);
     $scope.allFriendFriends = response.data.user.friends;
 

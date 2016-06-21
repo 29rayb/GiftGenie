@@ -35,7 +35,15 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
-
+  $scope.goToOthers = (favorite) => {
+    UserSvc.getProfile()
+      .then((response) => {
+      var myId = response.data.facebook;
+      // var fid = favorite.id;
+      // console.log('MyId TRYING TO CHANGE PAGE', myId)
+      $state.go('friend-wishlist', {id: myId, fid: favorite.id});
+    })
+  }
 
 
 

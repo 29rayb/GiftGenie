@@ -124,18 +124,6 @@ function UserSvc($http) {
 };
 'use strict';
 
-angular.module('App').controller('ProfileCardCtrl', function ($scope) {
-  console.log('yo');
-}).directive('profile-card', function () {
-  return {
-    restrict: 'E',
-    controller: 'ProfileCardCtrl',
-    templateUrl: 'app/shared/profile-card/profile-card.html',
-    link: function link(scope, el, attrs) {}
-  };
-});
-'use strict';
-
 angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl]);
 
 function faqCtrl($rootScope, $scope, getUser) {
@@ -175,6 +163,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.email = response.data.user.email;
     $scope.pro_pic = response.data.user.facebook;
     $scope.items = response.data.items;
+    $scope.friendsLengthh = response.data.user.friends.length;
     // console.log('friends items', $scope.items);
     $scope.allFriendFriends = response.data.user.friends;
 
@@ -186,7 +175,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
     console.log(likedItemsArr);
     for (var i = 0; i < likedItemsArr.length; i++) {
-      likedItemsArr[i].addClass("liked_item");
+      // likedItemsArr[i].addClass("liked_item");
     }
 
     $scope.friends = friendFriendArray;
@@ -422,15 +411,6 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
     });
   };
 
-  // $scope.getFavorites = () => {
-
-  // }
-
-  // UserSvc.getProfile()
-  // .then((res) => {
-  //   console.log('!@#!@#!@#@#@!#@!#@', res)
-  // })
-
   $scope.focused = function () {
     $scope.friendsContainer = true;
     $scope.searchFriends();
@@ -439,8 +419,6 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
   $scope.blurred = function () {
     $scope.friendsContainer = false;
   };
-
-  // $scope.searchFriends();
 }
 'use strict';
 
@@ -457,14 +435,32 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
 
   UserSvc.showFavoritesData().then(function (response) {
     var favsLength = response.data.user.favorites.length;
-    console.log(response.data.favoritesData);
-    var favsList = [];
+    var favObj = response.data.favoritesData;
+    console.log(favObj);
+    $scope.favsModel = [];
     for (var i = 0; i < favsLength; i++) {
-      console.log('should be once', i);
+      // var favsName = favObj[i].displayName;
+      // favsNameArr.push(favsName);
+      // var favsPic = favObj[i].picture;
+      // favsPicArr.push(favsPic);
+      $scope.favsModel[i] = {
+        "name": favObj[i].displayName,
+        "id": favObj[i].facebook
+      };
     }
+    // console.log($scope.favsModel)
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
+
+  $scope.goToOthers = function (favorite) {
+    UserSvc.getProfile().then(function (response) {
+      var myId = response.data.facebook;
+      // var fid = favorite.id;
+      // console.log('MyId TRYING TO CHANGE PAGE', myId)
+      $state.go('friend-wishlist', { id: myId, fid: favorite.id });
+    });
+  };
 
   // var friendFriendArray = [];
   // for (var i=0; i<response.data.user.friends.length; i++) {
@@ -500,3 +496,15 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
 }
+'use strict';
+
+angular.module('App').controller('ProfileCardCtrl', function ($scope) {
+  console.log('yo');
+}).directive('profile-card', function () {
+  return {
+    restrict: 'E',
+    controller: 'ProfileCardCtrl',
+    templateUrl: 'app/shared/profile-card/profile-card.html',
+    link: function link(scope, el, attrs) {}
+  };
+});
