@@ -29,7 +29,7 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     UserSvc.getProfile()
       .then((response) => {
       var myId = response.data.facebook;
-      console.log('MyId TRYING TO CHANGE PAGE', myId)
+      // console.log('MyId TRYING TO CHANGE PAGE', myId)
       $state.go('friend-wishlist', {id: myId, fid: user.id});
     })
   }
@@ -41,7 +41,7 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     $rootScope.userModel = [];
     UserSvc.getProfile()
       .then((res) => {
-        console.log('@#%#$@!$#%@#!#!$', res)
+        console.log('RESPONSE FROM SEARCH FRIENDS IN NAVBAR.JS', res.data)
         // works because both arrays have same length;
         for (var i = 0; i < length; i++){
           $rootScope.userModel[i] = {
