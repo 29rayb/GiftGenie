@@ -50,16 +50,12 @@ module.run(['$templateCache', function($templateCache) {
     '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
     '      <p>Followers: {{friendsLengthh}} </p>\n' +
     '      <p>Following: {{friendsLengthh}} </p>\n' +
-    '\n' +
-    '<!--       <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="followUser(user)">\n' +
-    '        <div ng-if="hover">Unfollow</div>\n' +
-    '        <div ng-if="!hover">Follow <span ng-if="alreadyFollowing">Following</span></div>\n' +
-    '      </button> -->\n' +
-    '      <button class="btn btn-primary" ng-class="followButton" ng-click="followUser(user)">\n' +
-    '        <div ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>\n' +
-    '        <div ng-show="unfollow" ng-class="unfollow_button" ng-mouseout="followBtnShow()">Unfollow </div>\n' +
-    '        <div ng-if="!follow && !unfollow">Follow</div>\n' +
+    '      <button ng-click="followUser(user)">\n' +
+    '        <div class="btn btn-primary"  ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>\n' +
+    '        <div ng-show="unfollow" class="btn btn-danger" ng-mouseout="followBtnShow()">Unfollow </div>\n' +
+    '        <div class="btn btn-primary"  ng-if="!follow && !unfollow">Follow</div>\n' +
     '      </button>\n' +
+    '      <!-- add block this person feature into setting -->\n' +
     '<!--       <button ng-click="goToSettings()" class="btn btn-info settings">\n' +
     '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
     '      </button> -->\n' +
@@ -96,6 +92,36 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('home');
+} catch (e) {
+  module = angular.module('home', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/home.html',
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="home_container">\n' +
+    '  <div class="button_container">\n' +
+    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
     '');
 }]);
 })();
@@ -222,36 +248,6 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '  </div>\n' +
     '</div>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('home');
-} catch (e) {
-  module = angular.module('home', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div>\n' +
-    '\n' +
-    '<div class="home_container">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '\n' +
-    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
     '');
 }]);
 })();

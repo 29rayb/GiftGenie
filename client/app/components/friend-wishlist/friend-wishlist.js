@@ -112,7 +112,20 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   }
 
   $scope.followUser = (user) => {
-    // console.log('user', user)
+    console.log('user', user._id)
+    var tmpFriendId = user._id
+    if (followingFriendIdArr.indexOf(tmpFriendId) > -1){
+      followingFriendIdArr.pop(tmpFriendId)
+      $scope.unfollow = false;
+    } else {
+      followingFriendIdArr.push(tmpFriendId)
+      console.log('you are following this person')
+      // need to fix this;
+      window.location.reload()
+      // $scope.unfollow = true;
+      // $scope.follow = false;
+    }
+    console.log(followingFriendIdArr)
     UserSvc.followPerson(user)
   }
 
@@ -121,23 +134,12 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       console.log('should show RED unfollow button & hide following button')
       $rootScope.follow = false;
       $rootScope.unfollow = true;
-      // doesn't work;
-      // console.log(' before ',$rootScope.followButton)
-      // if ($rootScope.followButton === undefined){
-      //   $rootScope.followButton = 'unfollow_button'
-      // }
-      // console.log('AFTER',$rootScope.followButton)
     }
 
     $scope.followBtnShow = () => {
       console.log('should show follow button only')
       $rootScope.follow = true;
       $rootScope.unfollow = false;
-      // console.log('FOLLOW BUTTON SHOW',$rootScope.followButton)
-      // if ($rootScope.followButton === undefined){
-      //   $rootScope.followButton = 'unfollow_button';
-      // }
-      // $scope.hideFollowBtn = false;
     }
 
 
