@@ -159,6 +159,4 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.goToFollowers = () => {
       $state.go('followers')
     }
-
-
 }
