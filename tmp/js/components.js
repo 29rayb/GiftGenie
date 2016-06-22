@@ -29,69 +29,30 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('friendWishlist');
+  module = angular.module('home');
 } catch (e) {
-  module = angular.module('friendWishlist', []);
+  module = angular.module('home', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('friend-wishlist/friend-wishlist.html',
-    '<div class="main_container">\n' +
+  $templateCache.put('home/home.html',
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div>\n' +
     '\n' +
-    '  <div class="profile container col-xs-3">\n' +
-    '    <div class="pro_pic_container col-xs-10">\n' +
-    '      <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">\n' +
-    '    </div>\n' +
-    '    <div class="pro_info col-xs-10">\n' +
-    '      <p><i class="fa fa-user"></i>\n' +
-    '        <a href=""></a>\n' +
-    '        {{display_name}}\n' +
-    '      </p>\n' +
-    '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
-    '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
-    '      <p ng-click="goToFollowers()">Followers: {{followers}} </p>\n' +
-    '      <p ng-click="goToFollowing()">Following: {{following}} </p>\n' +
-    '      <button ng-click="followUser(user)">\n' +
-    '        <div class="btn btn-primary"  ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>\n' +
-    '        <div ng-show="unfollow" class="btn btn-danger" ng-mouseout="followBtnShow()">Unfollow </div>\n' +
-    '        <div class="btn btn-primary"  ng-if="!follow && !unfollow">Follow</div>\n' +
-    '      </button>\n' +
-    '      <!-- add block this person feature into setting -->\n' +
-    '<!--       <button ng-click="goToSettings()" class="btn btn-info settings">\n' +
-    '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
-    '      </button> -->\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '\n' +
-    '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
-    '    <div class="title_container">\n' +
-    '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
-    '      <button ng-click="star(user)" ng-class="yellowStar">\n' +
-    '        <i class="fa fa-star"></i>\n' +
-    '      </button>\n' +
-    '    </div>\n' +
-    '    <div class="top_container">\n' +
-    '      <!-- <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div> -->\n' +
-    '    </div>\n' +
-    '    <div class="bottom_container">\n' +
-    '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
-    '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
-    '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
-    '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
-    '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
-    '          <i class="fa fa-heart-o" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>\n' +
-    '          <!-- <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i> -->\n' +
-    '          <!-- <i class="fa fa-trash" ng-click="delete(item, $index)"></i> -->\n' +
-    '        </li>\n' +
-    '      </ol>\n' +
-    '    </div>\n' +
-    '    <div class="fb_comments_container">\n' +
-    '<!--       <div class="fb-comments" data-href="http://localhost:3000/#/my-wishlist" data-numposts="5" data-order=by="social" data-width="280"></div>\n' +
-    ' -->      <!-- this is for when the app is deployed -->\n' +
-    '      <!-- <div class="fb-comments" data-href="https://giftsgenies.herokuapp.com/#/" data-width="464" data-numposts="10"></div> -->\n' +
-    '    </div>\n' +
+    '<div class="home_container">\n' +
+    '  <div class="button_container">\n' +
+    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
     '  </div>\n' +
     '</div>\n' +
     '\n' +
+    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
     '');
 }]);
 })();
@@ -272,30 +233,69 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('home');
+  module = angular.module('friendWishlist');
 } catch (e) {
-  module = angular.module('home', []);
+  module = angular.module('friendWishlist', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div>\n' +
+  $templateCache.put('friend-wishlist/friend-wishlist.html',
+    '<div class="main_container">\n' +
     '\n' +
-    '<div class="home_container">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
+    '  <div class="profile container col-xs-3">\n' +
+    '    <div class="pro_pic_container col-xs-10">\n' +
+    '      <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">\n' +
+    '    </div>\n' +
+    '    <div class="pro_info col-xs-10">\n' +
+    '      <p><i class="fa fa-user"></i>\n' +
+    '        <a href=""></a>\n' +
+    '        {{display_name}}\n' +
+    '      </p>\n' +
+    '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
+    '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
+    '      <p ng-click="goToFollowers()">Followers: {{followers}} </p>\n' +
+    '      <p ng-click="goToFollowing()">Following: {{following}} </p>\n' +
+    '      <button ng-click="followUser(user)">\n' +
+    '        <div class="btn btn-primary"  ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>\n' +
+    '        <div ng-show="unfollow" class="btn btn-danger" ng-mouseout="followBtnShow()">Unfollow </div>\n' +
+    '        <div class="btn btn-primary"  ng-if="!follow && !unfollow">Follow</div>\n' +
+    '      </button>\n' +
+    '      <!-- add block this person feature into setting -->\n' +
+    '<!--       <button ng-click="goToSettings()" class="btn btn-info settings">\n' +
+    '        <i class="fa fa-cog" aria-hidden="true"></i>\n' +
+    '      </button> -->\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '\n' +
+    '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
+    '    <div class="title_container">\n' +
+    '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
+    '      <button ng-click="star(user)" ng-class="yellowStar">\n' +
+    '        <i class="fa fa-star"></i>\n' +
+    '      </button>\n' +
+    '    </div>\n' +
+    '    <div class="top_container">\n' +
+    '      <!-- <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div> -->\n' +
+    '    </div>\n' +
+    '    <div class="bottom_container">\n' +
+    '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
+    '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
+    '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
+    '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
+    '          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
+    '          <i class="fa fa-heart-o" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>\n' +
+    '          <!-- <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i> -->\n' +
+    '          <!-- <i class="fa fa-trash" ng-click="delete(item, $index)"></i> -->\n' +
+    '        </li>\n' +
+    '      </ol>\n' +
+    '    </div>\n' +
+    '    <div class="fb_comments_container">\n' +
+    '<!--       <div class="fb-comments" data-href="http://localhost:3000/#/my-wishlist" data-numposts="5" data-order=by="social" data-width="280"></div>\n' +
+    ' -->      <!-- this is for when the app is deployed -->\n' +
+    '      <!-- <div class="fb-comments" data-href="https://giftsgenies.herokuapp.com/#/" data-width="464" data-numposts="10"></div> -->\n' +
+    '    </div>\n' +
     '  </div>\n' +
     '</div>\n' +
     '\n' +
-    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
     '');
 }]);
 })();
@@ -310,10 +310,9 @@ module.run(['$templateCache', function($templateCache) {
   $templateCache.put('starred-lists/starred-lists.html',
     '<div class="main_container">\n' +
     '\n' +
-    '  <div class="profile container col-xs-3">\n' +
+    '<!--   <div class="profile container col-xs-3">\n' +
     '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10" ng-model="user.name">\n' +
     '    <div class="pro_pic_container col-xs-10">\n' +
-    '      <!-- the following info will only be seen once searched and clicked on -->\n' +
     '      <video src="dist/images/love.mp4" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
     '    </div>\n' +
     '    <div class="pro_info col-xs-10">\n' +
@@ -322,7 +321,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <p>{{birthday}}</p>\n' +
     '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
     '    </div>\n' +
-    '  </div>\n' +
+    '  </div> -->\n' +
     '\n' +
     '  <div class="wishlist_container container col-xs-8">\n' +
     '    <div class="title_container">\n' +
