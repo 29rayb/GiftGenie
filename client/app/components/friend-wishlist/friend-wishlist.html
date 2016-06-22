@@ -14,9 +14,14 @@
       <p>Followers: {{friendsLengthh}} </p>
       <p>Following: {{friendsLengthh}} </p>
 
-      <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">
+<!--       <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="followUser(user)">
         <div ng-if="hover">Unfollow</div>
         <div ng-if="!hover">Follow <span ng-if="alreadyFollowing">Following</span></div>
+      </button> -->
+      <button class="btn btn-primary" ng-class="followButton" ng-click="followUser(user)">
+        <div ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>
+        <div ng-show="unfollow" ng-class="unfollow_button" ng-mouseout="followBtnShow()">Unfollow </div>
+        <div ng-if="!follow && !unfollow">Follow</div>
       </button>
 <!--       <button ng-click="goToSettings()" class="btn btn-info settings">
         <i class="fa fa-cog" aria-hidden="true"></i>

@@ -277,9 +277,14 @@ input.searchItems {
   height: 40px;
   width: 300px;
 }
-
+/*
 
 .follow_button:hover {
+  background-color: #e81c4f;
+  border-color: #e81c4f;
+}*/
+
+.unfollow_button {
   background-color: #e81c4f;
   border-color: #e81c4f;
 }

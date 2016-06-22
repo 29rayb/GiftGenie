@@ -119,6 +119,10 @@ function UserSvc($http) {
     },
     showFavoritesData: function showFavoritesData() {
       return $http.get('/api/favorites/data');
+    },
+    followPerson: function followPerson(user) {
+      // console.log('user in service', user)
+      return $http.put('/api/me/following', user);
     }
   };
 };
@@ -138,36 +142,6 @@ function faqCtrl($rootScope, $scope, getUser) {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
-
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    $auth.authenticate(provider, user).then(function (res) {
-      // console.log(res, 'This is the auth response in Home Ctlr.');
-      // var token = res.data;
-      // console.log(token, "This is our token. We're inside Home Ctlr.")
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-      });
-    }).catch(function (err) {
-      console.error('Inside the Home Ctrl, we have an error!', err);
-    });
-  };
-}
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
@@ -175,6 +149,8 @@ angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth',
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
   var favoritesIdArr = getUser.data.favorites;
+
+  var followingFriendIdArr = getUser.data.following;
 
   $rootScope.display_name = getUser.data.displayName;
   // $scope.like_heart = false;
@@ -209,6 +185,15 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     if (favoritesIdArr.indexOf(friendFavId) > -1) {
       $rootScope.yellowStar = 'star_btn';
     }
+
+    if (followingFriendIdArr.indexOf($scope.id) > -1) {
+      console.log('you are following this person');
+      $rootScope.follow = true;
+      // $rootScope.unfollow = false;
+    } else {
+        console.log('you are not following this person');
+        $rootScope.follow = false;
+      }
 
     var friendFriendArray = [];
     for (var i = 0; i < response.data.user.friends.length; i++) {
@@ -260,6 +245,64 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     }
     // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user);
+  };
+
+  $scope.followUser = function (user) {
+    // console.log('user', user)
+    UserSvc.followPerson(user);
+  };
+
+  $scope.unfollowBtnShow = function () {
+    console.log('should show RED unfollow button & hide following button');
+    $rootScope.follow = false;
+    $rootScope.unfollow = true;
+    // doesn't work;
+    // console.log(' before ',$rootScope.followButton)
+    // if ($rootScope.followButton === undefined){
+    //   $rootScope.followButton = 'unfollow_button'
+    // }
+    // console.log('AFTER',$rootScope.followButton)
+  };
+
+  $scope.followBtnShow = function () {
+    console.log('should show follow button only');
+    $rootScope.follow = true;
+    $rootScope.unfollow = false;
+    // console.log('FOLLOW BUTTON SHOW',$rootScope.followButton)
+    // if ($rootScope.followButton === undefined){
+    //   $rootScope.followButton = 'unfollow_button';
+    // }
+    // $scope.hideFollowBtn = false;
+  };
+}
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    $auth.authenticate(provider, user).then(function (res) {
+      // console.log(res, 'This is the auth response in Home Ctlr.');
+      // var token = res.data;
+      // console.log(token, "This is our token. We're inside Home Ctlr.")
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
   };
 }
 'use strict';

@@ -8,6 +8,8 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   var favoritesIdArr = getUser.data.favorites;
 
+  var followingFriendIdArr = getUser.data.following;
+
   $rootScope.display_name = getUser.data.displayName
   // $scope.like_heart = false;
 
@@ -41,6 +43,15 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1){
       $rootScope.yellowStar = 'star_btn';
+    }
+
+    if(followingFriendIdArr.indexOf($scope.id) > -1 ){
+      console.log('you are following this person')
+      $rootScope.follow = true;
+      // $rootScope.unfollow = false;
+    } else {
+      console.log('you are not following this person')
+      $rootScope.follow = false;
     }
 
     var friendFriendArray = [];
@@ -90,7 +101,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
 
 
-  $scope.star = function (user) {
+  $scope.star = (user) => {
     if ($rootScope.yellowStar === undefined){
       $rootScope.yellowStar = 'star_btn'
     } else {
@@ -99,4 +110,35 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user)
   }
+
+  $scope.followUser = (user) => {
+    // console.log('user', user)
+    UserSvc.followPerson(user)
+  }
+
+
+    $scope.unfollowBtnShow = () => {
+      console.log('should show RED unfollow button & hide following button')
+      $rootScope.follow = false;
+      $rootScope.unfollow = true;
+      // doesn't work;
+      // console.log(' before ',$rootScope.followButton)
+      // if ($rootScope.followButton === undefined){
+      //   $rootScope.followButton = 'unfollow_button'
+      // }
+      // console.log('AFTER',$rootScope.followButton)
+    }
+
+    $scope.followBtnShow = () => {
+      console.log('should show follow button only')
+      $rootScope.follow = true;
+      $rootScope.unfollow = false;
+      // console.log('FOLLOW BUTTON SHOW',$rootScope.followButton)
+      // if ($rootScope.followButton === undefined){
+      //   $rootScope.followButton = 'unfollow_button';
+      // }
+      // $scope.hideFollowBtn = false;
+    }
+
+
 }
