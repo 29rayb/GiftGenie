@@ -48,8 +48,8 @@ module.run(['$templateCache', function($templateCache) {
     '      </p>\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
-    '      <p>Followers: {{friendsLengthh}} </p>\n' +
-    '      <p>Following: {{friendsLengthh}} </p>\n' +
+    '      <p>Followers: {{followers}} </p>\n' +
+    '      <p>Following: {{following}} </p>\n' +
     '      <button ng-click="followUser(user)">\n' +
     '        <div class="btn btn-primary"  ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>\n' +
     '        <div ng-show="unfollow" class="btn btn-danger" ng-mouseout="followBtnShow()">Unfollow </div>\n' +
@@ -147,8 +147,8 @@ module.run(['$templateCache', function($templateCache) {
     '      </p>\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
-    '      <p>Followers: {{friendsLength}} </p>\n' +
-    '      <p>Following: {{friendsLength}} </p>\n' +
+    '      <p>Followers: {{followers}} </p>\n' +
+    '      <p>Following: {{following}} </p>\n' +
     '\n' +
     '<!--       <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">\n' +
     '        <div ng-if="hover">Unfollow</div>\n' +

@@ -22,7 +22,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     UserSvc.getProfile()
       .then((response) => {
-        // console.log(response.data, "response")
+        console.log(response.data, "response")
           $rootScope.user = response.data;
           $rootScope.id = response.data._id;
           $rootScope.birthday = response.data.birthday;
@@ -37,6 +37,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
           $rootScope.favorites = response.data.favorites;
           // console.log(response.data.friends.length, 'friend length')
           // console.log("This is the data from GET request.", $rootScope.user);
+          $scope.followers = 0;
+          $scope.following = response.data.following.length;
       })
       .catch((err) => {
           console.error(err, 'Inside the Wishlist Ctrl, we have an error!');

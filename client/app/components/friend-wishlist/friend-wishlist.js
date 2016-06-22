@@ -18,7 +18,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   UserSvc.friendProfile(friendId)
   .then((response) => {
-    // console.log(response.data, "response")
+    console.log(response.data, "response")
     $scope.user = response.data.user;
     $scope.id = response.data.user._id;
     $scope.birthday = response.data.user.birthday;
@@ -28,6 +28,8 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.items = response.data.items;
     $scope.friendsLengthh = response.data.user.friends.length;
     $scope.allFriendFriends = response.data.user.friends;
+    $scope.following = response.data.user.following.length;
+    // $scope.followers = 0;
 
     var friendItems = response.data.user.items;
     var allTheLikedItemsArr= [];
@@ -35,7 +37,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       var each_likeable_item = friendItems[i];
       if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
         allTheLikedItemsArr.push(i)
-        console.log('!@#!@#!@#!@321', allTheLikedItemsArr)
+        // console.log('!@#!@#!@#!@321', allTheLikedItemsArr)
         $rootScope.like_heart =  allTheLikedItemsArr;
       }
     }
