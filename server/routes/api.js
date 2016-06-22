@@ -127,12 +127,43 @@ router.put('/me/star', function(req, res){
   });
 })
 
+// router.put('/me/following', function(req, res){
+
+//   console.log('req.user', req.user)
+//   console.log('REQ BODY QEQWEQWEQWEQWEWE',req.body)
+//   var followingThisPerson =  req.body._id
+
+//   User.findById(req.user, function(err, user){
+//     if (!user) {return res.status(400).send({messages: 'User Not Found'}) }
+
+//     if (user.following.indexOf(followingThisPerson) > -1){
+//       User.update({"_id": req.user}, {$pull: {"following": followingThisPerson}}, function(err, user){
+//         if (err) {res.status(400).send(err)}
+//           console.log('already following this user; now UNFOLLOWING THIS USER', user)
+//       })
+//       return;
+//     }
+
+
+//     User.update({"_id": req.user}, {$push: {"following": followingThisPerson}}, function(err, user){
+//       if (err) {res.status(400).send(err);}
+//         console.log('this is the user you are following now', user)
+//       res.send(user)
+//     })
+//   });
+// })
+
 router.put('/me/following', function(req, res){
 
-  // console.log('REQ BODY QEQWEQWEQWEQWEWE',req.body)
+  console.log('req.user', req.user)
+  console.log('REQ BODY QEQWEQWEQWEQWEWE',req.body)
+  var personFollowingYou = req.user;
   var followingThisPerson =  req.body._id
 
   User.findById(req.user, function(err, user){
+
+    console.log('!#@@$%#$%@#$@#$#@$@#$@#$@#@#', user)
+
     if (!user) {return res.status(400).send({messages: 'User Not Found'}) }
 
     if (user.following.indexOf(followingThisPerson) > -1){
@@ -140,17 +171,33 @@ router.put('/me/following', function(req, res){
         if (err) {res.status(400).send(err)}
           console.log('already following this user; now UNFOLLOWING THIS USER', user)
       })
+    }
+
+    if (req.body.followers.indexOf(personFollowingYou) > -1){
+      User.update({"_id": followingThisPerson}, {$pull: {"followers": personFollowingYou}}, function(err, user){
+        if (err) {res.status(400).send(err);}
+        console.log('the person you are trying to follow already has you in their followers array, therefore you are removed')
+      })
       return;
     }
 
 
     User.update({"_id": req.user}, {$push: {"following": followingThisPerson}}, function(err, user){
       if (err) {res.status(400).send(err);}
-        console.log('this is the user you are following now', user)
-      res.send(user)
+        console.log('this is the user you are following now')
+      res.write('this is the user you are following now')
     })
+
+    User.update({"_id": req.body._id}, {$push: {"followers": personFollowingYou }}, function(err, user){
+      if (err) {res.status(400).send(err);}
+      console.log('your id has been added to the followers array of the person you are following')
+      res.write('your id has been added to the followers array of the person you are following')
+      res.end();
+    })
+
   });
 })
+
 
 
 router.post('/friend', function(req, res){

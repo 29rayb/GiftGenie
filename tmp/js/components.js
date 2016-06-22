@@ -29,6 +29,18 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
+  module = angular.module('following');
+} catch (e) {
+  module = angular.module('following', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('following/following.html',
+    '');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('friendWishlist');
 } catch (e) {
   module = angular.module('friendWishlist', []);
@@ -92,6 +104,18 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('followers');
+} catch (e) {
+  module = angular.module('followers', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('followers/followers.html',
     '');
 }]);
 })();
