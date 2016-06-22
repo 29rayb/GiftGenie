@@ -374,6 +374,10 @@ i.fa-pencil-square-o {
     margin-top: 30px;
 }
 
+.followers, .following {
+  list-style-type: none;
+}
+
 /*Starred-WishLists*/
 
 .wishlist_button_container {

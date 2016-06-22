@@ -39,8 +39,28 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
           $rootScope.favorites = response.data.favorites;
           // console.log(response.data.friends.length, 'friend length')
           // console.log("This is the data from GET request.", $rootScope.user);
-          $scope.followers = response.data.followers.length;
-          $scope.following = response.data.following.length;
+          $scope.followersCount = response.data.followers.length;
+          $scope.followingCount = response.data.following.length;
+
+          $rootScope.followersModel = [];
+          $rootScope.followingModel = [];
+
+          $scope.followingArr = response.data.following;
+          for( var i = 0; i< $scope.followingCount; i++){
+            $rootScope.followingModel[i] = {
+              "name": response.data.friends[i].name,
+              "id": response.data.friends[i].id
+            }
+          }
+
+          $scope.followersArr = response.data.following;
+          for( var i = 0; i< $scope.followersCount; i++){
+            $rootScope.followersModel[i] = {
+              "name": response.data.friends[i].name,
+              "id": response.data.friends[i].id
+            }
+          }
+
       })
       .catch((err) => {
           console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
@@ -158,6 +178,16 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       $scope.settings = false;
       // $state.go('followers')
     }
+
+    $scope.goToOthers = (favorite) => {
+      UserSvc.getProfile()
+        .then((response) => {
+        var myId = response.data.facebook;
+        // var fid = favorite.id;
+        // console.log('MyId TRYING TO CHANGE PAGE', myId)
+        $state.go('friend-wishlist', {id: myId, fid: favorite.id});
+    })
+  }
 
 }
 

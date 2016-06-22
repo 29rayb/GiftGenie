@@ -29,36 +29,6 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('home');
-} catch (e) {
-  module = angular.module('home', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div>\n' +
-    '\n' +
-    '<div class="home_container">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '\n' +
-    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
   module = angular.module('friendWishlist');
 } catch (e) {
   module = angular.module('friendWishlist', []);
@@ -147,8 +117,8 @@ module.run(['$templateCache', function($templateCache) {
     '      </p>\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
-    '      <p ng-click="goToFollowers()">Followers: {{followers}} </p>\n' +
-    '      <p ng-click="goToFollowing()">Following: {{following}} </p>\n' +
+    '      <p ng-click="goToFollowers()">Followers: {{followersCount}} </p>\n' +
+    '      <p ng-click="goToFollowing()">Following: {{followingCount}} </p>\n' +
     '\n' +
     '<!--       <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">\n' +
     '        <div ng-if="hover">Unfollow</div>\n' +
@@ -220,9 +190,15 @@ module.run(['$templateCache', function($templateCache) {
     '      <h2 class="my_wishlist_title">Followers Container</h2>\n' +
     '      <div ng-click="backToWlist()"><a>Back To My WishList</a></div>\n' +
     '    </div>\n' +
-    '\n' +
     '    <div class="top_container">\n' +
+    '      <input ng-model="followers.name" placeholder="Search Your Followers">\n' +
+    '    </div>\n' +
     '\n' +
+    '    <div class="bottom_container">\n' +
+    '      <li ng-repeat="follower in followersModel | filter:following.name" class="followers col-xs-12 col-sm-6" ng-click="goToOthers(followers)">\n' +
+    '        <img ng-src="https://graph.facebook.com/{{follower.id}}/picture?type=large">\n' +
+    '        <h6 class="user_name">{{follower.name}}</h6>\n' +
+    '      </li>\n' +
     '    </div>\n' +
     '\n' +
     '  </div>\n' +
@@ -239,12 +215,18 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '\n' +
     '    <div class="top_container">\n' +
+    '      <input ng-model="following.name" placeholder="Search People You Follow">\n' +
+    '    </div>\n' +
     '\n' +
+    '    <div class="bottom_container">\n' +
+    '      <li ng-repeat="following in followingModel | filter:following.name" class="following col-xs-12 col-sm-6" ng-click="goToOthers(following)">\n' +
+    '        <img ng-src="https://graph.facebook.com/{{following.id}}/picture?type=large">\n' +
+    '        <h6 class="user_name">{{following.name}}</h6>\n' +
+    '      </li>\n' +
     '    </div>\n' +
     '\n' +
     '  </div>\n' +
     '</div>\n' +
-    '\n' +
     '\n' +
     '\n' +
     '\n' +
@@ -284,6 +266,36 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '  </div>\n' +
     '</div>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('home');
+} catch (e) {
+  module = angular.module('home', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/home.html',
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="home_container">\n' +
+    '  <div class="button_container">\n' +
+    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
     '');
 }]);
 })();
