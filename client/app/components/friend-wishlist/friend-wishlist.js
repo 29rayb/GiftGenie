@@ -144,5 +144,14 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       $rootScope.unfollow = false;
     }
 
+    // need to pass in params so can make api call to backend for individual friend data;
+    $scope.goToFollowing = () => {
+      $state.go('following')
+    }
+
+    $scope.goToFollowers = () => {
+      $state.go('followers')
+    }
+
 
 }

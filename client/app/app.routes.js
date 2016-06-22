@@ -23,16 +23,6 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
       templateUrl: 'app/components/home/home.html',
       controller: 'HomeCtrl'
     })
-    .state('following', {
-      url: '/',
-      templateUrl: 'app/components/following/following.html',
-      controller: 'FollowingCtrl'
-    })
-    .state('followers', {
-      url: '/',
-      templateUrl: 'app/components/followers/followers.html',
-      controller: 'FollowersCtrl'
-    })
     .state('my-wishlist', {
       url: '/my-wishlist/:id',
       templateUrl: 'app/components/my-wishlist/my-wishlist.html',

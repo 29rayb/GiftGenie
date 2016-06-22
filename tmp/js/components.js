@@ -29,12 +29,30 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('following');
+  module = angular.module('home');
 } catch (e) {
-  module = angular.module('following', []);
+  module = angular.module('home', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('following/following.html',
+  $templateCache.put('home/home.html',
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="home_container">\n' +
+    '  <div class="button_container">\n' +
+    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
     '');
 }]);
 })();
@@ -60,8 +78,8 @@ module.run(['$templateCache', function($templateCache) {
     '      </p>\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
-    '      <p>Followers: {{followers}} </p>\n' +
-    '      <p>Following: {{following}} </p>\n' +
+    '      <p ng-click="goToFollowers()">Followers: {{followers}} </p>\n' +
+    '      <p ng-click="goToFollowing()">Following: {{following}} </p>\n' +
     '      <button ng-click="followUser(user)">\n' +
     '        <div class="btn btn-primary"  ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>\n' +
     '        <div ng-show="unfollow" class="btn btn-danger" ng-mouseout="followBtnShow()">Unfollow </div>\n' +
@@ -110,48 +128,6 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('followers');
-} catch (e) {
-  module = angular.module('followers', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('followers/followers.html',
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('home');
-} catch (e) {
-  module = angular.module('home', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div>\n' +
-    '\n' +
-    '<div class="home_container">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '\n' +
-    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
   module = angular.module('myWishlist');
 } catch (e) {
   module = angular.module('myWishlist', []);
@@ -171,8 +147,8 @@ module.run(['$templateCache', function($templateCache) {
     '      </p>\n' +
     '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
     '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
-    '      <p>Followers: {{followers}} </p>\n' +
-    '      <p>Following: {{following}} </p>\n' +
+    '      <p ng-click="goToFollowers()">Followers: {{followers}} </p>\n' +
+    '      <p ng-click="goToFollowing()">Following: {{following}} </p>\n' +
     '\n' +
     '<!--       <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">\n' +
     '        <div ng-if="hover">Unfollow</div>\n' +
@@ -185,7 +161,7 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '  </div>\n' +
     '\n' +
-    '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
+    '  <div class="wishlist_container container col-xs-8" ng-if="!settings && !followingPage && !followersPage">\n' +
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
     '\n' +
@@ -218,7 +194,7 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '<!-- settings -->\n' +
     '\n' +
-    '<div class="main_container" ng-if="settings">\n' +
+    '<div class="main_container" ng-if="settings && !followingPage && !followersPage">\n' +
     '  <div class="wishlist_container container col-xs-8">\n' +
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">Settings Container</h2>\n' +
@@ -235,6 +211,42 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '  </div>\n' +
     '</div>\n' +
+    '\n' +
+    '<!-- followers -->\n' +
+    '\n' +
+    '<div class="main_container" ng-if="followersPage && !followingPage && !settings">\n' +
+    '  <div class="wishlist_container container col-xs-8">\n' +
+    '    <div class="title_container">\n' +
+    '      <h2 class="my_wishlist_title">Followers Container</h2>\n' +
+    '      <div ng-click="backToWlist()"><a>Back To My WishList</a></div>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div class="top_container">\n' +
+    '\n' +
+    '    </div>\n' +
+    '\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '\n' +
+    '<!-- following -->\n' +
+    '\n' +
+    '<div class="main_container" ng-if="followingPage && !followersPage && !settings">\n' +
+    '  <div class="wishlist_container container col-xs-8">\n' +
+    '    <div class="title_container">\n' +
+    '      <h2 class="my_wishlist_title">Following Container</h2>\n' +
+    '      <div ng-click="backToWlist()"><a>Back To My WishList</a></div>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div class="top_container">\n' +
+    '\n' +
+    '    </div>\n' +
+    '\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '\n' +
+    '\n' +
     '\n' +
     '<!-- Modal -->\n' +
     '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">\n' +

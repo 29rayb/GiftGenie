@@ -21,14 +21,6 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
     url: '/',
     templateUrl: 'app/components/home/home.html',
     controller: 'HomeCtrl'
-  }).state('following', {
-    url: '/',
-    templateUrl: 'app/components/following/following.html',
-    controller: 'FollowingCtrl'
-  }).state('followers', {
-    url: '/',
-    templateUrl: 'app/components/followers/followers.html',
-    controller: 'FollowersCtrl'
   }).state('my-wishlist', {
     url: '/my-wishlist/:id',
     templateUrl: 'app/components/my-wishlist/my-wishlist.html',
@@ -150,8 +142,6 @@ function faqCtrl($rootScope, $scope, getUser) {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
-"use strict";
-"use strict";
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
@@ -288,6 +278,73 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $rootScope.follow = true;
     $rootScope.unfollow = false;
   };
+
+  // need to pass in params so can make api call to backend for individual friend data;
+  $scope.goToFollowing = function () {
+    $state.go('following');
+  };
+
+  $scope.goToFollowers = function () {
+    $state.go('followers');
+  };
+}
+'use strict';
+
+angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
+
+function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
+
+  $scope.isAuthenticated = function () {
+    return $auth.isAuthenticated();
+  };
+  $scope.logout = function () {
+    $auth.logout();
+    $state.go('home');
+  };
+
+  $scope.goToWishList = function () {
+    UserSvc.getProfile().then(function (response) {
+      var facebookId = response.data.facebook;
+      // var facebook_name = response.data.displayName;
+      // var facebook_email = response.data.email;
+      console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
+      $state.go('my-wishlist', { id: facebookId });
+    });
+  };
+
+  $scope.goToOthers = function (user) {
+    UserSvc.getProfile().then(function (response) {
+      var myId = response.data.facebook;
+      console.log('MyId TRYING TO CHANGE PAGE', myId);
+      $state.go('friend-wishlist', { id: myId, fid: user.id });
+    });
+  };
+
+  // ui-sref="my-wishlist({id: {{user.id}}})"
+
+  $scope.searchFriends = function () {
+    var length = $rootScope.friendsLength;
+    $rootScope.userModel = [];
+    UserSvc.getProfile().then(function (res) {
+      console.log('@#%#$@!$#%@#!#!$', res);
+      // works because both arrays have same length;
+      for (var i = 0; i < length; i++) {
+        $rootScope.userModel[i] = {
+          "name": res.data.friends[i].name,
+          "id": res.data.friends[i].id
+        };
+      }
+    });
+  };
+
+  $scope.focused = function () {
+    $scope.friendsContainer = true;
+    $scope.searchFriends();
+  };
+
+  $scope.blurred = function () {
+    $scope.friendsContainer = false;
+  };
 }
 
 'use strict';
@@ -321,6 +378,82 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
 }
 'use strict';
 
+angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
+
+function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
+
+  if (!$auth.isAuthenticated()) {
+    return $state.go('home');
+  }
+
+  // $scope.favorites = getUser.data.favorites;
+  // var favoritesIdsArray = $scope.favorites;
+
+  UserSvc.showFavoritesData().then(function (response) {
+    var favsLength = response.data.user.favorites.length;
+    var favObj = response.data.favoritesData;
+    // console.log(favObj)
+    $scope.favsModel = [];
+    for (var i = 0; i < favsLength; i++) {
+      // var favsName = favObj[i].displayName;
+      // favsNameArr.push(favsName);
+      // var favsPic = favObj[i].picture;
+      // favsPicArr.push(favsPic);
+      $scope.favsModel[i] = {
+        "name": favObj[i].displayName,
+        "id": favObj[i].facebook
+      };
+    }
+    // console.log($scope.favsModel)
+  }).catch(function (err) {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
+
+  $scope.goToOthers = function (favorite) {
+    UserSvc.getProfile().then(function (response) {
+      var myId = response.data.facebook;
+      // var fid = favorite.id;
+      // console.log('MyId TRYING TO CHANGE PAGE', myId)
+      $state.go('friend-wishlist', { id: myId, fid: favorite.id });
+    });
+  };
+
+  // var friendFriendArray = [];
+  // for (var i=0; i<response.data.user.friends.length; i++) {
+  //   var friendFriendName = response.data.user.friends[i].name;
+  //   friendFriendArray.push(friendFriendName);
+  // }
+
+  $scope.star = function () {
+    console.log('star in starred list');
+  };
+
+  $rootScope.display_name = getUser.data.displayName;
+  $rootScope.email = getUser.data.email;
+  $rootScope.birthday = getUser.data.birthday;
+  $rootScope.favorites = getUser.data.favorites;
+
+  $scope.friendsContainer = true;
+
+  // $scope.search = () => {
+  //   // var facebookId = .facebook;
+  //   // console.log('facebookId', facebookId)
+  //   StarSvc.get_friends()
+  //     .then(function(res){
+  //       console.log(res.data, "here are the friends we would get back");
+  //     })
+  //     .catch(function(err) {
+  //       console.error(err, 'have no friends');
+  //     });
+  // }
+  //
+
+  $scope.show_user_info = function () {
+    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
+  };
+}
+'use strict';
+
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
@@ -329,6 +462,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $scope.id = $stateParams.id;
   $rootScope.fbook = $stateParams.facebook;
   $scope.settings = false;
+  $scope.followersPage = false;
+  $scope.followingPage = false;
   $scope.like_heart = false;
   $scope.favoriteWishlist = false;
   // $scope.notFollowing = true;
@@ -424,6 +559,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
   $scope.goToSettings = function () {
     $scope.settings = true;
+    $scope.followersPage = false;
+    $scope.followingPage = false;
     $scope.public = true;
     $scope.private = false;
     $scope.makePrivate = function () {
@@ -438,6 +575,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
   $scope.backToWlist = function () {
     $scope.settings = false;
+    $scope.followersPage = false;
+    $scope.followingPage = false;
   };
 
   $scope.sort_list = function () {
@@ -452,139 +591,19 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     },
     axis: 'y'
   };
-}
-'use strict';
 
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
-
-function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
-
-  $scope.isAuthenticated = function () {
-    return $auth.isAuthenticated();
-  };
-  $scope.logout = function () {
-    $auth.logout();
-    $state.go('home');
+  $scope.goToFollowing = function () {
+    $scope.followingPage = true;
+    $scope.followersPage = false;
+    $scope.settings = false;
+    // $state.go('following')
   };
 
-  $scope.goToWishList = function () {
-    UserSvc.getProfile().then(function (response) {
-      var facebookId = response.data.facebook;
-      // var facebook_name = response.data.displayName;
-      // var facebook_email = response.data.email;
-      console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
-      $state.go('my-wishlist', { id: facebookId });
-    });
-  };
-
-  $scope.goToOthers = function (user) {
-    UserSvc.getProfile().then(function (response) {
-      var myId = response.data.facebook;
-      console.log('MyId TRYING TO CHANGE PAGE', myId);
-      $state.go('friend-wishlist', { id: myId, fid: user.id });
-    });
-  };
-
-  // ui-sref="my-wishlist({id: {{user.id}}})"
-
-  $scope.searchFriends = function () {
-    var length = $rootScope.friendsLength;
-    $rootScope.userModel = [];
-    UserSvc.getProfile().then(function (res) {
-      console.log('@#%#$@!$#%@#!#!$', res);
-      // works because both arrays have same length;
-      for (var i = 0; i < length; i++) {
-        $rootScope.userModel[i] = {
-          "name": res.data.friends[i].name,
-          "id": res.data.friends[i].id
-        };
-      }
-    });
-  };
-
-  $scope.focused = function () {
-    $scope.friendsContainer = true;
-    $scope.searchFriends();
-  };
-
-  $scope.blurred = function () {
-    $scope.friendsContainer = false;
-  };
-}
-'use strict';
-
-angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
-
-function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
-
-  if (!$auth.isAuthenticated()) {
-    return $state.go('home');
-  }
-
-  // $scope.favorites = getUser.data.favorites;
-  // var favoritesIdsArray = $scope.favorites;
-
-  UserSvc.showFavoritesData().then(function (response) {
-    var favsLength = response.data.user.favorites.length;
-    var favObj = response.data.favoritesData;
-    // console.log(favObj)
-    $scope.favsModel = [];
-    for (var i = 0; i < favsLength; i++) {
-      // var favsName = favObj[i].displayName;
-      // favsNameArr.push(favsName);
-      // var favsPic = favObj[i].picture;
-      // favsPicArr.push(favsPic);
-      $scope.favsModel[i] = {
-        "name": favObj[i].displayName,
-        "id": favObj[i].facebook
-      };
-    }
-    // console.log($scope.favsModel)
-  }).catch(function (err) {
-    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  });
-
-  $scope.goToOthers = function (favorite) {
-    UserSvc.getProfile().then(function (response) {
-      var myId = response.data.facebook;
-      // var fid = favorite.id;
-      // console.log('MyId TRYING TO CHANGE PAGE', myId)
-      $state.go('friend-wishlist', { id: myId, fid: favorite.id });
-    });
-  };
-
-  // var friendFriendArray = [];
-  // for (var i=0; i<response.data.user.friends.length; i++) {
-  //   var friendFriendName = response.data.user.friends[i].name;
-  //   friendFriendArray.push(friendFriendName);
-  // }
-
-  $scope.star = function () {
-    console.log('star in starred list');
-  };
-
-  $rootScope.display_name = getUser.data.displayName;
-  $rootScope.email = getUser.data.email;
-  $rootScope.birthday = getUser.data.birthday;
-  $rootScope.favorites = getUser.data.favorites;
-
-  $scope.friendsContainer = true;
-
-  // $scope.search = () => {
-  //   // var facebookId = .facebook;
-  //   // console.log('facebookId', facebookId)
-  //   StarSvc.get_friends()
-  //     .then(function(res){
-  //       console.log(res.data, "here are the friends we would get back");
-  //     })
-  //     .catch(function(err) {
-  //       console.error(err, 'have no friends');
-  //     });
-  // }
-  //
-
-  $scope.show_user_info = function () {
-    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
+  $scope.goToFollowers = function () {
+    $scope.followersPage = true;
+    $scope.followingPage = false;
+    $scope.settings = false;
+    // $state.go('followers')
   };
 }
 'use strict';

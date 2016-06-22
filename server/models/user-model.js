@@ -20,7 +20,8 @@ let userSchema = Schema({
   followers: [{type: Schema.Types.ObjectId, ref: "User"}],
   items: [{ type: Schema.Types.ObjectId, ref: "Item" }],
   friends: Array,
-  liked: [{ type: Schema.Types.ObjectId, ref: "Item" }]
+  liked: [{ type: Schema.Types.ObjectId, ref: "Item" }],
+  notifications: [{type: Schema.Types.ObjectId, ref: "User"}]
 });
 
 //This generates the JSON web token.

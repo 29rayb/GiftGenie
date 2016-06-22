@@ -11,8 +11,8 @@
       </p>
       <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>
       <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>
-      <p>Followers: {{followers}} </p>
-      <p>Following: {{following}} </p>
+      <p ng-click="goToFollowers()">Followers: {{followers}} </p>
+      <p ng-click="goToFollowing()">Following: {{following}} </p>
       <button ng-click="followUser(user)">
         <div class="btn btn-primary"  ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>
         <div ng-show="unfollow" class="btn btn-danger" ng-mouseout="followBtnShow()">Unfollow </div>
