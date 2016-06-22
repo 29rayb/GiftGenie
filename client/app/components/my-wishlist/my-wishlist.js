@@ -37,7 +37,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
           $rootScope.favorites = response.data.favorites;
           // console.log(response.data.friends.length, 'friend length')
           // console.log("This is the data from GET request.", $rootScope.user);
-          $scope.followers = 0;
+          $scope.followers = response.data.followers.length;
           $scope.following = response.data.following.length;
       })
       .catch((err) => {

@@ -180,7 +180,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.friendsLengthh = response.data.user.friends.length;
     $scope.allFriendFriends = response.data.user.friends;
     $scope.following = response.data.user.following.length;
-    // $scope.followers = 0;
+    $scope.followers = response.data.user.followers.length;
 
     var friendItems = response.data.user.items;
     var allTheLikedItemsArr = [];
@@ -355,7 +355,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.favorites = response.data.favorites;
     // console.log(response.data.friends.length, 'friend length')
     // console.log("This is the data from GET request.", $rootScope.user);
-    $scope.followers = 0;
+    $scope.followers = response.data.followers.length;
     $scope.following = response.data.following.length;
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
@@ -513,18 +513,6 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
 }
 'use strict';
 
-angular.module('App').controller('ProfileCardCtrl', function ($scope) {
-  console.log('yo');
-}).directive('profile-card', function () {
-  return {
-    restrict: 'E',
-    controller: 'ProfileCardCtrl',
-    templateUrl: 'app/shared/profile-card/profile-card.html',
-    link: function link(scope, el, attrs) {}
-  };
-});
-'use strict';
-
 angular.module('App').controller('StarredCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', 'StarSvc', '$stateParams', 'getUser', '$rootScope', StarredCtrl]);
 
 function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $stateParams, getUser, $rootScope) {
@@ -599,3 +587,15 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
 }
+'use strict';
+
+angular.module('App').controller('ProfileCardCtrl', function ($scope) {
+  console.log('yo');
+}).directive('profile-card', function () {
+  return {
+    restrict: 'E',
+    controller: 'ProfileCardCtrl',
+    templateUrl: 'app/shared/profile-card/profile-card.html',
+    link: function link(scope, el, attrs) {}
+  };
+});

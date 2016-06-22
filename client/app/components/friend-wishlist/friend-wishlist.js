@@ -29,7 +29,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.friendsLengthh = response.data.user.friends.length;
     $scope.allFriendFriends = response.data.user.friends;
     $scope.following = response.data.user.following.length;
-    // $scope.followers = 0;
+    $scope.followers = response.data.user.followers.length;
 
     var friendItems = response.data.user.items;
     var allTheLikedItemsArr= [];
