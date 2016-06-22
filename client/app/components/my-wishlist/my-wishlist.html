@@ -11,8 +11,8 @@
       </p>
       <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>
       <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>
-      <p>Followers: {{friendsLength}} </p>
-      <p>Following: {{friendsLength}} </p>
+      <p ng-click="goToFollowers()">Followers: {{followersCount}} </p>
+      <p ng-click="goToFollowing()">Following: {{followingCount}} </p>
 
 <!--       <button class="btn btn-primary" ng-class="{follow_button: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false">
         <div ng-if="hover">Unfollow</div>
@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <div class="wishlist_container container col-xs-8" ng-if="!settings">
+  <div class="wishlist_container container col-xs-8" ng-if="!settings && !followingPage && !followersPage">
     <div class="title_container">
       <h2 class="my_wishlist_title">My WishList</h2>
 
@@ -58,7 +58,7 @@
 
 <!-- settings -->
 
-<div class="main_container" ng-if="settings">
+<div class="main_container" ng-if="settings && !followingPage && !followersPage">
   <div class="wishlist_container container col-xs-8">
     <div class="title_container">
       <h2 class="my_wishlist_title">Settings Container</h2>
@@ -75,6 +75,54 @@
 
   </div>
 </div>
+
+<!-- followers -->
+
+<div class="main_container" ng-if="followersPage && !followingPage && !settings">
+  <div class="wishlist_container container col-xs-8">
+    <div class="title_container">
+      <h2 class="my_wishlist_title">Followers Container</h2>
+      <div ng-click="backToWlist()"><a>Back To My WishList</a></div>
+    </div>
+    <div class="top_container">
+      <input ng-model="followers.name" placeholder="Search Your Followers">
+    </div>
+
+    <div class="bottom_container">
+      <li ng-repeat="follower in followersModel | filter:following.name" class="followers col-xs-12 col-sm-6" ng-click="goToOthers(followers)">
+        <img ng-src="https://graph.facebook.com/{{follower.id}}/picture?type=large">
+        <h6 class="user_name">{{follower.name}}</h6>
+      </li>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- following -->
+
+<div class="main_container" ng-if="followingPage && !followersPage && !settings">
+  <div class="wishlist_container container col-xs-8">
+    <div class="title_container">
+      <h2 class="my_wishlist_title">Following Container</h2>
+      <div ng-click="backToWlist()"><a>Back To My WishList</a></div>
+    </div>
+
+    <div class="top_container">
+      <input ng-model="following.name" placeholder="Search People You Follow">
+    </div>
+
+    <div class="bottom_container">
+      <li ng-repeat="following in followingModel | filter:following.name" class="following col-xs-12 col-sm-6" ng-click="goToOthers(following)">
+        <img ng-src="https://graph.facebook.com/{{following.id}}/picture?type=large">
+        <h6 class="user_name">{{following.name}}</h6>
+      </li>
+    </div>
+
+  </div>
+</div>
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

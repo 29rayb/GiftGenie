@@ -43,6 +43,10 @@ function UserSvc ($http) {
     },
     showFavoritesData: () => {
       return $http.get('/api/favorites/data');
+    },
+    followPerson: (user) => {
+      // console.log('user in service', user)
+      return $http.put('/api/me/following', user)
     }
   };
 };

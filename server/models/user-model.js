@@ -16,9 +16,12 @@ let userSchema = Schema({
   email: String,
   birthday: String,
   favorites: [{type: Schema.Types.ObjectId, ref: "User"}],
+  following: [{type: Schema.Types.ObjectId, ref: "User"}],
+  followers: [{type: Schema.Types.ObjectId, ref: "User"}],
   items: [{ type: Schema.Types.ObjectId, ref: "Item" }],
   friends: Array,
-  liked: [{ type: Schema.Types.ObjectId, ref: "Item" }]
+  liked: [{ type: Schema.Types.ObjectId, ref: "Item" }],
+  notifications: [{type: Schema.Types.ObjectId, ref: "User"}]
 });
 
 //This generates the JSON web token.

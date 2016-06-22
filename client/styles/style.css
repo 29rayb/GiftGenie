@@ -277,9 +277,14 @@ input.searchItems {
   height: 40px;
   width: 300px;
 }
-
+/*
 
 .follow_button:hover {
+  background-color: #e81c4f;
+  border-color: #e81c4f;
+}*/
+
+.unfollow_button {
   background-color: #e81c4f;
   border-color: #e81c4f;
 }
@@ -367,6 +372,10 @@ i.fa-pencil-square-o {
 .fb_comments_container {
     border: 1px solid red;
     margin-top: 30px;
+}
+
+.followers, .following {
+  list-style-type: none;
 }
 
 /*Starred-WishLists*/

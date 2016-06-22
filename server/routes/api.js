@@ -102,7 +102,7 @@ router.put('/me/items/order', function(req, res){
 
 // Favorite User's Wishlist
 router.put('/me/star', function(req, res){
-console.log(req.body, 'req.body')
+// console.log(req.body, 'req.body')
   var starred_friend = req.body._id;
 
   User.findById(req.user, function(err, user){
@@ -125,28 +125,79 @@ console.log(req.body, 'req.body')
       res.send(user)
     })
   });
-
-
-  //   console.log('favorites array', user.favorites)
-  //   console.log('req.user', req.user)
-  //   
-  //   if (user.favorites.indexOf(req.user) > -1){
-  //     User.update({"_id": req.user}, {$pull: {"favorites": req.user}}, function(err, user){
-  //     if(err){ res.status(400).send(err);}
-  //       console.log('wishlist already in the favorites array');
-  //       console.log('wishlist unfavorited');
-  //     })
-  //     return;
-  //   }
-
-  //   // why can't we $push user.facebook ? it doesn;t save in robomongo
-  //   User.update({"_id": req.user}, {$push: {"favorites": req.user}}, function(err, user){
-  //     if(err){ res.status(400).send(err);}
-  //     console.log('this is the user that was added to your favorite', user)
-  //     res.send(user)
-  //   })
-  // })
 })
+
+// router.put('/me/following', function(req, res){
+
+//   console.log('req.user', req.user)
+//   console.log('REQ BODY QEQWEQWEQWEQWEWE',req.body)
+//   var followingThisPerson =  req.body._id
+
+//   User.findById(req.user, function(err, user){
+//     if (!user) {return res.status(400).send({messages: 'User Not Found'}) }
+
+//     if (user.following.indexOf(followingThisPerson) > -1){
+//       User.update({"_id": req.user}, {$pull: {"following": followingThisPerson}}, function(err, user){
+//         if (err) {res.status(400).send(err)}
+//           console.log('already following this user; now UNFOLLOWING THIS USER', user)
+//       })
+//       return;
+//     }
+
+
+//     User.update({"_id": req.user}, {$push: {"following": followingThisPerson}}, function(err, user){
+//       if (err) {res.status(400).send(err);}
+//         console.log('this is the user you are following now', user)
+//       res.send(user)
+//     })
+//   });
+// })
+
+router.put('/me/following', function(req, res){
+
+  console.log('req.user', req.user)
+  console.log('REQ BODY QEQWEQWEQWEQWEWE',req.body)
+  var personFollowingYou = req.user;
+  var followingThisPerson =  req.body._id
+
+  User.findById(req.user, function(err, user){
+
+    console.log('!#@@$%#$%@#$@#$#@$@#$@#$@#@#', user)
+
+    if (!user) {return res.status(400).send({messages: 'User Not Found'}) }
+
+    if (user.following.indexOf(followingThisPerson) > -1){
+      User.update({"_id": req.user}, {$pull: {"following": followingThisPerson}}, function(err, user){
+        if (err) {res.status(400).send(err)}
+          console.log('already following this user; now UNFOLLOWING THIS USER', user)
+      })
+    }
+
+    if (req.body.followers.indexOf(personFollowingYou) > -1){
+      User.update({"_id": followingThisPerson}, {$pull: {"followers": personFollowingYou}}, function(err, user){
+        if (err) {res.status(400).send(err);}
+        console.log('the person you are trying to follow already has you in their followers array, therefore you are removed')
+      })
+      return;
+    }
+
+
+    User.update({"_id": req.user}, {$push: {"following": followingThisPerson}}, function(err, user){
+      if (err) {res.status(400).send(err);}
+        console.log('this is the user you are following now')
+      res.write('this is the user you are following now')
+    })
+
+    User.update({"_id": req.body._id}, {$push: {"followers": personFollowingYou }}, function(err, user){
+      if (err) {res.status(400).send(err);}
+      console.log('your id has been added to the followers array of the person you are following')
+      res.write('your id has been added to the followers array of the person you are following')
+      res.end();
+    })
+
+  });
+})
+
 
 
 router.post('/friend', function(req, res){

@@ -10,6 +10,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.id = $stateParams.id;
     $rootScope.fbook = $stateParams.facebook;
     $scope.settings = false;
+    $scope.followersPage = false;
+    $scope.followingPage = false;
     $scope.like_heart = false;
     $scope.favoriteWishlist = false;
     // $scope.notFollowing = true;
@@ -22,7 +24,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     UserSvc.getProfile()
       .then((response) => {
-        // console.log(response.data, "response")
+        console.log(response.data, "response")
           $rootScope.user = response.data;
           $rootScope.id = response.data._id;
           $rootScope.birthday = response.data.birthday;
@@ -37,6 +39,28 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
           $rootScope.favorites = response.data.favorites;
           // console.log(response.data.friends.length, 'friend length')
           // console.log("This is the data from GET request.", $rootScope.user);
+          $scope.followersCount = response.data.followers.length;
+          $scope.followingCount = response.data.following.length;
+
+          $rootScope.followersModel = [];
+          $rootScope.followingModel = [];
+
+          $scope.followingArr = response.data.following;
+          for( var i = 0; i< $scope.followingCount; i++){
+            $rootScope.followingModel[i] = {
+              "name": response.data.friends[i].name,
+              "id": response.data.friends[i].id
+            }
+          }
+
+          $scope.followersArr = response.data.following;
+          for( var i = 0; i< $scope.followersCount; i++){
+            $rootScope.followersModel[i] = {
+              "name": response.data.friends[i].name,
+              "id": response.data.friends[i].id
+            }
+          }
+
       })
       .catch((err) => {
           console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
@@ -109,6 +133,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     $scope.goToSettings = () => {
       $scope.settings = true;
+      $scope.followersPage = false;
+      $scope.followingPage = false;
       $scope.public = true;
       $scope.private = false;
       $scope.makePrivate = () => {
@@ -123,6 +149,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     $scope.backToWlist = () => {
       $scope.settings = false;
+      $scope.followersPage = false;
+      $scope.followingPage = false;
     }
 
     $scope.sort_list = () => {
@@ -137,10 +165,31 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     };
 
 
+    $scope.goToFollowing = () => {
+      $scope.followingPage = true;
+      $scope.followersPage = false;
+      $scope.settings = false;
+      // $state.go('following')
+    }
+
+    $scope.goToFollowers = () => {
+      $scope.followersPage = true;
+      $scope.followingPage = false;
+      $scope.settings = false;
+      // $state.go('followers')
+    }
+
+    $scope.goToOthers = (favorite) => {
+      UserSvc.getProfile()
+        .then((response) => {
+        var myId = response.data.facebook;
+        // var fid = favorite.id;
+        // console.log('MyId TRYING TO CHANGE PAGE', myId)
+        $state.go('friend-wishlist', {id: myId, fid: favorite.id});
+    })
+  }
+
 }
-
-
-
 
 
 

@@ -7,6 +7,10 @@ angular
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
   var favoritesIdArr = getUser.data.favorites;
+
+
+  var followingFriendIdArr = getUser.data.following;
+
   $rootScope.display_name = getUser.data.displayName
   var likedItemsArr = getUser.data.liked
   var friendId = $stateParams.fid;
@@ -23,10 +27,32 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.friendsLengthh = response.data.user.friends.length;
     $scope.allFriendFriends = response.data.user.friends;
     var friendItems = response.data.user.items;
+    $scope.following = response.data.user.following.length;
+    $scope.followers = response.data.user.followers.length;
+
+    var friendItems = response.data.user.items;
+    var allTheLikedItemsArr= [];
+    for (var i = 0; i < friendItems.length; i++){
+      var each_likeable_item = friendItems[i];
+      if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
+        allTheLikedItemsArr.push(i)
+        // console.log('!@#!@#!@#!@321', allTheLikedItemsArr)
+        $rootScope.like_heart =  allTheLikedItemsArr;
+      }
+    }
 
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1){
       $rootScope.yellowStar = 'star_btn';
+    }
+
+    if(followingFriendIdArr.indexOf($scope.id) > -1 ){
+      console.log('you are following this person')
+      $rootScope.follow = true;
+      // $rootScope.unfollow = false;
+    } else {
+      console.log('you are not following this person')
+      $rootScope.follow = false;
     }
 
     var friendFriendArray = [];
@@ -84,7 +110,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     })
   }
 
-  $scope.star = function (user) {
+  $scope.star = (user) => {
     if ($rootScope.yellowStar === undefined){
       $rootScope.yellowStar = 'star_btn'
     } else {
@@ -93,4 +119,46 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user)
   }
+
+  $scope.followUser = (user) => {
+    console.log('user', user._id)
+    var tmpFriendId = user._id
+    if (followingFriendIdArr.indexOf(tmpFriendId) > -1){
+      followingFriendIdArr.pop(tmpFriendId)
+      $scope.unfollow = false;
+    } else {
+      followingFriendIdArr.push(tmpFriendId)
+      console.log('you are following this person')
+      // need to fix this;
+      window.location.reload()
+      // $scope.unfollow = true;
+      // $scope.follow = false;
+    }
+    console.log(followingFriendIdArr)
+    UserSvc.followPerson(user)
+  }
+
+
+    $scope.unfollowBtnShow = () => {
+      console.log('should show RED unfollow button & hide following button')
+      $rootScope.follow = false;
+      $rootScope.unfollow = true;
+    }
+
+    $scope.followBtnShow = () => {
+      console.log('should show follow button only')
+      $rootScope.follow = true;
+      $rootScope.unfollow = false;
+    }
+
+    // need to pass in params so can make api call to backend for individual friend data;
+    $scope.goToFollowing = () => {
+      $state.go('following')
+    }
+
+    $scope.goToFollowers = () => {
+      $state.go('followers')
+    }
+
+
 }
