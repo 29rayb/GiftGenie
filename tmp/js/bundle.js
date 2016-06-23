@@ -142,6 +142,39 @@ function faqCtrl($rootScope, $scope, getUser) {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    // $rootScope.notLoggedIn = true;
+    $auth.authenticate(provider, user).then(function (res) {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
+  };
+
+  // $rootScope.display_name = getUser.data.displayName;
+}
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
@@ -304,36 +337,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $state.go('followers');
   };
 }
-
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    $auth.authenticate(provider, user).then(function (res) {
-      // console.log(res, 'This is the auth response in Home Ctlr.');
-      // var token = res.data;
-      // console.log(token, "This is our token. We're inside Home Ctlr.")
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-      });
-    }).catch(function (err) {
-      console.error('Inside the Home Ctrl, we have an error!', err);
-    });
-  };
-}
 'use strict';
 
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
@@ -357,7 +360,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   }
 
   UserSvc.getProfile().then(function (response) {
-    console.log(response.data, "response");
+    // console.log(response.data, "response")
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
@@ -526,6 +529,7 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
     return $auth.isAuthenticated();
   };
   $scope.logout = function () {
+    $rootScope.loggedIn = undefined;
     $auth.logout();
     $state.go('home');
   };

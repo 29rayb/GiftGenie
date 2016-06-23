@@ -73,6 +73,10 @@ module.run(['$templateCache', function($templateCache) {
     '      <!-- <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div> -->\n' +
     '    </div>\n' +
     '    <div class="bottom_container">\n' +
+<<<<<<< HEAD
+=======
+    '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
+>>>>>>> 94c975d823528bbc9dddadcd4ae0c6baeb4c1300
     '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
     '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
@@ -90,6 +94,10 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '  </div>\n' +
     '</div>\n' +
+<<<<<<< HEAD
+=======
+    '\n' +
+>>>>>>> 94c975d823528bbc9dddadcd4ae0c6baeb4c1300
     '');
 }]);
 })();
@@ -107,7 +115,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <p class="logo">No More Unwanted Gifts</p>\n' +
     '</div>\n' +
     '\n' +
-    '<div class="home_container">\n' +
+    '<div class="home_container" ng-if="!loggedIn">\n' +
     '  <div class="button_container">\n' +
     '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
     '    the reason is because its already defined in app.routes.js\n' +
