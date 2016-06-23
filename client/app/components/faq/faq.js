@@ -2,10 +2,24 @@
 
 angular
   .module('App')
-  .controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl])
+  .controller('faqCtrl', ['$rootScope', '$scope', faqCtrl])
 
-function faqCtrl($rootScope, $scope, getUser){
-  $rootScope.display_name = getUser.data.displayName
+function faqCtrl($rootScope, $scope){
+
+  var token = 'in faq'
+  localStorage.setItem('faq', token)
+  // $scope.infaq = localStorage.getItem('faq')
+
+  if (!localStorage.getItem('satellizer_token')){
+    $rootScope.infaq = localStorage.getItem('faq')
+    // $rootScope.infaq = true;
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq)
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq')
+    console.log('$rootScope.infaq', $rootScope.infaq)
+  }
+
+
 
   $scope.faqs =  [
             {question: "1. Why arent my links working?",
