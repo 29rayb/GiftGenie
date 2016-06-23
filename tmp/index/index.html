@@ -32,6 +32,7 @@
     <script src="app/components/starred-lists/starred-lists.js"></script>
     <script src="app/components/faq/faq.js"></script>
     <script src="app/components/friend-wishlist/friend-wishlist.js"></script>
+    <script src="app/components/version/version.js"></script>
     <script src="app/shared/profile-card/profile-card.js"></script>
     <script src="app/services/nav.js"></script>
     <script src="app/services/user.js"></script>
@@ -49,13 +50,19 @@
           <li><span ng-if="isAuthenticated()"><a ui-sref="starred-lists" class="navbar-links middle">Starred Lists</a></span></li>
           <li><span ng-if="isAuthenticated()"><a ng-click="logout()" class="navbar-links right">Logout</a></span></li>
           <li><span ng-if="!isAuthenticated()">
-              <button ng-click="authenticate('facebook')" ui-sref="my-wishlist({id: facebookId})" ng-if="infaq" class="fb_btn navbar-links right"><img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">
-                <p>Login with Facebook</p>
-              </button></span></li>
+              <button ng-click="authenticate('facebook')" ui-sref="my-wishlist({id: facebookId})" ng-if="infaq" class="fb_btn not-loggedin navbar-links right"><img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo"></button></span></li>
         </ul>
       </div>
     </nav>
     <ui-view></ui-view>
-    <footer class="footer">© 2016 - All Rights Reserved. #Raychel<i ui-sref="faq" class="fa fa-info-circle"></i></footer>
+    <footer class="footer">
+      <div class="left-side col-xs-3"><i ui-sref="faq" class="fa fa-question-circle-o faq"></i><i class="fa fa-envelope-o"></i></div>
+      <div class="middle col-xs-6">
+        <p>© 2014-2016 - All Rights Reserved</p>
+      </div>
+      <div class="right-side version col-xs-3">
+        <p ui-sref="version">v2.0.5</p>
+      </div>
+    </footer>
   </body>
 </html>

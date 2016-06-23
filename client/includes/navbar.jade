@@ -20,6 +20,4 @@ nav.navbar-container(ng-controller="NavbarCtrl")
           a(ng-click="logout()").navbar-links.right Logout
       li
         span(ng-if="!isAuthenticated()")
-          button(ng-click="authenticate('facebook')" class='fb_btn' ui-sref="my-wishlist({id: facebookId})" ng-if="infaq").navbar-links.right
-            img(src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo")
-            p Login with Facebook
+          button(ng-click="authenticate('facebook')" class='fb_btn not-loggedin' ui-sref="my-wishlist({id: facebookId})" ng-if="infaq").navbar-links.right: img(src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo")

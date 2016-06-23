@@ -96,6 +96,55 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
+  module = angular.module('home');
+} catch (e) {
+  module = angular.module('home', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/home.html',
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="home_container" ng-if="!loggedIn">\n' +
+    '  <div class="button_container">\n' +
+    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach video" autoplay muted>\n' +
+    '\n' +
+    '<!-- http://4.bp.blogspot.com/-FYKwQ1ILSD0/TjOdZnPbdbI/AAAAAAAAF64/zrcrfWHls-E/s1600/20.GIF -->\n' +
+    '\n' +
+    '<!-- https://66.media.tumblr.com/971730e6d4d1ddaff1885aacb4639e11/tumblr_nd0bc4mxMR1tchrkco1_500.gif -->\n' +
+    '\n' +
+    '<!-- https://goodnessgraciousmegs.files.wordpress.com/2015/01/tumblr_mjdyn7uwxj1qe49wpo1_500.jpg -->\n' +
+    '\n' +
+    '<!-- http://www.abc.net.au/reslib/201009/r634934_4355210.jpg -->\n' +
+    '\n' +
+    '\n' +
+    '<!-- https://s-media-cache-ak0.pinimg.com/736x/46/74/b9/4674b9a25b20063575efe04768f5b64c.jpg -->\n' +
+    '\n' +
+    '<!-- https://astridthora.files.wordpress.com/2013/02/tumblr_m16zivzgo51qkvok3o1_500.jpg -->\n' +
+    '\n' +
+    '<!-- https://media.giphy.com/media/6EQIMBLbHXGeY/giphy.gif -->\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('myWishlist');
 } catch (e) {
   module = angular.module('myWishlist', []);
@@ -317,49 +366,29 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
-  module = angular.module('home');
+  module = angular.module('version');
 } catch (e) {
-  module = angular.module('home', []);
+  module = angular.module('version', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div>\n' +
+  $templateCache.put('version/version.html',
+    '<div class="main_container">\n' +
     '\n' +
-    '<div class="home_container" ng-if="!loggedIn">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
+    '  <div class="faq container">\n' +
+    '    <h1>Versions</h1>\n' +
+    '    <div class="search_faq_container">\n' +
+    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
+    '    </div>\n' +
+    '\n' +
+    '<!--     <ul class="faquestions">\n' +
+    '      <li ng-repeat="faq in faqs | filter:search">\n' +
+    '        <h5 ng-click="getAnswer()">{{faq.question}} </h5><br>\n' +
+    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}} </h6>\n' +
+    '      </li>\n' +
+    '    </ul> -->\n' +
     '  </div>\n' +
-    '</div>\n' +
-    '\n' +
-    '<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach video" autoplay muted>\n' +
-    '\n' +
-    '<!-- http://4.bp.blogspot.com/-FYKwQ1ILSD0/TjOdZnPbdbI/AAAAAAAAF64/zrcrfWHls-E/s1600/20.GIF -->\n' +
-    '\n' +
-    '<!-- https://66.media.tumblr.com/971730e6d4d1ddaff1885aacb4639e11/tumblr_nd0bc4mxMR1tchrkco1_500.gif -->\n' +
-    '\n' +
-    '<!-- https://goodnessgraciousmegs.files.wordpress.com/2015/01/tumblr_mjdyn7uwxj1qe49wpo1_500.jpg -->\n' +
-    '\n' +
-    '<!-- http://www.abc.net.au/reslib/201009/r634934_4355210.jpg -->\n' +
     '\n' +
     '\n' +
-    '<!-- https://s-media-cache-ak0.pinimg.com/736x/46/74/b9/4674b9a25b20063575efe04768f5b64c.jpg -->\n' +
-    '\n' +
-    '<!-- https://astridthora.files.wordpress.com/2013/02/tumblr_m16zivzgo51qkvok3o1_500.jpg -->\n' +
-    '\n' +
-    '<!-- https://media.giphy.com/media/6EQIMBLbHXGeY/giphy.gif -->\n' +
-    '\n' +
-    '\n' +
-    '\n' +
-    '\n' +
-    '');
+    '</div>');
 }]);
 })();
