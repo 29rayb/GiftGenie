@@ -178,11 +178,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       if (likedItemsArr.indexOf(each_likeable_item) > -1) {
         allTheLikedItemsArr.push(i);
         console.log('BUILDING THE LIKED ITEMS ARRAY INSIDE THE FOR LOOP.', allTheLikedItemsArr);
-        $rootScope.like_heart = allTheLikedItemsArr;
+        $scope.like_heart = allTheLikedItemsArr;
       }
     }
 
-    console.log($rootScope.like_heart, '$rootScope.like_heart INSIDE FRIEND PROFILE.');
+    console.log($scope.like_heart, '$scope.like_heart INSIDE FRIEND PROFILE.');
 
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1) {
@@ -214,26 +214,26 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.log('Here is the item being liked.', item);
     console.log('Index of liked item:', $index);
 
-    // if all items are liked, don't see the changes right away;
-    console.log($rootScope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
+    console.log($scope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
 
-    if ($rootScope.like_heart != undefined && $rootScope.like_heart.indexOf($index) > -1) {
-      console.log('Index is ALREADY liked.');
-      console.log('rootScope.like_heart ---> before deleting ', $rootScope.like_heart);
-      delete $rootScope.like_heart[$index];
-      console.log('rootScope.like_heart ---> after deleting', $rootScope.like_heart);
-    } else if ($rootScope.like_heart == undefined) {
-      $rootScope.like_heart = [];
-      console.log('before pushing index into like_heart', $rootScope.like_heart);
+    if ($scope.like_heart != undefined && $scope.like_heart.indexOf($index) > -1) {
+      console.log('Index is ALREADY liked.', $index);
+      console.log('scope.like_heart ---> before deleting ', $scope.like_heart);
+      console.log('REMAINING LENGTH', $scope.like_heart.length);
+      delete $scope.like_heart[$index];
+      console.log('scope.like_heart ---> after deleting', $scope.like_heart);
+    } else if ($scope.like_heart == undefined) {
+      $scope.like_heart = [];
+      console.log('before pushing index into like_heart', $scope.like_heart);
       // if ($rootScope.like_heart !== undefined)
-      $rootScope.like_heart.push($index);
-      console.log('after pushing index into like_heart', $rootScope.like_heart);
+      $scope.like_heart.push($index);
+      console.log('after pushing index into like_heart', $scope.like_heart);
       console.log('item liked and added to array to be colored on front end');
-    } else if ($rootScope.like_heart != undefined) {
-      console.log('before pushing index into like_heart', $rootScope.like_heart);
+    } else if ($scope.like_heart != undefined) {
+      console.log('before pushing index into like_heart', $scope.like_heart);
       // if ($rootScope.like_heart !== undefined)
-      $rootScope.like_heart.push($index);
-      console.log('after pushing index into like_heart', $rootScope.like_heart);
+      $scope.like_heart.push($index);
+      console.log('after pushing index into like_heart', $scope.like_heart);
       console.log('item liked and added to array to be colored on front end');
     }
 
