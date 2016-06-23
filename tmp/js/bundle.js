@@ -11,12 +11,7 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
   $stateProvider.state('faq', {
     url: '/faq',
     templateUrl: 'app/components/faq/faq.html',
-    controller: 'faqCtrl',
-    resolve: {
-      getUser: function getUser(UserSvc) {
-        return UserSvc.getProfile();
-      }
-    }
+    controller: 'faqCtrl'
   }).state('home', {
     url: '/',
     templateUrl: 'app/components/home/home.html',
@@ -129,6 +124,32 @@ function UserSvc($http) {
     }
   };
 };
+'use strict';
+
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
+
+function faqCtrl($rootScope, $scope) {
+
+  var token = 'in faq';
+  localStorage.setItem('faq', token);
+
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+    console.log('$rootScope.infaq', $rootScope.infaq);
+  }
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
+    answer: "2nd" }, { question: "3. 3rd",
+    answer: "3rd" }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
@@ -271,22 +292,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.goToFollowers = function () {
     $state.go('followers');
-  };
-}
-'use strict';
-
-angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl]);
-
-function faqCtrl($rootScope, $scope, getUser) {
-  $rootScope.display_name = getUser.data.displayName;
-
-  $scope.faqs = [{ question: "1. Why arent my links working?",
-    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
-    answer: "2nd" }, { question: "3. 3rd",
-    answer: "3rd" }];
-
-  $scope.getAnswer = function () {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
 
@@ -520,6 +525,14 @@ angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$
 
 function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
 
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+    console.log('$rootScope.infaq', $rootScope.infaq);
+  }
+
   $scope.isAuthenticated = function () {
     return $auth.isAuthenticated();
   };
@@ -527,6 +540,16 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
     $rootScope.loggedIn = undefined;
     $auth.logout();
     $state.go('home');
+  };
+
+  $scope.backToHome = function () {
+    // $scope.infaqqqq = false;
+    // localStorage.setItem('faq', undefined)
+    localStorage.removeItem('faq');
+    // localStorage.setItem('faq', undefined)
+    // $scope.infaq = undefined;
+    $rootScope.infaq = null;
+    console.log('!@#!@#!@#!@#!@#!@#@!#!@#!@#', $rootScope.infaq);
   };
 
   $scope.goToWishList = function () {
@@ -571,6 +594,29 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
 
   $scope.blurred = function () {
     $scope.friendsContainer = false;
+  };
+
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    localStorage.removeItem('faq');
+    $rootScope.notLoggedIn = true;
+    $auth.authenticate(provider, user).then(function (res) {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
   };
 }
 'use strict';

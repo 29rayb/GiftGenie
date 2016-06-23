@@ -11,12 +11,7 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
   $stateProvider.state('faq', {
     url: '/faq',
     templateUrl: 'app/components/faq/faq.html',
-    controller: 'faqCtrl',
-    resolve: {
-      getUser: function getUser(UserSvc) {
-        return UserSvc.getProfile();
-      }
-    }
+    controller: 'faqCtrl'
   }).state('home', {
     url: '/',
     templateUrl: 'app/components/home/home.html',
@@ -114,20 +109,33 @@ function UserSvc($http) {
       return $http.put('/api/me/items/order', newOrder);
     },
     likeItem: function likeItem(item) {
-      console.log('like this item', item);
       return $http.put('/api/items/liked', item);
     },
     showFavoritesData: function showFavoritesData() {
       return $http.get('/api/favorites/data');
+    },
+    followPerson: function followPerson(user) {
+      // console.log('user in service', user)
+      return $http.put('/api/me/following', user);
     }
   };
 };
 'use strict';
 
-angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl]);
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
 
-function faqCtrl($rootScope, $scope, getUser) {
-  $rootScope.display_name = getUser.data.displayName;
+function faqCtrl($rootScope, $scope) {
+
+  var token = 'in faq';
+  localStorage.setItem('faq', token);
+
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+    console.log('$rootScope.infaq', $rootScope.infaq);
+  }
 
   $scope.faqs = [{ question: "1. Why arent my links working?",
     answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
@@ -138,24 +146,61 @@ function faqCtrl($rootScope, $scope, getUser) {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  if (localStorage.getItem("satellizer_token")) {
+    UserSvc.getProfile().then(function (response) {
+      $rootScope.display_name = response.data.displayName;
+    });
+  }
+
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    // $rootScope.notLoggedIn = true;
+    $auth.authenticate(provider, user).then(function (res) {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
+  };
+
+  // $rootScope.display_name = getUser.data.displayName;
+}
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
+  var favoritesIdArr = getUser.data.favorites;
+  var followingFriendIdArr = getUser.data.following;
   $rootScope.display_name = getUser.data.displayName;
-  $scope.like_heart = false;
-
-  console.log('getuser @#$%^&*$#^&*#', getUser);
-  var likedItemsArr = getUser.data.liked;
-  console.log('likedItemsArr', likedItemsArr);
-
-  // console.log($stateParams, 'state params');
   var friendId = $stateParams.fid;
 
+  var likedItemsArr = getUser.data.liked;
+  console.log(likedItemsArr, 'THIS IS THE LIKED ITEMS BEFORE WITHIN FRIEND PROFILE.*****');
+
   UserSvc.friendProfile(friendId).then(function (response) {
-    console.log(response.data, "response");
+    console.log(response.data, "Response from GetFriend Profile service call.");
     $scope.user = response.data.user;
     $scope.id = response.data.user._id;
     $scope.birthday = response.data.user.birthday;
@@ -163,18 +208,39 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.email = response.data.user.email;
     $scope.pro_pic = response.data.user.facebook;
     $scope.items = response.data.items;
-    // console.log('friends items', $scope.items);
+    $scope.friendsLengthh = response.data.user.friends.length;
     $scope.allFriendFriends = response.data.user.friends;
+    $scope.following = response.data.user.following.length;
+    $scope.followers = response.data.user.followers.length;
+
+    var friendItems = response.data.user.items;
+    console.log('******All of the friends items.');
+    var allTheLikedItemsArr = [];
+    for (var i = 0; i < friendItems.length; i++) {
+      var each_likeable_item = friendItems[i];
+      if (likedItemsArr.indexOf(each_likeable_item) > -1) {
+        allTheLikedItemsArr.push(i);
+        $scope.like_heart = allTheLikedItemsArr;
+      }
+    }
+
+    var friendFavId = response.data.user._id;
+    if (favoritesIdArr.indexOf(friendFavId) > -1) {
+      $rootScope.yellowStar = 'star_btn';
+    }
+
+    if (followingFriendIdArr.indexOf($scope.id) > -1) {
+      console.log('you are following this person');
+      $rootScope.follow = true;
+    } else {
+      console.log('you are not following this person');
+      $rootScope.follow = false;
+    }
 
     var friendFriendArray = [];
     for (var i = 0; i < response.data.user.friends.length; i++) {
       var friendFriendName = response.data.user.friends[i].name;
       friendFriendArray.push(friendFriendName);
-    }
-
-    console.log(likedItemsArr);
-    for (var i = 0; i < likedItemsArr.length; i++) {
-      likedItemsArr[i].addClass("liked_item");
     }
 
     $scope.friends = friendFriendArray;
@@ -183,9 +249,30 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
-  // $scope.alreadyLiked = true;
+  $scope.like_item = function (item, $index) {
+    console.log($scope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
 
-  $scope.like_item = function (item) {
+    if ($scope.like_heart != undefined && $scope.like_heart.indexOf($index) > -1) {
+      console.log('------------------------> SCENARIO #1 - UNLIKING');
+      var theIndex = $index;
+      var parsed = parseInt($index);
+      var arrayToRemoveFrom = $scope.like_heart;
+      console.log(arrayToRemoveFrom, 'BEFORE DELETING.');
+      // console.log(arrayToRemoveFrom.length, 'LENGTH BEFORE');
+      arrayToRemoveFrom.splice(arrayToRemoveFrom.indexOf(parsed), 1);
+      console.log(arrayToRemoveFrom, 'AFTER DELETING.');
+      // console.log(arrayToRemoveFrom.length, 'LENGTH AFTER');
+    } else if ($scope.like_heart == undefined) {
+        console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+        $scope.like_heart = [];
+        $scope.like_heart.push($index);
+        console.log('after pushing index into like_heart', $scope.like_heart);
+      } else if ($scope.like_heart != undefined) {
+        console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
+        $scope.like_heart.push($index);
+        console.log('after pushing index into like_heart', $scope.like_heart);
+      }
+
     UserSvc.likeItem(item).then(function (res) {
       console.log('response from item being liked', res);
     }).catch(function (err) {
@@ -194,47 +281,52 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   };
 
   $scope.star = function (user) {
-    console.log(user, 'user');
+    if ($rootScope.yellowStar === undefined) {
+      $rootScope.yellowStar = 'star_btn';
+    } else {
+      $rootScope.yellowStar = undefined;
+    }
     // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user);
   };
-}
 
-'use strict';
+  $scope.followUser = function (user) {
+    console.log('user', user._id);
+    var tmpFriendId = user._id;
+    if (followingFriendIdArr.indexOf(tmpFriendId) > -1) {
+      followingFriendIdArr.pop(tmpFriendId);
+      $scope.unfollow = false;
+    } else {
+      followingFriendIdArr.push(tmpFriendId);
+      console.log('you are following this person');
+      // need to fix this;
+      window.location.reload();
+      // $scope.unfollow = true;
+      // $scope.follow = false;
+    }
+    console.log(followingFriendIdArr);
+    UserSvc.followPerson(user);
+  };
 
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', HomeCtrl]);
+  $scope.unfollowBtnShow = function () {
+    console.log('should show RED unfollow button & hide following button');
+    $rootScope.follow = false;
+    $rootScope.unfollow = true;
+  };
 
-function HomeCtrl($scope, $state, $auth, $http, UserSvc) {
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    $auth.authenticate(provider, user).then(function (res) {
-<<<<<<< HEAD
-      // console.log(res, 'This is the auth response in Home Ctlr.');
-=======
-      console.log(res, 'This is the auth response in Home Ctlr.');
->>>>>>> a6157e16a8bbeb7ace1c75e01729f44df90b645d
-      // var token = res.data;
-      // console.log(token, "This is our token. We're inside Home Ctlr.")
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-<<<<<<< HEAD
-        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-=======
-        console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
->>>>>>> a6157e16a8bbeb7ace1c75e01729f44df90b645d
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-      });
-    }).catch(function (err) {
-      console.error('Inside the Home Ctrl, we have an error!', err);
-    });
+  $scope.followBtnShow = function () {
+    console.log('should show follow button only');
+    $rootScope.follow = true;
+    $rootScope.unfollow = false;
+  };
+
+  // need to pass in params so can make api call to backend for individual friend data;
+  $scope.goToFollowing = function () {
+    $state.go('following');
+  };
+
+  $scope.goToFollowers = function () {
+    $state.go('followers');
   };
 }
 'use strict';
@@ -247,8 +339,11 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $scope.id = $stateParams.id;
   $rootScope.fbook = $stateParams.facebook;
   $scope.settings = false;
+  $scope.followersPage = false;
+  $scope.followingPage = false;
   $scope.like_heart = false;
   $scope.favoriteWishlist = false;
+  // $scope.notFollowing = true;
 
   // console.log('is this the id in the url', $scope.id)
 
@@ -272,6 +367,27 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.favorites = response.data.favorites;
     // console.log(response.data.friends.length, 'friend length')
     // console.log("This is the data from GET request.", $rootScope.user);
+    $scope.followersCount = response.data.followers.length;
+    $scope.followingCount = response.data.following.length;
+
+    $rootScope.followersModel = [];
+    $rootScope.followingModel = [];
+
+    $scope.followingArr = response.data.following;
+    for (var i = 0; i < $scope.followingCount; i++) {
+      $rootScope.followingModel[i] = {
+        "name": response.data.friends[i].name,
+        "id": response.data.friends[i].id
+      };
+    }
+
+    $scope.followersArr = response.data.following;
+    for (var i = 0; i < $scope.followersCount; i++) {
+      $rootScope.followersModel[i] = {
+        "name": response.data.friends[i].name,
+        "id": response.data.friends[i].id
+      };
+    }
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
@@ -339,6 +455,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
   $scope.goToSettings = function () {
     $scope.settings = true;
+    $scope.followersPage = false;
+    $scope.followingPage = false;
     $scope.public = true;
     $scope.private = false;
     $scope.makePrivate = function () {
@@ -353,6 +471,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
   $scope.backToWlist = function () {
     $scope.settings = false;
+    $scope.followersPage = false;
+    $scope.followingPage = false;
   };
 
   $scope.sort_list = function () {
@@ -367,6 +487,29 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     },
     axis: 'y'
   };
+
+  $scope.goToFollowing = function () {
+    $scope.followingPage = true;
+    $scope.followersPage = false;
+    $scope.settings = false;
+    // $state.go('following')
+  };
+
+  $scope.goToFollowers = function () {
+    $scope.followersPage = true;
+    $scope.followingPage = false;
+    $scope.settings = false;
+    // $state.go('followers')
+  };
+
+  $scope.goToOthers = function (favorite) {
+    UserSvc.getProfile().then(function (response) {
+      var myId = response.data.facebook;
+      // var fid = favorite.id;
+      // console.log('MyId TRYING TO CHANGE PAGE', myId)
+      $state.go('friend-wishlist', { id: myId, fid: favorite.id });
+    });
+  };
 }
 'use strict';
 
@@ -374,12 +517,31 @@ angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$
 
 function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
 
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+    console.log('$rootScope.infaq', $rootScope.infaq);
+  }
+
   $scope.isAuthenticated = function () {
     return $auth.isAuthenticated();
   };
   $scope.logout = function () {
+    $rootScope.loggedIn = undefined;
     $auth.logout();
     $state.go('home');
+  };
+
+  $scope.backToHome = function () {
+    // $scope.infaqqqq = false;
+    // localStorage.setItem('faq', undefined)
+    localStorage.removeItem('faq');
+    // localStorage.setItem('faq', undefined)
+    // $scope.infaq = undefined;
+    $rootScope.infaq = null;
+    console.log('!@#!@#!@#!@#!@#!@#@!#!@#!@#', $rootScope.infaq);
   };
 
   $scope.goToWishList = function () {
@@ -417,15 +579,6 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
     });
   };
 
-  // $scope.getFavorites = () => {
-
-  // }
-
-  // UserSvc.getProfile()
-  // .then((res) => {
-  //   console.log('!@#!@#!@#@#@!#@!#@', res)
-  // })
-
   $scope.focused = function () {
     $scope.friendsContainer = true;
     $scope.searchFriends();
@@ -435,7 +588,28 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
     $scope.friendsContainer = false;
   };
 
-  // $scope.searchFriends();
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    localStorage.removeItem('faq');
+    $rootScope.notLoggedIn = true;
+    $auth.authenticate(provider, user).then(function (res) {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
+  };
 }
 'use strict';
 
@@ -451,10 +625,39 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
   // var favoritesIdsArray = $scope.favorites;
 
   UserSvc.showFavoritesData().then(function (response) {
-    console.log(response.data, '<---------------FAVORITES DATA!!');
+    var favsLength = response.data.user.favorites.length;
+    var favObj = response.data.favoritesData;
+    // console.log(favObj)
+    $scope.favsModel = [];
+    for (var i = 0; i < favsLength; i++) {
+      // var favsName = favObj[i].displayName;
+      // favsNameArr.push(favsName);
+      // var favsPic = favObj[i].picture;
+      // favsPicArr.push(favsPic);
+      $scope.favsModel[i] = {
+        "name": favObj[i].displayName,
+        "id": favObj[i].facebook
+      };
+    }
+    // console.log($scope.favsModel)
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
+
+  $scope.goToOthers = function (favorite) {
+    UserSvc.getProfile().then(function (response) {
+      var myId = response.data.facebook;
+      // var fid = favorite.id;
+      // console.log('MyId TRYING TO CHANGE PAGE', myId)
+      $state.go('friend-wishlist', { id: myId, fid: favorite.id });
+    });
+  };
+
+  // var friendFriendArray = [];
+  // for (var i=0; i<response.data.user.friends.length; i++) {
+  //   var friendFriendName = response.data.user.friends[i].name;
+  //   friendFriendArray.push(friendFriendName);
+  // }
 
   $scope.star = function () {
     console.log('star in starred list');

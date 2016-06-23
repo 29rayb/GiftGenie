@@ -119,7 +119,26 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '\n' +
-    '<!-- <video src="./images/love.mp4" alt="Cutie" class="rach video" autoplay muted> -->\n' +
+    '<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach video" autoplay muted>\n' +
+    '\n' +
+    '<!-- http://4.bp.blogspot.com/-FYKwQ1ILSD0/TjOdZnPbdbI/AAAAAAAAF64/zrcrfWHls-E/s1600/20.GIF -->\n' +
+    '\n' +
+    '<!-- https://66.media.tumblr.com/971730e6d4d1ddaff1885aacb4639e11/tumblr_nd0bc4mxMR1tchrkco1_500.gif -->\n' +
+    '\n' +
+    '<!-- https://goodnessgraciousmegs.files.wordpress.com/2015/01/tumblr_mjdyn7uwxj1qe49wpo1_500.jpg -->\n' +
+    '\n' +
+    '<!-- http://www.abc.net.au/reslib/201009/r634934_4355210.jpg -->\n' +
+    '\n' +
+    '\n' +
+    '<!-- https://s-media-cache-ak0.pinimg.com/736x/46/74/b9/4674b9a25b20063575efe04768f5b64c.jpg -->\n' +
+    '\n' +
+    '<!-- https://astridthora.files.wordpress.com/2013/02/tumblr_m16zivzgo51qkvok3o1_500.jpg -->\n' +
+    '\n' +
+    '<!-- https://media.giphy.com/media/6EQIMBLbHXGeY/giphy.gif -->\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
     '');
 }]);
 })();

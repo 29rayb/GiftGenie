@@ -11,12 +11,7 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
     .state('faq', {
       url: '/faq',
       templateUrl: 'app/components/faq/faq.html',
-      controller: 'faqCtrl',
-      resolve: {
-        getUser: function(UserSvc) {
-          return UserSvc.getProfile();
-        }
-      }
+      controller: 'faqCtrl'
     })
     .state('home', {
       url: '/',
