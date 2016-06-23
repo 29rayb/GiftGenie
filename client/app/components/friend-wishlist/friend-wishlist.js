@@ -7,18 +7,17 @@ angular
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
   var favoritesIdArr = getUser.data.favorites;
-
   var followingFriendIdArr = getUser.data.following;
-
   $rootScope.display_name = getUser.data.displayName
-  // $scope.like_heart = false;
-
-  var likedItemsArr = getUser.data.liked
   var friendId = $stateParams.fid;
+
+
+  var likedItemsArr = getUser.data.liked;
+  console.log(likedItemsArr, 'THIS IS THE LIKED ITEMS BEFORE WITHIN FRIEND PROFILE.*****');
 
   UserSvc.friendProfile(friendId)
   .then((response) => {
-    console.log(response.data, "response")
+    console.log(response.data, "Response from GetFriend Profile service call.")
     $scope.user = response.data.user;
     $scope.id = response.data.user._id;
     $scope.birthday = response.data.user.birthday;
@@ -32,15 +31,18 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.followers = response.data.user.followers.length;
 
     var friendItems = response.data.user.items;
+    console.log('******All of the friends items.');
     var allTheLikedItemsArr= [];
     for (var i = 0; i < friendItems.length; i++){
       var each_likeable_item = friendItems[i];
       if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
         allTheLikedItemsArr.push(i)
-        // console.log('!@#!@#!@#!@321', allTheLikedItemsArr)
+        console.log('BUILDING THE LIKED ITEMS ARRAY INSIDE THE FOR LOOP.', allTheLikedItemsArr)
         $rootScope.like_heart =  allTheLikedItemsArr;
       }
     }
+
+    console.log($rootScope.like_heart, '$rootScope.like_heart INSIDE FRIEND PROFILE.');
 
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1){
@@ -50,7 +52,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     if(followingFriendIdArr.indexOf($scope.id) > -1 ){
       console.log('you are following this person')
       $rootScope.follow = true;
-      // $rootScope.unfollow = false;
     } else {
       console.log('you are not following this person')
       $rootScope.follow = false;
@@ -70,8 +71,9 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   });
 
   $scope.like_item = (item, $index) => {
-    console.log('this is the like item', item)
-    console.log('this is the INDEXXXXXX item', $index)
+    console.log('TRIGGERING LIKED ITEM FUNCTION.');
+    console.log('this is the like ITEM', item)
+    console.log('this is its INDEX item', $index)
 
     // if no items are liked, don't see the changes right away;
     // if all items are liked, don't see the changes right away;
@@ -93,13 +95,13 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     }
 
     UserSvc.likeItem(item)
-      .then((res) => {
-        // console.log('response from item being liked', res);
-      })
-      .catch((err) => {
-        console.log('error from item being liked', err)
-      })
-    }
+    .then((res) => {
+      // console.log('response from item being liked', res);
+    })
+    .catch((err) => {
+      console.log('error from item being liked', err)
+    })
+  }
 
 
 
@@ -132,26 +134,26 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   }
 
 
-    $scope.unfollowBtnShow = () => {
-      console.log('should show RED unfollow button & hide following button')
-      $rootScope.follow = false;
-      $rootScope.unfollow = true;
-    }
+  $scope.unfollowBtnShow = () => {
+    console.log('should show RED unfollow button & hide following button')
+    $rootScope.follow = false;
+    $rootScope.unfollow = true;
+  }
 
-    $scope.followBtnShow = () => {
-      console.log('should show follow button only')
-      $rootScope.follow = true;
-      $rootScope.unfollow = false;
-    }
+  $scope.followBtnShow = () => {
+    console.log('should show follow button only')
+    $rootScope.follow = true;
+    $rootScope.unfollow = false;
+  }
 
-    // need to pass in params so can make api call to backend for individual friend data;
-    $scope.goToFollowing = () => {
-      $state.go('following')
-    }
+  // need to pass in params so can make api call to backend for individual friend data;
+  $scope.goToFollowing = () => {
+    $state.go('following')
+  }
 
-    $scope.goToFollowers = () => {
-      $state.go('followers')
-    }
+  $scope.goToFollowers = () => {
+    $state.go('followers')
+  }
 
 
 }

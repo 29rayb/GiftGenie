@@ -114,7 +114,7 @@ function UserSvc($http) {
       return $http.put('/api/me/items/order', newOrder);
     },
     likeItem: function likeItem(item) {
-      // console.log('like this item', item);
+      console.log('like this item IN SERVICE', item);
       return $http.put('/api/items/liked', item);
     },
     showFavoritesData: function showFavoritesData() {
@@ -149,17 +149,15 @@ angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth',
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
 
   var favoritesIdArr = getUser.data.favorites;
-
   var followingFriendIdArr = getUser.data.following;
-
   $rootScope.display_name = getUser.data.displayName;
-  // $scope.like_heart = false;
-
-  var likedItemsArr = getUser.data.liked;
   var friendId = $stateParams.fid;
 
+  var likedItemsArr = getUser.data.liked;
+  console.log(likedItemsArr, 'THIS IS THE LIKED ITEMS BEFORE WITHIN FRIEND PROFILE.*****');
+
   UserSvc.friendProfile(friendId).then(function (response) {
-    console.log(response.data, "response");
+    console.log(response.data, "Response from GetFriend Profile service call.");
     $scope.user = response.data.user;
     $scope.id = response.data.user._id;
     $scope.birthday = response.data.user.birthday;
@@ -173,15 +171,18 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.followers = response.data.user.followers.length;
 
     var friendItems = response.data.user.items;
+    console.log('******All of the friends items.');
     var allTheLikedItemsArr = [];
     for (var i = 0; i < friendItems.length; i++) {
       var each_likeable_item = friendItems[i];
       if (likedItemsArr.indexOf(each_likeable_item) > -1) {
         allTheLikedItemsArr.push(i);
-        // console.log('!@#!@#!@#!@321', allTheLikedItemsArr)
+        console.log('BUILDING THE LIKED ITEMS ARRAY INSIDE THE FOR LOOP.', allTheLikedItemsArr);
         $rootScope.like_heart = allTheLikedItemsArr;
       }
     }
+
+    console.log($rootScope.like_heart, '$rootScope.like_heart INSIDE FRIEND PROFILE.');
 
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1) {
@@ -191,11 +192,10 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     if (followingFriendIdArr.indexOf($scope.id) > -1) {
       console.log('you are following this person');
       $rootScope.follow = true;
-      // $rootScope.unfollow = false;
     } else {
-        console.log('you are not following this person');
-        $rootScope.follow = false;
-      }
+      console.log('you are not following this person');
+      $rootScope.follow = false;
+    }
 
     var friendFriendArray = [];
     for (var i = 0; i < response.data.user.friends.length; i++) {
@@ -210,8 +210,9 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   });
 
   $scope.like_item = function (item, $index) {
-    console.log('this is the like item', item);
-    console.log('this is the INDEXXXXXX item', $index);
+    console.log('TRIGGERING LIKED ITEM FUNCTION.');
+    console.log('this is the like ITEM', item);
+    console.log('this is its INDEX item', $index);
 
     // if no items are liked, don't see the changes right away;
     // if all items are liked, don't see the changes right away;
