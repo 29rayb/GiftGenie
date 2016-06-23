@@ -39,7 +39,7 @@
   </head>
   <body ng-app="App">
     <nav ng-controller="NavbarCtrl" class="navbar-container">
-      <div ng-if="isAuthenticated()" class="container-fluid"><a class="navbar-brand logo navbar-links">GiFTGENiE</a>
+      <div ng-if="isAuthenticated()" class="container-fluid"><a ui-sref="home" class="navbar-brand logo navbar-links">GiFTGENiE</a>
         <input type="text" placeholder="Search Friends" ng-model="search" ng-keypress="searchFriends()" ng-focus="focused()" ng-blur="blurred()" class="friendInput"><i class="fa fa-search"></i>
         <ul ng-if="true" ng-model="friends" class="friends_container">
           <li ng-repeat="user in userModel | filter:search" ng-click="goToOthers(user)" class="searchedFriend"><img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=small" class="searchFriendsPic">{{ user.name }}</li>

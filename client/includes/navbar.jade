@@ -1,6 +1,6 @@
 nav.navbar-container(ng-controller="NavbarCtrl")
   .container-fluid(ng-if="isAuthenticated()")
-    a.navbar-brand.logo.navbar-links GiFTGENiE
+    a.navbar-brand.logo.navbar-links(ui-sref="home") GiFTGENiE
     input(type="text" placeholder="Search Friends" ng-model="search" ng-keypress="searchFriends()" ng-focus="focused()" ng-blur="blurred()").friendInput
     i.fa.fa-search
     //- ul.friends_container(ng-if="friendsContainer" ng-model="friends")
