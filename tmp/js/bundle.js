@@ -128,22 +128,6 @@ function UserSvc($http) {
 };
 'use strict';
 
-angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl]);
-
-function faqCtrl($rootScope, $scope, getUser) {
-  $rootScope.display_name = getUser.data.displayName;
-
-  $scope.faqs = [{ question: "1. Why arent my links working?",
-    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
-    answer: "2nd" }, { question: "3. 3rd",
-    answer: "3rd" }];
-
-  $scope.getAnswer = function () {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
-  };
-}
-'use strict';
-
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
@@ -217,12 +201,14 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     console.log($scope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
 
     if ($scope.like_heart != undefined && $scope.like_heart.indexOf($index) > -1) {
+      console.log('------------------------> SCENARIO #1');
       console.log('Index is ALREADY liked.', $index);
       console.log('scope.like_heart ---> before deleting ', $scope.like_heart);
       console.log('REMAINING LENGTH', $scope.like_heart.length);
       delete $scope.like_heart[$index];
       console.log('scope.like_heart ---> after deleting', $scope.like_heart);
     } else if ($scope.like_heart == undefined) {
+      console.log('------------------------> SCENARIO #2');
       $scope.like_heart = [];
       console.log('before pushing index into like_heart', $scope.like_heart);
       // if ($rootScope.like_heart !== undefined)
@@ -230,6 +216,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       console.log('after pushing index into like_heart', $scope.like_heart);
       console.log('item liked and added to array to be colored on front end');
     } else if ($scope.like_heart != undefined) {
+      console.log('------------------------> SCENARIO #3');
       console.log('before pushing index into like_heart', $scope.like_heart);
       // if ($rootScope.like_heart !== undefined)
       $scope.like_heart.push($index);
@@ -291,6 +278,22 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.goToFollowers = function () {
     $state.go('followers');
+  };
+}
+'use strict';
+
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl]);
+
+function faqCtrl($rootScope, $scope, getUser) {
+  $rootScope.display_name = getUser.data.displayName;
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
+    answer: "2nd" }, { question: "3. 3rd",
+    answer: "3rd" }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
 
