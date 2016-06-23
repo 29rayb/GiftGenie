@@ -145,6 +145,82 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
+  module = angular.module('starredLists');
+} catch (e) {
+  module = angular.module('starredLists', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('starred-lists/starred-lists.html',
+    '<div class="main_container starred">\n' +
+    '\n' +
+    '<!--   <div class="profile container col-xs-3">\n' +
+    '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10" ng-model="user.name">\n' +
+    '    <div class="pro_pic_container col-xs-10">\n' +
+    '      <video src="dist/images/love.mp4" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
+    '    </div>\n' +
+    '    <div class="pro_info col-xs-10">\n' +
+    '      <p>{{display_name}}</p>\n' +
+    '      <p>{{email}}</p>\n' +
+    '      <p>{{birthday}}</p>\n' +
+    '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
+    '    </div>\n' +
+    '  </div> -->\n' +
+    '\n' +
+    '  <div class="wishlist_container container starred col-xs-12">\n' +
+    '    <div class="title_container col-xs-12">\n' +
+    '      <h2 class="my_wishlist_title">Starred</h2>\n' +
+    '    </div>\n' +
+    '    <div class="bottom_container col-xs-12">\n' +
+    '\n' +
+    '    <div ng-model="favorites">\n' +
+    '      <div ng-repeat="favorite in favsModel | filter:favorite.name">\n' +
+    '        <div class="user_card col-xs-12 col-sm-6" ng-click="goToOthers(favorite)">\n' +
+    '\n' +
+    '          <img ng-src="https://graph.facebook.com/{{favorite.id}}/picture?type=large" ng-click="show_user_info()"></img>\n' +
+    '          <!-- <h6 class="user_name" ng-if="clicked_card">{{favorite.name}}</h6> -->\n' +
+    '        </div>\n' +
+    '      </div>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '\n' +
+    '</div>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('version');
+} catch (e) {
+  module = angular.module('version', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('version/version.html',
+    '<div class="main_container">\n' +
+    '\n' +
+    '  <div class="faq container">\n' +
+    '    <h1>Versions</h1>\n' +
+    '    <div class="search_faq_container">\n' +
+    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
+    '    </div>\n' +
+    '\n' +
+    '<!--     <ul class="faquestions">\n' +
+    '      <li ng-repeat="faq in faqs | filter:search">\n' +
+    '        <h5 ng-click="getAnswer()">{{faq.question}} </h5><br>\n' +
+    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}} </h6>\n' +
+    '      </li>\n' +
+    '    </ul> -->\n' +
+    '  </div>\n' +
+    '\n' +
+    '\n' +
+    '</div>');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('myWishlist');
 } catch (e) {
   module = angular.module('myWishlist', []);
@@ -316,82 +392,3 @@ module.run(['$templateCache', function($templateCache) {
     '');
 }]);
 })();
-
-(function(module) {
-try {
-  module = angular.module('starredLists');
-} catch (e) {
-  module = angular.module('starredLists', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('starred-lists/starred-lists.html',
-    '<div class="main_container">\n' +
-    '\n' +
-    '<!--   <div class="profile container col-xs-3">\n' +
-    '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10" ng-model="user.name">\n' +
-    '    <div class="pro_pic_container col-xs-10">\n' +
-    '      <video src="dist/images/love.mp4" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
-    '    </div>\n' +
-    '    <div class="pro_info col-xs-10">\n' +
-    '      <p>{{display_name}}</p>\n' +
-    '      <p>{{email}}</p>\n' +
-    '      <p>{{birthday}}</p>\n' +
-    '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
-    '    </div>\n' +
-    '  </div> -->\n' +
-    '\n' +
-    '  <div class="wishlist_container container col-xs-8">\n' +
-    '    <div class="title_container">\n' +
-    '      <h2 class="my_wishlist_title">Starred</h2>\n' +
-    '    </div>\n' +
-    '    <div class="bottom_container col-xs-12">\n' +
-    '\n' +
-    '    <div ng-model="favorites">\n' +
-    '      <div ng-repeat="favorite in favsModel | filter:favorite.name">\n' +
-    '        <div class="user_card col-xs-12 col-sm-6" ng-click="goToOthers(favorite)">\n' +
-    '\n' +
-    '          <img ng-src="https://graph.facebook.com/{{favorite.id}}/picture?type=large" ng-click="show_user_info()"></img>\n' +
-    '          <!-- <h6 class="user_name" ng-if="clicked_card">{{favorite.name}}</h6> -->\n' +
-    '        </div>\n' +
-    '      </div>\n' +
-    '    </div>\n' +
-    '\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '\n' +
-    '</div>\n' +
-    '');
-}]);
-})();
-<<<<<<< HEAD
-
-(function(module) {
-try {
-  module = angular.module('version');
-} catch (e) {
-  module = angular.module('version', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('version/version.html',
-    '<div class="main_container">\n' +
-    '\n' +
-    '  <div class="faq container">\n' +
-    '    <h1>Versions</h1>\n' +
-    '    <div class="search_faq_container">\n' +
-    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
-    '    </div>\n' +
-    '\n' +
-    '<!--     <ul class="faquestions">\n' +
-    '      <li ng-repeat="faq in faqs | filter:search">\n' +
-    '        <h5 ng-click="getAnswer()">{{faq.question}} </h5><br>\n' +
-    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}} </h6>\n' +
-    '      </li>\n' +
-    '    </ul> -->\n' +
-    '  </div>\n' +
-    '\n' +
-    '\n' +
-    '</div>');
-}]);
-})();
-=======
->>>>>>> e2f2bc80705d58f658068c59702a3585070732ec

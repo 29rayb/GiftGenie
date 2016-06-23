@@ -14,7 +14,7 @@ button a:hover, div a:hover, i:hover {
     min-width: 135px;
     position: absolute;
     right: 0;
-    top: 10px;
+    top: 15px;
 }
 
 .navbar-links.left {
@@ -41,7 +41,7 @@ button a:hover, div a:hover, i:hover {
 
 .friendInput {
     position: absolute;
-    top: 10px;
+    top: 15px;
     width: 250px;
     /*z-index: -5;*/
 }
@@ -90,7 +90,7 @@ li a.navbar-links {
 .fa.fa-search {
   width: 30px;
   height: 30px;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-left: 250px;
   background: #333;
   border: 1px solid #fff;
@@ -184,7 +184,7 @@ p.logo {
 
 .fb_btn.not-loggedin {
   position: relative;
-  margin-top: -10px;
+  margin-top: -15px;
   height: 60px !important;
 }
 
@@ -386,6 +386,10 @@ i.fa-pencil-square-o {
 
 /*Starred-WishLists*/
 
+.wishlist_container.container.starred {
+  background-color: green;
+}
+
 .wishlist_button_container {
     border: 1px solid black;
     padding: 5px;
@@ -528,6 +532,7 @@ input.search_faqs {
     height: 60px;
     background-color: rgba(0,0,0,.8);
     display: inline-block;
+    left: 0;
 }
 
 footer div {
