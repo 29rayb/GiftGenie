@@ -48,11 +48,6 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
         }
       }
     })
-    .state('version', {
-      url: '/version',
-      templateUrl: 'app/components/version/version.html',
-      controller: 'VersionCtrl'
-    })
 
   $authProvider.facebook({
     clientId: '247255738962232',
