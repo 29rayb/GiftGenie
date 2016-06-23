@@ -6,13 +6,8 @@ angular
 
 function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
 
-  // var token = 'in faq'
-  // $rootScope.infaq = localStorage.setItem('faq', token)
-  // console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq)
-
   if (!localStorage.getItem('satellizer_token')){
     $rootScope.infaq = localStorage.getItem('faq')
-    // $rootScope.infaq = true;
     console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq)
   } else {
     $rootScope.infaq = localStorage.removeItem('faq')

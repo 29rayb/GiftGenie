@@ -8,11 +8,9 @@ function faqCtrl($rootScope, $scope){
 
   var token = 'in faq'
   localStorage.setItem('faq', token)
-  // $scope.infaq = localStorage.getItem('faq')
 
   if (!localStorage.getItem('satellizer_token')){
     $rootScope.infaq = localStorage.getItem('faq')
-    // $rootScope.infaq = true;
     console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq)
   } else {
     $rootScope.infaq = localStorage.removeItem('faq')
