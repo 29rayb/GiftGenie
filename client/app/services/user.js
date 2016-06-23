@@ -46,6 +46,10 @@ function UserSvc ($http) {
     followPerson: (user) => {
       // console.log('user in service', user)
       return $http.put('/api/me/following', user)
+    },
+    makePrivate: (loggedInUser) => {
+      console.log(loggedInUser, 'user');
+      return $http.put('/api/me/makePrivate')
     }
   };
 };

@@ -363,6 +363,7 @@ module.run(['$templateCache', function($templateCache) {
     '');
 }]);
 })();
+<<<<<<< HEAD
 
 (function(module) {
 try {
@@ -392,3 +393,5 @@ module.run(['$templateCache', function($templateCache) {
     '</div>');
 }]);
 })();
+=======
+>>>>>>> e2f2bc80705d58f658068c59702a3585070732ec

@@ -21,7 +21,8 @@ let userSchema = Schema({
   items: [{ type: Schema.Types.ObjectId, ref: "Item" }],
   friends: Array,
   liked: [{ type: Schema.Types.ObjectId, ref: "Item" }],
-  notifications: [{type: Schema.Types.ObjectId, ref: "User"}]
+  notifications: [{type: Schema.Types.ObjectId, ref: "User"}],
+  private: {type: Boolean, default: false }
 });
 
 //This generates the JSON web token.

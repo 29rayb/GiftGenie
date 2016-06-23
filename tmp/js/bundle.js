@@ -121,6 +121,10 @@ function UserSvc($http) {
     followPerson: function followPerson(user) {
       // console.log('user in service', user)
       return $http.put('/api/me/following', user);
+    },
+    makePrivate: function makePrivate(loggedInUser) {
+      console.log(loggedInUser, 'user');
+      return $http.put('/api/me/makePrivate');
     }
   };
 };
@@ -356,23 +360,20 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   }
 
   UserSvc.getProfile().then(function (response) {
-    // console.log(response.data, "response")
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
     $rootScope.display_name = response.data.displayName;
     $rootScope.email = response.data.email;
     $rootScope.pro_pic = response.data.facebook;
-    // console.log('THIS IS THE PRO PIC ID', $rootScope.pro_pic)
     $rootScope.items = response.data.items;
-    // $rootScope.pro_pic = response.data.picture
     $rootScope.friends = response.data.friends[0].name;
     $rootScope.friendsLength = response.data.friends.length;
     $rootScope.favorites = response.data.favorites;
-    // console.log(response.data.friends.length, 'friend length')
-    // console.log("This is the data from GET request.", $rootScope.user);
     $scope.followersCount = response.data.followers.length;
     $scope.followingCount = response.data.following.length;
+    $scope.privacy = response.data.private;
+    console.log($scope.privacy, '<--------------- CURRENT PRIVATE SETTING.');
 
     $rootScope.followersModel = [];
     $rootScope.followingModel = [];
@@ -424,7 +425,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   };
 
   $scope.like_item = function (item) {
-    // console.log('like this item', item)
     UserSvc.likeItem(item);
   };
 
@@ -461,13 +461,21 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.settings = true;
     $scope.followersPage = false;
     $scope.followingPage = false;
-    $scope.public = true;
-    $scope.private = false;
+    // $scope.public = true;
+    // $scope.private = false;
+
     $scope.makePrivate = function () {
+      console.log('making Private');
+      var loggedInUser = $rootScope.user;
+      console.log(loggedInUser, 'loggedInUser');
+      UserSvc.makePrivate(loggedInUser);
+
       $scope.private = true;
       $scope.public = false;
     };
+
     $scope.makePublic = function () {
+      console.log('making Public');
       $scope.private = false;
       $scope.public = true;
     };
