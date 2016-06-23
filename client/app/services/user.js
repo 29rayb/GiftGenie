@@ -38,7 +38,7 @@ function UserSvc ($http) {
       return $http.put('/api/me/items/order', newOrder);
     },
     likeItem: (item) => {
-      console.log('like this item IN SERVICE', item);
+      console.log('INSIDE SERVICE - THE ITEM', item);
       return $http.put('/api/items/liked', item);
     },
     showFavoritesData: () => {
