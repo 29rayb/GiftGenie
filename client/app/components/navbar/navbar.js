@@ -10,6 +10,7 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     return $auth.isAuthenticated();
   };
   $scope.logout = () => {
+    $rootScope.notLoggedIn = false;
     $auth.logout();
     $state.go('home')
   }
