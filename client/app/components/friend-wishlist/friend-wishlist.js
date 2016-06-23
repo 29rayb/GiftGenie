@@ -37,12 +37,9 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       var each_likeable_item = friendItems[i];
       if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
         allTheLikedItemsArr.push(i)
-        console.log('BUILDING THE LIKED ITEMS ARRAY INSIDE THE FOR LOOP.', allTheLikedItemsArr)
         $scope.like_heart =  allTheLikedItemsArr;
       }
     }
-
-    console.log($scope.like_heart, '$scope.like_heart INSIDE FRIEND PROFILE.');
 
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1){
@@ -71,42 +68,27 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   });
 
   $scope.like_item = (item, $index) => {
-    console.log('TRIGGERING LIKED ITEM FUNCTION.');
-    console.log('Here is the item being liked.', item)
-    console.log('Index of liked item:', $index)
-
     console.log($scope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
 
     if ($scope.like_heart != undefined && $scope.like_heart.indexOf($index) > -1 ) {
       console.log('------------------------> SCENARIO #1 - UNLIKING');
-      console.log('Index is ALREADY liked.', $index, item)
       var theIndex = $index;
       var parsed = parseInt($index);
-      console.log(parsed, 'PARSED');
-      console.log('scope.like_heart ---> before deleting ', $scope.like_heart)
-      // delete $scope.like_heart[$index]
       var arrayToRemoveFrom = $scope.like_heart;
-      console.log(arrayToRemoveFrom, 'ARRAY BEFORE');
-      // console.log(theIndex, 'before index');
-      console.log(arrayToRemoveFrom.length, 'LENGTH BEFORE');
+      console.log(arrayToRemoveFrom, 'BEFORE DELETING.');
+      // console.log(arrayToRemoveFrom.length, 'LENGTH BEFORE');
       arrayToRemoveFrom.splice(arrayToRemoveFrom.indexOf(parsed), 1)
-      console.log('scope.like_heart ---> after deleting', $scope.like_heart)
-      console.log(arrayToRemoveFrom, 'ARRAY AFTER');
-      console.log(arrayToRemoveFrom.length, 'LENGTH AFTER');
-      // console.log('REMAINING LENGTH', $scope.like_heart.length)
+      console.log(arrayToRemoveFrom, 'AFTER DELETING.');
+      // console.log(arrayToRemoveFrom.length, 'LENGTH AFTER');
     } else if ($scope.like_heart == undefined ){
-      // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+      console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
       $scope.like_heart = [];
-      // console.log('before pushing index into like_heart', $scope.like_heart)
-      // if ($rootScope.like_heart !== undefined)
       $scope.like_heart.push($index)
-      // console.log('after pushing index into like_heart',$scope.like_heart)
+      console.log('after pushing index into like_heart',$scope.like_heart)
     } else if ($scope.like_heart != undefined ) {
-      // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
-      // console.log('before pushing index into like_heart', $scope.like_heart)
-      // if ($rootScope.like_heart !== undefined)
+      console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
       $scope.like_heart.push($index)
-      // console.log('after pushing index into like_heart',$scope.like_heart)
+      console.log('after pushing index into like_heart',$scope.like_heart)
     }
 
   UserSvc.likeItem(item)
