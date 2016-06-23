@@ -128,18 +128,6 @@ function UserSvc($http) {
 };
 'use strict';
 
-angular.module('App').controller('ProfileCardCtrl', function ($scope) {
-  console.log('yo');
-}).directive('profile-card', function () {
-  return {
-    restrict: 'E',
-    controller: 'ProfileCardCtrl',
-    templateUrl: 'app/shared/profile-card/profile-card.html',
-    link: function link(scope, el, attrs) {}
-  };
-});
-'use strict';
-
 angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', 'getUser', faqCtrl]);
 
 function faqCtrl($rootScope, $scope, getUser) {
@@ -234,15 +222,19 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       console.log('rootScope.like_heart ---> before deleting ', $rootScope.like_heart);
       delete $rootScope.like_heart[$index];
       console.log('rootScope.like_heart ---> after deleting', $rootScope.like_heart);
-    } else {
-      if ($rootScope.like_heart == undefined) {
-        $rootScope.like_heart = [];
-        console.log('before pushing index into like_heart', $rootScope.like_heart);
-        // if ($rootScope.like_heart !== undefined)
-        $rootScope.like_heart.push($index);
-        console.log('after pushing index into like_heart', $rootScope.like_heart);
-        console.log('item liked and added to array to be colored on front end');
-      }
+    } else if ($rootScope.like_heart == undefined) {
+      $rootScope.like_heart = [];
+      console.log('before pushing index into like_heart', $rootScope.like_heart);
+      // if ($rootScope.like_heart !== undefined)
+      $rootScope.like_heart.push($index);
+      console.log('after pushing index into like_heart', $rootScope.like_heart);
+      console.log('item liked and added to array to be colored on front end');
+    } else if ($rootScope.like_heart != undefined) {
+      console.log('before pushing index into like_heart', $rootScope.like_heart);
+      // if ($rootScope.like_heart !== undefined)
+      $rootScope.like_heart.push($index);
+      console.log('after pushing index into like_heart', $rootScope.like_heart);
+      console.log('item liked and added to array to be colored on front end');
     }
 
     UserSvc.likeItem(item).then(function (res) {
@@ -647,3 +639,15 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
 }
+'use strict';
+
+angular.module('App').controller('ProfileCardCtrl', function ($scope) {
+  console.log('yo');
+}).directive('profile-card', function () {
+  return {
+    restrict: 'E',
+    controller: 'ProfileCardCtrl',
+    templateUrl: 'app/shared/profile-card/profile-card.html',
+    link: function link(scope, el, attrs) {}
+  };
+});

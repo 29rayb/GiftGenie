@@ -83,77 +83,81 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       console.log('rootScope.like_heart ---> before deleting ',$rootScope.like_heart)
       delete $rootScope.like_heart[$index]
       console.log('rootScope.like_heart ---> after deleting', $rootScope.like_heart)
-    } else {
-      if ($rootScope.like_heart == undefined ){
-        $rootScope.like_heart = [];
-        console.log('before pushing index into like_heart',$rootScope.like_heart)
-        // if ($rootScope.like_heart !== undefined)
-        $rootScope.like_heart.push($index)
-        console.log('after pushing index into like_heart',$rootScope.like_heart)
-        console.log('item liked and added to array to be colored on front end')
-      }
+    } else if ($rootScope.like_heart == undefined ){
+      $rootScope.like_heart = [];
+      console.log('before pushing index into like_heart', $rootScope.like_heart)
+      // if ($rootScope.like_heart !== undefined)
+      $rootScope.like_heart.push($index)
+      console.log('after pushing index into like_heart',$rootScope.like_heart)
+      console.log('item liked and added to array to be colored on front end')
+    } else if ($rootScope.like_heart != undefined ) {
+      console.log('before pushing index into like_heart', $rootScope.like_heart)
+      // if ($rootScope.like_heart !== undefined)
+      $rootScope.like_heart.push($index)
+      console.log('after pushing index into like_heart',$rootScope.like_heart)
+      console.log('item liked and added to array to be colored on front end')
     }
 
-    UserSvc.likeItem(item)
-    .then((res) => {
-      // console.log('response from item being liked', res);
-    })
-    .catch((err) => {
-      console.log('error from item being liked', err)
-    })
+  UserSvc.likeItem(item)
+  .then((res) => {
+    // console.log('response from item being liked', res);
+  })
+  .catch((err) => {
+    console.log('error from item being liked', err)
+  })
+}
+
+
+
+$scope.star = (user) => {
+  if ($rootScope.yellowStar === undefined){
+    $rootScope.yellowStar = 'star_btn'
+  } else {
+    $rootScope.yellowStar = undefined
   }
+  // console.log('this is the user you are favoriting', user)
+  UserSvc.starPerson(user)
+}
 
-
-
-  $scope.star = (user) => {
-    if ($rootScope.yellowStar === undefined){
-      $rootScope.yellowStar = 'star_btn'
-    } else {
-      $rootScope.yellowStar = undefined
-    }
-    // console.log('this is the user you are favoriting', user)
-    UserSvc.starPerson(user)
+$scope.followUser = (user) => {
+  console.log('user', user._id)
+  var tmpFriendId = user._id
+  if (followingFriendIdArr.indexOf(tmpFriendId) > -1){
+    followingFriendIdArr.pop(tmpFriendId)
+    $scope.unfollow = false;
+  } else {
+    followingFriendIdArr.push(tmpFriendId)
+    console.log('you are following this person')
+    // need to fix this;
+    window.location.reload()
+    // $scope.unfollow = true;
+    // $scope.follow = false;
   }
-
-  $scope.followUser = (user) => {
-    console.log('user', user._id)
-    var tmpFriendId = user._id
-    if (followingFriendIdArr.indexOf(tmpFriendId) > -1){
-      followingFriendIdArr.pop(tmpFriendId)
-      $scope.unfollow = false;
-    } else {
-      followingFriendIdArr.push(tmpFriendId)
-      console.log('you are following this person')
-      // need to fix this;
-      window.location.reload()
-      // $scope.unfollow = true;
-      // $scope.follow = false;
-    }
-    console.log(followingFriendIdArr)
-    UserSvc.followPerson(user)
-  }
+  console.log(followingFriendIdArr)
+  UserSvc.followPerson(user)
+}
 
 
-  $scope.unfollowBtnShow = () => {
-    console.log('should show RED unfollow button & hide following button')
-    $rootScope.follow = false;
-    $rootScope.unfollow = true;
-  }
+$scope.unfollowBtnShow = () => {
+  console.log('should show RED unfollow button & hide following button')
+  $rootScope.follow = false;
+  $rootScope.unfollow = true;
+}
 
-  $scope.followBtnShow = () => {
-    console.log('should show follow button only')
-    $rootScope.follow = true;
-    $rootScope.unfollow = false;
-  }
+$scope.followBtnShow = () => {
+  console.log('should show follow button only')
+  $rootScope.follow = true;
+  $rootScope.unfollow = false;
+}
 
-  // need to pass in params so can make api call to backend for individual friend data;
-  $scope.goToFollowing = () => {
-    $state.go('following')
-  }
+// need to pass in params so can make api call to backend for individual friend data;
+$scope.goToFollowing = () => {
+  $state.go('following')
+}
 
-  $scope.goToFollowers = () => {
-    $state.go('followers')
-  }
+$scope.goToFollowers = () => {
+  $state.go('followers')
+}
 
 
 }
