@@ -126,6 +126,18 @@ function UserSvc($http) {
 };
 'use strict';
 
+angular.module('App').controller('ProfileCardCtrl', function ($scope) {
+  console.log('yo');
+}).directive('profile-card', function () {
+  return {
+    restrict: 'E',
+    controller: 'ProfileCardCtrl',
+    templateUrl: 'app/shared/profile-card/profile-card.html',
+    link: function link(scope, el, attrs) {}
+  };
+});
+'use strict';
+
 angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
 
 function faqCtrl($rootScope, $scope) {
@@ -697,15 +709,3 @@ function StarredCtrl($scope, $state, $auth, $http, $window, UserSvc, StarSvc, $s
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
 }
-'use strict';
-
-angular.module('App').controller('ProfileCardCtrl', function ($scope) {
-  console.log('yo');
-}).directive('profile-card', function () {
-  return {
-    restrict: 'E',
-    controller: 'ProfileCardCtrl',
-    templateUrl: 'app/shared/profile-card/profile-card.html',
-    link: function link(scope, el, attrs) {}
-  };
-});
