@@ -47,9 +47,11 @@ button a:hover, div a:hover, i:hover {
 }
 
 a.navbar-links {
-    font-family: Exo;
-    color: #fff;
-    margin-top: 10px;
+  font-family: Exo;
+  color: #fff;
+  margin-top: 7px;
+  margin-left: 20px;
+  font-size: 24px;
 }
 
 li a.navbar-links:hover {
@@ -115,12 +117,13 @@ i.fa.fa-search::before {
 h1.logo {
     font-size: 44px;
     font-family: Exo;
+    color: #fff;
 }
 
 p.logo {
     font-family: Georgia,Times,"Times New Roman",serif;
     font-weight: 400;
-    color: #666;
+    color: #fff;
     font-size: 19px;
     word-spacing: 2.5px;
 }
@@ -545,6 +548,9 @@ footer i.faq {
 
 div.left-side i {
   margin: 0 5px;
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 6px;
 }
 
 div.middle p {
@@ -559,10 +565,6 @@ div.middle p {
 div.right-side {
   background-color: purple;
 }*/
-
-footer div.version:hover {
-  cursor: pointer;
-}
 
 /*media queries*/
 
