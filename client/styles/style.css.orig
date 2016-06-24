@@ -21,10 +21,19 @@ a.navbar-links {
   margin-top: 10px;
 }
 
+<<<<<<< HEAD
+a.navbar-links {
+  font-family: Exo;
+  color: #fff;
+  margin-top: 7px;
+  margin-left: 20px;
+  font-size: 24px;
+=======
 .friendInput {
   position: absolute;
   top: 15px;
   width: 250px;
+>>>>>>> a5abe415893498d26b97d09680ecd612767486eb
 }
 
 .fa.fa-search {
@@ -109,12 +118,23 @@ li a.navbar-links {
 
 h1.logo {
     font-size: 44px;
+<<<<<<< HEAD
+    font-family: Exo;
+    color: #fff;
+}
+
+p.logo {
+    font-family: Georgia,Times,"Times New Roman",serif;
+    font-weight: 400;
+    color: #fff;
+=======
     color: white;
 }
 
 p.logo {
     font-family: Georgia,Times,"Times New Roman", serif;
     color: #2d2d2d;
+>>>>>>> a5abe415893498d26b97d09680ecd612767486eb
     font-size: 19px;
     word-spacing: 2.5px;
 }
@@ -556,10 +576,6 @@ div.middle p {
 div.right-side {
   background-color: purple;
 }*/
-
-footer div.version:hover {
-  cursor: pointer;
-}
 
 /*media queries*/
 

@@ -119,103 +119,10 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '\n' +
-    '<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach video" autoplay muted>\n' +
-    '\n' +
-    '<!-- http://4.bp.blogspot.com/-FYKwQ1ILSD0/TjOdZnPbdbI/AAAAAAAAF64/zrcrfWHls-E/s1600/20.GIF -->\n' +
-    '\n' +
+    '<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach">\n' +
     '<!-- https://66.media.tumblr.com/971730e6d4d1ddaff1885aacb4639e11/tumblr_nd0bc4mxMR1tchrkco1_500.gif -->\n' +
-    '\n' +
-    '<!-- https://goodnessgraciousmegs.files.wordpress.com/2015/01/tumblr_mjdyn7uwxj1qe49wpo1_500.jpg -->\n' +
-    '\n' +
-    '<!-- http://www.abc.net.au/reslib/201009/r634934_4355210.jpg -->\n' +
-    '\n' +
-    '\n' +
-    '<!-- https://s-media-cache-ak0.pinimg.com/736x/46/74/b9/4674b9a25b20063575efe04768f5b64c.jpg -->\n' +
-    '\n' +
     '<!-- https://astridthora.files.wordpress.com/2013/02/tumblr_m16zivzgo51qkvok3o1_500.jpg -->\n' +
-    '\n' +
-    '<!-- https://media.giphy.com/media/6EQIMBLbHXGeY/giphy.gif -->\n' +
-    '\n' +
-    '\n' +
-    '\n' +
-    '\n' +
     '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('starredLists');
-} catch (e) {
-  module = angular.module('starredLists', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('starred-lists/starred-lists.html',
-    '<div class="main_container starred">\n' +
-    '\n' +
-    '<!--   <div class="profile container col-xs-3">\n' +
-    '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10" ng-model="user.name">\n' +
-    '    <div class="pro_pic_container col-xs-10">\n' +
-    '      <video src="dist/images/love.mp4" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
-    '    </div>\n' +
-    '    <div class="pro_info col-xs-10">\n' +
-    '      <p>{{display_name}}</p>\n' +
-    '      <p>{{email}}</p>\n' +
-    '      <p>{{birthday}}</p>\n' +
-    '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
-    '    </div>\n' +
-    '  </div> -->\n' +
-    '\n' +
-    '  <div class="wishlist_container container starred col-xs-12">\n' +
-    '    <div class="title_container col-xs-12">\n' +
-    '      <h2 class="my_wishlist_title">Starred</h2>\n' +
-    '    </div>\n' +
-    '    <div class="bottom_container col-xs-12">\n' +
-    '\n' +
-    '    <div ng-model="favorites">\n' +
-    '      <div ng-repeat="favorite in favsModel | filter:favorite.name">\n' +
-    '        <div class="user_card col-xs-12 col-sm-6" ng-click="goToOthers(favorite)">\n' +
-    '\n' +
-    '          <img ng-src="https://graph.facebook.com/{{favorite.id}}/picture?type=large" ng-click="show_user_info()"></img>\n' +
-    '          <!-- <h6 class="user_name" ng-if="clicked_card">{{favorite.name}}</h6> -->\n' +
-    '        </div>\n' +
-    '      </div>\n' +
-    '    </div>\n' +
-    '\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '\n' +
-    '</div>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('version');
-} catch (e) {
-  module = angular.module('version', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('version/version.html',
-    '<div class="main_container">\n' +
-    '\n' +
-    '  <div class="faq container">\n' +
-    '    <h1>Versions</h1>\n' +
-    '    <div class="search_faq_container">\n' +
-    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
-    '    </div>\n' +
-    '\n' +
-    '<!--     <ul class="faquestions">\n' +
-    '      <li ng-repeat="faq in faqs | filter:search">\n' +
-    '        <h5 ng-click="getAnswer()">{{faq.question}} </h5><br>\n' +
-    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}} </h6>\n' +
-    '      </li>\n' +
-    '    </ul> -->\n' +
-    '  </div>\n' +
-    '\n' +
-    '\n' +
-    '</div>');
 }]);
 })();
 
@@ -388,6 +295,53 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
+    '</div>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('starredLists');
+} catch (e) {
+  module = angular.module('starredLists', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('starred-lists/starred-lists.html',
+    '<div class="main_container starred">\n' +
+    '\n' +
+    '<!--   <div class="profile container col-xs-3">\n' +
+    '    <input type="text" placeholder="search by facebook name" class="search_fb col-xs-10" ng-model="user.name">\n' +
+    '    <div class="pro_pic_container col-xs-10">\n' +
+    '      <video src="dist/images/love.mp4" class="col-xs-12 pro_pic" autoplay loop muted></video>\n' +
+    '    </div>\n' +
+    '    <div class="pro_info col-xs-10">\n' +
+    '      <p>{{display_name}}</p>\n' +
+    '      <p>{{email}}</p>\n' +
+    '      <p>{{birthday}}</p>\n' +
+    '      <button ng-click="star()" class="star_btn"><i class="fa fa-star"></i></button>\n' +
+    '    </div>\n' +
+    '  </div> -->\n' +
+    '\n' +
+    '  <div class="wishlist_container container starred col-xs-12">\n' +
+    '    <div class="title_container col-xs-12">\n' +
+    '      <h2 class="my_wishlist_title">Starred</h2>\n' +
+    '    </div>\n' +
+    '    <div class="bottom_container col-xs-12">\n' +
+    '\n' +
+    '    <div ng-model="favorites">\n' +
+    '      <div ng-repeat="favorite in favsModel | filter:favorite.name">\n' +
+    '        <div class="user_card col-xs-12 col-sm-6" ng-click="goToOthers(favorite)">\n' +
+    '\n' +
+    '          <img ng-src="https://graph.facebook.com/{{favorite.id}}/picture?type=large" ng-click="show_user_info()"></img>\n' +
+    '          <!-- <h6 class="user_name" ng-if="clicked_card">{{favorite.name}}</h6> -->\n' +
+    '        </div>\n' +
+    '      </div>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '\n' +
     '</div>\n' +
     '');
 }]);

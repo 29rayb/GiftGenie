@@ -3,90 +3,28 @@ html {
     height: 100%;
 }
 
-button a:hover, div a:hover, i:hover {
+button a:hover, div a:hover, i:hover, li:hover {
     text-decoration: none;
     cursor: pointer;
 }
 
 /* NAVBAR.JADE*/
 
-.nav-pills li {
-    min-width: 135px;
-    position: absolute;
-    right: 0;
-    top: 15px;
-}
-
-.navbar-links.left {
-    margin-right: 240px;
-}
-
-.navbar-links.middle {
-    margin-right: 120px;
-}
-
-.navbar-links.right {
-    margin-left: 40px;
-}
-
 .navbar-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: rgba(0,0,0,0.8);
-    transition: all .25s ease-in-out;
-}
-
-.friendInput {
-    position: absolute;
-    top: 15px;
-    width: 250px;
-    /*z-index: -5;*/
+  height: 60px;
+  background: rgba(0,0,0,0.8);
+  color: yellow;
 }
 
 a.navbar-links {
-  font-family: Exo;
   color: #fff;
-  margin-top: 7px;
-  margin-left: 20px;
-  font-size: 24px;
+  margin-top: 10px;
 }
 
-li a.navbar-links:hover {
-    font-weight: 600;
-}
-
-li a.navbar-links {
-    font-size: 18px;
-}
-
-.friends_container {
-    position: absolute;
-    top: 35px;
-    left: 133px;
-    width: 250px;
-    z-index: 9999;
-}
-
-.friends_container li {
-  list-style-type: none;
-  background-color: #fff;
+.friendInput {
+  position: absolute;
+  top: 15px;
   width: 250px;
-  margin-left: -40px;
-  height: 60px;
-  color: #000;
-}
-
-.friends_container li:hover {
-  background-color: rgb(189, 198, 207);
-  cursor: pointer;
-}
-
-.searchFriendsPic {
-  padding: 5px 10px;
-  margin-right: 10px;
 }
 
 .fa.fa-search {
@@ -105,76 +43,95 @@ i.fa.fa-search::before {
   left: 5px;
 }
 
+.friends_container {
+    position: absolute;
+    top: 35px;
+    left: 133px;
+    width: 250px;
+    z-index: 1000;
+}
+
+.friends_container li {
+  list-style-type: none;
+  background-color: #fff;
+  width: 250px;
+  margin-left: -40px;
+  height: 60px;
+  color: #000;
+  /*z-index: 5000;*/
+}
+
+.friends_container li:hover {
+  background-color: rgb(189, 198, 207);
+}
+
+.searchFriendsPic {
+  padding: 5px 10px;
+  margin-right: 10px;
+}
+
+.nav-pills li {
+    min-width: 135px;
+    position: absolute;
+    right: 0;
+    top: 15px;
+}
+
+
+li a.navbar-links:hover {
+  font-weight: 600;
+}
+
+li a.navbar-links {
+  font-size: 18px;
+}
+
+
+.navbar-links.left {
+    margin-right: 240px;
+}
+
+.navbar-links.middle {
+    margin-right: 120px;
+}
+
+.navbar-links.right {
+    margin-left: 40px;
+}
+
 /* HOME*/
 
 .logo_container {
-    padding-top: 200px;
+    padding-top: 160px;
     text-align: center;
-    margin: 0 auto;
     min-width: 260px;
 }
 
 h1.logo {
     font-size: 44px;
-    font-family: Exo;
-    color: #fff;
+    color: white;
 }
 
 p.logo {
-    font-family: Georgia,Times,"Times New Roman",serif;
-    font-weight: 400;
-    color: #fff;
+    font-family: Georgia,Times,"Times New Roman", serif;
+    color: #2d2d2d;
     font-size: 19px;
     word-spacing: 2.5px;
 }
 
-.rach {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1000;
-    opacity: 0.7;
-    width: 100%;
-    height: 100%;
-}
-
-.wrapper {
-    position: absolute;
-    width: 48%;
-    left: 0;
-    height: 250px;
-}
-
 .home_container {
-    color: #000;
-    margin: 0 auto;
-    margin-top: 20px;
-    border: 1px solid #DCDCDC;
-    padding: 20px 25px;
-    border-radius: 3%;
-    box-shadow: 0 2px 4px 0 #dcdcdc;
-    max-width: 280px;
+  color: #000;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 20px 25px;
+  max-width: 280px;
 }
 
 .button_container {
-    position: relative;
-    margin-top: 3%;
+  position: relative;
+  margin-top: 3%;
 }
 
-.wishlist_button_container button, .button_container button {
-    width: 100px;
-    height: 40px;
-    margin: 0px 14px;
-    background-color: transparent;
-    border: none;
-}
-
-.wishlist_button_container button:hover, .button_container button:hover {
-    border: 1px solid transparent;
-    background-color: rgba(250, 250, 250, 0.7);
-    color: #333;
-    transition: all .25s ease-in-out;
-}
 
 .fb_btn {
     border: 1px solid #DCDCDC !important;
@@ -201,7 +158,41 @@ p.logo {
     border-radius: 8%;
 }
 
+.rach {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1000;
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
 /* My-WishList*/
+
+.wishlist_button_container button, .button_container button {
+  width: 100px;
+  height: 40px;
+  margin: 0px 14px;
+  background-color: transparent;
+  border: none;
+}
+
+.wishlist_button_container button:hover, .button_container button:hover {
+  border: 1px solid transparent;
+  background-color: rgba(250, 250, 250, 0.7);
+  color: #333;
+  transition: all .25s ease-in-out;
+}
+.wrapper {
+  position: absolute;
+  width: 48%;
+  left: 0;
+  height: 250px;
+}
 
 .main_container {
     width: 100%;
@@ -565,6 +556,10 @@ div.middle p {
 div.right-side {
   background-color: purple;
 }*/
+
+footer div.version:hover {
+  cursor: pointer;
+}
 
 /*media queries*/
 

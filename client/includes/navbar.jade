@@ -5,7 +5,7 @@ nav.navbar-container(ng-controller="NavbarCtrl")
     i.fa.fa-search(ng-if="isAuthenticated()")
     //- ul.friends_container(ng-if="friendsContainer" ng-model="friends")
     ul.friends_container(ng-if="true" ng-model="friends")
-      li.searchedFriend(ng-repeat="user in userModel | filter:search" ng-click="goToOthers(user)")
+      li(ng-repeat="user in userModel | filter:search" ng-click="goToOthers(user)")
         img(ng-src="https://graph.facebook.com/{{user.id}}/picture?type=small").searchFriendsPic
         {{ user.name }}
     ul.nav.nav-pills.navbar-right
