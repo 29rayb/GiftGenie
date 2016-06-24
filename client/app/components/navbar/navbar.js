@@ -46,10 +46,12 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
   }
 
   $scope.goToOthers = (user) => {
+    console.log('CLICKING ON LI ELEMENT');
     UserSvc.getProfile()
       .then((response) => {
       var myId = response.data.facebook;
       console.log('MyId TRYING TO CHANGE PAGE', myId)
+      $scope.friendsContainer = false;
       $state.go('friend-wishlist', {id: myId, fid: user.id});
     })
   }
