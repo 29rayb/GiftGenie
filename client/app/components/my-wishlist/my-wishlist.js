@@ -9,9 +9,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     $scope.id = $stateParams.id;
     $rootScope.fbook = $stateParams.facebook;
-    $scope.settings = false;
-    $scope.followersPage = false;
-    $scope.followingPage = false;
+    $rootScope.settings = false;
+    $rootScope.followersPage = false;
+    $rootScope.followingPage = false;
     $scope.like_heart = false;
     $scope.favoriteWishlist = false;
     // $scope.notFollowing = true;
@@ -128,9 +128,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     }
 
     $scope.goToSettings = () => {
-      $scope.settings = true;
-      $scope.followersPage = false;
-      $scope.followingPage = false;
+      $rootScope.settings = true;
+      $rootScope.followersPage = false;
+      $rootScope.followingPage = false;
       // $scope.public = true;
       // $scope.private = false;
 
@@ -151,11 +151,11 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       }
     }
 
-    $scope.backToWlist = () => {
-      $scope.settings = false;
-      $scope.followersPage = false;
-      $scope.followingPage = false;
-    }
+    // $scope.backToWlist = () => {
+    //   $scope.settings = false;
+    //   $scope.followersPage = false;
+    //   $scope.followingPage = false;
+    // }
 
     $scope.sort_list = () => {
       var newOrder = $scope.items
@@ -170,16 +170,16 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
 
     $scope.goToFollowing = () => {
-      $scope.followingPage = true;
-      $scope.followersPage = false;
-      $scope.settings = false;
+      $rootScope.followingPage = true;
+      $rootScope.followersPage = false;
+      $rootScope.settings = false;
       // $state.go('following')
     }
 
     $scope.goToFollowers = () => {
-      $scope.followersPage = true;
-      $scope.followingPage = false;
-      $scope.settings = false;
+      $rootScope.followersPage = true;
+      $rootScope.followingPage = false;
+      $rootScope.settings = false;
       // $state.go('followers')
     }
 
