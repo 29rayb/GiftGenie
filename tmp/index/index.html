@@ -29,7 +29,6 @@
     <script src="app/components/home/home.js"></script>
     <script src="app/components/navbar/navbar.js"></script>
     <script src="app/components/my-wishlist/my-wishlist.js"></script>
-    <script src="app/components/starred-lists/starred-lists.js"></script>
     <script src="app/components/faq/faq.js"></script>
     <script src="app/components/friend-wishlist/friend-wishlist.js"></script>
     <script src="app/shared/profile-card/profile-card.js"></script>
@@ -46,7 +45,7 @@
         </ul>
         <ul class="nav nav-pills navbar-right">
           <li><span ng-if="isAuthenticated()"><a ng-click="goToWishList()" class="navbar-links left">{{display_name}}</a></span></li>
-          <li><span ng-if="isAuthenticated()"><a ui-sref="starred-lists" class="navbar-links middle">Starred Lists</a></span></li>
+          <li><span ng-if="isAuthenticated()"><a ng-click="goToStarred()" class="navbar-links middle">Starred Lists</a></span></li>
           <li><span ng-if="isAuthenticated()"><a ng-click="logout()" class="navbar-links right">Logout</a></span></li>
           <li><span ng-if="!isAuthenticated()">
               <button ng-click="authenticate('facebook')" ui-sref="my-wishlist({id: facebookId})" ng-if="infaq" class="fb_btn not-loggedin navbar-links right"><img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo"></button></span></li>

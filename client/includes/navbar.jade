@@ -14,7 +14,7 @@ nav.navbar-container(ng-controller="NavbarCtrl")
           a(ng-click="goToWishList()").navbar-links.left {{display_name}}
       li
         span(ng-if='isAuthenticated()')
-          a(ui-sref="starred-lists").navbar-links.middle Starred Lists
+          a(ng-click="goToStarred()").navbar-links.middle Starred Lists
       li
         span(ng-if='isAuthenticated()')
           a(ng-click="logout()").navbar-links.right Logout

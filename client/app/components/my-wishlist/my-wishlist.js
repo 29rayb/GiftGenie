@@ -10,6 +10,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.id = $stateParams.id;
     $rootScope.fbook = $stateParams.facebook;
     $rootScope.settings = false;
+    $rootScope.starred = false;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
     $scope.like_heart = false;
@@ -131,6 +132,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       $rootScope.settings = true;
       $rootScope.followersPage = false;
       $rootScope.followingPage = false;
+      $rootScope.starred = false;
       // $scope.public = true;
       // $scope.private = false;
 
@@ -173,24 +175,59 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       $rootScope.followingPage = true;
       $rootScope.followersPage = false;
       $rootScope.settings = false;
-      // $state.go('following')
+      $rootScope.starred = false;;
     }
 
     $scope.goToFollowers = () => {
       $rootScope.followersPage = true;
       $rootScope.followingPage = false;
       $rootScope.settings = false;
-      // $state.go('followers')
+      $rootScope.starred = false;
     }
 
-    $scope.goToOthers = (favorite) => {
+    $scope.goToStarred = () => {
+      $rootScope.starred = true;
+      $rootScope.followersPage = false;
+      $rootScope.followingPage = false;
+      $rootScope.settings = false;
+    }
+
+    $scope.goToOthers = (otherUser) => {
+      console.log('yolo', otherUser)
       UserSvc.getProfile()
         .then((response) => {
         var myId = response.data.facebook;
-        // var fid = favorite.id;
+        // var fid = otherUser.id;
         // console.log('MyId TRYING TO CHANGE PAGE', myId)
-        $state.go('friend-wishlist', {id: myId, fid: favorite.id});
+        $state.go('friend-wishlist', {id: myId, fid: otherUser.id});
     })
+  }
+
+  UserSvc.showFavoritesData()
+  .then((response) => {
+    var favsLength = response.data.user.favorites.length;
+    var favObj = response.data.favoritesData
+    // console.log(favObj)
+    $scope.favsModel = [];
+    for (var i = 0; i < favsLength; i++){
+      // var favsName = favObj[i].displayName;
+      // favsNameArr.push(favsName);
+      // var favsPic = favObj[i].picture;
+      // favsPicArr.push(favsPic);
+      $scope.favsModel[i] = {
+        "name": favObj[i].displayName,
+        "id": favObj[i].facebook
+      };
+    }
+    // console.log($scope.favsModel)
+  })
+  .catch((err) => {
+    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+  });
+
+
+  $scope.show_user_info = () => {
+    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   }
 
 }

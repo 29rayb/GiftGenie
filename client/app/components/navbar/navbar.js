@@ -35,6 +35,7 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
 
   $scope.goToWishList = () => {
     $rootScope.settings = false;
+    $rootScope.starred = false;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
     UserSvc.getProfile()
@@ -45,6 +46,13 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
       console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
       $state.go('my-wishlist', {id: facebookId})
     })
+  }
+
+  $scope.goToStarred = () => {
+    $rootScope.settings = false;
+    $rootScope.starred = true;
+    $rootScope.followersPage = false;
+    $rootScope.followingPage = false;
   }
 
   $scope.goToOthers = (user) => {
