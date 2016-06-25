@@ -49,10 +49,16 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
   }
 
   $scope.goToStarred = () => {
-    $rootScope.settings = false;
-    $rootScope.starred = true;
-    $rootScope.followersPage = false;
-    $rootScope.followingPage = false;
+    $scope.goToWishList()
+    UserSvc.getProfile()
+      .then((response) => {
+        var facebookId = response.data.facebook;
+        $rootScope.settings = false;
+        $rootScope.starred = true;
+        $rootScope.followersPage = false;
+        $rootScope.followingPage = false;
+        $state.go('my-wishlist', {id: facebookId})
+      })
   }
 
   $scope.goToOthers = (user) => {
