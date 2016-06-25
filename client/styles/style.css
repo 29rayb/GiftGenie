@@ -506,6 +506,7 @@ input.search_faqs {
 }
 
 /* FOOTER.JADE*/
+
 .footer {
     position: fixed;
     bottom: 0px;
@@ -514,16 +515,10 @@ input.search_faqs {
     color: #B4B4B4;
     height: 60px;
     background-color: rgba(0,0,0,.8);
-    display: inline-block;
-    left: 0;
 }
 
 footer div {
   margin-top: 15px;
-}
-
-footer i.faq {
-  margin-left: -50px;
 }
 
 div.left-side i {
@@ -534,17 +529,9 @@ div.left-side i {
 }
 
 div.middle p {
-  font-size: 10px;
+  font-size: 12px;
   margin-top: 5px;
 }
-
-/*div.left-side {
-  background-color: green;
-}
-
-div.right-side {
-  background-color: purple;
-}*/
 
 footer div.version:hover {
   cursor: pointer;
