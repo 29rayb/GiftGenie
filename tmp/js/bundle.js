@@ -342,9 +342,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
   $scope.id = $stateParams.id;
   $rootScope.fbook = $stateParams.facebook;
-  $scope.settings = false;
-  $scope.followersPage = false;
-  $scope.followingPage = false;
+  $rootScope.settings = false;
+  $rootScope.followersPage = false;
+  $rootScope.followingPage = false;
   $scope.like_heart = false;
   $scope.favoriteWishlist = false;
   // $scope.notFollowing = true;
@@ -454,9 +454,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   };
 
   $scope.goToSettings = function () {
-    $scope.settings = true;
-    $scope.followersPage = false;
-    $scope.followingPage = false;
+    $rootScope.settings = true;
+    $rootScope.followersPage = false;
+    $rootScope.followingPage = false;
     // $scope.public = true;
     // $scope.private = false;
 
@@ -477,11 +477,11 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     };
   };
 
-  $scope.backToWlist = function () {
-    $scope.settings = false;
-    $scope.followersPage = false;
-    $scope.followingPage = false;
-  };
+  // $scope.backToWlist = () => {
+  //   $scope.settings = false;
+  //   $scope.followersPage = false;
+  //   $scope.followingPage = false;
+  // }
 
   $scope.sort_list = function () {
     var newOrder = $scope.items;
@@ -497,16 +497,16 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   };
 
   $scope.goToFollowing = function () {
-    $scope.followingPage = true;
-    $scope.followersPage = false;
-    $scope.settings = false;
+    $rootScope.followingPage = true;
+    $rootScope.followersPage = false;
+    $rootScope.settings = false;
     // $state.go('following')
   };
 
   $scope.goToFollowers = function () {
-    $scope.followersPage = true;
-    $scope.followingPage = false;
-    $scope.settings = false;
+    $rootScope.followersPage = true;
+    $rootScope.followingPage = false;
+    $rootScope.settings = false;
     // $state.go('followers')
   };
 
@@ -553,6 +553,9 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
   };
 
   $scope.goToWishList = function () {
+    $rootScope.settings = false;
+    $rootScope.followersPage = false;
+    $rootScope.followingPage = false;
     UserSvc.getProfile().then(function (response) {
       var facebookId = response.data.facebook;
       // var facebook_name = response.data.displayName;

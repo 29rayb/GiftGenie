@@ -1,9 +1,14 @@
 html {
-    line-height: 1.4;
-    height: 100%;
+  line-height: 1.4;
+  height: 100%;
 }
 
-button a:hover, div a:hover, i:hover, li:hover {
+button a:hover,
+div a:hover,
+i:hover,
+li:hover,
+p.followers:hover,
+p.following:hover {
     text-decoration: none;
     cursor: pointer;
 }
@@ -176,75 +181,129 @@ p.logo {
   transition: all .25s ease-in-out;
 }
 
-
 /* My-WishList*/
 
 .main_container {
     width: 100%;
     margin: 0 auto;
-    top: 50px;
+    /*top: 50px;*/
     max-width: 1100px;
 }
 
 .main_container .container {
-    margin-top: 70px;
+    margin-top: 40px;
 }
 
 .profile.container {
-  z-index: -1000;
+  /*z-index: -1000;*/
 }
 
-.pro_pic_container, .pro_info {
+.pro_pic_container,
+.pro_info,
+.pro_info_stats,
+.pro_info_btns {
     border: 1px solid black;
-    padding: 6px 0;
-    min-width: 202px;
-    max-width: 202px;
+    padding: 9px 4px;
+    min-width: 205px;
+    max-width: 205px;
+    border-bottom: none;
 }
 
 .pro_pic {
-    min-width: 200px;
-    max-width: 200px;
-    min-height: 200px;
-    max-height: 200px;
-    padding: 0px 4px;
+    min-width: 195px;
+    max-width: 195px;
+    min-height: 195px;
+    max-height: 195px;
+    padding: 1px 4px;
     border: 4px solid #fff;
-    border-radius: 5%;
+    border-radius: 4%;
 }
 
 .pro_info {
     padding-left: 5px;
+    border-top: 1px #e5e5e5 solid !important;
+    border-bottom: 1px #e5e5e5 solid !important;
 }
 
-
-
-.title_container {
-    border: 1px solid orange;
-    height: 80px;
-}
-
-.title_container h2 {
-    text-align: center;
-}
-
-.top_container {
-    border: 1px solid pink;
-    height: 86px;
-}
-
-.my_wishlist_title {
-    border: 1px solid black;
-}
-
-.pro_info i {
-  margin-right: 10px;
+.pro_info p i {
+  float: left;
+  margin-left: 5px;
+  margin-right: 8px;
+  margin-top: 3px;
+  min-height: 15px;
+  max-height: 15px;
+  min-height: 15px;
+  max-width: 15px;
 }
 
 .email_address {
-  font-size: 14px;
+  font-size: 13px;
+}
+
+.pro_info_stats {
+  border-top: none;
+  border-bottom: 1px #e5e5e5 solid !important;
+}
+
+.pro_info_stats p {
+  display: inline-block;
+}
+
+.pro_info_stats .followers,
+.pro_info_stats .following {
+  text-align: center;
 }
 
 
+.pro_info_stats p {
+  color: #767676 !important;
+}
 
+.pro_info_stats p span.nums {
+  color: #000;
+  font-weight: 600;
+}
+
+.followers,
+.following {
+  font-size: 15px
+}
+
+.pro_info_btns {
+  border-top: none;
+  border-bottom: 1px solid black;
+}
+
+.wishlist_container {
+  position: relative;
+  border: 1px solid black;
+  text-align: center;
+  min-width: 320px;
+  max-width: 700px;
+  margin-left: 51px;
+}
+
+.title_container {
+  margin-top: 15px;
+  height: 60px;
+}
+
+.bottom_container {
+  margin-bottom: 25px;
+  padding: 5px;
+}
+
+.bottom_container .following,
+.bottom_container .followers {
+  list-style-type: none;
+}
+
+.modal-title,
+.modal-body {
+  text-align: center;
+}
+
+/*NEED TO UPDATE*/
 
 .add_btn {
   position: absolute;
@@ -253,7 +312,7 @@ p.logo {
   border: 1px solid #435eac;
   background: transparent;
   color: #435eac;
-  width: 100px;
+  width: 65px;
 }
 
 .add_btn:hover {
@@ -264,15 +323,100 @@ p.logo {
 input.searchItems {
   position: relative;
   top: 4px;
-  height: 40px;
-  width: 300px;
+  height: 30px;
+  width: 276px;
+  margin-bottom: 25px
 }
-/*
 
-.follow_button:hover {
-  background-color: #e81c4f;
-  border-color: #e81c4f;
-}*/
+/*END*/
+
+.wishlist_item:hover {
+  background-color: rgb(189, 198, 207);
+  width: 200px;
+}
+
+.wishlist_items li {
+  height: 33px;
+}
+
+.wishlist_items_container a,
+.wishlist_items_container i {
+  margin: 0 50px;
+}
+
+.wishlist_item {
+  color: #000;
+  position: absolute;
+  left: 0;
+}
+
+i.fa-trash:hover,
+i.fa-pencil-square-o:hover {
+  font-weight: bold;
+}
+
+i.fa-pencil-square-o {
+  position: absolute;
+  right: 32px;
+}
+
+i.fa-trash {
+  position: absolute;
+  right: 0px;
+}
+
+.following,
+.followers {
+  text-align: center;;
+}
+
+.followers_pic {
+  min-width: 200px;
+  max-width: 200px;
+  min-height: 200px;
+  max-height: 200px;
+}
+
+.followers_pic:hover{
+  opacity: 0.7;
+}
+
+.user_name {
+  min-width: 200px;
+  max-width: 200px;
+  background-color: rgb(189, 198, 207);
+}
+
+
+
+
+/*Starred-WishLists*/
+
+.fb_comments_container {
+    border: 1px solid red;
+    margin-top: 30px;
+}
+
+i.fa-heart-o {
+  position:absolute;
+  right: 66px;
+}
+
+i.fa-heart-o:hover {
+  color: pink;
+}
+
+
+.top_container {
+  border: 1px solid pink;
+  height: 86px;
+}
+
+.like_share_container {
+    border: 1px solid black;
+    padding: 10px;
+    height: 77px;
+}
 
 .unfollow_button {
   background-color: #e81c4f;
@@ -284,48 +428,6 @@ input.searchItems {
     width: 60px;
 }
 
-.wishlist_container {
-    position: relative;
-    border: 1px solid black;
-    text-align: center;
-    min-width: 320px;
-    max-width: 700px;
-    margin-left: 58px;
-}
-
-.bottom_container {
-  border: 1px solid purple;
-}
-
-.wishlist_item {
-    font-size: 26px;
-    color: #000;
-    position: absolute;
-    left: 0;
-}
-
-i.fa-heart-o {
-  position:absolute;
-  right: 66px;
-}
-
-i.fa-heart-o:hover,
-i.fa-trash:hover,
-i.fa-pencil-square-o:hover
- {
-  font-weight: bold;
-}
-
-i.fa-trash {
-    position: absolute;
-    right: 0px;
-}
-
-
-i.fa-pencil-square-o {
-    position: absolute;
-    right: 32px;
-}
 
 .liked_item {
   background-color: yellow;
@@ -335,40 +437,7 @@ i.fa-pencil-square-o {
   background-color: none;
 }
 
-.wishlist_items_container a, .wishlist_items_container i {
-    margin: 0 50px;
-    font-size: 16px;
-}
 
-.wishlist_items {
-    margin-left: -10px;
-    margin-top: 15px;
-}
-
-.wishlist_items li {
-  height: 30px;
-}
-
-.wishlist_item:hover {
-  background-color: rgb(189, 198, 207);
-}
-
-.like_share_container {
-    border: 1px solid black;
-    padding: 10px;
-    height: 77px;
-}
-
-.fb_comments_container {
-    border: 1px solid red;
-    margin-top: 30px;
-}
-
-.followers, .following {
-  list-style-type: none;
-}
-
-/*Starred-WishLists*/
 
 .wishlist_container.container.starred {
   background-color: green;
@@ -459,10 +528,11 @@ i.fa-pencil-square-o {
   cursor: pointer;
 }
 
-.user_name {
-  width: 200px;
-  background-color: rgb(189, 198, 207);
-}
+
+
+
+
+
 
 /*FAQ*/
 
@@ -540,18 +610,14 @@ footer div.version:hover {
 /*media queries*/
 
 @media screen and (max-width: 697px) {
-    .pro_pic_container, .pro_info, .search_fb {
+    .pro_pic_container, .pro_info, .pro_info_stats, .pro_info_btns, .search_fb {
         margin: 0 165%;
         top: 40px;
     }
 
     .wishlist_container {
-        margin-top: 40px;
+        margin-top: 75px !important;
         margin-left: 20%;
-    }
-
-    .pro_info {
-        color: yellow;
     }
 }
 

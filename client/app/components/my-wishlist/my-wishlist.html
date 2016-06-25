@@ -1,20 +1,26 @@
 <div class="main_container">
 
   <div class="profile container col-xs-3">
-    <div class="pro_pic_container col-xs-10">
+    <div class="pro_pic_container col-xs-12">
       <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">
     </div>
-    <div class="pro_info col-xs-10">
+    <div class="pro_info col-xs-12">
       <p><i class="fa fa-user"></i>
-        <a href=""></a>
         {{display_name}}
       </p>
       <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>
       <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>
-      <p ng-click="goToFollowers()">Followers: {{followersCount}} </p>
-      <p ng-click="goToFollowing()">Following: {{followingCount}} </p>
-
-      <button ng-click="goToSettings()" class=" btn btn-info settings">
+    </div>
+    <div class="pro_info_stats col-xs-12">
+      <p ng-click="goToFollowing()" class="following col-xs-6">Following
+        <span class="nums">{{followingCount}}</span>
+      </p>
+      <p ng-click="goToFollowers()" class="followers col-xs-6">Followers
+        <span class="nums">{{followersCount}}</span>
+      </p>
+    </div>
+    <div class="pro_info_btns col-xs-12">
+      <button ng-click="goToSettings()" class=" btn btn-info settings col-xs-12">
         <i class="fa fa-cog" aria-hidden="true"></i>
       </button>
     </div>
@@ -23,30 +29,17 @@
   <div class="wishlist_container container col-xs-8" ng-if="!settings && !followingPage && !followersPage">
     <div class="title_container">
       <h2 class="my_wishlist_title">My WishList</h2>
-
-<!--       <button ng-click="favoriteWishlist = !favoriteWishlist; star(user);" ng-class="{star_btn: favoriteWishlist}">
-        <i class="fa fa-star"></i>
-      </button> -->
     </div>
-    <div class="top_container">
-      <!-- <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div> -->
-    </div>
-    <div class="bottom_container">
+    <div class="bottom_container col-xs-12">
       <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>
       <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">
       <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >
         <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
           <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
-<!--           <i class="fa fa-heart-o" ng-click="like_heart = !like_heart; like_item(item)" ng-class="{liked_item: like_heart}"></i>
- -->          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
+          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
           <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
         </li>
       </ol>
-    </div>
-    <div class="fb_comments_container">
-<!--       <div class="fb-comments" data-href="http://localhost:3000/#/my-wishlist" data-numposts="5" data-order=by="social" data-width="280"></div>
- -->      <!-- this is for when the app is deployed -->
-      <!-- <div class="fb-comments" data-href="https://giftsgenies.herokuapp.com/#/" data-width="464" data-numposts="10"></div> -->
     </div>
   </div>
 </div>
@@ -57,10 +50,9 @@
   <div class="wishlist_container container col-xs-8">
     <div class="title_container">
       <h2 class="my_wishlist_title">Settings Container</h2>
-      <div ng-click="backToWlist()"><a>Back To My WishList</a></div>
     </div>
 
-    <div class="top_container">
+    <div class="bottom_container">
       Privacy:
       <input type="radio" name="privacy" value="public" ng-click="makePublic()" checked> Public
       <input type="radio" name="privacy" value="private" ng-click="makePrivate()"> Private
@@ -71,45 +63,21 @@
   </div>
 </div>
 
-<!-- followers -->
-
-<div class="main_container" ng-if="followersPage && !followingPage && !settings">
-  <div class="wishlist_container container col-xs-8">
-    <div class="title_container">
-      <h2 class="my_wishlist_title">Followers Container</h2>
-      <div ng-click="backToWlist()"><a>Back To My WishList</a></div>
-    </div>
-    <div class="top_container">
-      <input ng-model="followers.name" placeholder="Search Your Followers">
-    </div>
-
-    <div class="bottom_container">
-      <li ng-repeat="follower in followersModel | filter:following.name" class="followers col-xs-12 col-sm-6" ng-click="goToOthers(followers)">
-        <img ng-src="https://graph.facebook.com/{{follower.id}}/picture?type=large">
-        <h6 class="user_name">{{follower.name}}</h6>
-      </li>
-    </div>
-
-  </div>
-</div>
-
-
 <!-- following -->
 
 <div class="main_container" ng-if="followingPage && !followersPage && !settings">
   <div class="wishlist_container container col-xs-8">
     <div class="title_container">
-      <h2 class="my_wishlist_title">Following Container</h2>
-      <div ng-click="backToWlist()"><a>Back To My WishList</a></div>
-    </div>
-
-    <div class="top_container">
-      <input ng-model="following.name" placeholder="Search People You Follow">
+      <h2 class="my_wishlist_title">Following</h2>
     </div>
 
     <div class="bottom_container">
-      <li ng-repeat="following in followingModel | filter:following.name" class="following col-xs-12 col-sm-6" ng-click="goToOthers(following)">
-        <img ng-src="https://graph.facebook.com/{{following.id}}/picture?type=large">
+      <input ng-model="following.name" placeholder="Search Following" class="col-xs-12">
+    </div>
+
+    <div class="bottom_container">
+      <li ng-repeat="following in followingModel | filter:following.name" class="following col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(following)">
+        <img ng-src="https://graph.facebook.com/{{following.id}}/picture?type=large" class="followers_pic">
         <h6 class="user_name">{{following.name}}</h6>
       </li>
     </div>
@@ -117,7 +85,26 @@
   </div>
 </div>
 
+<!-- followers -->
 
+<div class="main_container" ng-if="followersPage && !followingPage && !settings">
+  <div class="wishlist_container container col-xs-8">
+    <div class="title_container">
+      <h2 class="my_wishlist_title">Followers</h2>
+    </div>
+    <div class="bottom_container">
+      <input ng-model="followers.name" placeholder="Search Followers" class="col-xs-12">
+    </div>
+
+    <div class="bottom_container">
+      <li ng-repeat="follower in followersModel | filter:following.name" class="followers col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(followers)">
+        <img ng-src="https://graph.facebook.com/{{follower.id}}/picture?type=large" class="followers_pic">
+        <h6 class="user_name">{{follower.name}}</h6>
+      </li>
+    </div>
+
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -125,14 +112,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Add an Item to your WishList</h4>
+        <h4 class="modal-title" id="myModalLabel">Wishes To Be Granted</h4>
       </div>
       <div class="modal-body">
-        <input type="text" placeholder="Link" ng-model="item.link" > <br>
-        <input type="text" placeholder="Item Name" ng-model="item.name">
+        <form name="addItemForm" novalidate>
+          <input type="text" placeholder="Link" ng-model="item.link" required>
+          <input type="text" placeholder="Item Name" ng-model="item.name" required>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="add(item, user)" data-dismiss="modal">Save changes</button>
+        <button type="button" class="btn btn-primary" ng-click="add(item, user)" data-dismiss="modal" ng-disabled="addItemForm.$invalid">Add Wish</button>
       </div>
     </div>
   </div>
@@ -143,14 +132,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Edit Your Item</h4>
+        <h4 class="modal-title" id="myModalLabel">Update Your Wish</h4>
       </div>
       <div class="modal-body">
-        <input type="text" placeholder="link" ng-model="item.link" > <br>
-        <input type="text" placeholder="Item Name" ng-model="item.name">
+        <form name="editForm" novalidate>
+          <input type="text" placeholder="link" ng-model="item.link" required >
+          <input type="text" placeholder="Item Name" ng-model="item.name" required>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="save_changes(item, editItemId)" data-dismiss="modal">Save changes</button>
+        <button type="button" class="btn btn-primary" ng-click="save_changes(item, editItemId)" data-dismiss="modal" ng-disabled="editForm.$invalid">Save changes</button>
       </div>
     </div>
   </div>

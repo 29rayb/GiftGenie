@@ -33,8 +33,10 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     console.log('!@#!@#!@#!@#!@#!@#@!#!@#!@#', $rootScope.infaq)
   }
 
-
   $scope.goToWishList = () => {
+    $rootScope.settings = false;
+    $rootScope.followersPage = false;
+    $rootScope.followingPage = false;
     UserSvc.getProfile()
     .then((response) => {
       var facebookId = response.data.facebook;
