@@ -117,6 +117,35 @@ function UserSvc($http) {
 };
 'use strict';
 
+<<<<<<< HEAD
+=======
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
+
+function faqCtrl($rootScope, $scope) {
+
+  var token = 'in faq';
+  localStorage.setItem('faq', token);
+
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+    console.log('$rootScope.infaq', $rootScope.infaq);
+  }
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
+    answer: "2nd" }, { question: "3. 3rd",
+    answer: "3rd" }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
+'use strict';
+
+>>>>>>> 3e51f442d91b6ef17becbeb2d133242ba55cd11c
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser) {
@@ -298,6 +327,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
 
   // $rootScope.display_name = getUser.data.displayName;
 }
+<<<<<<< HEAD
 'use strict';
 
 angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
@@ -324,6 +354,8 @@ function faqCtrl($rootScope, $scope) {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
+=======
+>>>>>>> 3e51f442d91b6ef17becbeb2d133242ba55cd11c
 'use strict';
 
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
