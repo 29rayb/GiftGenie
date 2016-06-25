@@ -18,7 +18,6 @@ p.following:hover {
 .navbar-container {
   height: 60px;
   background: rgba(0,0,0,0.8);
-  color: yellow;
 }
 
 a.navbar-links {
@@ -537,40 +536,14 @@ i.fa-heart-o:hover {
 
 /*FAQ*/
 
-.wrapper {
-  position: absolute;
-  width: 48%;
-  left: 0;
-  height: 250px;
-}
-
-
 .faq.container {
   padding: 15px;
-  border: 1px solid #000;
   height: 500px;
 }
 
 .faq.container h1 {
   text-align: center;
   margin-bottom: 30px;
-}
-
-.faquestions li {
-  list-style-type: none;
-  margin: 0 auto;
-  width: 100%;
-  margin-bottom: 25px;
-  max-width: 425px;
-}
-
-.faquestions h5:hover {
-  cursor:pointer;
-}
-
-.faq_answers {
-  background-color: green;
-  margin-left: 25px;
 }
 
 .search_faq_container {
@@ -582,10 +555,28 @@ i.fa-heart-o:hover {
 input.search_faqs {
   display: inline-block;
   width: 500px;
+  margin-bottom: 20px;
 }
 
+.faquestions li {
+  list-style-type: none;
+  margin: 0 auto;
+  width: 80%;
+  margin-bottom: 25px;
+  max-width: 425px;
+}
+
+.faquestions h5:hover {
+  cursor:pointer;
+}
+
+.faq_answers {
+  margin-left: 22px;
+  width: 80%;
+}
 
 /* FOOTER.JADE*/
+
 .footer {
     position: fixed;
     bottom: 0px;
@@ -594,16 +585,10 @@ input.search_faqs {
     color: #B4B4B4;
     height: 60px;
     background-color: rgba(0,0,0,.8);
-    display: inline-block;
-    left: 0;
 }
 
 footer div {
   margin-top: 15px;
-}
-
-footer i.faq {
-  margin-left: -50px;
 }
 
 div.left-side i {
@@ -614,17 +599,9 @@ div.left-side i {
 }
 
 div.middle p {
-  font-size: 10px;
+  font-size: 12px;
   margin-top: 5px;
 }
-
-/*div.left-side {
-  background-color: green;
-}
-
-div.right-side {
-  background-color: purple;
-}*/
 
 footer div.version:hover {
   cursor: pointer;
