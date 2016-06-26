@@ -193,6 +193,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1) {
+      console.log(')!@(#)!@(#)!(@#)!(@#)(!)@(#!@)(#!@)(#)!@(#!@)(', friendFavId);
       $rootScope.yellowStar = 'star_btn';
     }
 
@@ -218,7 +219,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.like_item = function (item, $index) {
     console.log('heart clicked');
-    $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
+    // $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
     // console.log($scope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
 
     if ($scope.like_heart != undefined && $scope.like_heart.indexOf($index) > -1) {
@@ -250,6 +251,9 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   };
 
   $scope.star = function (user) {
+    console.log('trying to fav user');
+    // $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
+
     if ($rootScope.yellowStar === undefined) {
       $rootScope.yellowStar = 'star_btn';
     } else {
@@ -565,18 +569,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('ProfileCardCtrl', function ($scope) {
-  console.log('yo');
-}).directive('profile-card', function () {
-  return {
-    restrict: 'E',
-    controller: 'ProfileCardCtrl',
-    templateUrl: 'app/shared/profile-card/profile-card.html',
-    link: function link(scope, el, attrs) {}
-  };
-});
-'use strict';
-
 angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
 
 function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
@@ -701,3 +693,15 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
     });
   };
 }
+'use strict';
+
+angular.module('App').controller('ProfileCardCtrl', function ($scope) {
+  console.log('yo');
+}).directive('profile-card', function () {
+  return {
+    restrict: 'E',
+    controller: 'ProfileCardCtrl',
+    templateUrl: 'app/shared/profile-card/profile-card.html',
+    link: function link(scope, el, attrs) {}
+  };
+});
