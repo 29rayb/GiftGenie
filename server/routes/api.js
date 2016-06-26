@@ -102,7 +102,7 @@ router.put('/me/items/order', function(req, res){
 
 // Favorite User's Wishlist
 router.put('/me/star', function(req, res){
-// console.log(req.body, 'req.body')
+  // console.log(req.body, 'req.body')
   var starred_friend = req.body._id;
 
   User.findById(req.user, function(err, user){
@@ -113,9 +113,9 @@ router.put('/me/star', function(req, res){
     if (user.favorites.indexOf(starred_friend) > -1){
       User.update({"_id": req.user}, {$pull: {"favorites": starred_friend}}, function(err, user){
         if(err){ res.status(400).send(err);}
-          console.log('wishlist already in the favorites array');
-          console.log('wishlist unfavorited');
-        })
+        console.log('wishlist already in the favorites array');
+        console.log('wishlist unfavorited');
+      })
       return;
     }
 
@@ -169,7 +169,7 @@ router.put('/me/following', function(req, res){
     if (user.following.indexOf(followingThisPerson) > -1){
       User.update({"_id": req.user}, {$pull: {"following": followingThisPerson}}, function(err, user){
         if (err) {res.status(400).send(err)}
-          console.log('already following this user; now UNFOLLOWING THIS USER', user)
+        console.log('already following this user; now UNFOLLOWING THIS USER', user)
       })
     }
 
@@ -184,7 +184,7 @@ router.put('/me/following', function(req, res){
 
     User.update({"_id": req.user}, {$push: {"following": followingThisPerson}}, function(err, user){
       if (err) {res.status(400).send(err);}
-        console.log('this is the user you are following now')
+      console.log('this is the user you are following now')
       res.write('this is the user you are following now')
     })
 
@@ -261,48 +261,51 @@ router.get('/favorites/data', function(req, res) {
 // like items;
 router.put('/items/liked', function(req, res){
   var likedItem = req.body._id
-    User.findById(req.user, function(err, user){
+  User.findById(req.user, function(err, user){
 
-      if (user.liked.indexOf(likedItem) > -1) {
-        console.log('item already liked')
-        User.update({"_id": req.user}, {$pull: {"liked": likedItem}}, function(err, user){
-          if (err) {res.status(400).send(err)}
-          console.log('item unliked')
-        })
-        return;
-      }
-
-
-      console.log('user INSIDE @#$#$%Y#@$%^$#%^&$', user)
-      User.update({"_id": req.user}, {$push: {"liked": likedItem}}, function(err, user){
+    if (user.liked.indexOf(likedItem) > -1) {
+      console.log('item already liked')
+      User.update({"_id": req.user}, {$pull: {"liked": likedItem}}, function(err, user){
         if (err) {res.status(400).send(err)}
-          console.log('liked item added')
-        res.send(user);
+        console.log('item unliked')
       })
+      return;
+    }
+
+
+    console.log('user INSIDE @#$#$%Y#@$%^$#%^&$', user)
+    User.update({"_id": req.user}, {$push: {"liked": likedItem}}, function(err, user){
+      if (err) {res.status(400).send(err)}
+      console.log('liked item added')
+      res.send(user);
     })
+  })
 })
 
+//**Changing privacy settings --> From public to private.
 router.put('/me/makePrivate', function(req, res){
-  var likedItem = req.body._id
-    User.findById(req.user, function(err, user){
+  console.log('in make private route --> user', req.user);
 
-      if (user.liked.indexOf(likedItem) > -1) {
-        console.log('item already liked')
-        User.update({"_id": req.user}, {$pull: {"liked": likedItem}}, function(err, user){
-          if (err) {res.status(400).send(err)}
-          console.log('item unliked')
-        })
-        return;
-      }
-
-
-      console.log('user INSIDE @#$#$%Y#@$%^$#%^&$', user)
-      User.update({"_id": req.user}, {$push: {"liked": likedItem}}, function(err, user){
-        if (err) {res.status(400).send(err)}
-          console.log('liked item added')
-        res.send(user);
-      })
+  User.findById(req.user, function(err, user){
+    User.update({"_id": req.user}, {$set: {"private": true}}, function(err, user) {
+      if (err) {res.status(400).send(err)}
+      console.log('USER UPDATED')
+      res.send(user);
     })
+  })
+})
+
+//**Changing privacy settings --> From private to public.
+router.put('/me/makePublic', function(req, res){
+  console.log('in make public route --> user', req.user);
+
+  User.findById(req.user, function(err, user){
+    User.update({"_id": req.user}, {$set: {"private": false}}, function(err, user) {
+      if (err) {res.status(400).send(err)}
+      console.log('USER UPDATED')
+      res.send(user);
+    })
+  })
 })
 
 module.exports = router;

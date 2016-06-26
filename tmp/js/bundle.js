@@ -106,8 +106,10 @@ function UserSvc($http) {
       return $http.put('/api/me/following', user);
     },
     makePrivate: function makePrivate(loggedInUser) {
-      console.log(loggedInUser, 'user');
       return $http.put('/api/me/makePrivate');
+    },
+    makePublic: function makePublic(loggedInUser) {
+      return $http.put('/api/me/makePublic');
     }
   };
 };
@@ -219,15 +221,15 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       console.log(arrayToRemoveFrom, 'AFTER DELETING.');
       // console.log(arrayToRemoveFrom.length, 'LENGTH AFTER');
     } else if ($scope.like_heart == undefined) {
-      console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
-      $scope.like_heart = [];
-      $scope.like_heart.push($index);
-      console.log('after pushing index into like_heart', $scope.like_heart);
-    } else if ($scope.like_heart != undefined) {
-      console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
-      $scope.like_heart.push($index);
-      console.log('after pushing index into like_heart', $scope.like_heart);
-    }
+        console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+        $scope.like_heart = [];
+        $scope.like_heart.push($index);
+        console.log('after pushing index into like_heart', $scope.like_heart);
+      } else if ($scope.like_heart != undefined) {
+        console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
+        $scope.like_heart.push($index);
+        console.log('after pushing index into like_heart', $scope.like_heart);
+      }
 
     UserSvc.likeItem(item).then(function (res) {
       console.log('response from item being liked', res);
@@ -285,12 +287,50 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $state.go('followers');
   };
 }
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  if (localStorage.getItem("satellizer_token")) {
+    UserSvc.getProfile().then(function (response) {
+      $rootScope.display_name = response.data.displayName;
+    });
+  }
+
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    // $rootScope.notLoggedIn = true;
+    $auth.authenticate(provider, user).then(function (res) {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
+  };
+
+  // $rootScope.display_name = getUser.data.displayName;
+}
 'use strict';
 
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
-  // console.log('THESE ARE THE STATEPARMS', $stateParams.id)
 
   $scope.id = $stateParams.id;
   $rootScope.fbook = $stateParams.facebook;
@@ -321,8 +361,16 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.favorites = response.data.favorites;
     $scope.followersCount = response.data.followers.length;
     $scope.followingCount = response.data.following.length;
-    $scope.privacy = response.data.private;
-    console.log($scope.privacy, '<--------------- CURRENT PRIVATE SETTING.');
+    $rootScope.privacy = response.data.private;
+    console.log($rootScope.privacy, '<--------------- CURRENT PRIVATE SETTING.(false=public, true=private)');
+
+    if ($rootScope.privacy == true) {
+      $scope.public = false;
+      $scope.private = true;
+    } else if ($rootScope.privacy == false) {
+      $scope.public = true;
+      $scope.private = false;
+    }
 
     $rootScope.followersModel = [];
     $rootScope.followingModel = [];
@@ -407,25 +455,24 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   };
 
   $scope.goToSettings = function () {
+    console.log('Inside Settings.');
     $rootScope.settings = true;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
     $rootScope.starred = false;
-    // $scope.public = true;
-    // $scope.private = false;
 
     $scope.makePrivate = function () {
       console.log('making Private');
       var loggedInUser = $rootScope.user;
-      console.log(loggedInUser, 'loggedInUser');
       UserSvc.makePrivate(loggedInUser);
-
       $scope.private = true;
       $scope.public = false;
     };
 
     $scope.makePublic = function () {
       console.log('making Public');
+      var loggedInUser = $rootScope.user;
+      UserSvc.makePublic(loggedInUser);
       $scope.private = false;
       $scope.public = true;
     };
@@ -504,45 +551,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $scope.show_user_info = function () {
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
-}
-
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
-
-  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
-
-  if (localStorage.getItem("satellizer_token")) {
-    UserSvc.getProfile().then(function (response) {
-      $rootScope.display_name = response.data.displayName;
-    });
-  }
-
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    // $rootScope.notLoggedIn = true;
-    $auth.authenticate(provider, user).then(function (res) {
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-      });
-    }).catch(function (err) {
-      console.error('Inside the Home Ctrl, we have an error!', err);
-    });
-  };
-
-  // $rootScope.display_name = getUser.data.displayName;
 }
 'use strict';
 

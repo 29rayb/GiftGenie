@@ -54,8 +54,8 @@
 
     <div class="bottom_container">
       Privacy:
-      <input type="radio" name="privacy" value="public" ng-click="makePublic()" checked> Public
-      <input type="radio" name="privacy" value="private" ng-click="makePrivate()"> Private
+      <input type="radio" name="privacy" value="public" ng-click="makePublic()" ng-checked="public"> Public
+      <input type="radio" name="privacy" value="private" ng-click="makePrivate()" ng-checked="private"> Private
       <div ng-if="public">Your Account is Public</div>
       <div ng-if="private">Your Account is Private</div>
     </div>
