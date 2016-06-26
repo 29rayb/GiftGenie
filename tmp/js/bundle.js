@@ -217,28 +217,30 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   });
 
   $scope.like_item = function (item, $index) {
-    console.log($scope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
+    console.log('heart clicked');
+    $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
+    // console.log($scope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
 
     if ($scope.like_heart != undefined && $scope.like_heart.indexOf($index) > -1) {
-      console.log('------------------------> SCENARIO #1 - UNLIKING');
+      // console.log('------------------------> SCENARIO #1 - UNLIKING');
       var theIndex = $index;
       var parsed = parseInt($index);
       var arrayToRemoveFrom = $scope.like_heart;
-      console.log(arrayToRemoveFrom, 'BEFORE DELETING.');
+      // console.log(arrayToRemoveFrom, 'BEFORE DELETING.');
       // console.log(arrayToRemoveFrom.length, 'LENGTH BEFORE');
       arrayToRemoveFrom.splice(arrayToRemoveFrom.indexOf(parsed), 1);
-      console.log(arrayToRemoveFrom, 'AFTER DELETING.');
+      // console.log(arrayToRemoveFrom, 'AFTER DELETING.');
       // console.log(arrayToRemoveFrom.length, 'LENGTH AFTER');
     } else if ($scope.like_heart == undefined) {
-        console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
-        $scope.like_heart = [];
-        $scope.like_heart.push($index);
-        console.log('after pushing index into like_heart', $scope.like_heart);
-      } else if ($scope.like_heart != undefined) {
-        console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
-        $scope.like_heart.push($index);
-        console.log('after pushing index into like_heart', $scope.like_heart);
-      }
+      // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+      $scope.like_heart = [];
+      $scope.like_heart.push($index);
+      // console.log('after pushing index into like_heart',$scope.like_heart)
+    } else if ($scope.like_heart != undefined) {
+      // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
+      $scope.like_heart.push($index);
+      // console.log('after pushing index into like_heart',$scope.like_heart)
+    }
 
     UserSvc.likeItem(item).then(function (res) {
       console.log('response from item being liked', res);

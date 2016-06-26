@@ -262,6 +262,7 @@ p.logo {
 .pro_info_stats {
   border-top: none;
   border-bottom: 1px #e5e5e5 solid !important;
+  height: 70px;
 }
 
 .pro_info_stats p {
@@ -305,6 +306,7 @@ p.logo {
 .title_container {
   margin-top: 15px;
   height: 60px;
+  margin-bottom: 50px;
 }
 
 .bottom_container {
@@ -322,29 +324,31 @@ p.logo {
   text-align: center;
 }
 
+.magical_wand {
+  width: 40px;
+  height: 50px;
+}
+
 /*NEED TO UPDATE*/
 
-.add_btn {
-  position: absolute;
-  left: 30px;
-  margin-top: 5px;
-  border: 1px solid #435eac;
+.add_btn {;
+  position: relative;
+  border:none;
   background: transparent;
-  color: #435eac;
-  width: 65px;
 }
 
 .add_btn:hover {
-    background-color: #435EAC;
-    color: #FFF;
+  background-color: white;
+  z-index: 9999;
+  border: 1px solid pink;
 }
+
 
 input.searchItems {
   position: relative;
   top: 4px;
   height: 30px;
   width: 276px;
-  margin-bottom: 25px
 }
 
 /*END*/
@@ -355,11 +359,12 @@ input.searchItems {
 }
 
 .wishlist_items li {
-  height: 33px;
+  height: 35px;
 }
 
 .wishlist_items_container a,
-.wishlist_items_container i {
+.wishlist_items_container i,
+.wishlist_items_container div {
   margin: 0 50px;
 }
 
@@ -419,6 +424,10 @@ i.fa-trash {
   cursor: pointer;
 }
 
+.bottom_container input.starred,
+.bottom_container.starred {
+  margin-top: -50px;
+}
 
 /*FRIEND WISHLIST*/
 
@@ -444,10 +453,12 @@ i.fa-trash {
 
 .title_container .favorite_wishlist_btn {
   background-color: transparent;
+  display: block !important;
+  max-width: 50px;
+  width: 100%;
+  margin: 0 auto;
   border: 1px solid #000;
-  position: absolute;
-  top: 20px;
-  left: 40px;
+  display: block;
 }
 
 .title_container .favorite_wishlist_btn:hover {
@@ -468,121 +479,56 @@ i.fa-trash {
     width: 60px;
 }
 
-.bottom_container input.searchItems {
-  margin-top: 25px;
-}
-
 .wishlist_item.friendlist_items {
   margin-left: 65px;
 }
 
 .liked_item {
-  color: #e81c4f;
+  position: relative;
+}
+
+.liked_item:before {
+  content: '\f004';
+  font-family: FontAwesome;
+  position: absolute;
+  top: 7px;
+  left: 17px;
 }
 
 .unliked_item {
   background-color: none;
 }
 
-
-
-.fa.fa-heart {
-  position:absolute;
-  right: 0px;
-  width: 100px;
-  height: 100px;
-  margin-top: 15px;
-  top: 50%;
-  /*transform: translate (-50%, -50%);*/
-  background: url(https://cssanimation.rocks/images/posts/steps/heart.png) no-repeat;
-  /*cursor: pointer;*/
-  -webkit-animation: fave-heart 1s steps(28);
-  animation: fave-heart 1s steps(28);
+.likey {
+  position: absolute;
+  right: 0;
+  height: 35px;
+  width: 50px;
+  background-image:url(/dist/images/heart_animation.png);
+  background-position: left;
+  background-size: 2900%;
+  color: #e81c4f;
 }
 
-
-i.fa-heart:hover {
-  background-position: -2800px 0;
-  transition: background 1s steps(14);
-}
-@-webkit-keyframes fave-heart {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: -2800px 0;
-  }
-}
-@keyframes fave-heart {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: -2800px 0;
-  }
+.likey:hover {
+  background-position: right;
+  cursor: pointer;
 }
 
-
-
-
-/*
-.wishlist_button_container {
-    border: 1px solid black;
-    padding: 5px;
-    height: 79px;
+.is_animating {
+  -webkit-animation: heart-burst .8s steps(28) 1;
+  animation: heart-burst .8s steps(28) 1;
 }
 
-.wishlist_button_container.starred {
-    margin-top: 20px;
-    margin-bottom: -70px;
-}*/
-/*
-.fa-star.starred_wslist {
-    color: gold;
-    position: relative;
-    top: -84px;
-    float: left;
-    right: 26px;
-    font-size: 25px !important;
-}*/
-
-/*.fa-star.starred_wslist:hover {
-    color: black;
-    transition: all .25s ease-in-out;
-}*/
-
-/*.search_fb {
-    width: 200px;
-}*/
-
-/*.facebook_name {
-    position: relative;
-    text-align: left;
-    top: 87px;
-    left: 35px;
-    font-size: 15px;
-    color: #fff;
-    max-width: 130px;
+@-webkit-keyframes heart-burst {
+  from {background-position: left;}
+  to {background-position: right;}
 }
 
-.facebook_name:hover {
-    color: #fff;
-    background-color: rgba(250, 250, 250, 0.7);
-    color: #333;
-    transition: all .25s ease-in-out;
-    width: 130px;
-}*/
-
-/*.facebook_photo {
-    width: 130px;
-    height: 130px;
+@keyframes heart-burst {
+  from {background-position: left;}
+  to {background-position: right;}
 }
-
-.starred {
-    height: 140px;
-}
-*/
-
 
 /*FAQ*/
 
