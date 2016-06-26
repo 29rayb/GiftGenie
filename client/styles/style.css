@@ -484,6 +484,8 @@ i.fa-trash {
   background-color: none;
 }
 
+
+
 .fa.fa-heart {
   position:absolute;
   right: 0px;
@@ -510,6 +512,7 @@ i.fa-heart:hover {
     background-position: -2800px 0;
   }
 }
+
 
 
 

@@ -79,7 +79,9 @@ module.run(['$templateCache', function($templateCache) {
     '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item friendlist_items" target="_blank"> {{item.name}} </a>\n' +
-    '          <i class="fa fa-heart" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>\n' +
+    '          <div id="likey-heart">\n' +
+    '            <i class="fa fa-heart" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>\n' +
+    '          </div>\n' +
     '        </li>\n' +
     '      </ol>\n' +
     '    </div>\n' +
