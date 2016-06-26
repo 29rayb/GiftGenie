@@ -195,6 +195,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     if (favoritesIdArr.indexOf(friendFavId) > -1) {
       console.log(')!@(#)!@(#)!(@#)!(@#)(!)@(#!@)(#!@)(#)!@(#!@)(', friendFavId);
       $rootScope.yellowStar = 'star_btn';
+      $scope.favWishList = true;
     }
 
     if (followingFriendIdArr.indexOf($scope.id) > -1) {
@@ -252,6 +253,8 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.star = function (user) {
     console.log('trying to fav user');
+    $scope.favWishList ? $scope.favWishList = false : $scope.favWishList = 'is_favoriting';
+    // $scope.favWishList = 'is_favoriting'
     // $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
 
     if ($rootScope.yellowStar === undefined) {

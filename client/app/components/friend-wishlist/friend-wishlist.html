@@ -36,7 +36,8 @@
 <!--         <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">
           <i class="fa fa-star"></i>
         </button> -->
-        <div class="favy" ng-class="{is_favoriting: friendFavId.indexOf($index) > -1, star_btn: yellowStar}" ng-click="star(user)"> </div>
+        <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>
+        <!-- <div class="favy" ng-class="{is_favoriting: true}" ng-click="star(user)"> </div> -->
 
         Favorited By
       </span>

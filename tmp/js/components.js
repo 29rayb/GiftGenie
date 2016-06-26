@@ -1,71 +1,5 @@
 (function(module) {
 try {
-  module = angular.module('friendWishlist');
-} catch (e) {
-  module = angular.module('friendWishlist', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('friend-wishlist/friend-wishlist.html',
-    '<div class="main_container">\n' +
-    '\n' +
-    '  <div class="profile container col-xs-3">\n' +
-    '    <div class="pro_pic_container col-xs-12">\n' +
-    '      <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">\n' +
-    '    </div>\n' +
-    '    <div class="pro_info col-xs-12">\n' +
-    '      <p><i class="fa fa-user"></i>\n' +
-    '        {{display_name}}\n' +
-    '      </p>\n' +
-    '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
-    '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
-    '    </div>\n' +
-    '    <div class="pro_info_stats col-xs-12">\n' +
-    '      <p ng-click="goToFollowing()" class="following col-xs-6">Following\n' +
-    '        <span class="nums">{{following}}</span>\n' +
-    '      </p>\n' +
-    '      <p ng-click="goToFollowers()" class="followers col-xs-6">Followers\n' +
-    '        <span class="nums">{{followers}}</span>\n' +
-    '      </p>\n' +
-    '    </div>\n' +
-    '    <div class="pro_info_btns col-xs-12">\n' +
-    '      <button ng-click="followUser(user)" class="col-xs-12 follow">\n' +
-    '        <div class="btn btn-primary col-xs-12"  ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>\n' +
-    '        <div ng-show="unfollow" class="btn btn-danger col-xs-12" ng-mouseout="followBtnShow()">Unfollow </div>\n' +
-    '        <div class="btn btn-primary col-xs-12"  ng-if="!follow && !unfollow">Follow</div>\n' +
-    '      </button>\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '\n' +
-    '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
-    '    <div class="title_container">\n' +
-    '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
-    '      <!-- \'You, Rachel Slater & 1232 Others Favorited Your WishList\' -->\n' +
-    '      <span class="favorited">\n' +
-    '<!--         <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">\n' +
-    '          <i class="fa fa-star"></i>\n' +
-    '        </button> -->\n' +
-    '        <div class="favy" ng-class="{is_favoriting: friendFavId.indexOf($index) > -1, star_btn: yellowStar}" ng-click="star(user)"> </div>\n' +
-    '\n' +
-    '        Favorited By\n' +
-    '      </span>\n' +
-    '    </div>\n' +
-    '    <div class="bottom_container">\n' +
-    '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
-    '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
-    '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
-    '          <a href="{{item.link}}" class="wishlist_item friendlist_items" target="_blank"> {{item.name}} </a>\n' +
-    '          <div class="likey" ng-class="{is_animating: like_heart.indexOf($index) > -1, liked_item : like_heart.indexOf($index) > -1   }" ng-click="like_item(item, $index)"></div>\n' +
-    '        </li>\n' +
-    '      </ol>\n' +
-    '    </div>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
   module = angular.module('faq');
 } catch (e) {
   module = angular.module('faq', []);
@@ -121,6 +55,73 @@ module.run(['$templateCache', function($templateCache) {
     '<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach">\n' +
     '<!-- https://66.media.tumblr.com/971730e6d4d1ddaff1885aacb4639e11/tumblr_nd0bc4mxMR1tchrkco1_500.gif -->\n' +
     '<!-- https://astridthora.files.wordpress.com/2013/02/tumblr_m16zivzgo51qkvok3o1_500.jpg -->\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('friendWishlist');
+} catch (e) {
+  module = angular.module('friendWishlist', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('friend-wishlist/friend-wishlist.html',
+    '<div class="main_container">\n' +
+    '\n' +
+    '  <div class="profile container col-xs-3">\n' +
+    '    <div class="pro_pic_container col-xs-12">\n' +
+    '      <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">\n' +
+    '    </div>\n' +
+    '    <div class="pro_info col-xs-12">\n' +
+    '      <p><i class="fa fa-user"></i>\n' +
+    '        {{display_name}}\n' +
+    '      </p>\n' +
+    '      <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>\n' +
+    '      <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>\n' +
+    '    </div>\n' +
+    '    <div class="pro_info_stats col-xs-12">\n' +
+    '      <p ng-click="goToFollowing()" class="following col-xs-6">Following\n' +
+    '        <span class="nums">{{following}}</span>\n' +
+    '      </p>\n' +
+    '      <p ng-click="goToFollowers()" class="followers col-xs-6">Followers\n' +
+    '        <span class="nums">{{followers}}</span>\n' +
+    '      </p>\n' +
+    '    </div>\n' +
+    '    <div class="pro_info_btns col-xs-12">\n' +
+    '      <button ng-click="followUser(user)" class="col-xs-12 follow">\n' +
+    '        <div class="btn btn-primary col-xs-12"  ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>\n' +
+    '        <div ng-show="unfollow" class="btn btn-danger col-xs-12" ng-mouseout="followBtnShow()">Unfollow </div>\n' +
+    '        <div class="btn btn-primary col-xs-12"  ng-if="!follow && !unfollow">Follow</div>\n' +
+    '      </button>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '\n' +
+    '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
+    '    <div class="title_container">\n' +
+    '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
+    '      <!-- \'You, Rachel Slater & 1232 Others Favorited Your WishList\' -->\n' +
+    '      <span class="favorited">\n' +
+    '<!--         <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">\n' +
+    '          <i class="fa fa-star"></i>\n' +
+    '        </button> -->\n' +
+    '        <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>\n' +
+    '        <!-- <div class="favy" ng-class="{is_favoriting: true}" ng-click="star(user)"> </div> -->\n' +
+    '\n' +
+    '        Favorited By\n' +
+    '      </span>\n' +
+    '    </div>\n' +
+    '    <div class="bottom_container">\n' +
+    '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
+    '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
+    '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
+    '          <a href="{{item.link}}" class="wishlist_item friendlist_items" target="_blank"> {{item.name}} </a>\n' +
+    '          <div class="likey" ng-class="{is_animating: like_heart.indexOf($index) > -1, liked_item : like_heart.indexOf($index) > -1   }" ng-click="like_item(item, $index)"></div>\n' +
+    '        </li>\n' +
+    '      </ol>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '</div>\n' +
     '');
 }]);
 })();
