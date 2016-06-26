@@ -106,8 +106,10 @@ function UserSvc($http) {
       return $http.put('/api/me/following', user);
     },
     makePrivate: function makePrivate(loggedInUser) {
-      console.log(loggedInUser, 'user');
       return $http.put('/api/me/makePrivate');
+    },
+    makePublic: function makePublic(loggedInUser) {
+      return $http.put('/api/me/makePublic');
     }
   };
 };
@@ -331,7 +333,6 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
-  // console.log('THESE ARE THE STATEPARMS', $stateParams.id)
 
   $scope.id = $stateParams.id;
   $rootScope.fbook = $stateParams.facebook;
@@ -362,8 +363,16 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.favorites = response.data.favorites;
     $scope.followersCount = response.data.followers.length;
     $scope.followingCount = response.data.following.length;
-    $scope.privacy = response.data.private;
-    console.log($scope.privacy, '<--------------- CURRENT PRIVATE SETTING.');
+    $rootScope.privacy = response.data.private;
+    console.log($rootScope.privacy, '<--------------- CURRENT PRIVATE SETTING.(false=public, true=private)');
+
+    if ($rootScope.privacy == true) {
+      $scope.public = false;
+      $scope.private = true;
+    } else if ($rootScope.privacy == false) {
+      $scope.public = true;
+      $scope.private = false;
+    }
 
     $rootScope.followersModel = [];
     $rootScope.followingModel = [];
@@ -448,25 +457,24 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   };
 
   $scope.goToSettings = function () {
+    console.log('Inside Settings.');
     $rootScope.settings = true;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
     $rootScope.starred = false;
-    // $scope.public = true;
-    // $scope.private = false;
 
     $scope.makePrivate = function () {
       console.log('making Private');
       var loggedInUser = $rootScope.user;
-      console.log(loggedInUser, 'loggedInUser');
       UserSvc.makePrivate(loggedInUser);
-
       $scope.private = true;
       $scope.public = false;
     };
 
     $scope.makePublic = function () {
       console.log('making Public');
+      var loggedInUser = $rootScope.user;
+      UserSvc.makePublic(loggedInUser);
       $scope.private = false;
       $scope.public = true;
     };

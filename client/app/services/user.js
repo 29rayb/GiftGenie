@@ -48,8 +48,10 @@ function UserSvc ($http) {
       return $http.put('/api/me/following', user)
     },
     makePrivate: (loggedInUser) => {
-      console.log(loggedInUser, 'user');
       return $http.put('/api/me/makePrivate')
+    },
+    makePublic: (loggedInUser) => {
+      return $http.put('/api/me/makePublic')
     }
   };
 };
