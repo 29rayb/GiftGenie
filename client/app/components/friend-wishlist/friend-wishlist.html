@@ -1,56 +1,50 @@
 <div class="main_container">
 
   <div class="profile container col-xs-3">
-    <div class="pro_pic_container col-xs-10">
+    <div class="pro_pic_container col-xs-12">
       <img ng-src="https://graph.facebook.com/{{pro_pic}}/picture?type=large" class="col-xs-12 pro_pic">
     </div>
-    <div class="pro_info col-xs-10">
+    <div class="pro_info col-xs-12">
       <p><i class="fa fa-user"></i>
-        <a href=""></a>
         {{display_name}}
       </p>
       <p><i class="fa fa-birthday-cake"></i> {{birthday}}</p>
       <p class="email_address"><i class="fa fa-envelope-o"></i>{{email}}</p>
-      <p ng-click="goToFollowers()">Followers: {{followers}} </p>
-      <p ng-click="goToFollowing()">Following: {{following}} </p>
-      <button ng-click="followUser(user)">
-        <div class="btn btn-primary"  ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>
-        <div ng-show="unfollow" class="btn btn-danger" ng-mouseout="followBtnShow()">Unfollow </div>
-        <div class="btn btn-primary"  ng-if="!follow && !unfollow">Follow</div>
+    </div>
+    <div class="pro_info_stats col-xs-12">
+      <p ng-click="goToFollowing()" class="following col-xs-6">Following
+        <span class="nums">{{following}}</span>
+      </p>
+      <p ng-click="goToFollowers()" class="followers col-xs-6">Followers
+        <span class="nums">{{followers}}</span>
+      </p>
+    </div>
+    <div class="pro_info_btns col-xs-12">
+      <button ng-click="followUser(user)" class="col-xs-12 follow">
+        <div class="btn btn-primary col-xs-12"  ng-if="follow" ng-mouseover="unfollowBtnShow()">Following</div>
+        <div ng-show="unfollow" class="btn btn-danger col-xs-12" ng-mouseout="followBtnShow()">Unfollow </div>
+        <div class="btn btn-primary col-xs-12"  ng-if="!follow && !unfollow">Follow</div>
       </button>
-      <!-- add block this person feature into setting -->
-<!--       <button ng-click="goToSettings()" class="btn btn-info settings">
-        <i class="fa fa-cog" aria-hidden="true"></i>
-      </button> -->
     </div>
   </div>
 
   <div class="wishlist_container container col-xs-8" ng-if="!settings">
     <div class="title_container">
-      <h2 class="my_wishlist_title">My WishList</h2>
-      <button ng-click="star(user)" ng-class="yellowStar">
+      <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">
         <i class="fa fa-star"></i>
       </button>
-      Favorited By:
-    </div>
-    <div class="top_container">
-      <!-- <div class="col-xs-offset-3 col-xs-5 like_share_container" data-href="https://www.facebook.com/giftsgenies" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-ref="referred" action="recommend"></div> -->
+      <h2 class="my_wishlist_title">My WishList</h2>
+      <!-- 'You, Rachel Slater & 1232 Others Favorited Your WishList' -->
+      <span class="favorited">Favorited By</span>
     </div>
     <div class="bottom_container">
       <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">
       <ol ui-sortable ng-model="items" class="wishlist_items" >
         <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
-          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
-          <i class="fa fa-heart-o" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>
-          <!-- <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i> -->
-          <!-- <i class="fa fa-trash" ng-click="delete(item, $index)"></i> -->
+          <a href="{{item.link}}" class="wishlist_item friendlist_items" target="_blank"> {{item.name}} </a>
+          <i class="fa fa-heart" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>
         </li>
       </ol>
-    </div>
-    <div class="fb_comments_container">
-<!--       <div class="fb-comments" data-href="http://localhost:3000/#/my-wishlist" data-numposts="5" data-order=by="social" data-width="280"></div>
- -->      <!-- this is for when the app is deployed -->
-      <!-- <div class="fb-comments" data-href="https://giftsgenies.herokuapp.com/#/" data-width="464" data-numposts="10"></div> -->
     </div>
   </div>
 </div>

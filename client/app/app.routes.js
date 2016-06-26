@@ -33,11 +33,6 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
         }
       }
     })
-    .state('settings', {
-      url: '/settings/:id',
-      templateUrl: 'app/components/settings/settings.html',
-      controller: 'SettingsCtrl'
-    })
 
   $authProvider.facebook({
     clientId: '247255738962232',

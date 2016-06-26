@@ -21,6 +21,10 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.user = response.data.user;
     $scope.id = response.data.user._id;
     $scope.birthday = response.data.user.birthday;
+    console.log('!@#!@#!@#!@', $scope.birthday)
+    if ($scope.birthday == undefined){
+      $scope.birthday = ' N/A '
+    }
     $scope.display_name = response.data.user.displayName
     $scope.email = response.data.user.email
     $scope.pro_pic = response.data.user.facebook

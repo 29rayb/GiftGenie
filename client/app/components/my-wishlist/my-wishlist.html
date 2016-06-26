@@ -121,7 +121,7 @@
       <div ng-model="favorites">
         <div ng-repeat="favorite in favsModel | filter:favorite.name">
           <div class="user_card col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(favorite)">
-            <img ng-src="https://graph.facebook.com/{{favorite.id}}/picture?type=large" ng-click="show_user_info()"></img>
+            <img ng-src="https://graph.facebook.com/{{favorite.id}}/picture?type=large" ng-click="show_user_info()" class="followers_pic"></img>
             <h6 class="user_name">{{favorite.name}}</h6>
           </div>
         </div>
@@ -130,7 +130,6 @@
 
   </div>
 </div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

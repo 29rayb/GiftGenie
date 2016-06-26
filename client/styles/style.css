@@ -13,6 +13,24 @@ p.following:hover {
     cursor: pointer;
 }
 
+::-webkit-input-placeholder {
+    text-align: center;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    text-align: center;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    text-align: center;
+}
+
+:-ms-input-placeholder {
+    text-align: center;
+}
+
 /* NAVBAR.JADE*/
 
 .navbar-container {
@@ -29,6 +47,7 @@ a.navbar-links {
   position: absolute;
   top: 15px;
   width: 250px;
+  height: 30px;
 }
 
 .fa.fa-search {
@@ -229,7 +248,7 @@ p.logo {
   float: left;
   margin-left: 5px;
   margin-right: 8px;
-  margin-top: 3px;
+  margin-top: 5px;
   min-height: 15px;
   max-height: 15px;
   min-height: 15px;
@@ -237,7 +256,7 @@ p.logo {
 }
 
 .email_address {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .pro_info_stats {
@@ -389,35 +408,59 @@ i.fa-trash {
 
 /*Starred-WishLists*/
 
-.fb_comments_container {
-    border: 1px solid red;
-    margin-top: 30px;
+.user_card img {
+  min-width: 200px;
+  max-width: 200px;
+  max-height: 200px;
+  min-height: 200px;
 }
 
-i.fa-heart-o {
-  position:absolute;
-  right: 66px;
-}
-
-i.fa-heart-o:hover {
-  color: pink;
+.user_card img:hover {
+  cursor: pointer;
 }
 
 
-.top_container {
-  border: 1px solid pink;
-  height: 86px;
-}
+/*FRIEND WISHLIST*/
 
-.like_share_container {
-    border: 1px solid black;
-    padding: 10px;
-    height: 77px;
-}
-
-.unfollow_button {
+/*.unfollow_button {
   background-color: #e81c4f;
   border-color: #e81c4f;
+}
+*/
+
+.pro_info_btns button {
+  border: none;
+}
+
+.pro_info_btns button.follow {
+  background-color: transparent;
+}
+
+
+.wishlist_container.container .title_container button,
+.wishlist_container.container .title_container h2.my_wishlist_title {
+  display: inline-block;
+}
+
+.title_container .favorite_wishlist_btn {
+  background-color: transparent;
+  border: 1px solid #000;
+  position: absolute;
+  top: 20px;
+  left: 40px;
+}
+
+.title_container .favorite_wishlist_btn:hover {
+  background-color: yellow;
+  border: none;
+}
+
+.title_container span.favorited {
+  display: block;
+  border: 1px solid #000;
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .star_btn {
@@ -425,21 +468,52 @@ i.fa-heart-o:hover {
     width: 60px;
 }
 
+.bottom_container input.searchItems {
+  margin-top: 25px;
+}
+
+.wishlist_item.friendlist_items {
+  margin-left: 65px;
+}
 
 .liked_item {
-  background-color: yellow;
+  color: #e81c4f;
 }
 
 .unliked_item {
   background-color: none;
 }
 
-
-
-.wishlist_container.container.starred {
-  background-color: green;
+.fa.fa-heart {
+  position:absolute;
+  right: 0px;
+  width: 100px;
+  height: 100px;
+  margin-top: 15px;
+  top: 50%;
+  /*transform: translate (-50%, -50%);*/
+  background: url(https://cssanimation.rocks/images/posts/steps/heart.png) no-repeat;
+  /*cursor: pointer;*/
+  animation: fave-heart 1s steps(28);
 }
 
+
+i.fa-heart:hover {
+  background-position: -2800px 0;
+  transition: background 1s steps(14);
+}
+@keyframes fave-heart {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -2800px 0;
+  }
+}
+
+
+
+/*
 .wishlist_button_container {
     border: 1px solid black;
     padding: 5px;
@@ -449,8 +523,8 @@ i.fa-heart-o:hover {
 .wishlist_button_container.starred {
     margin-top: 20px;
     margin-bottom: -70px;
-}
-
+}*/
+/*
 .fa-star.starred_wslist {
     color: gold;
     position: relative;
@@ -458,36 +532,18 @@ i.fa-heart-o:hover {
     float: left;
     right: 26px;
     font-size: 25px !important;
-}
+}*/
 
-.fa-star.starred_wslist:hover {
+/*.fa-star.starred_wslist:hover {
     color: black;
     transition: all .25s ease-in-out;
-}
+}*/
 
-.search_fb {
+/*.search_fb {
     width: 200px;
-}
+}*/
 
-::-webkit-input-placeholder {
-    text-align: center;
-}
-
-:-moz-placeholder {
-    /* Firefox 18- */
-    text-align: center;
-}
-
-::-moz-placeholder {
-    /* Firefox 19+ */
-    text-align: center;
-}
-
-:-ms-input-placeholder {
-    text-align: center;
-}
-
-.facebook_name {
+/*.facebook_name {
     position: relative;
     text-align: left;
     top: 87px;
@@ -503,9 +559,9 @@ i.fa-heart-o:hover {
     color: #333;
     transition: all .25s ease-in-out;
     width: 130px;
-}
+}*/
 
-.facebook_photo {
+/*.facebook_photo {
     width: 130px;
     height: 130px;
 }
@@ -513,22 +569,7 @@ i.fa-heart-o:hover {
 .starred {
     height: 140px;
 }
-
-.user_card img {
-  min-width: 200px;
-  max-width: 200px;
-  max-height: 200px;
-  min-height: 200px;
-}
-
-.user_card img:hover {
-  cursor: pointer;
-}
-
-
-
-
-
+*/
 
 
 /*FAQ*/
