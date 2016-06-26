@@ -110,6 +110,15 @@ function UserSvc($http) {
     },
     makePublic: function makePublic(loggedInUser) {
       return $http.put('/api/me/makePublic');
+    },
+    checkingFriendPrivacy: function checkingFriendPrivacy(userMates) {
+      console.log('usermates in service ------> ', userMates);
+      var friendsToCheck = [];
+      for (var i = 0; i < userMates.length; i++) {
+        var mongoId = userMates[i].id;
+        friendsToCheck.push(mongoId);
+      }
+      return $http.post('/api/me/checkingFriendPrivacy', { friends: friendsToCheck });
     }
   };
 };
@@ -624,17 +633,25 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
   // ui-sref="my-wishlist({id: {{user.id}}})"
 
   $scope.searchFriends = function () {
-    var length = $rootScope.friendsLength;
-    $rootScope.userModel = [];
-    UserSvc.getProfile().then(function (res) {
-      console.log('@#%#$@!$#%@#!#!$', res);
-      // works because both arrays have same length;
+    var userMates = $rootScope.user.friends;
+    console.log(userMates, 'usermates');
+
+    UserSvc.checkingFriendPrivacy(userMates).then(function (response) {
+      console.log(response, 'RESPONSE FROM PRIVACY SETTINGS CHECK!!!!!!!!!!!!!');
+      var res = response.data;
+      var length = response.data.length;
+      console.log(length, 'length');
+
+      $rootScope.userModel = [];
+
       for (var i = 0; i < length; i++) {
         $rootScope.userModel[i] = {
-          "name": res.data.friends[i].name,
-          "id": res.data.friends[i].id
+          "name": res[i].displayName,
+          "id": res[i].facebook
         };
       }
+
+      console.log($rootScope.userModel, 'HERE!!!!!!!!');
     });
   };
 

@@ -308,4 +308,27 @@ router.put('/me/makePublic', function(req, res){
   })
 })
 
+//**When click on searchbar in Navbar, checking if friends have set their profile to private.
+router.post('/me/checkingFriendPrivacy', function(req, res) {
+  console.log('*******INSIDE CHECK FRIEND PRIVACY');
+  var userMates = req.body.friends;
+  console.log(userMates, '<------------------------------- UserMates in Server.');
+
+  User.find( {facebook: { $in : userMates }}, function(err, users) {
+    var allFriends = users;
+    var friendsWhoArePublic = [];
+
+    for (var i = 0; i < users.length; i++){
+      if(users[i].private == false) {
+        friendsWhoArePublic.push(users[i])
+      }
+    }
+    var data = friendsWhoArePublic;
+    console.log(data, '<-----------------------------------DATA')
+
+    if (err) console.error(err)
+    res.send(data)
+  })
+})
+
 module.exports = router;

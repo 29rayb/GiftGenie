@@ -1,8 +1,8 @@
 'use strict';
 
 angular
-  .module('App')
-  .factory('UserSvc', UserSvc)
+.module('App')
+.factory('UserSvc', UserSvc)
 
 UserSvc.$inject = ['$http']
 
@@ -52,6 +52,15 @@ function UserSvc ($http) {
     },
     makePublic: (loggedInUser) => {
       return $http.put('/api/me/makePublic')
+    },
+    checkingFriendPrivacy: (userMates) => {
+      console.log('usermates in service ------> ', userMates);
+      var friendsToCheck = []
+      for (var i = 0; i < userMates.length; i++){
+        var mongoId = userMates[i].id;
+        friendsToCheck.push(mongoId);
+      }
+      return $http.post('/api/me/checkingFriendPrivacy', {friends: friendsToCheck})
     }
   };
 };
