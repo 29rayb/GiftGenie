@@ -232,15 +232,15 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       // console.log(arrayToRemoveFrom, 'AFTER DELETING.');
       // console.log(arrayToRemoveFrom.length, 'LENGTH AFTER');
     } else if ($scope.like_heart == undefined) {
-      // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
-      $scope.like_heart = [];
-      $scope.like_heart.push($index);
-      // console.log('after pushing index into like_heart',$scope.like_heart)
-    } else if ($scope.like_heart != undefined) {
-      // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
-      $scope.like_heart.push($index);
-      // console.log('after pushing index into like_heart',$scope.like_heart)
-    }
+        // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+        $scope.like_heart = [];
+        $scope.like_heart.push($index);
+        // console.log('after pushing index into like_heart',$scope.like_heart)
+      } else if ($scope.like_heart != undefined) {
+          // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
+          $scope.like_heart.push($index);
+          // console.log('after pushing index into like_heart',$scope.like_heart)
+        }
 
     UserSvc.likeItem(item).then(function (res) {
       console.log('response from item being liked', res);
@@ -448,7 +448,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.item.link = item.link;
     $scope.item.id = editItemId;
     UserSvc.save_changes(item).then(function () {
-      // shouldn't need this if done right;
       window.location.reload(true);
     }).catch(function () {
       console.error('saving method doesnt work');
@@ -475,7 +474,11 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.makePrivate = function () {
       console.log('making Private');
       var loggedInUser = $rootScope.user;
-      UserSvc.makePrivate(loggedInUser);
+      UserSvc.makePrivate(loggedInUser).then(function () {
+        console.log('YOOOOOOOOOOOOOO>>>>>>>>>>>>');
+      }).catch(function () {
+        console.error('Making private method has an error.');
+      });
       $scope.private = true;
       $scope.public = false;
     };
@@ -635,25 +638,28 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
   // ui-sref="my-wishlist({id: {{user.id}}})"
 
   $scope.searchFriends = function () {
-    var userMates = $rootScope.user.friends;
-    console.log(userMates, 'usermates');
+    UserSvc.getProfile().then(function (response) {
+      console.log(response, 'response ');
+      var alternative = response.data.friends;
+      $rootScope.alternate = alternative;
+      var userMates = $rootScope.alternate || $rootScope.user.friends;
 
-    UserSvc.checkingFriendPrivacy(userMates).then(function (response) {
-      console.log(response, 'RESPONSE FROM PRIVACY SETTINGS CHECK!!!!!!!!!!!!!');
-      var res = response.data;
-      var length = response.data.length;
-      console.log(length, 'length');
+      UserSvc.checkingFriendPrivacy(userMates).then(function (response) {
+        console.log(response, 'RESPONSE FROM PRIVACY SETTINGS CHECK!!!!!!!!!!!!!');
+        var res = response.data.publicFriends;
+        var length = res.length;
+        console.log(length, 'length');
 
-      $rootScope.userModel = [];
+        $rootScope.userModel = [];
 
-      for (var i = 0; i < length; i++) {
-        $rootScope.userModel[i] = {
-          "name": res[i].displayName,
-          "id": res[i].facebook
-        };
-      }
-
-      console.log($rootScope.userModel, 'HERE!!!!!!!!');
+        for (var i = 0; i < length; i++) {
+          $rootScope.userModel[i] = {
+            "name": res[i].displayName,
+            "id": res[i].facebook
+          };
+        }
+        console.log($rootScope.userModel, 'HERE!!!!!!!!');
+      });
     });
   };
 

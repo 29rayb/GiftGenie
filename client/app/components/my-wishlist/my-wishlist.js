@@ -117,7 +117,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.item.id = editItemId;
     UserSvc.save_changes(item)
     .then(() => {
-      // shouldn't need this if done right;
       window.location.reload(true)
     })
     .catch(() => {
@@ -146,6 +145,12 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       console.log('making Private');
       var loggedInUser = $rootScope.user;
       UserSvc.makePrivate(loggedInUser)
+      .then(() => {
+        console.log('YOOOOOOOOOOOOOO>>>>>>>>>>>>');
+      })
+      .catch(() => {
+        console.error('Making private method has an error.')
+      })
       $scope.private = true;
       $scope.public = false;
     }
@@ -197,6 +202,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.followingPage = false;
     $rootScope.settings = false;
   }
+
 
   $scope.goToOthers = (otherUser) => {
     console.log('yolo', otherUser)

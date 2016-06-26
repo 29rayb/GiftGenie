@@ -284,51 +284,174 @@ router.put('/items/liked', function(req, res){
 
 //**Changing privacy settings --> From public to private.
 router.put('/me/makePrivate', function(req, res){
-  console.log('in make private route --> user', req.user);
+  console.log('In make private route in server --> user', req.user);
+
+  var newlyPrivateUser = req.user;
 
   User.findById(req.user, function(err, user){
     User.update({"_id": req.user}, {$set: {"private": true}}, function(err, user) {
       if (err) {res.status(400).send(err)}
-      console.log('USER UPDATED')
-      res.send(user);
+      console.log(user, 'User is now private.')
+
+      var mongoose = require('mongoose');
+      var mongoFormOfPrivateUser = mongoose.Types.ObjectId(newlyPrivateUser);
+      var arrayForm = [mongoFormOfPrivateUser];
+
+      User.find( {"favorites" : { $in : arrayForm }}, function(err, faves) {
+        var usersWithPrivatedInFaves = faves;
+        console.log(usersWithPrivatedInFaves, 'this is the faves for removal');
+
+        User.find( {"following" : { $in : arrayForm }}, function(err, following) {
+          var usersWithPrivatedInFollowing = following;
+          console.log(usersWithPrivatedInFollowing, 'this is the following for removal');
+
+          User.find( {"followers" : { $in : arrayForm }}, function(err, followers) {
+            var usersWithPrivatedInFollowers = followers;
+            console.log(usersWithPrivatedInFollowers, 'this is the followers for removal');
+
+            if(usersWithPrivatedInFaves.length > 0) {
+              for (var i = 0; i < usersWithPrivatedInFaves.length; i++){
+                var theUser = usersWithPrivatedInFaves[i]._id;
+
+                var allFaveRemovals = [];
+                User.update({"_id": theUser}, {$pull: {"favorites": mongoFormOfPrivateUser}}, function(err, user) {
+                  if (err) {res.status(400).send(err)}
+                  console.log(user, '<--------------------- !!!!The private user has been removed from favorites.')
+                  var eachUser = user;
+                  allFaveRemovals.push(eachUser)
+                })
+              }
+            }
+
+            if(usersWithPrivatedInFollowing.length > 0) {
+              for (var i = 0; i < usersWithPrivatedInFollowing.length; i++){
+                var theUser = usersWithPrivatedInFollowing[i]._id;
+
+                var allFollowingRemovals = [];
+                User.update({"_id": theUser}, {$pull: {"following": mongoFormOfPrivateUser}}, function(err, user) {
+                  if (err) {res.status(400).send(err)}
+                  console.log(user, '<---------------------!!!!The private user has been removed from following.')
+                  var eachUser = user;
+                  allFollowingRemovals.push(eachUser)
+                })
+              }
+            }
+
+            if(usersWithPrivatedInFollowers.length > 0) {
+              for (var i = 0; i < usersWithPrivatedInFollowers.length; i++){
+                var theUser = usersWithPrivatedInFollowers[i]._id;
+
+                var allFollowersRemovals = [];
+                User.update({"_id": theUser}, {$pull: {"followers": mongoFormOfPrivateUser}}, function(err, user) {
+                  if (err) {res.status(400).send(err)}
+                  console.log(user, '<---------------------!!!!The private user has been removed from followers.')
+                  var eachUser = user;
+                  allFollowersRemovals.push(eachUser)
+                })
+              }
+            }
+
+            var data = {
+              user: user
+            }
+
+            console.log(data, 'THE DATA.')
+            if (err) console.error(err)
+            res.send(data)
+
+
+          })
+        })
+      })
+    })
     })
   })
-})
 
-//**Changing privacy settings --> From private to public.
-router.put('/me/makePublic', function(req, res){
-  console.log('in make public route --> user', req.user);
+  //**Changing privacy settings --> From private to public.
+  router.put('/me/makePublic', function(req, res){
+    console.log('in make public route --> user', req.user);
 
-  User.findById(req.user, function(err, user){
-    User.update({"_id": req.user}, {$set: {"private": false}}, function(err, user) {
-      if (err) {res.status(400).send(err)}
-      console.log('USER UPDATED')
-      res.send(user);
+    User.findById(req.user, function(err, user){
+      User.update({"_id": req.user}, {$set: {"private": false}}, function(err, user) {
+        if (err) {res.status(400).send(err)}
+        console.log('USER UPDATED')
+        res.send(user);
+      })
     })
   })
-})
 
-//**When click on searchbar in Navbar, checking if friends have set their profile to private.
-router.post('/me/checkingFriendPrivacy', function(req, res) {
-  console.log('*******INSIDE CHECK FRIEND PRIVACY');
-  var userMates = req.body.friends;
-  console.log(userMates, '<------------------------------- UserMates in Server.');
+  //**When click on searchbar in Navbar, checking if friends have set their profile to private.
+  router.post('/me/checkingFriendPrivacy', function(req, res) {
+    console.log('*******INSIDE CHECK FRIEND PRIVACY');
+    console.log('--------------> The actual user', req.user);
+    var userMates = req.body.friends;
+    console.log(userMates, '<------------------------------- UserMates in Server.');
 
-  User.find( {facebook: { $in : userMates }}, function(err, users) {
-    var allFriends = users;
-    var friendsWhoArePublic = [];
+    User.find( {facebook: { $in : userMates }}, function(err, users) {
+      var allFriends = users;
+      var friendsWhoArePublic = [];
+      var friendsWhoArePrivate = [];
 
-    for (var i = 0; i < users.length; i++){
-      if(users[i].private == false) {
-        friendsWhoArePublic.push(users[i])
+      for (var i = 0; i < users.length; i++){
+        if(users[i].private == false) {
+          friendsWhoArePublic.push(users[i])
+        } else if (users[i].private == true) {
+          friendsWhoArePrivate.push(users[i])
+        }
       }
-    }
-    var data = friendsWhoArePublic;
-    console.log(data, '<-----------------------------------DATA')
 
-    if (err) console.error(err)
-    res.send(data)
+      console.log(friendsWhoArePublic, 'PUBLIC*********');
+      console.log(friendsWhoArePrivate, 'PRIVATE*********');
+
+      var idsOfPrivateMates = []
+      for (var i = 0; i < friendsWhoArePrivate.length; i++){
+        var mongoId = friendsWhoArePrivate[i]._id;
+        idsOfPrivateMates.push(mongoId);
+      }
+      console.log(idsOfPrivateMates, '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+
+      // var mongoose = require('mongoose');
+      // idsOfPrivateMates = idsOfPrivateMates.map(function(id) { return mongoose.Types.ObjectId(id) });
+
+
+      // User.findById(req.user, function(err, user) {
+      //
+      //   console.log(user.favorites, 'Before REMOVAL');
+      //   var currentFaves = user.favorites;
+      //   console.log(currentFaves, 'here current fav');
+      //
+      //   console.log(idsOfPrivateMates, 'privates');
+      //   if(err){
+      //     res.status(400).send(err);
+      //   }
+      //
+      //   var privatesPresentinFavs = [];
+      //   for (var i = 0; i < idsOfPrivateMates.length; i++){
+      //     if(currentFaves.indexOf(idsOfPrivateMates[i]) > -1) {
+      //       console.log('HERERERERERRERERERERRRRRRRRRRRRR', idsOfPrivateMates[i]);
+      //       var privateForRemoval = idsOfPrivateMates[i];
+      //       privatesPresentinFavs.push(privateForRemoval);
+      //     }
+      //   }
+      //
+      //   console.log(privatesPresentinFavs, 'DOUBLE CHECK&&&&&&&&&&&&&&&&&');
+      //
+      //   User.update({"_id": req.user}, {$pull: {"favorites": privatesPresentinFavs}}, function(err, user){
+      //     if(err){ res.status(400).send(err);}
+      //     console.log(user, 'user update');
+
+      var data = {
+        publicFriends: friendsWhoArePublic,
+        privateFriends: friendsWhoArePrivate
+      }
+
+      console.log(data, '<-----------------------------------DATA')
+
+      if (err) console.error(err)
+      res.send(data)
+    })
+
   })
-})
+  // })
 
-module.exports = router;
+  module.exports = router;

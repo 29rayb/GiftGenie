@@ -75,27 +75,32 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
   // ui-sref="my-wishlist({id: {{user.id}}})"
 
   $scope.searchFriends = () => {
-    var userMates = $rootScope.user.friends;
-    console.log(userMates, 'usermates');
-
-    UserSvc.checkingFriendPrivacy(userMates)
+    UserSvc.getProfile()
     .then((response) => {
-      console.log(response, 'RESPONSE FROM PRIVACY SETTINGS CHECK!!!!!!!!!!!!!');
-      var res = response.data;
-      var length = response.data.length;
-      console.log(length, 'length');
+      console.log(response, 'response ');
+      var alternative = response.data.friends;
+      $rootScope.alternate = alternative;
+      var userMates = $rootScope.alternate || $rootScope.user.friends;
 
-      $rootScope.userModel = [];
+      UserSvc.checkingFriendPrivacy(userMates)
+      .then((response) => {
+        console.log(response, 'RESPONSE FROM PRIVACY SETTINGS CHECK!!!!!!!!!!!!!');
+        var res = response.data.publicFriends;
+        var length = res.length;
+        console.log(length, 'length');
 
-      for (var i = 0; i < length; i++){
-        $rootScope.userModel[i] = {
-          "name": res[i].displayName,
-          "id": res[i].facebook
-        };
-      }
+        $rootScope.userModel = [];
 
-      console.log($rootScope.userModel, 'HERE!!!!!!!!');
+        for (var i = 0; i < length; i++){
+          $rootScope.userModel[i] = {
+            "name": res[i].displayName,
+            "id": res[i].facebook
+          };
+        }
+        console.log($rootScope.userModel, 'HERE!!!!!!!!');
+      })
     })
+
   }
 
   $scope.focused = () => {
