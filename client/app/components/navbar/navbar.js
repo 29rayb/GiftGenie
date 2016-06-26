@@ -1,8 +1,8 @@
 'use strict';
 
 angular
-  .module('App')
-  .controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
+.module('App')
+.controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
 
 function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
 
@@ -51,20 +51,20 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
   $scope.goToStarred = () => {
     $scope.goToWishList()
     UserSvc.getProfile()
-      .then((response) => {
-        var facebookId = response.data.facebook;
-        $rootScope.settings = false;
-        $rootScope.starred = true;
-        $rootScope.followersPage = false;
-        $rootScope.followingPage = false;
-        $state.go('my-wishlist', {id: facebookId})
-      })
+    .then((response) => {
+      var facebookId = response.data.facebook;
+      $rootScope.settings = false;
+      $rootScope.starred = true;
+      $rootScope.followersPage = false;
+      $rootScope.followingPage = false;
+      $state.go('my-wishlist', {id: facebookId})
+    })
   }
 
   $scope.goToOthers = (user) => {
     console.log('CLICKING ON LI ELEMENT');
     UserSvc.getProfile()
-      .then((response) => {
+    .then((response) => {
       var myId = response.data.facebook;
       console.log('MyId TRYING TO CHANGE PAGE', myId)
       $scope.friendsContainer = false;
@@ -75,19 +75,27 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
   // ui-sref="my-wishlist({id: {{user.id}}})"
 
   $scope.searchFriends = () => {
-    var length = $rootScope.friendsLength
-    $rootScope.userModel = [];
-    UserSvc.getProfile()
-      .then((res) => {
-        console.log('@#%#$@!$#%@#!#!$', res)
-        // works because both arrays have same length;
-        for (var i = 0; i < length; i++){
-          $rootScope.userModel[i] = {
-            "name": res.data.friends[i].name,
-            "id": res.data.friends[i].id
-          };
-        }
-      })
+    var userMates = $rootScope.user.friends;
+    console.log(userMates, 'usermates');
+
+    UserSvc.checkingFriendPrivacy(userMates)
+    .then((response) => {
+      console.log(response, 'RESPONSE FROM PRIVACY SETTINGS CHECK!!!!!!!!!!!!!');
+      var res = response.data;
+      var length = response.data.length;
+      console.log(length, 'length');
+
+      $rootScope.userModel = [];
+
+      for (var i = 0; i < length; i++){
+        $rootScope.userModel[i] = {
+          "name": res[i].displayName,
+          "id": res[i].facebook
+        };
+      }
+
+      console.log($rootScope.userModel, 'HERE!!!!!!!!');
+    })
   }
 
   $scope.focused = () => {
@@ -105,24 +113,24 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
     localStorage.removeItem('faq')
     $rootScope.notLoggedIn = true;
     $auth.authenticate(provider, user)
-      .then((res) => {
-        UserSvc.getProfile()
-        // this has to be done before state.go because facebook_email is needed but
-        // after auth.authenticate because you are pressing the login with facebook button
-          .then((response) => {
-            var facebookId = response.data.facebook;
-            // var facebook_name = response.data.displayName;
-            // var facebook_email = response.data.email;
-            // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-            $state.go('my-wishlist', {id: facebookId})
-          })
-          .catch((err) => {
-            console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-          });
+    .then((res) => {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then((response) => {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', {id: facebookId})
       })
       .catch((err) => {
-        console.error('Inside the Home Ctrl, we have an error!', err);
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
       });
+    })
+    .catch((err) => {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
   };
 
 
