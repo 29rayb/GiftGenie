@@ -549,19 +549,15 @@ i.fa-trash {
   left: 150px;
   color: gold;
   border: 1px solid black;
-  /*transition: background 0.8s steps(55) infinite;*/
 }
 
 .favy:hover {
-  /*background-position: -3527px 0;*/
   background-position: right;
   cursor: pointer;
 }
 
-
 .is_favoriting {
   animation: star-burst .8s steps(55) 1;
-  /*transition: background 0.8s steps(55);*/
 }
 
 @keyframes star-burst {

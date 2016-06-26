@@ -3,8 +3,8 @@ nav.navbar-container(ng-controller="NavbarCtrl")
     a.navbar-brand.logo.navbar-links(ui-sref="home" ng-click="backToHome()") GiFTGENiE
     input(type="text" placeholder="Search Friends" ng-model="search" ng-keypress="searchFriends()" ng-focus="focused()" ng-blur="blurred()" ng-if="isAuthenticated()").friendInput
     i.fa.fa-search(ng-if="isAuthenticated()")
-    //- ul.friends_container(ng-if="friendsContainer" ng-model="friends")
     ul.friends_container(ng-if="true" ng-model="friends")
+    ul.friends_container(ng-if="friendsContainer" ng-model="friends")
       li(ng-repeat="user in userModel | filter:search" ng-click="goToOthers(user)")
         img(ng-src="https://graph.facebook.com/{{user.id}}/picture?type=small").searchFriendsPic
         {{ user.name }}

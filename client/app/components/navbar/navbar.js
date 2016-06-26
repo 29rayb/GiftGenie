@@ -2,9 +2,9 @@
 
 angular
 .module('App')
-.controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
+.controller('NavbarCtrl', ['$scope', '$state', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
 
-function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope){
+function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope){
 
   if (!localStorage.getItem('satellizer_token')){
     $rootScope.infaq = localStorage.getItem('faq')

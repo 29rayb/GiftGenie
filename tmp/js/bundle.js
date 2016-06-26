@@ -39,13 +39,6 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
 }
 'use strict';
 
-angular.module('App').service('NavSvc', NavSvc);
-
-NavSvc.$inject = ['$http'];
-
-function NavSvc($http) {}
-'use strict';
-
 angular.module('App').factory('StarSvc', StarSvc);
 
 StarSvc.$inject = ['$http'];
@@ -572,9 +565,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', 'NavSvc', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
+angular.module('App').controller('NavbarCtrl', ['$scope', '$state', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
 
-function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
+function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope) {
 
   if (!localStorage.getItem('satellizer_token')) {
     $rootScope.infaq = localStorage.getItem('faq');
@@ -696,15 +689,3 @@ function NavbarCtrl($scope, $state, NavSvc, $auth, UserSvc, $rootScope) {
     });
   };
 }
-'use strict';
-
-angular.module('App').controller('ProfileCardCtrl', function ($scope) {
-  console.log('yo');
-}).directive('profile-card', function () {
-  return {
-    restrict: 'E',
-    controller: 'ProfileCardCtrl',
-    templateUrl: 'app/shared/profile-card/profile-card.html',
-    link: function link(scope, el, attrs) {}
-  };
-});
