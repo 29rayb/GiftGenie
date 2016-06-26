@@ -67,21 +67,22 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
     '    <div class="title_container">\n' +
-    '      <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">\n' +
-    '        <i class="fa fa-star"></i>\n' +
-    '      </button>\n' +
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
     '      <!-- \'You, Rachel Slater & 1232 Others Favorited Your WishList\' -->\n' +
-    '      <span class="favorited">Favorited By</span>\n' +
+    '      <span class="favorited">\n' +
+    '        <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">\n' +
+    '          <i class="fa fa-star"></i>\n' +
+    '        </button>\n' +
+    '        Favorited By\n' +
+    '      </span>\n' +
     '    </div>\n' +
     '    <div class="bottom_container">\n' +
     '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
     '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item friendlist_items" target="_blank"> {{item.name}} </a>\n' +
-    '          <div id="likey-heart">\n' +
-    '            <i class="fa fa-heart" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i>\n' +
-    '          </div>\n' +
+    '          <!-- <i class="fa fa-heart" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i> -->\n' +
+    '          <div class="likey" ng-class="{is_animating: like_heart.indexOf($index) > -1, liked_item : like_heart.indexOf($index) > -1   }" ng-click="like_item(item, $index)"></div>\n' +
     '        </li>\n' +
     '      </ol>\n' +
     '    </div>\n' +
@@ -161,10 +162,12 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '  <div class="wishlist_container container col-xs-8" ng-if="!starred && !settings && !followingPage && !followersPage">\n' +
     '    <div class="title_container">\n' +
-    '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
+    '      <h2 class="my_wishlist_title">My WishList</h2> <br>\n' +
+    '      <button type="button" class="add_btn" data-toggle="modal" data-target="#myModal">\n' +
+    '        <img src="http://png.clipart.me/graphics/thumbs/110/magic-wand_110698499.jpg" class="magical_wand">\n' +
+    '      </button>\n' +
     '    </div>\n' +
     '    <div class="bottom_container col-xs-12">\n' +
-    '      <button type="button" class="btn btn-primary-lg add_btn col-xs-pull-1" data-toggle="modal" data-target="#myModal"> <i class="fa fa-plus-circle"></i></button>\n' +
     '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
     '      <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
@@ -247,10 +250,10 @@ module.run(['$templateCache', function($templateCache) {
     '      <h2 class="my_wishlist_title">Starred People</h2>\n' +
     '    </div>\n' +
     '    <div class="bottom_container">\n' +
-    '      <input ng-model="starred.name" placeholder="Search starred" class="col-xs-12">\n' +
+    '      <input ng-model="starred.name" placeholder="Search starred" class="col-xs-12 starred">\n' +
     '    </div>\n' +
     '\n' +
-    '    <div class="bottom_container">\n' +
+    '    <div class="bottom_container starred">\n' +
     '      <div ng-model="favorites">\n' +
     '        <div ng-repeat="favorite in favsModel | filter:favorite.name">\n' +
     '          <div class="user_card col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(favorite)">\n' +

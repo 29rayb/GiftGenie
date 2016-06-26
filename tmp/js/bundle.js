@@ -206,27 +206,29 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   });
 
   $scope.like_item = function (item, $index) {
-    console.log($scope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
+    console.log('heart clicked');
+    $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
+    // console.log($scope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
 
     if ($scope.like_heart != undefined && $scope.like_heart.indexOf($index) > -1) {
-      console.log('------------------------> SCENARIO #1 - UNLIKING');
+      // console.log('------------------------> SCENARIO #1 - UNLIKING');
       var theIndex = $index;
       var parsed = parseInt($index);
       var arrayToRemoveFrom = $scope.like_heart;
-      console.log(arrayToRemoveFrom, 'BEFORE DELETING.');
+      // console.log(arrayToRemoveFrom, 'BEFORE DELETING.');
       // console.log(arrayToRemoveFrom.length, 'LENGTH BEFORE');
       arrayToRemoveFrom.splice(arrayToRemoveFrom.indexOf(parsed), 1);
-      console.log(arrayToRemoveFrom, 'AFTER DELETING.');
+      // console.log(arrayToRemoveFrom, 'AFTER DELETING.');
       // console.log(arrayToRemoveFrom.length, 'LENGTH AFTER');
     } else if ($scope.like_heart == undefined) {
-      console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+      // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
       $scope.like_heart = [];
       $scope.like_heart.push($index);
-      console.log('after pushing index into like_heart', $scope.like_heart);
+      // console.log('after pushing index into like_heart',$scope.like_heart)
     } else if ($scope.like_heart != undefined) {
-      console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
+      // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
       $scope.like_heart.push($index);
-      console.log('after pushing index into like_heart', $scope.like_heart);
+      // console.log('after pushing index into like_heart',$scope.like_heart)
     }
 
     UserSvc.likeItem(item).then(function (res) {
@@ -284,6 +286,45 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.goToFollowers = function () {
     $state.go('followers');
   };
+}
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  if (localStorage.getItem("satellizer_token")) {
+    UserSvc.getProfile().then(function (response) {
+      $rootScope.display_name = response.data.displayName;
+    });
+  }
+
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    // $rootScope.notLoggedIn = true;
+    $auth.authenticate(provider, user).then(function (res) {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
+  };
+
+  // $rootScope.display_name = getUser.data.displayName;
 }
 'use strict';
 
@@ -504,45 +545,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $scope.show_user_info = function () {
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
-}
-
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
-
-  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
-
-  if (localStorage.getItem("satellizer_token")) {
-    UserSvc.getProfile().then(function (response) {
-      $rootScope.display_name = response.data.displayName;
-    });
-  }
-
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    // $rootScope.notLoggedIn = true;
-    $auth.authenticate(provider, user).then(function (res) {
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-      });
-    }).catch(function (err) {
-      console.error('Inside the Home Ctrl, we have an error!', err);
-    });
-  };
-
-  // $rootScope.display_name = getUser.data.displayName;
 }
 'use strict';
 
