@@ -33,9 +33,12 @@
       <h2 class="my_wishlist_title">My WishList</h2>
       <!-- 'You, Rachel Slater & 1232 Others Favorited Your WishList' -->
       <span class="favorited">
-        <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">
+<!--         <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">
           <i class="fa fa-star"></i>
-        </button>
+        </button> -->
+        <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>
+        <!-- <div class="favy" ng-class="{is_favoriting: true}" ng-click="star(user)"> </div> -->
+
         Favorited By
       </span>
     </div>
@@ -44,7 +47,6 @@
       <ol ui-sortable ng-model="items" class="wishlist_items" >
         <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
           <a href="{{item.link}}" class="wishlist_item friendlist_items" target="_blank"> {{item.name}} </a>
-          <!-- <i class="fa fa-heart" ng-click="like_item(item, $index)" ng-class="{liked_item : like_heart.indexOf($index) > -1  }"> </i> -->
           <div class="likey" ng-class="{is_animating: like_heart.indexOf($index) > -1, liked_item : like_heart.indexOf($index) > -1   }" ng-click="like_item(item, $index)"></div>
         </li>
       </ol>

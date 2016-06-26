@@ -13,6 +13,10 @@ p.following:hover {
     cursor: pointer;
 }
 
+*:focus {
+  outline: none;
+}
+
 ::-webkit-input-placeholder {
     text-align: center;
 }
@@ -48,6 +52,7 @@ a.navbar-links {
   top: 15px;
   width: 250px;
   height: 30px;
+  border: none;
 }
 
 .fa.fa-search {
@@ -69,8 +74,8 @@ i.fa.fa-search::before {
 .friends_container {
     position: absolute;
     top: 35px;
-    left: 133px;
-    width: 250px;
+    left: 132px;
+    width: 252px;
     z-index: 1000;
 }
 
@@ -82,6 +87,7 @@ i.fa.fa-search::before {
   height: 60px;
   color: #000;
   /*z-index: 5000;*/
+  margin-top: 5px;
 }
 
 .friends_container li:hover {
@@ -474,10 +480,6 @@ i.fa-trash {
   margin: 0 auto;
 }
 
-.star_btn {
-    color: gold;
-    width: 60px;
-}
 
 .wishlist_item.friendlist_items {
   margin-left: 65px;
@@ -494,10 +496,10 @@ i.fa-trash {
   top: 7px;
   left: 17px;
 }
-
+/*
 .unliked_item {
   background-color: none;
-}
+}*/
 
 .likey {
   position: absolute;
@@ -528,6 +530,55 @@ i.fa-trash {
 @keyframes heart-burst {
   from {background-position: left;}
   to {background-position: right;}
+}
+
+.star_btn {
+  position: relative;
+}
+
+.star_btn:before {
+  content: '\f005';
+  font-family: FontAwesome;
+  position: absolute;
+  top: 14px;
+  left: 26px;
+}
+
+.favy {
+  position: absolute;
+  height: 50px;
+  width: 70px;
+  background-image: url(/dist/images/star_animation.png);
+  background-position: left;
+  background-size: 5500%;
+  top: 7px;
+  left: 150px;
+  color: gold;
+  border: 1px solid black;
+  /*transition: background 0.8s steps(55) infinite;*/
+}
+
+.favy:hover {
+  /*background-position: -3527px 0;*/
+  background-position: right;
+  cursor: pointer;
+}
+
+
+.is_favoriting {
+  -webkit-animation: star-burst .8s steps(55) 1;
+  animation: star-burst .8s steps(55) 1;
+  /*transition: background 0.8s steps(55);*/
+}
+
+@-webkit-keyframes star-burst {
+  from {background-position: left; }
+  to {background-position: right; }
+}
+
+@keyframes star-burst {
+  from {background-position: left; }
+  to {background-position: right; }
 }
 
 /*FAQ*/

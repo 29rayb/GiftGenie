@@ -47,7 +47,9 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1){
+      console.log(')!@(#)!@(#)!(@#)!(@#)(!)@(#!@)(#!@)(#)!@(#!@)(',friendFavId)
       $rootScope.yellowStar = 'star_btn';
+      $scope.favWishList = true;
     }
 
     if(followingFriendIdArr.indexOf($scope.id) > -1 ){
@@ -73,7 +75,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.like_item = (item, $index) => {
     console.log('heart clicked')
-    $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
+    // $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
     // console.log($scope.like_heart, '<----------- value of $rootScope.like_heart outside if statement.');
 
     if ($scope.like_heart != undefined && $scope.like_heart.indexOf($index) > -1 ) {
@@ -107,6 +109,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 }
 
 $scope.star = (user) => {
+  console.log('trying to fav user')
+  $scope.favWishList ? $scope.favWishList = false : $scope.favWishList = 'is_favoriting'
+  // $scope.favWishList = 'is_favoriting'
+  // $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
+
   if ($rootScope.yellowStar === undefined){
     $rootScope.yellowStar = 'star_btn'
   } else {
