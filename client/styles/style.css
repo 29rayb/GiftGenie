@@ -524,6 +524,30 @@ i.fa-trash {
   to {background-position: right;}
 }
 
+.favy {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  background-image: url('https://cssanimation.rocks/images/posts/steps/twitter_fave_rectangle.png');
+  background-position: 0;
+  /*background-size: 9600%;*/
+  animation: star-burst .8s steps(96) infinite;
+}
+
+.favy:hover {
+  background-position: right;
+  cursor: pointer;
+}
+
+.is_favoriting {
+  animation: star-burst .8s steps(96) 1;
+}
+
+@keyframes star-burst {
+  from {background-position: left; }
+  to {background-position: right; }
+}
+
 /*FAQ*/
 
 .faq.container {

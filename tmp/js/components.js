@@ -70,9 +70,15 @@ module.run(['$templateCache', function($templateCache) {
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
     '      <!-- \'You, Rachel Slater & 1232 Others Favorited Your WishList\' -->\n' +
     '      <span class="favorited">\n' +
+    '<!--         <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">\n' +
+    '          <i class="fa fa-star"></i>\n' +
+    '        </button> -->\n' +
     '        <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">\n' +
     '          <i class="fa fa-star"></i>\n' +
     '        </button>\n' +
+    '\n' +
+    '        <div class="favy" ng-class"yellowStar" ng-click="star(user)"> </div>\n' +
+    '        \n' +
     '        Favorited By\n' +
     '      </span>\n' +
     '    </div>\n' +

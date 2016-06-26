@@ -33,9 +33,15 @@
       <h2 class="my_wishlist_title">My WishList</h2>
       <!-- 'You, Rachel Slater & 1232 Others Favorited Your WishList' -->
       <span class="favorited">
+<!--         <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">
+          <i class="fa fa-star"></i>
+        </button> -->
         <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">
           <i class="fa fa-star"></i>
         </button>
+
+        <div class="favy" ng-class"yellowStar" ng-click="star(user)"> </div>
+        
         Favorited By
       </span>
     </div>
