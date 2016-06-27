@@ -100,7 +100,6 @@ function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope){
         console.log($rootScope.userModel, 'HERE!!!!!!!!');
       })
     })
-
   }
 
   $scope.focused = () => {
