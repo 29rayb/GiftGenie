@@ -647,6 +647,23 @@ footer div.version:hover {
   cursor: pointer;
 }
 
+a#jotform-feedback-61784787785378 {
+  background-color: transparent !important;
+  position: absolute;
+  bottom: 15px !important;
+  left: 13% !important;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% !important;
+  /*background-color: yellow !important;*/
+}
+
+a#jotform-feedback-61784787785378:hover {
+  /*background-color: purple !important;*/
+}
+
+
+
 /*media queries*/
 
 @media screen and (max-width: 697px) {

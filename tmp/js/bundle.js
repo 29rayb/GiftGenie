@@ -390,6 +390,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   }
 
   UserSvc.getProfile().then(function (response) {
+    console.log('WHAT I WANT ', response);
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
@@ -403,7 +404,65 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.followersCount = response.data.followers.length;
     $scope.followingCount = response.data.following.length;
     $rootScope.privacy = response.data.private;
+
+    // $scope.favoritedBy = response.data.favoritedBy
+    $scope.favoritedByLength = response.data.favoritedBy.length;
+
     console.log($rootScope.privacy, '<--------------- CURRENT PRIVATE SETTING.(false=public, true=private)');
+
+    console.log('MY FRIENDS', response.data.friends);
+    // console.log('LENGTH ', $scope.favoritedByLength)
+
+    // $scope.favoritedBy.map(function(eachFavoritedById){
+    //   console.log('WHAT I NEED',eachFavoritedById)
+    //   if (friendsIdArr.indexOf(eachFavoritedById) > -1){
+    //     console.log('WHAT I NEED', eachFavoritedById)
+    //   }
+    // })
+
+    $rootScope.favoritedByModel = [];
+
+    var favoritedbyFriends = response.data.friends;
+    console.log('FAVORITED BY FRIENDS', favoritedbyFriends);
+
+    $scope.favoritedByArr = response.data.favoritedBy;
+    $scope.favoritedByArr.map(function (eachFavoritedById) {
+      console.log('WHAT I NEED', eachFavoritedById);
+    });
+
+    console.log('PEOPLE THAT FAVORITED ME', $scope.favoritedByArr);
+
+    // for (var i = 0; i < $scope.favoritedByLength; i++){
+    for (var i = 0; i < 2; i++) {
+      // console.log('should console once')
+
+      $scope.favoritedByArr.map(function (eachFavoritedById) {
+        console.log('YOLO', eachFavoritedById);
+        UserSvc.friendProfile(eachFavoritedById).then(function (response) {
+          console.log('yolo');
+        }).catch(function (err) {
+          console.log('THERE IS AN ERROR', err);
+        });
+      });
+
+      // UserSvc.friendProfile($scope.favoritedByArr)
+      //   .then((response) => {
+      //     console.log('RESPONSE FROM FRIENDS',response)
+      //   })
+
+      // console.log('FRIENDSSSSSSSS',response.data.friends[i])
+
+      $rootScope.favoritedByModel[i] = {
+        "name": response.data.friends[i].name,
+        "id": response.data.friends[i].id
+      };
+      // console.log('should be once')
+      // UserSvc.friendProfile()
+      //   .then((response) => {
+      //     console.log('THIS RESPONSE', response)
+      //   })
+      console.log($rootScope.favoritedByModel[i]);
+    }
 
     if ($rootScope.privacy == true) {
       $scope.public = false;
@@ -417,11 +476,13 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.followingModel = [];
 
     $scope.followingArr = response.data.following;
+    // console.log($scope.followingArr)
     for (var i = 0; i < $scope.followingCount; i++) {
       $rootScope.followingModel[i] = {
         "name": response.data.friends[i].name,
         "id": response.data.friends[i].id
       };
+      // console.log($rootScope.followingModel[i])
     }
 
     $scope.followersArr = response.data.following;
