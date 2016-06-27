@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="dist/css/style.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
@@ -37,9 +38,15 @@
   <body ng-app="App">
     <nav ng-controller="NavbarCtrl" class="navbar-container">
       <div class="container-fluid"><a ui-sref="home" ng-click="backToHome()" class="navbar-brand logo navbar-links">GiFTGENiE</a>
+<<<<<<< HEAD
         <input type="text" placeholder="Search Friends" ng-model="search" ng-keypress="searchFriends()" ng-focus="focused()" ng-if="isAuthenticated()" class="friendInput"><i ng-if="isAuthenticated()" class="fa fa-search"></i>
         <ul ng-if="friendsContainer" ng-model="friends" class="friends_container">
           <li ng-repeat="user in userModel | filter:search" ng-click="goToOthers(user)" class="inputFriends"><img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=small" class="searchFriendsPic">{{ user.name }}</li>
+=======
+        <input type="text" placeholder="Search Friends" ng-model="search" ng-keypress="searchFriends()" ng-focus="focused()" ng-blur="blurred()" ng-if="isAuthenticated()" class="friendInput"><i ng-if="isAuthenticated()" class="fa fa-search"></i>
+        <ul ng-if="true" ng-model="friends" class="friends_container">
+          <li ng-repeat="user in userModel | filter:search" ng-click="goToOthers(user)"><img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=small" class="searchFriendsPic">{{ user.name }}</li>
+>>>>>>> 6163cefc066207609a9f0adca6506e43ec5447d2
         </ul>
         <ul class="nav nav-pills navbar-right">
           <li><span ng-if="isAuthenticated()"><a ng-click="goToWishList()" class="navbar-links left">{{display_name}}</a></span></li>

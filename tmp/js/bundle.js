@@ -266,15 +266,15 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       // console.log(arrayToRemoveFrom, 'AFTER DELETING.');
       // console.log(arrayToRemoveFrom.length, 'LENGTH AFTER');
     } else if ($scope.like_heart == undefined) {
-      // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
-      $scope.like_heart = [];
-      $scope.like_heart.push($index);
-      // console.log('after pushing index into like_heart',$scope.like_heart)
-    } else if ($scope.like_heart != undefined) {
-      // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
-      $scope.like_heart.push($index);
-      // console.log('after pushing index into like_heart',$scope.like_heart)
-    }
+        // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+        $scope.like_heart = [];
+        $scope.like_heart.push($index);
+        // console.log('after pushing index into like_heart',$scope.like_heart)
+      } else if ($scope.like_heart != undefined) {
+          // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
+          $scope.like_heart.push($index);
+          // console.log('after pushing index into like_heart',$scope.like_heart)
+        }
 
     UserSvc.likeItem(item).then(function (res) {
       console.log('response from item being liked', res);
@@ -337,6 +337,48 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $state.go('followers');
   };
 }
+<<<<<<< HEAD
+=======
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  if (localStorage.getItem("satellizer_token")) {
+    UserSvc.getProfile().then(function (response) {
+      $rootScope.display_name = response.data.displayName;
+    });
+  }
+
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    // $rootScope.notLoggedIn = true;
+    $auth.authenticate(provider, user).then(function (res) {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
+  };
+
+  // $rootScope.display_name = getUser.data.displayName;
+}
+>>>>>>> 6163cefc066207609a9f0adca6506e43ec5447d2
 'use strict';
 
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);

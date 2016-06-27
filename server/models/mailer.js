@@ -10,7 +10,7 @@ var mailgun = require('mailgun-js')({
 var mailer = require('../models/mailer');
 var User = require('./user-model.js');
 
-var sender = 'team@giftgenie.com';
+var sender = 'support@giftgenie.com';
 
 var mailer = {
   sendWelcome: function(user, cb) {

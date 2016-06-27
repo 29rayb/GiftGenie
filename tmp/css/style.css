@@ -1,6 +1,11 @@
 html {
   line-height: 1.4;
   height: 100%;
+  font-family: 'Josefin Sans', cursive !important;
+}
+
+body {
+  font-family: 'Josefin Sans', cursive !important;
 }
 
 button a:hover,
