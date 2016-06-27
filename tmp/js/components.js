@@ -165,6 +165,13 @@ module.run(['$templateCache', function($templateCache) {
     '  <div class="wishlist_container container col-xs-8" ng-if="!starred && !settings && !followingPage && !followersPage">\n' +
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">My WishList</h2> <br>\n' +
+    '      <span class="favorited">\n' +
+    '        <li ng-repeat="favoritedBy in favoritedByModel">\n' +
+    '<!--           <img src="https://graph.facebook.com/{{favoritedBy.id}}/picture?type=large" alt="">\n' +
+    ' -->          Favorited By {{favoritedBy.name}}\n' +
+    '        </li>\n' +
+    '        <!-- Favorited By {{favoritedByLength}} -->\n' +
+    '      </span>\n' +
     '      <button type="button" class="add_btn" data-toggle="modal" data-target="#myModal">\n' +
     '        <img src="http://png.clipart.me/graphics/thumbs/110/magic-wand_110698499.jpg" class="magical_wand">\n' +
     '      </button>\n' +

@@ -202,8 +202,11 @@ router.post('/friend', function(req, res){
   User.findOne({'facebook': friendId}, function(err, user){
 
     console.log(user.items, 'USER*************************');
+    if (user === null){
+      return false;
+    }
     var friendItems = user.items;
-    console.log(friendItems, 'items');
+    // console.log(friendItems, 'items');
 
     var mongoose = require('mongoose');
     friendItems = friendItems.map(function(id) { return mongoose.Types.ObjectId(id) });
