@@ -100,14 +100,26 @@ router.put('/me/items/order', function(req, res){
   })
 })
 
+
+
+
+
 // Favorite User's Wishlist
 router.put('/me/star', function(req, res){
-  // console.log(req.body, 'req.body')
+  console.log(req.body, 'REQ.BODY ASD!@#!@#@!#!@')
   var starred_friend = req.body._id;
+  // console.log(req.user, 'REQ.USER !@#!@#@!#!@#!@#!@#!@')
 
   User.findById(req.user, function(err, user){
     if (!user){
       return res.status(400).send({messages: 'User Not Found'})
+    }
+
+    if (req.body.favoritedBy.indexOf(req.user) > -1){
+      User.update({"_id": req.body._id}, {$pull: {"favoritedBy": req.user}}, function(err, user){
+        if (err) {res.status(400).send(err);}
+        console.log('this person is already in your favoritedby array, therefore removed')
+      })
     }
 
     if (user.favorites.indexOf(starred_friend) > -1){
@@ -119,39 +131,22 @@ router.put('/me/star', function(req, res){
       return;
     }
 
+
+    User.update({"_id": req.body._id}, {$push: {"favoritedBy": req.user}}, function(err, user){
+      if (err) {res.status(400).send(err);}
+      console.log('the other user is being favorited by me now')
+      res.write('my mongo id has been added to rachel slater wishlist ')
+    })
+
     User.update({"_id": req.user}, {$push: {"favorites": starred_friend}}, function(err, user){
       if(err){ res.status(400).send(err);}
       console.log('this is the user that was added to your favorite', user)
-      res.send(user)
+      res.write('rachel slater id has been added to my mongo')
+      res.end();
     })
+
   });
 })
-
-// router.put('/me/following', function(req, res){
-
-//   console.log('req.user', req.user)
-//   console.log('REQ BODY QEQWEQWEQWEQWEWE',req.body)
-//   var followingThisPerson =  req.body._id
-
-//   User.findById(req.user, function(err, user){
-//     if (!user) {return res.status(400).send({messages: 'User Not Found'}) }
-
-//     if (user.following.indexOf(followingThisPerson) > -1){
-//       User.update({"_id": req.user}, {$pull: {"following": followingThisPerson}}, function(err, user){
-//         if (err) {res.status(400).send(err)}
-//           console.log('already following this user; now UNFOLLOWING THIS USER', user)
-//       })
-//       return;
-//     }
-
-
-//     User.update({"_id": req.user}, {$push: {"following": followingThisPerson}}, function(err, user){
-//       if (err) {res.status(400).send(err);}
-//         console.log('this is the user you are following now', user)
-//       res.send(user)
-//     })
-//   });
-// })
 
 router.put('/me/following', function(req, res){
 

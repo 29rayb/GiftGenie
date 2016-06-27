@@ -11,9 +11,10 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $rootScope.display_name = getUser.data.displayName
   var friendId = $stateParams.fid;
 
+  // console.log('!@#!@#!@#!@#@!#', getUser)
 
   var likedItemsArr = getUser.data.liked;
-  console.log(likedItemsArr, 'THIS IS THE LIKED ITEMS BEFORE WITHIN FRIEND PROFILE.*****');
+  // console.log(likedItemsArr, 'THIS IS THE LIKED ITEMS BEFORE WITHIN FRIEND PROFILE.*****');
 
   UserSvc.friendProfile(friendId)
   .then((response) => {
@@ -21,7 +22,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.user = response.data.user;
     $scope.id = response.data.user._id;
     $scope.birthday = response.data.user.birthday;
-    console.log('!@#!@#!@#!@', $scope.birthday)
+    // console.log('!@#!@#!@#!@', $scope.birthday)
     if ($scope.birthday == undefined){
       $scope.birthday = ' N/A '
     }
@@ -35,7 +36,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $scope.followers = response.data.user.followers.length;
 
     var friendItems = response.data.user.items;
-    console.log('******All of the friends items.');
+    // console.log('******All of the friends items.');
     var allTheLikedItemsArr= [];
     for (var i = 0; i < friendItems.length; i++){
       var each_likeable_item = friendItems[i];
@@ -47,27 +48,66 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
     var friendFavId = response.data.user._id;
     if (favoritesIdArr.indexOf(friendFavId) > -1){
-      console.log(')!@(#)!@(#)!(@#)!(@#)(!)@(#!@)(#!@)(#)!@(#!@)(',friendFavId)
+      // console.log(')!@(#)!@(#)!(@#)!(@#)(!)@(#!@)(#!@)(#)!@(#!@)(',friendFavId)
       $rootScope.yellowStar = 'star_btn';
       $scope.favWishList = true;
     }
 
     if(followingFriendIdArr.indexOf($scope.id) > -1 ){
-      console.log('you are following this person')
+      // console.log('you are following this person')
       $rootScope.follow = true;
     } else {
-      console.log('you are not following this person')
+      // console.log('you are not following this person')
       $rootScope.follow = false;
     }
 
     var friendFriendArray = [];
+    var friendsIdArr = []
     for (var i=0; i<response.data.user.friends.length; i++) {
       var friendFriendName = response.data.user.friends[i].name;
+      var friendId = response.data.user.friends[i].id;
+      // console.log('LOOK HERERERERERE', friendFriendName)
       friendFriendArray.push(friendFriendName);
+      friendsIdArr.push(friendId);
     }
 
     $scope.friends = friendFriendArray;
     $scope.friendsLength = friendFriendArray.length;
+
+
+
+
+
+
+    // this is the fbook id
+    console.log('WHAT I WANT', friendsIdArr)
+
+    $scope.favoritedBy = response.data.user.favoritedBy;
+    $scope.favoritedByLength = response.data.user.favoritedBy.length;
+
+    // console.log('all rachels friends', friendFriendArray)
+
+    for (var i = 0; i < $scope.favoritedByLength; i++){
+      // console.log('should console once')
+      console.log('all the people that favorited rachels wishlist', $scope.favoritedBy)
+      // $scope.eachFavoritedBy = $scope.favoritedBy.split(',')
+      $scope.favoritedBy.map(function(eachFavoritedById){
+        console.log('WHAT I NEED',eachFavoritedById)
+        if (friendsIdArr.indexOf(eachFavoritedById) > -1){
+          console.log('WHAT I NEED', eachFavoritedById)
+        }
+      })
+      // if (friendFriendArray.indexOf($scope.favoritedBy) > -1 ){
+      //   console.log('!@#!@#21', $scope.favoritedBy)
+      // }
+    }
+
+
+
+
+
+
+
   })
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
@@ -110,6 +150,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
 $scope.star = (user) => {
   console.log('trying to fav user')
+  console.log('RRIGHE HWERUOIWJOIDJFODSFNGOJEMRGNKWEJNGURIDOSKPFIGHUDJOKPINUDOMSPKFGJIHUJO')
   $scope.favWishList ? $scope.favWishList = false : $scope.favWishList = 'is_favoriting'
   // $scope.favWishList = 'is_favoriting'
   // $scope.clicked ? $scope.clicked = false : $scope.clicked = true;

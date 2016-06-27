@@ -76,7 +76,7 @@ module.run(['$templateCache', function($templateCache) {
     '        <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>\n' +
     '        <!-- <div class="favy" ng-class="{is_favoriting: true}" ng-click="star(user)"> </div> -->\n' +
     '\n' +
-    '        Favorited By\n' +
+    '        Favorited By {{favoritedByLength}}\n' +
     '      </span>\n' +
     '    </div>\n' +
     '    <div class="bottom_container">\n' +

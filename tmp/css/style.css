@@ -87,8 +87,8 @@ i.fa.fa-search::before {
 .friends_container li {
   list-style-type: none;
   background-color: #fff;
-  width: 250px;
-  margin-left: -40px;
+  width: 251px;
+  margin-left: -45px;
   height: 60px;
   color: #000;
 }
@@ -285,6 +285,7 @@ p.logo {
 .pro_info_stats .followers,
 .pro_info_stats .following {
   text-align: center;
+  font-size: 17px;
 }
 
 
@@ -404,7 +405,8 @@ i.fa-trash {
 
 .following,
 .followers {
-  text-align: center;;
+  text-align: center;
+  font-size: 16px;
 }
 
 .followers_pic {
