@@ -24,7 +24,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
   UserSvc.getProfile()
   .then((response) => {
-    console.log('WHAT I WANT ',response)
+    console.log('Original GetProfile Response ***************************************', response.data)
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
@@ -38,29 +38,31 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.followersCount = response.data.followers.length;
     $scope.followingCount = response.data.following.length;
     $rootScope.privacy = response.data.private;
+    console.log($rootScope.privacy, '<--------------- CURRENT PRIVATE SETTING.(false=public, true=private)');
+
+    if ($rootScope.privacy == true) {
+      $scope.public = false;
+      $scope.private = true;
+    } else if ($rootScope.privacy == false) {
+      $scope.public = true;
+      $scope.private = false;
+    }
 
 
     // $scope.favoritedBy = response.data.favoritedBy
     $scope.favoritedByLength = response.data.favoritedBy.length
 
-
-    console.log($rootScope.privacy, '<--------------- CURRENT PRIVATE SETTING.(false=public, true=private)');
-
-    console.log('MY FRIENDS', response.data.friends)
-    // console.log('LENGTH ', $scope.favoritedByLength)
-
-      // $scope.favoritedBy.map(function(eachFavoritedById){
-      //   console.log('WHAT I NEED',eachFavoritedById)
-      //   if (friendsIdArr.indexOf(eachFavoritedById) > -1){
-      //     console.log('WHAT I NEED', eachFavoritedById)
-      //   }
-      // })
+    // $scope.favoritedBy.map(function(eachFavoritedById){
+    //   console.log('WHAT I NEED',eachFavoritedById)
+    //   if (friendsIdArr.indexOf(eachFavoritedById) > -1){
+    //     console.log('WHAT I NEED', eachFavoritedById)
+    //   }
+    // })
 
     $rootScope.favoritedByModel = [];
 
     var favoritedbyFriends =  response.data.friends
     console.log('FAVORITED BY FRIENDS', favoritedbyFriends)
-
 
     $scope.favoritedByArr = response.data.favoritedBy;
     $scope.favoritedByArr.map(function(eachFavoritedById){
@@ -73,16 +75,16 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     for (var i = 0; i < 2; i++){
       // console.log('should console once')
 
-    $scope.favoritedByArr.map(function(eachFavoritedById){
-      console.log('YOLO', eachFavoritedById)
-      UserSvc.friendProfile(eachFavoritedById)
-        .then((response) => {
-          console.log('yolo')
-        })
-        .catch((err) => {
-          console.log('THERE IS AN ERROR', err)
-        })
-    })
+      // $scope.favoritedByArr.map(function(eachFavoritedById){
+      //   console.log('YOLO', eachFavoritedById)
+      //   UserSvc.friendProfile(eachFavoritedById)
+      //     .then((response) => {
+      //       console.log('yolo')
+      //     })
+      //     .catch((err) => {
+      //       console.log('THERE IS AN ERROR', err)
+      //     })
+      // })
 
 
       // UserSvc.friendProfile($scope.favoritedByArr)
@@ -106,14 +108,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     }
 
 
-
-    if ($rootScope.privacy == true) {
-      $scope.public = false;
-      $scope.private = true;
-    } else if ($rootScope.privacy == false) {
-      $scope.public = true;
-      $scope.private = false;
-    }
 
     $rootScope.followersModel = [];
     $rootScope.followingModel = [];
@@ -140,6 +134,13 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
+
+  // }
+
+  /* ______________
+  |              |
+  |  Add Item:   |
+  |______________| */
 
   $scope.add = (item, user) => {
     $scope.name = item.name;
@@ -170,10 +171,19 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     window.location.reload(true)
   }
 
+  /* ______________
+  |              |
+  |  Like Item:  |
+  |______________| */
   $scope.like_item = (item) => {
     UserSvc.likeItem(item)
   }
 
+
+  /* ______________
+  |              |
+  |  Edit Item:  |
+  |______________| */
   $scope.edit = (item) => {
     $scope.item = {};
     $scope.item.link = item.link;
@@ -194,16 +204,27 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     })
   }
 
+  /* ______________
+  |              |
+  |  Delete Item:|
+  |______________| */
   $scope.delete = (item, $index) => {
     $scope.items.splice($index, 1)
     UserSvc.delete_item(item, $index)
   }
 
+  /* ______________
+  |                |
+  |  Star Wishlist:|
+  |________________| */
   $scope.star = function (user) {
-    // console.log('this is the user you are favoriting', user)
     UserSvc.starPerson(user)
   }
 
+  /* ______________
+  |              |
+  |  Settings:   |
+  |______________| */
   $scope.goToSettings = () => {
     console.log('Inside Settings.');
     $rootScope.settings = true;
@@ -216,7 +237,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       var loggedInUser = $rootScope.user;
       UserSvc.makePrivate(loggedInUser)
       .then(() => {
-        console.log('YOOOOOOOOOOOOOO>>>>>>>>>>>>');
+        console.log('User now private.');
       })
       .catch(() => {
         console.error('Making private method has an error.')
@@ -234,12 +255,10 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     }
   }
 
-  // $scope.backToWlist = () => {
-  //   $scope.settings = false;
-  //   $scope.followersPage = false;
-  //   $scope.followingPage = false;
-  // }
-
+  /* ________________
+  |                  |
+  |  Re-order Items: |
+  |__________________| */
   $scope.sort_list = () => {
     var newOrder = $scope.items
     console.log('updated order array', newOrder)
@@ -252,6 +271,10 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   };
 
 
+  /* ________________
+  |                  |
+  |  View following: |
+  |__________________| */
   $scope.goToFollowing = () => {
     $rootScope.followingPage = true;
     $rootScope.followersPage = false;
@@ -259,6 +282,10 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.starred = false;;
   }
 
+  /* ________________
+  |                  |
+  |  View followers: |
+  |__________________| */
   $scope.goToFollowers = () => {
     $rootScope.followersPage = true;
     $rootScope.followingPage = false;
@@ -266,6 +293,10 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.starred = false;
   }
 
+  /* ________________
+  |                  |
+  |  View starred:   |
+  |__________________| */
   $scope.goToStarred = () => {
     $rootScope.starred = true;
     $rootScope.followersPage = false;
@@ -274,6 +305,10 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   }
 
 
+  /* ______________________
+  |                        |
+  |  View friend wishlist: |
+  |________________________| */
   $scope.goToOthers = (otherUser) => {
     console.log('yolo', otherUser)
     UserSvc.getProfile()
@@ -285,11 +320,14 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     })
   }
 
+  /* __________________
+  |                    |
+  |  Display favorites |
+  |____________________| */
   UserSvc.showFavoritesData()
   .then((response) => {
     var favsLength = response.data.user.favorites.length;
     var favObj = response.data.favoritesData
-    // console.log(favObj)
     $scope.favsModel = [];
     for (var i = 0; i < favsLength; i++){
       // var favsName = favObj[i].displayName;
@@ -301,13 +339,16 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
         "id": favObj[i].facebook
       };
     }
-    // console.log($scope.favsModel)
   })
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
 
+  /* ________________
+  |                  |
+  |  ???: |
+  |__________________| */
   $scope.show_user_info = () => {
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   }
