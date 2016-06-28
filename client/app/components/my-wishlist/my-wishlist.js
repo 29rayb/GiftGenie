@@ -55,7 +55,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     }
 
     $rootScope.followingArr = response.data.following;
-    console.log($rootScope.followingArr, '<-------------------Following.');
+    $rootScope.followersArr = response.data.followers;
+    console.log($rootScope.followersArr, '<----Followers Array');
 
     $rootScope.followersModel = [];
     $scope.followersArr = response.data.following;
@@ -128,12 +129,12 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
-  // }
 
   /* ________________
   |                  |
   |  View following: |
   |__________________| */
+
   $scope.goToFollowing = () => {
     $rootScope.followingPage = true;
     $rootScope.followersPage = false;
@@ -147,13 +148,42 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       var theFollowing = response.data;
       $rootScope.followingModel = [];
 
-
       for (var i=0; i<theFollowing.length; i++) {
-        var eachFollower = theFollowing[i];
+        var eachFollowing = theFollowing[i];
+        var name = eachFollowing.displayName;
+        var id = eachFollowing.facebook;
+
+        $rootScope.followingModel[i] = {
+          "name": name,
+          "id": id
+        }
+      }
+    })
+  }
+
+  /* ________________
+  |                  |
+  |  View followers: |
+  |__________________| */
+  $scope.goToFollowers = () => {
+    $rootScope.followersPage = true;
+    $rootScope.followingPage = false;
+    $rootScope.settings = false;
+    $rootScope.starred = false;
+
+    var allFollowers = $rootScope.followersArr;
+
+    UserSvc.showFollow(allFollowers)
+    .then((response) => {
+      var theFollowers = response.data;
+      $rootScope.followersModel = [];
+
+      for (var i=0; i<theFollowers.length; i++) {
+        var eachFollower = theFollowers[i];
         var name = eachFollower.displayName;
         var id = eachFollower.facebook;
 
-        $rootScope.followingModel[i] = {
+        $rootScope.followersModel[i] = {
           "name": name,
           "id": id
         }
@@ -294,18 +324,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     axis: 'y'
   };
 
-
-  /* ________________
-  |                  |
-  |  View followers: |
-  |__________________| */
-  $scope.goToFollowers = () => {
-    $rootScope.followersPage = true;
-    $rootScope.followingPage = false;
-    $rootScope.settings = false;
-    $rootScope.starred = false;
-  }
-
   /* ________________
   |                  |
   |  View starred:   |
@@ -327,8 +345,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     UserSvc.getProfile()
     .then((response) => {
       var myId = response.data.facebook;
-      // var fid = otherUser.id;
-      // console.log('MyId TRYING TO CHANGE PAGE', myId)
+      var fid = otherUser.id;
+      console.log('MyId TRYING TO CHANGE PAGE', myId)
       $state.go('friend-wishlist', {id: myId, fid: otherUser.id});
     })
   }
