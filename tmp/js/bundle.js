@@ -63,8 +63,10 @@ function UserSvc($http) {
       return $http.get('/api/me');
     },
     friendProfile: function friendProfile(friendId) {
-      // console.log(friendId, 'Friend')
       return $http.post('/api/friend', { params: { fid: friendId } });
+    },
+    showFollow: function showFollow(allFriendIds) {
+      return $http.post('/api/friend/follow', { params: { friendIds: allFriendIds } });
     },
     add_new: function add_new(item) {
       var item;
@@ -115,6 +117,32 @@ function UserSvc($http) {
     }
   };
 };
+'use strict';
+
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
+
+function faqCtrl($rootScope, $scope) {
+
+  var token = 'in faq';
+  localStorage.setItem('faq', token);
+
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+    console.log('$rootScope.infaq', $rootScope.infaq);
+  }
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
+    answer: "2nd" }, { question: "3. 3rd",
+    answer: "3rd" }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
@@ -302,32 +330,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $state.go('followers');
   };
 }
-'use strict';
-
-angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
-
-function faqCtrl($rootScope, $scope) {
-
-  var token = 'in faq';
-  localStorage.setItem('faq', token);
-
-  if (!localStorage.getItem('satellizer_token')) {
-    $rootScope.infaq = localStorage.getItem('faq');
-    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
-  } else {
-    $rootScope.infaq = localStorage.removeItem('faq');
-    console.log('$rootScope.infaq', $rootScope.infaq);
-  }
-
-  $scope.faqs = [{ question: "1. Why arent my links working?",
-    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
-    answer: "2nd" }, { question: "3. 3rd",
-    answer: "3rd" }];
-
-  $scope.getAnswer = function () {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
-  };
-}
 
 'use strict';
 
@@ -510,16 +512,23 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $rootScope.followingPage = false;
   $scope.like_heart = false;
   $scope.favoriteWishlist = false;
-  // $scope.notFollowing = true;
 
-  // console.log('is this the id in the url', $scope.id)
+  /* ______________
+  |              |
+  |  Auth Check: |
+  |______________| */
 
   if (!$auth.isAuthenticated()) {
     return $state.go('home');
   }
 
+  /* ________________
+  |                  |
+  |  Get User Info:  |
+  |__________________| */
+
   UserSvc.getProfile().then(function (response) {
-    console.log('Original GetProfile Response ***************************************', response.data);
+    console.log('Original GetProfile Response ******************', response.data);
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
@@ -533,7 +542,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.followersCount = response.data.followers.length;
     $scope.followingCount = response.data.following.length;
     $rootScope.privacy = response.data.private;
-    console.log($rootScope.privacy, '<--------------- CURRENT PRIVATE SETTING.(false=public, true=private)');
 
     if ($rootScope.privacy == true) {
       $scope.public = false;
@@ -541,6 +549,18 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     } else if ($rootScope.privacy == false) {
       $scope.public = true;
       $scope.private = false;
+    }
+
+    $rootScope.followingArr = response.data.following;
+    console.log($rootScope.followingArr, '<-------------------Following.');
+
+    $rootScope.followersModel = [];
+    $scope.followersArr = response.data.following;
+    for (var i = 0; i < $scope.followersCount; i++) {
+      $rootScope.followersModel[i] = {
+        "name": response.data.friends[i].name,
+        "id": response.data.friends[i].id
+      };
     }
 
     // $scope.favoritedBy = response.data.favoritedBy
@@ -556,14 +576,14 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.favoritedByModel = [];
 
     var favoritedbyFriends = response.data.friends;
-    console.log('FAVORITED BY FRIENDS', favoritedbyFriends);
+    // console.log('FAVORITED BY FRIENDS', favoritedbyFriends)
 
     $scope.favoritedByArr = response.data.favoritedBy;
     $scope.favoritedByArr.map(function (eachFavoritedById) {
-      console.log('WHAT I NEED', eachFavoritedById);
+      // console.log('WHAT I NEED', eachFavoritedById)
     });
 
-    console.log('PEOPLE THAT FAVORITED ME', $scope.favoritedByArr);
+    // console.log('PEOPLE THAT FAVORITED ME', $scope.favoritedByArr)
 
     // for (var i = 0; i < $scope.favoritedByLength; i++){
     for (var i = 0; i < 2; i++) {
@@ -596,34 +616,42 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       //   .then((response) => {
       //     console.log('THIS RESPONSE', response)
       //   })
-      console.log($rootScope.favoritedByModel[i]);
-    }
-
-    $rootScope.followersModel = [];
-    $rootScope.followingModel = [];
-
-    $scope.followingArr = response.data.following;
-    // console.log($scope.followingArr)
-    for (var i = 0; i < $scope.followingCount; i++) {
-      $rootScope.followingModel[i] = {
-        "name": response.data.friends[i].name,
-        "id": response.data.friends[i].id
-      };
-      // console.log($rootScope.followingModel[i])
-    }
-
-    $scope.followersArr = response.data.following;
-    for (var i = 0; i < $scope.followersCount; i++) {
-      $rootScope.followersModel[i] = {
-        "name": response.data.friends[i].name,
-        "id": response.data.friends[i].id
-      };
+      // console.log($rootScope.favoritedByModel[i])
     }
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
   // }
+
+  /* ________________
+  |                  |
+  |  View following: |
+  |__________________| */
+  $scope.goToFollowing = function () {
+    $rootScope.followingPage = true;
+    $rootScope.followersPage = false;
+    $rootScope.settings = false;
+    $rootScope.starred = false;
+
+    var allFollowing = $rootScope.followingArr;
+
+    UserSvc.showFollow(allFollowing).then(function (response) {
+      var theFollowing = response.data;
+      $rootScope.followingModel = [];
+
+      for (var i = 0; i < theFollowing.length; i++) {
+        var eachFollower = theFollowing[i];
+        var name = eachFollower.displayName;
+        var id = eachFollower.facebook;
+
+        $rootScope.followingModel[i] = {
+          "name": name,
+          "id": id
+        };
+      }
+    });
+  };
 
   /* ______________
   |              |
@@ -751,17 +779,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       $scope.sort_list();
     },
     axis: 'y'
-  };
-
-  /* ________________
-  |                  |
-  |  View following: |
-  |__________________| */
-  $scope.goToFollowing = function () {
-    $rootScope.followingPage = true;
-    $rootScope.followersPage = false;
-    $rootScope.settings = false;
-    $rootScope.starred = false;;
   };
 
   /* ________________

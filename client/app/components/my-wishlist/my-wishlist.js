@@ -14,17 +14,24 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $rootScope.followingPage = false;
   $scope.like_heart = false;
   $scope.favoriteWishlist = false;
-  // $scope.notFollowing = true;
 
-  // console.log('is this the id in the url', $scope.id)
+  /* ______________
+  |              |
+  |  Auth Check: |
+  |______________| */
 
   if (!$auth.isAuthenticated()) {
     return $state.go('home');
   }
 
+  /* ________________
+  |                  |
+  |  Get User Info:  |
+  |__________________| */
+
   UserSvc.getProfile()
   .then((response) => {
-    console.log('Original GetProfile Response ***************************************', response.data)
+    console.log('Original GetProfile Response ******************', response.data)
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
@@ -38,7 +45,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $scope.followersCount = response.data.followers.length;
     $scope.followingCount = response.data.following.length;
     $rootScope.privacy = response.data.private;
-    console.log($rootScope.privacy, '<--------------- CURRENT PRIVATE SETTING.(false=public, true=private)');
 
     if ($rootScope.privacy == true) {
       $scope.public = false;
@@ -48,6 +54,17 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       $scope.private = false;
     }
 
+    $rootScope.followingArr = response.data.following;
+    console.log($rootScope.followingArr, '<-------------------Following.');
+
+    $rootScope.followersModel = [];
+    $scope.followersArr = response.data.following;
+    for( var i = 0; i< $scope.followersCount; i++){
+      $rootScope.followersModel[i] = {
+        "name": response.data.friends[i].name,
+        "id": response.data.friends[i].id
+      }
+    }
 
     // $scope.favoritedBy = response.data.favoritedBy
     $scope.favoritedByLength = response.data.favoritedBy.length
@@ -62,14 +79,14 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.favoritedByModel = [];
 
     var favoritedbyFriends =  response.data.friends
-    console.log('FAVORITED BY FRIENDS', favoritedbyFriends)
+    // console.log('FAVORITED BY FRIENDS', favoritedbyFriends)
 
     $scope.favoritedByArr = response.data.favoritedBy;
     $scope.favoritedByArr.map(function(eachFavoritedById){
-      console.log('WHAT I NEED', eachFavoritedById)
+      // console.log('WHAT I NEED', eachFavoritedById)
     })
 
-    console.log('PEOPLE THAT FAVORITED ME', $scope.favoritedByArr)
+    // console.log('PEOPLE THAT FAVORITED ME', $scope.favoritedByArr)
 
     // for (var i = 0; i < $scope.favoritedByLength; i++){
     for (var i = 0; i < 2; i++){
@@ -104,38 +121,45 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       //   .then((response) => {
       //     console.log('THIS RESPONSE', response)
       //   })
-      console.log($rootScope.favoritedByModel[i])
+      // console.log($rootScope.favoritedByModel[i])
     }
-
-
-
-    $rootScope.followersModel = [];
-    $rootScope.followingModel = [];
-
-    $scope.followingArr = response.data.following;
-    // console.log($scope.followingArr)
-    for( var i = 0; i< $scope.followingCount; i++){
-      $rootScope.followingModel[i] = {
-        "name": response.data.friends[i].name,
-        "id": response.data.friends[i].id
-      }
-      // console.log($rootScope.followingModel[i])
-    }
-
-    $scope.followersArr = response.data.following;
-    for( var i = 0; i< $scope.followersCount; i++){
-      $rootScope.followersModel[i] = {
-        "name": response.data.friends[i].name,
-        "id": response.data.friends[i].id
-      }
-    }
-
   })
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
   // }
+
+  /* ________________
+  |                  |
+  |  View following: |
+  |__________________| */
+  $scope.goToFollowing = () => {
+    $rootScope.followingPage = true;
+    $rootScope.followersPage = false;
+    $rootScope.settings = false;
+    $rootScope.starred = false;
+
+    var allFollowing = $rootScope.followingArr;
+
+    UserSvc.showFollow(allFollowing)
+    .then((response) => {
+      var theFollowing = response.data;
+      $rootScope.followingModel = [];
+
+
+      for (var i=0; i<theFollowing.length; i++) {
+        var eachFollower = theFollowing[i];
+        var name = eachFollower.displayName;
+        var id = eachFollower.facebook;
+
+        $rootScope.followingModel[i] = {
+          "name": name,
+          "id": id
+        }
+      }
+    })
+  }
 
   /* ______________
   |              |
@@ -270,17 +294,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     axis: 'y'
   };
 
-
-  /* ________________
-  |                  |
-  |  View following: |
-  |__________________| */
-  $scope.goToFollowing = () => {
-    $rootScope.followingPage = true;
-    $rootScope.followersPage = false;
-    $rootScope.settings = false;
-    $rootScope.starred = false;;
-  }
 
   /* ________________
   |                  |
