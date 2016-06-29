@@ -34,10 +34,9 @@
       <!-- 'You, Rachel Slater & 1232 Others Favorited Your WishList' -->
 
       <span class="favorited">
-        <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>
         <!-- when not clicked on -->
         <div class="FavByStarContainer">
-          <i class="fa fa-star"></i>
+          <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>
           <p>By
             <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}</span>
           </p>

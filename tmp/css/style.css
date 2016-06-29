@@ -384,7 +384,7 @@ p.logo span.stationary {
 .title_container {
   margin-top: 15px;
   height: 60px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 .bottom_container {
@@ -412,20 +412,39 @@ p.logo span.stationary {
   height: 50px;
 }
 
+i.fa.fa-star.mine {
+  position: relative;
+  top: 16px;
+  right: 5px;
+  margin-right: 18px;
+}
+
 .fa.fa-star {
   color: gold;
 }
 
-.FavByStarContainer i,
+.FavByStarContainer {
+  margin-top: -16px;
+}
+
+.FavByStarContainer div,
 .FavByStarContainer p {
   display: inline-block;
   cursor: auto;
+  margin-left: -20px;
+}
+
+.FavByStarContainer p {
+  position: absolute;
+  top: 59px;
 }
 
 .FavByStarContainer p span:hover {
   color: #acabab;
   cursor: pointer;
 }
+
+
 
 span.favorited li {
   list-style-type: none;
@@ -578,7 +597,6 @@ i.fa-trash {
 
 .title_container span.favorited {
   display: block;
-  border: 1px solid #000;
   max-width: 300px;
   width: 100%;
   margin: 0 auto;
@@ -645,21 +663,17 @@ i.fa-trash {
   content: '\f005';
   font-family: FontAwesome;
   position: absolute;
-  top: 14px;
-  left: 26px;
+  top: 15px;
+  left: 28px;
 }
 
 .favy {
-  position: absolute;
   height: 50px;
   width: 70px;
   background-image: url(/dist/images/star_animation.png);
   background-position: left;
   background-size: 5500%;
-  top: 7px;
-  left: 150px;
   color: gold;
-  border: 1px solid black;
 }
 
 .favy:hover {
