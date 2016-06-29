@@ -249,6 +249,26 @@ router.post('/friend/follow', function(req, res){
   }
 })
 
+router.post('/me/favorited', function(req, res){
+
+  var favoritedByMongoIdArray = req.body.params.favoritedByIds;
+
+  var allFavoritedBy = [];
+  for (var i = 0; i < favoritedByMongoIdArray.length; i++){
+    var eachFavoritedBy = favoritedByMongoIdArray[i];
+
+    User.findById({"_id": eachFavoritedBy}, function(err, user) {
+      if (err) {res.status(400).send(err)}
+      var everyUser = user;
+      allFavoritedBy.push(everyUser);
+      var userCheck = user._id;
+      if(favoritedByMongoIdArray.length === allFavoritedBy.length) {
+        res.send(allFavoritedBy)
+      }
+    })
+  }
+})
+
 router.get('/favorites/data', function(req, res) {
   User.findById(req.user, function(err, user){
     if (!user){

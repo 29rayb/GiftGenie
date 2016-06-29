@@ -56,74 +56,28 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     $rootScope.followingArr = response.data.following;
     $rootScope.followersArr = response.data.followers;
-    console.log($rootScope.followersArr, '<----Followers Array');
 
-    $rootScope.followersModel = [];
-    $scope.followersArr = response.data.following;
-    for( var i = 0; i< $scope.followersCount; i++){
-      $rootScope.followersModel[i] = {
-        "name": response.data.friends[i].name,
-        "id": response.data.friends[i].id
+    /* ________________
+    |                  |
+    |  Favorited By:   |
+    |__________________| */
+    $rootScope.favoritedByArr = response.data.favoritedBy;
+
+    var allFavoritedBy = $rootScope.favoritedByArr;
+    UserSvc.displayFaves(allFavoritedBy)
+    .then((response) => {
+      var allFavoritedBy = response.data;
+      $rootScope.favoritedByModel = [];
+
+      for (var i=0; i<allFavoritedBy.length; i++) {
+        var eachFavoritedBy = allFavoritedBy[i];
+        var name = eachFavoritedBy.displayName;
+
+        $rootScope.favoritedByModel[i] = {
+          "name": name
+        }
       }
-    }
-
-    // $scope.favoritedBy = response.data.favoritedBy
-    $scope.favoritedByLength = response.data.favoritedBy.length
-
-    // $scope.favoritedBy.map(function(eachFavoritedById){
-    //   console.log('WHAT I NEED',eachFavoritedById)
-    //   if (friendsIdArr.indexOf(eachFavoritedById) > -1){
-    //     console.log('WHAT I NEED', eachFavoritedById)
-    //   }
-    // })
-
-    $rootScope.favoritedByModel = [];
-
-    var favoritedbyFriends =  response.data.friends
-    // console.log('FAVORITED BY FRIENDS', favoritedbyFriends)
-
-    $scope.favoritedByArr = response.data.favoritedBy;
-    $scope.favoritedByArr.map(function(eachFavoritedById){
-      // console.log('WHAT I NEED', eachFavoritedById)
     })
-
-    // console.log('PEOPLE THAT FAVORITED ME', $scope.favoritedByArr)
-
-    // for (var i = 0; i < $scope.favoritedByLength; i++){
-    for (var i = 0; i < 2; i++){
-      // console.log('should console once')
-
-      // $scope.favoritedByArr.map(function(eachFavoritedById){
-      //   console.log('YOLO', eachFavoritedById)
-      //   UserSvc.friendProfile(eachFavoritedById)
-      //     .then((response) => {
-      //       console.log('yolo')
-      //     })
-      //     .catch((err) => {
-      //       console.log('THERE IS AN ERROR', err)
-      //     })
-      // })
-
-
-      // UserSvc.friendProfile($scope.favoritedByArr)
-      //   .then((response) => {
-      //     console.log('RESPONSE FROM FRIENDS',response)
-      //   })
-
-
-      // console.log('FRIENDSSSSSSSS',response.data.friends[i])
-
-      $rootScope.favoritedByModel[i] = {
-        "name": response.data.friends[i].name,
-        "id": response.data.friends[i].id
-      }
-      // console.log('should be once')
-      // UserSvc.friendProfile()
-      //   .then((response) => {
-      //     console.log('THIS RESPONSE', response)
-      //   })
-      // console.log($rootScope.favoritedByModel[i])
-    }
   })
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');

@@ -68,6 +68,9 @@ function UserSvc($http) {
     showFollow: function showFollow(allFriendIds) {
       return $http.post('/api/friend/follow', { params: { friendIds: allFriendIds } });
     },
+    displayFaves: function displayFaves(allFavoritedBy) {
+      return $http.post('/api/me/favorited', { params: { favoritedByIds: allFavoritedBy } });
+    },
     add_new: function add_new(item) {
       var item;
       console.log(item, "Here is the new item in our service.");
@@ -117,6 +120,32 @@ function UserSvc($http) {
     }
   };
 };
+'use strict';
+
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
+
+function faqCtrl($rootScope, $scope) {
+
+  var token = 'in faq';
+  localStorage.setItem('faq', token);
+
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+    console.log('$rootScope.infaq', $rootScope.infaq);
+  }
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
+    answer: "2nd" }, { question: "3. 3rd",
+    answer: "3rd" }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
@@ -304,31 +333,44 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $state.go('followers');
   };
 }
+
 'use strict';
 
-angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
 
-function faqCtrl($rootScope, $scope) {
+function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
 
-  var token = 'in faq';
-  localStorage.setItem('faq', token);
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
 
-  if (!localStorage.getItem('satellizer_token')) {
-    $rootScope.infaq = localStorage.getItem('faq');
-    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
-  } else {
-    $rootScope.infaq = localStorage.removeItem('faq');
-    console.log('$rootScope.infaq', $rootScope.infaq);
+  if (localStorage.getItem("satellizer_token")) {
+    UserSvc.getProfile().then(function (response) {
+      $rootScope.display_name = response.data.displayName;
+    });
   }
 
-  $scope.faqs = [{ question: "1. Why arent my links working?",
-    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
-    answer: "2nd" }, { question: "3. 3rd",
-    answer: "3rd" }];
-
-  $scope.getAnswer = function () {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    // $rootScope.notLoggedIn = true;
+    $auth.authenticate(provider, user).then(function (res) {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+      });
+    }).catch(function (err) {
+      console.error('Inside the Home Ctrl, we have an error!', err);
+    });
   };
+
+  // $rootScope.display_name = getUser.data.displayName;
 }
 'use strict';
 
@@ -385,16 +427,22 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     $rootScope.followingArr = response.data.following;
     $rootScope.followersArr = response.data.followers;
-    console.log($rootScope.followersArr, '<----Followers Array');
+    $rootScope.favoritedByArr = response.data.favoritedBy;
 
-    $rootScope.followersModel = [];
-    $scope.followersArr = response.data.following;
-    for (var i = 0; i < $scope.followersCount; i++) {
-      $rootScope.followersModel[i] = {
-        "name": response.data.friends[i].name,
-        "id": response.data.friends[i].id
-      };
-    }
+    var allFavoritedBy = $rootScope.favoritedByArr;
+    UserSvc.displayFaves(allFavoritedBy).then(function (response) {
+      var allFavoritedBy = response.data;
+      $rootScope.favoritedByModel = [];
+
+      for (var i = 0; i < allFavoritedBy.length; i++) {
+        var eachFavoritedBy = allFavoritedBy[i];
+        var name = eachFavoritedBy.displayName;
+
+        $rootScope.favoritedByModel[i] = {
+          "name": name
+        };
+      }
+    });
 
     // $scope.favoritedBy = response.data.favoritedBy
     $scope.favoritedByLength = response.data.favoritedBy.length;
@@ -405,8 +453,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     //     console.log('WHAT I NEED', eachFavoritedById)
     //   }
     // })
-
-    $rootScope.favoritedByModel = [];
 
     var favoritedbyFriends = response.data.friends;
     // console.log('FAVORITED BY FRIENDS', favoritedbyFriends)
@@ -440,10 +486,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
       // console.log('FRIENDSSSSSSSS',response.data.friends[i])
 
-      $rootScope.favoritedByModel[i] = {
-        "name": response.data.friends[i].name,
-        "id": response.data.friends[i].id
-      };
       // console.log('should be once')
       // UserSvc.friendProfile()
       //   .then((response) => {
@@ -696,45 +738,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $scope.show_user_info = function () {
     $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
   };
-}
-
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
-
-  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
-
-  if (localStorage.getItem("satellizer_token")) {
-    UserSvc.getProfile().then(function (response) {
-      $rootScope.display_name = response.data.displayName;
-    });
-  }
-
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    // $rootScope.notLoggedIn = true;
-    $auth.authenticate(provider, user).then(function (res) {
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
-      });
-    }).catch(function (err) {
-      console.error('Inside the Home Ctrl, we have an error!', err);
-    });
-  };
-
-  // $rootScope.display_name = getUser.data.displayName;
 }
 'use strict';
 

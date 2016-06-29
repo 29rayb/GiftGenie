@@ -17,6 +17,9 @@ function UserSvc ($http) {
     showFollow: (allFriendIds) => {
       return $http.post('/api/friend/follow', {params: {friendIds: allFriendIds}});
     },
+    displayFaves: (allFavoritedBy) => {
+      return $http.post('/api/me/favorited', {params: {favoritedByIds: allFavoritedBy}});
+    },
     add_new: (item) => {
       var item;
       console.log(item, "Here is the new item in our service.");
