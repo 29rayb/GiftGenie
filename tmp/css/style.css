@@ -432,6 +432,7 @@ i.fa.fa-star.mine {
   display: inline-block;
   cursor: auto;
   margin-left: -20px;
+  z-index: -5000;
 }
 
 .FavByStarContainer p {
