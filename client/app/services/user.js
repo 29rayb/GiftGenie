@@ -59,7 +59,7 @@ function UserSvc ($http) {
       return $http.put('/api/me/makePublic')
     },
     checkingFriendPrivacy: (userMates) => {
-      console.log('usermates in service ------> ', userMates);
+      // console.log('usermates in service ------> ', userMates);
       var friendsToCheck = []
       for (var i = 0; i < userMates.length; i++){
         var mongoId = userMates[i].id;

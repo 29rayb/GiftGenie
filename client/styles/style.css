@@ -79,16 +79,16 @@ i.fa.fa-search::before {
 .friends_container {
     position: absolute;
     top: 35px;
-    left: 132px;
-    width: 252px;
+    left: 87px;
     z-index: 1000;
+    max-height: 300px;
 }
 
 .friends_container li {
   list-style-type: none;
   background-color: #fff;
   width: 251px;
-  margin-left: -45px;
+  /*margin-left: -45px;*/
   height: 60px;
   color: #000;
 }

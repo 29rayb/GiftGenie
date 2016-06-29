@@ -77,17 +77,17 @@ function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope){
   $scope.searchFriends = () => {
     UserSvc.getProfile()
     .then((response) => {
-      console.log(response, 'response ');
+      // console.log(response, 'response ');
       var alternative = response.data.friends;
       $rootScope.alternate = alternative;
       var userMates = $rootScope.alternate || $rootScope.user.friends;
 
       UserSvc.checkingFriendPrivacy(userMates)
       .then((response) => {
-        console.log(response, 'RESPONSE FROM PRIVACY SETTINGS CHECK!!!!!!!!!!!!!');
+        // console.log(response, 'RESPONSE FROM PRIVACY SETTINGS CHECK!!!!!!!!!!!!!');
         var res = response.data.publicFriends;
         var length = res.length;
-        console.log(length, 'length');
+        // console.log(length, 'length');
 
         $rootScope.userModel = [];
 
@@ -97,7 +97,7 @@ function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope){
             "id": res[i].facebook
           };
         }
-        console.log($rootScope.userModel, 'HERE!!!!!!!!');
+        // console.log($rootScope.userModel, 'HERE!!!!!!!!');
       })
     })
   }
@@ -107,9 +107,19 @@ function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope){
     $scope.searchFriends()
   }
 
-  $scope.blurred = () => {
+  // $scope.blurred = () => {
+  //   console.log('outside friends container')
+  //   $scope.friendsContainer = false;
+  // }
+
+  $scope.hoverIn = () => {
+    $scope.friendsContainer = true;
+  }
+
+  $scope.hoverOut = () => {
     $scope.friendsContainer = false;
   }
+
 
   $scope.authenticate = function(provider, user) {
     //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).

@@ -40,7 +40,7 @@
     <nav ng-controller="NavbarCtrl" class="navbar-container">
       <div class="container-fluid"><a ui-sref="home" ng-click="backToHome()" class="navbar-brand logo navbar-links">GiFTGENiE</a>
         <input type="text" placeholder="Search Friends" ng-model="user.name" ng-keypress="searchFriends()" ng-focus="focused()" ng-if="isAuthenticated()" class="friendInput"><i ng-if="isAuthenticated()" class="fa fa-search"></i>
-        <ul ng-if="friendsContainer" ng-model="friends" class="friends_container">
+        <ul ng-if="friendsContainer" ng-model="friends" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" class="friends_container">
           <li ng-repeat="user in userModel | filter:user.name" ng-click="goToOthers(user)"><img ng-src="https://graph.facebook.com/{{user.id}}/picture?type=small" class="searchFriendsPic">{{ user.name }}</li>
         </ul>
         <ul class="nav nav-pills navbar-right">
