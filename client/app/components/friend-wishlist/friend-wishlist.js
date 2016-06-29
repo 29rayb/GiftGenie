@@ -14,18 +14,13 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   console.log(getFriend.data, 'GET FRIEND (all friend info) <-----------');
 
   $scope.items = getFriend.data.items
-  console.log('THIS IS THE CORRECT ITEM ORDER BITCHESSS', $scope.items)
-
-  // console.log('!@#!@#!@#!@#@!#', getUser.data)
+  $rootScope.friendFollowers = getFriend.data.user.followers;
+  console.log($rootScope.friendFollowers, '<--------------------------------------Friend Followers');
+  $rootScope.friendFollowing = getFriend.data.user.following;
+  console.log($rootScope.friendFollowing, '<--------------------------------------Friend Following');
 
   var likedItemsArr = getUser.data.liked;
-  // console.log(likedItemsArr, 'THIS IS THE LIKED ITEMS BEFORE WITHIN FRIEND PROFILE.*****');
 
-  console.log(getFriend.data)
-
-  // UserSvc.friendProfile(friendId)
-  // .then((response) => {
-  console.log(getFriend.data, "Response from GetFriend Profile service call.")
   $scope.user = getFriend.data.user;
   $scope.id = getFriend.data.user._id;
   $scope.birthday = getFriend.data.user.birthday;
@@ -35,10 +30,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.display_name = getFriend.data.user.displayName
   $scope.email = getFriend.data.user.email
   $scope.pro_pic = getFriend.data.user.facebook
-  // $scope.items = getFriend.data.items;
-  // console.log('WHAT IM LOOKING FOR 11111', getFriend.data.items)
-  // $scope.items = getFriend.data.user.items
-  // console.log('WHAT IM LOOKING FOR 222222', $scope.items)
   $scope.friendsLengthh = getFriend.data.user.friends.length;
   $scope.allFriendFriends = getFriend.data.user.friends;
   $scope.following = getFriend.data.user.following.length;
@@ -82,9 +73,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.friends = friendFriendArray;
   $scope.friendsLength = friendFriendArray.length;
-
-
-
 
 
 
@@ -193,14 +181,64 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $rootScope.unfollow = false;
   }
 
-  // need to pass in params so can make api call to backend for individual friend data;
-  $scope.goToFollowing = () => {
-    $state.go('following')
-  }
+
+  /* ________________
+  |                  |
+  |  View followers: |
+  |__________________| */
 
   $scope.goToFollowers = () => {
-    $state.go('followers')
+    // $rootScope.followersPage = true;
+    // $rootScope.followingPage = false;
+    var allFollowers = $rootScope.friendFollowers;
+
+    UserSvc.showFollow(allFollowers)
+    .then((response) => {
+      var theFollowers = response.data;
+      $rootScope.followersModel = [];
+
+      for (var i=0; i<theFollowers.length; i++) {
+        var eachFollower = theFollowers[i];
+        var name = eachFollower.displayName;
+        var id = eachFollower.facebook;
+
+        $rootScope.followersModel[i] = {
+          "name": name,
+          "id": id
+        }
+      }
+      console.log($rootScope.followersModel, 'Data <----------');
+    })
   }
 
+  /* ________________
+  |                  |
+  |  View following: |
+  |__________________| */
 
+  $scope.goToFollowing = () => {
+    // $rootScope.followersPage = true;
+    // $rootScope.followingPage = false;
+
+    var allFollowing = $rootScope.friendFollowing;
+
+    UserSvc.showFollow(allFollowing)
+    .then((response) => {
+      var theFollowing = response.data;
+      $rootScope.followingModel = [];
+
+      for (var i=0; i<theFollowing.length; i++) {
+        var eachFollowing = theFollowing[i];
+        var name = eachFollowing.displayName;
+        var id = eachFollowing.facebook;
+
+        $rootScope.followingModel[i] = {
+          "name": name,
+          "id": id
+        }
+      }
+      console.log($rootScope.followingModel, 'Data <----------');
+
+    })
+  }
 }

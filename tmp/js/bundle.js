@@ -132,6 +132,32 @@ function UserSvc($http) {
 };
 'use strict';
 
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
+
+function faqCtrl($rootScope, $scope) {
+
+  var token = 'in faq';
+  localStorage.setItem('faq', token);
+
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+    console.log('$rootScope.infaq', $rootScope.infaq);
+  }
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
+    answer: "2nd" }, { question: "3. 3rd",
+    answer: "3rd" }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
+'use strict';
+
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend', FriendlistCtrl]);
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser, getFriend) {
@@ -144,18 +170,13 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   console.log(getFriend.data, 'GET FRIEND (all friend info) <-----------');
 
   $scope.items = getFriend.data.items;
-  console.log('THIS IS THE CORRECT ITEM ORDER BITCHESSS', $scope.items);
-
-  // console.log('!@#!@#!@#!@#@!#', getUser.data)
+  $rootScope.friendFollowers = getFriend.data.user.followers;
+  console.log($rootScope.friendFollowers, '<--------------------------------------Friend Followers');
+  $rootScope.friendFollowing = getFriend.data.user.following;
+  console.log($rootScope.friendFollowing, '<--------------------------------------Friend Following');
 
   var likedItemsArr = getUser.data.liked;
-  // console.log(likedItemsArr, 'THIS IS THE LIKED ITEMS BEFORE WITHIN FRIEND PROFILE.*****');
 
-  console.log(getFriend.data);
-
-  // UserSvc.friendProfile(friendId)
-  // .then((response) => {
-  console.log(getFriend.data, "Response from GetFriend Profile service call.");
   $scope.user = getFriend.data.user;
   $scope.id = getFriend.data.user._id;
   $scope.birthday = getFriend.data.user.birthday;
@@ -165,10 +186,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.display_name = getFriend.data.user.displayName;
   $scope.email = getFriend.data.user.email;
   $scope.pro_pic = getFriend.data.user.facebook;
-  // $scope.items = getFriend.data.items;
-  // console.log('WHAT IM LOOKING FOR 11111', getFriend.data.items)
-  // $scope.items = getFriend.data.user.items
-  // console.log('WHAT IM LOOKING FOR 222222', $scope.items)
   $scope.friendsLengthh = getFriend.data.user.friends.length;
   $scope.allFriendFriends = getFriend.data.user.friends;
   $scope.following = getFriend.data.user.following.length;
@@ -315,39 +332,61 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $rootScope.unfollow = false;
   };
 
-  // need to pass in params so can make api call to backend for individual friend data;
-  $scope.goToFollowing = function () {
-    $state.go('following');
-  };
+  /* ________________
+  |                  |
+  |  View followers: |
+  |__________________| */
 
   $scope.goToFollowers = function () {
-    $state.go('followers');
+    // $rootScope.followersPage = true;
+    // $rootScope.followingPage = false;
+    var allFollowers = $rootScope.friendFollowers;
+
+    UserSvc.showFollow(allFollowers).then(function (response) {
+      var theFollowers = response.data;
+      $rootScope.followersModel = [];
+
+      for (var i = 0; i < theFollowers.length; i++) {
+        var eachFollower = theFollowers[i];
+        var name = eachFollower.displayName;
+        var id = eachFollower.facebook;
+
+        $rootScope.followersModel[i] = {
+          "name": name,
+          "id": id
+        };
+      }
+      console.log($rootScope.followersModel, 'Data <----------');
+    });
   };
-}
-'use strict';
 
-angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
+  /* ________________
+  |                  |
+  |  View following: |
+  |__________________| */
 
-function faqCtrl($rootScope, $scope) {
+  $scope.goToFollowing = function () {
+    // $rootScope.followersPage = true;
+    // $rootScope.followingPage = false;
 
-  var token = 'in faq';
-  localStorage.setItem('faq', token);
+    var allFollowing = $rootScope.friendFollowing;
 
-  if (!localStorage.getItem('satellizer_token')) {
-    $rootScope.infaq = localStorage.getItem('faq');
-    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
-  } else {
-    $rootScope.infaq = localStorage.removeItem('faq');
-    console.log('$rootScope.infaq', $rootScope.infaq);
-  }
+    UserSvc.showFollow(allFollowing).then(function (response) {
+      var theFollowing = response.data;
+      $rootScope.followingModel = [];
 
-  $scope.faqs = [{ question: "1. Why arent my links working?",
-    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
-    answer: "2nd" }, { question: "3. 3rd",
-    answer: "3rd" }];
+      for (var i = 0; i < theFollowing.length; i++) {
+        var eachFollowing = theFollowing[i];
+        var name = eachFollowing.displayName;
+        var id = eachFollowing.facebook;
 
-  $scope.getAnswer = function () {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+        $rootScope.followingModel[i] = {
+          "name": name,
+          "id": id
+        };
+      }
+      console.log($rootScope.followingModel, 'Data <----------');
+    });
   };
 }
 
@@ -502,6 +541,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   |                  |
   |  View followers: |
   |__________________| */
+
   $scope.goToFollowers = function () {
     $rootScope.followersPage = true;
     $rootScope.followingPage = false;
@@ -689,10 +729,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     var favObj = response.data.favoritesData;
     $scope.favsModel = [];
     for (var i = 0; i < favsLength; i++) {
-      // var favsName = favObj[i].displayName;
-      // favsNameArr.push(favsName);
-      // var favsPic = favObj[i].picture;
-      // favsPicArr.push(favsPic);
       $scope.favsModel[i] = {
         "name": favObj[i].displayName,
         "id": favObj[i].facebook
@@ -701,14 +737,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
-
-  /* ________________
-  |                  |
-  |  ???: |
-  |__________________| */
-  $scope.show_user_info = function () {
-    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
-  };
 }
 'use strict';
 

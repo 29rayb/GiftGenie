@@ -118,6 +118,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   |                  |
   |  View followers: |
   |__________________| */
+
   $scope.goToFollowers = () => {
     $rootScope.followersPage = true;
     $rootScope.followingPage = false;
@@ -185,7 +186,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $scope.like_item = (item) => {
     UserSvc.likeItem(item)
   }
-
 
   /* ______________
   |              |
@@ -314,10 +314,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     var favObj = response.data.favoritesData
     $scope.favsModel = [];
     for (var i = 0; i < favsLength; i++){
-      // var favsName = favObj[i].displayName;
-      // favsNameArr.push(favsName);
-      // var favsPic = favObj[i].picture;
-      // favsPicArr.push(favsPic);
       $scope.favsModel[i] = {
         "name": favObj[i].displayName,
         "id": favObj[i].facebook
@@ -327,14 +323,4 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
-
-
-  /* ________________
-  |                  |
-  |  ???: |
-  |__________________| */
-  $scope.show_user_info = () => {
-    $scope.clicked_card ? $scope.clicked_card = false : $scope.clicked_card = true;
-  }
-
 }
