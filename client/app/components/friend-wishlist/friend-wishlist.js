@@ -4,12 +4,6 @@ angular
 .module('App')
 .controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend', FriendlistCtrl])
 
-// FriendlistCtrl.resolve = {
-//   getUser: function(UserSvc) {
-//     return UserSvc.getProfile();
-//   }
-// }
-
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser, getFriend) {
 
   var favoritesIdArr = getUser.data.favorites;
@@ -17,15 +11,8 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $rootScope.display_name = getUser.data.displayName
   var friendId = $stateParams.fid;
 
-  // FriendlistCtrl.resolve = {
+  console.log(getFriend.data, 'GET FRIEND (all friend info) <-----------');
 
-  // }
-
-
-  console.log(getFriend.data)
-
-  // WORKS
-  // console.log('GET FRIEND API CALL BEFORE ROUTE IS SUCCESSFUL', getFriend.data.user.items)
   $scope.items = getFriend.data.items
   console.log('THIS IS THE CORRECT ITEM ORDER BITCHESSS', $scope.items)
 
@@ -38,103 +25,91 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   // UserSvc.friendProfile(friendId)
   // .then((response) => {
-    console.log(getFriend.data, "Response from GetFriend Profile service call.")
-    $scope.user = getFriend.data.user;
-    $scope.id = getFriend.data.user._id;
-    $scope.birthday = getFriend.data.user.birthday;
-    // console.log('!@#!@#!@#!@', $scope.birthday)
-    if ($scope.birthday == undefined){
-      $scope.birthday = ' N/A '
-    }
-    $scope.display_name = getFriend.data.user.displayName
-    $scope.email = getFriend.data.user.email
-    $scope.pro_pic = getFriend.data.user.facebook
-    // $scope.items = getFriend.data.items;
-    // console.log('WHAT IM LOOKING FOR 11111', getFriend.data.items)
-    // $scope.items = getFriend.data.user.items
-    // console.log('WHAT IM LOOKING FOR 222222', $scope.items)
-    $scope.friendsLengthh = getFriend.data.user.friends.length;
-    $scope.allFriendFriends = getFriend.data.user.friends;
-    $scope.following = getFriend.data.user.following.length;
-    $scope.followers = getFriend.data.user.followers.length;
+  console.log(getFriend.data, "Response from GetFriend Profile service call.")
+  $scope.user = getFriend.data.user;
+  $scope.id = getFriend.data.user._id;
+  $scope.birthday = getFriend.data.user.birthday;
+  if ($scope.birthday == undefined){
+    $scope.birthday = ' N/A '
+  }
+  $scope.display_name = getFriend.data.user.displayName
+  $scope.email = getFriend.data.user.email
+  $scope.pro_pic = getFriend.data.user.facebook
+  // $scope.items = getFriend.data.items;
+  // console.log('WHAT IM LOOKING FOR 11111', getFriend.data.items)
+  // $scope.items = getFriend.data.user.items
+  // console.log('WHAT IM LOOKING FOR 222222', $scope.items)
+  $scope.friendsLengthh = getFriend.data.user.friends.length;
+  $scope.allFriendFriends = getFriend.data.user.friends;
+  $scope.following = getFriend.data.user.following.length;
+  $scope.followers = getFriend.data.user.followers.length;
 
-    var friendItems = getFriend.data.user.items;
-    // console.log('******All of the friends items.');
-    var allTheLikedItemsArr= [];
-    for (var i = 0; i < friendItems.length; i++){
-      var each_likeable_item = friendItems[i];
-      if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
-        allTheLikedItemsArr.push(i)
-        $scope.like_heart =  allTheLikedItemsArr;
+  var friendItems = getFriend.data.user.items;
+  // console.log('******All of the friends items.');
+  var allTheLikedItemsArr= [];
+  for (var i = 0; i < friendItems.length; i++){
+    var each_likeable_item = friendItems[i];
+    if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
+      allTheLikedItemsArr.push(i)
+      $scope.like_heart =  allTheLikedItemsArr;
+    }
+  }
+
+  var friendFavId = getFriend.data.user._id;
+  if (favoritesIdArr.indexOf(friendFavId) > -1){
+    // console.log(')!@(#)!@(#)!(@#)!(@#)(!)@(#!@)(#!@)(#)!@(#!@)(',friendFavId)
+    $rootScope.yellowStar = 'star_btn';
+    $scope.favWishList = true;
+  }
+
+  if(followingFriendIdArr.indexOf($scope.id) > -1 ){
+    // console.log('you are following this person')
+    $rootScope.follow = true;
+  } else {
+    // console.log('you are not following this person')
+    $rootScope.follow = false;
+  }
+
+  var friendFriendArray = [];
+  var friendsIdArr = []
+  for (var i=0; i<getFriend.data.user.friends.length; i++) {
+    var friendFriendName = getFriend.data.user.friends[i].name;
+    var friendId = getFriend.data.user.friends[i].id;
+    // console.log('LOOK HERERERERERE', friendFriendName)
+    friendFriendArray.push(friendFriendName);
+    friendsIdArr.push(friendId);
+  }
+
+  $scope.friends = friendFriendArray;
+  $scope.friendsLength = friendFriendArray.length;
+
+
+
+
+
+
+  // this is the fbook id
+  // console.log('WHAT I WANT', friendsIdArr)
+
+  $scope.favoritedBy = getFriend.data.user.favoritedBy;
+  $scope.favoritedByLength = getFriend.data.user.favoritedBy.length;
+
+  // console.log('all rachels friends', friendFriendArray)
+
+  for (var i = 0; i < $scope.favoritedByLength; i++){
+    // console.log('should console once')
+    // console.log('all the people that favorited rachels wishlist', $scope.favoritedBy)
+    // $scope.eachFavoritedBy = $scope.favoritedBy.split(',')
+    $scope.favoritedBy.map(function(eachFavoritedById){
+      // console.log('WHAT I NEED',eachFavoritedById)
+      if (friendsIdArr.indexOf(eachFavoritedById) > -1){
+        // console.log('WHAT I NEED', eachFavoritedById)
       }
-    }
-
-    var friendFavId = getFriend.data.user._id;
-    if (favoritesIdArr.indexOf(friendFavId) > -1){
-      // console.log(')!@(#)!@(#)!(@#)!(@#)(!)@(#!@)(#!@)(#)!@(#!@)(',friendFavId)
-      $rootScope.yellowStar = 'star_btn';
-      $scope.favWishList = true;
-    }
-
-    if(followingFriendIdArr.indexOf($scope.id) > -1 ){
-      // console.log('you are following this person')
-      $rootScope.follow = true;
-    } else {
-      // console.log('you are not following this person')
-      $rootScope.follow = false;
-    }
-
-    var friendFriendArray = [];
-    var friendsIdArr = []
-    for (var i=0; i<getFriend.data.user.friends.length; i++) {
-      var friendFriendName = getFriend.data.user.friends[i].name;
-      var friendId = getFriend.data.user.friends[i].id;
-      // console.log('LOOK HERERERERERE', friendFriendName)
-      friendFriendArray.push(friendFriendName);
-      friendsIdArr.push(friendId);
-    }
-
-    $scope.friends = friendFriendArray;
-    $scope.friendsLength = friendFriendArray.length;
-
-
-
-
-
-
-    // this is the fbook id
-    // console.log('WHAT I WANT', friendsIdArr)
-
-    $scope.favoritedBy = getFriend.data.user.favoritedBy;
-    $scope.favoritedByLength = getFriend.data.user.favoritedBy.length;
-
-    // console.log('all rachels friends', friendFriendArray)
-
-    for (var i = 0; i < $scope.favoritedByLength; i++){
-      // console.log('should console once')
-      // console.log('all the people that favorited rachels wishlist', $scope.favoritedBy)
-      // $scope.eachFavoritedBy = $scope.favoritedBy.split(',')
-      $scope.favoritedBy.map(function(eachFavoritedById){
-        // console.log('WHAT I NEED',eachFavoritedById)
-        if (friendsIdArr.indexOf(eachFavoritedById) > -1){
-          // console.log('WHAT I NEED', eachFavoritedById)
-        }
-      })
-      // if (friendFriendArray.indexOf($scope.favoritedBy) > -1 ){
-      //   console.log('!@#!@#21', $scope.favoritedBy)
-      // }
-    }
-
-
-
-
-
-
-
-  // })
-  // .catch((err) => {
-  //   console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  // });
+    })
+    // if (friendFriendArray.indexOf($scope.favoritedBy) > -1 ){
+    //   console.log('!@#!@#21', $scope.favoritedBy)
+    // }
+  }
 
   $scope.like_item = (item, $index) => {
     console.log('heart clicked')
@@ -162,70 +137,70 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       // console.log('after pushing index into like_heart',$scope.like_heart)
     }
 
-  UserSvc.likeItem(item)
-  .then((res) => {
-    console.log('response from item being liked', res);
-  })
-  .catch((err) => {
-    console.log('error from item being liked', err)
-  })
-}
-
-$scope.star = (user) => {
-  console.log('trying to fav user')
-  console.log('RRIGHE HWERUOIWJOIDJFODSFNGOJEMRGNKWEJNGURIDOSKPFIGHUDJOKPINUDOMSPKFGJIHUJO')
-  $scope.favWishList ? $scope.favWishList = false : $scope.favWishList = 'is_favoriting'
-  // $scope.favWishList = 'is_favoriting'
-  // $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
-
-  if ($rootScope.yellowStar === undefined){
-    $rootScope.yellowStar = 'star_btn'
-  } else {
-    $rootScope.yellowStar = undefined
+    UserSvc.likeItem(item)
+    .then((res) => {
+      console.log('response from item being liked', res);
+    })
+    .catch((err) => {
+      console.log('error from item being liked', err)
+    })
   }
-  // console.log('this is the user you are favoriting', user)
-  UserSvc.starPerson(user)
-}
 
-$scope.followUser = (user) => {
-  console.log('user', user._id)
-  var tmpFriendId = user._id
-  if (followingFriendIdArr.indexOf(tmpFriendId) > -1){
-    followingFriendIdArr.pop(tmpFriendId)
-    $scope.unfollow = false;
-  } else {
-    followingFriendIdArr.push(tmpFriendId)
-    console.log('you are following this person')
-    // need to fix this;
-    window.location.reload()
-    // $scope.unfollow = true;
-    // $scope.follow = false;
+  $scope.star = (user) => {
+    console.log('trying to fav user')
+    console.log('RRIGHE HWERUOIWJOIDJFODSFNGOJEMRGNKWEJNGURIDOSKPFIGHUDJOKPINUDOMSPKFGJIHUJO')
+    $scope.favWishList ? $scope.favWishList = false : $scope.favWishList = 'is_favoriting'
+    // $scope.favWishList = 'is_favoriting'
+    // $scope.clicked ? $scope.clicked = false : $scope.clicked = true;
+
+    if ($rootScope.yellowStar === undefined){
+      $rootScope.yellowStar = 'star_btn'
+    } else {
+      $rootScope.yellowStar = undefined
+    }
+    // console.log('this is the user you are favoriting', user)
+    UserSvc.starPerson(user)
   }
-  console.log(followingFriendIdArr)
-  UserSvc.followPerson(user)
-}
+
+  $scope.followUser = (user) => {
+    console.log('user', user._id)
+    var tmpFriendId = user._id
+    if (followingFriendIdArr.indexOf(tmpFriendId) > -1){
+      followingFriendIdArr.pop(tmpFriendId)
+      $scope.unfollow = false;
+    } else {
+      followingFriendIdArr.push(tmpFriendId)
+      console.log('you are following this person')
+      // need to fix this;
+      window.location.reload()
+      // $scope.unfollow = true;
+      // $scope.follow = false;
+    }
+    console.log(followingFriendIdArr)
+    UserSvc.followPerson(user)
+  }
 
 
-$scope.unfollowBtnShow = () => {
-  console.log('should show RED unfollow button & hide following button')
-  $rootScope.follow = false;
-  $rootScope.unfollow = true;
-}
+  $scope.unfollowBtnShow = () => {
+    console.log('should show RED unfollow button & hide following button')
+    $rootScope.follow = false;
+    $rootScope.unfollow = true;
+  }
 
-$scope.followBtnShow = () => {
-  console.log('should show follow button only')
-  $rootScope.follow = true;
-  $rootScope.unfollow = false;
-}
+  $scope.followBtnShow = () => {
+    console.log('should show follow button only')
+    $rootScope.follow = true;
+    $rootScope.unfollow = false;
+  }
 
-// need to pass in params so can make api call to backend for individual friend data;
-$scope.goToFollowing = () => {
-  $state.go('following')
-}
+  // need to pass in params so can make api call to backend for individual friend data;
+  $scope.goToFollowing = () => {
+    $state.go('following')
+  }
 
-$scope.goToFollowers = () => {
-  $state.go('followers')
-}
+  $scope.goToFollowers = () => {
+    $state.go('followers')
+  }
 
 
 }

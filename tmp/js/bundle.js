@@ -132,49 +132,7 @@ function UserSvc($http) {
 };
 'use strict';
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 08cfb26511f65f87efbe21d14ac28f90f68df7a9
-angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
-
-function faqCtrl($rootScope, $scope) {
-
-  var token = 'in faq';
-  localStorage.setItem('faq', token);
-
-  if (!localStorage.getItem('satellizer_token')) {
-    $rootScope.infaq = localStorage.getItem('faq');
-    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
-  } else {
-    $rootScope.infaq = localStorage.removeItem('faq');
-    console.log('$rootScope.infaq', $rootScope.infaq);
-  }
-
-  $scope.faqs = [{ question: "1. Why arent my links working?",
-    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
-    answer: "2nd" }, { question: "3. 3rd",
-    answer: "3rd" }];
-
-  $scope.getAnswer = function () {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
-  };
-}
-'use strict';
-
-<<<<<<< HEAD
-=======
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend', FriendlistCtrl]);
-=======
->>>>>>> 08cfb26511f65f87efbe21d14ac28f90f68df7a9
-angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', FriendlistCtrl]);
->>>>>>> 13e506469b8917ee92517ae77e9e99238b36a486
-
-// FriendlistCtrl.resolve = {
-//   getUser: function(UserSvc) {
-//     return UserSvc.getProfile();
-//   }
-// }
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser, getFriend) {
 
@@ -183,14 +141,8 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $rootScope.display_name = getUser.data.displayName;
   var friendId = $stateParams.fid;
 
-  // FriendlistCtrl.resolve = {
+  console.log(getFriend.data, 'GET FRIEND (all friend info) <-----------');
 
-  // }
-
-  console.log(getFriend.data);
-
-  // WORKS
-  // console.log('GET FRIEND API CALL BEFORE ROUTE IS SUCCESSFUL', getFriend.data.user.items)
   $scope.items = getFriend.data.items;
   console.log('THIS IS THE CORRECT ITEM ORDER BITCHESSS', $scope.items);
 
@@ -207,7 +159,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.user = getFriend.data.user;
   $scope.id = getFriend.data.user._id;
   $scope.birthday = getFriend.data.user.birthday;
-  // console.log('!@#!@#!@#!@', $scope.birthday)
   if ($scope.birthday == undefined) {
     $scope.birthday = ' N/A ';
   }
@@ -284,11 +235,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     //   console.log('!@#!@#21', $scope.favoritedBy)
     // }
   }
-
-  // })
-  // .catch((err) => {
-  //   console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  // });
 
   $scope.like_item = function (item, $index) {
     console.log('heart clicked');
@@ -378,6 +324,32 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     $state.go('followers');
   };
 }
+'use strict';
+
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
+
+function faqCtrl($rootScope, $scope) {
+
+  var token = 'in faq';
+  localStorage.setItem('faq', token);
+
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+    console.log('$rootScope.infaq', $rootScope.infaq);
+  }
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. 2nd",
+    answer: "2nd" }, { question: "3. 3rd",
+    answer: "3rd" }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
 
 'use strict';
 
@@ -447,7 +419,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   |__________________| */
 
   UserSvc.getProfile().then(function (response) {
-    console.log('Original GetProfile Response ******************', response.data);
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
@@ -472,6 +443,11 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     $rootScope.followingArr = response.data.following;
     $rootScope.followersArr = response.data.followers;
+
+    /* ________________
+    |                  |
+    |  Favorited By:   |
+    |__________________| */
     $rootScope.favoritedByArr = response.data.favoritedBy;
 
     var allFavoritedBy = $rootScope.favoritedByArr;
@@ -488,69 +464,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
         };
       }
     });
-
-    // $scope.favoritedBy = response.data.favoritedBy
-    $scope.favoritedByLength = response.data.favoritedBy.length;
-
-    // $scope.favoritedBy.map(function(eachFavoritedById){
-    //   console.log('WHAT I NEED',eachFavoritedById)
-    //   if (friendsIdArr.indexOf(eachFavoritedById) > -1){
-    //     console.log('WHAT I NEED', eachFavoritedById)
-    //   }
-    // })
-
-    var favoritedbyFriends = response.data.friends;
-    // console.log('FAVORITED BY FRIENDS', favoritedbyFriends)
-
-    $scope.favoritedByArr = response.data.favoritedBy;
-    $scope.favoritedByArr.map(function (eachFavoritedById) {
-      // console.log('WHAT I NEED', eachFavoritedById)
-    });
-
-    // console.log('PEOPLE THAT FAVORITED ME', $scope.favoritedByArr)
-
-    // for (var i = 0; i < $scope.favoritedByLength; i++){
-    for (var i = 0; i < 2; i++) {
-      // console.log('should console once')
-
-<<<<<<< HEAD
-      $scope.favoritedByArr.map(function (eachFavoritedById) {
-        console.log('YOLO', eachFavoritedById);
-        // UserSvc.friendProfile(eachFavoritedById)
-        //   .then((response) => {
-        //     console.log('yolo')
-        //   })
-        //   .catch((err) => {
-        //     console.log('THERE IS AN ERROR', err)
-        //   })
-      });
-=======
-      // $scope.favoritedByArr.map(function(eachFavoritedById){
-      //   console.log('YOLO', eachFavoritedById)
-      //   UserSvc.friendProfile(eachFavoritedById)
-      //     .then((response) => {
-      //       console.log('yolo')
-      //     })
-      //     .catch((err) => {
-      //       console.log('THERE IS AN ERROR', err)
-      //     })
-      // })
->>>>>>> 13e506469b8917ee92517ae77e9e99238b36a486
-
-      // UserSvc.friendProfile($scope.favoritedByArr)
-      //   .then((response) => {
-      //     console.log('RESPONSE FROM FRIENDS',response)
-      //   })
-
-      // console.log('FRIENDSSSSSSSS',response.data.friends[i])
-
-      // console.log('should be once')
-      // UserSvc.friendProfile()
-      //   .then((response) => {
-      //     console.log('THIS RESPONSE', response)
-      //   })
-      // console.log($rootScope.favoritedByModel[i])
-    }
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
@@ -690,6 +603,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   |  Star Wishlist:|
   |________________| */
   $scope.star = function (user) {
+
     UserSvc.starPerson(user);
   };
 
@@ -758,11 +672,10 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   |  View friend wishlist: |
   |________________________| */
   $scope.goToOthers = function (otherUser) {
-    console.log('yolo', otherUser);
+    console.log('Going to a users page yo --> They are:', otherUser);
     UserSvc.getProfile().then(function (response) {
       var myId = response.data.facebook;
       var fid = otherUser.id;
-      console.log('MyId TRYING TO CHANGE PAGE', myId);
       $state.go('friend-wishlist', { id: myId, fid: otherUser.id });
     });
   };

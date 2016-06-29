@@ -14,7 +14,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $rootScope.followingPage = false;
   $scope.like_heart = false;
   $scope.favoriteWishlist = false;
-  // $scope.notFollowing = true;
 
   /* ______________
   |              |
@@ -32,7 +31,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
   UserSvc.getProfile()
   .then((response) => {
-    console.log('Original GetProfile Response ******************', response.data)
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
@@ -297,12 +295,11 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   |  View friend wishlist: |
   |________________________| */
   $scope.goToOthers = (otherUser) => {
-    console.log('yolo', otherUser)
+    console.log('Going to a users page yo --> They are:', otherUser)
     UserSvc.getProfile()
     .then((response) => {
       var myId = response.data.facebook;
       var fid = otherUser.id;
-      console.log('MyId TRYING TO CHANGE PAGE', myId)
       $state.go('friend-wishlist', {id: myId, fid: otherUser.id});
     })
   }
