@@ -30,18 +30,23 @@
     <div class="title_container">
       <h2 class="my_wishlist_title">My WishList</h2> <br>
       <span class="favorited">
-        <li ng-repeat="favoritedBy in favoritedByModel">
-          <!--           <img src="https://graph.facebook.com/{{favoritedBy.id}}/picture?type=large" alt="">
-        -->          Favorited By {{favoritedBy.name}}
-      </li>
-      <!-- Favorited By {{favoritedByLength}} -->
+        <!-- when not clicked on -->
+        <div class="FavByStarContainer">
+          <i class="fa fa-star"></i>
+          <p>By
+            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}</span>
+          </p>
+        </div>
     </span>
-    <button type="button" class="add_btn" data-toggle="modal" data-target="#myModal">
-      <img src="http://png.clipart.me/graphics/thumbs/110/magic-wand_110698499.jpg" class="magical_wand">
-    </button>
   </div>
   <div class="bottom_container col-xs-12">
-    <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">
+    <div class="top_line">
+      <button type="button" class="add_btn btn btn-primary" data-toggle="modal" data-target="#myModal">
+        ADD
+      </button>
+      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">
+    </div>
+
     <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >
       <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
         <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
@@ -176,6 +181,23 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" ng-click="save_changes(item, editItemId)" data-dismiss="modal" ng-disabled="editForm.$invalid">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="showFavBy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog favoritedBy" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>
+      </div>
+      <div class="modal-body">
+        <li ng-repeat="favoritedBy in favoritedByModel" class="favoritedByModal">
+          <img ng-src="https://graph.facebook.com/{{favoritedBy.fbookId}}/picture?type=small" alt="">
+          <p> {{favoritedBy.name}} </p>
+        </li>
       </div>
     </div>
   </div>

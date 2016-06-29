@@ -65,7 +65,7 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '  </div>\n' +
     '\n' +
-    '  <div class="wishlist_container container col-xs-8" ng-if="!settings">\n' +
+    '  <div class="wishlist_container container col-xs-8" ng-if="!followingPage && !followersPage">\n' +
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
     '      <!-- \'You, Rachel Slater & 1232 Others Favorited Your WishList\' -->\n' +
@@ -83,6 +83,49 @@ module.run(['$templateCache', function($templateCache) {
     '        </li>\n' +
     '      </ol>\n' +
     '    </div>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<!-- following -->\n' +
+    '\n' +
+    '<div class="main_container" ng-if="followingPage && !followersPage">\n' +
+    '  <div class="wishlist_container container col-xs-8">\n' +
+    '    <div class="title_container">\n' +
+    '      <h2 class="my_wishlist_title">Following</h2>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div class="bottom_container">\n' +
+    '      <input ng-model="following.name" placeholder="Search Following" class="col-xs-12">\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div class="bottom_container">\n' +
+    '      <li ng-repeat="following in followingModel | filter:following.name" class="following col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(following)">\n' +
+    '        <img ng-src="https://graph.facebook.com/{{following.id}}/picture?type=large" class="followers_pic">\n' +
+    '        <h6 class="user_name">{{following.name}}</h6>\n' +
+    '      </li>\n' +
+    '    </div>\n' +
+    '\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<!-- followers -->\n' +
+    '\n' +
+    '<div class="main_container" ng-if="followersPage && !followingPage">\n' +
+    '  <div class="wishlist_container container col-xs-8">\n' +
+    '    <div class="title_container">\n' +
+    '      <h2 class="my_wishlist_title">Followers</h2>\n' +
+    '    </div>\n' +
+    '    <div class="bottom_container">\n' +
+    '      <input ng-model="followers.name" placeholder="Search Followers" class="col-xs-12">\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div class="bottom_container">\n' +
+    '      <li ng-repeat="follower in followersModel | filter:following.name" class="followers col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(follower)">\n' +
+    '        <img ng-src="https://graph.facebook.com/{{follower.id}}/picture?type=large" class="followers_pic">\n' +
+    '        <h6 class="user_name">{{follower.name}}</h6>\n' +
+    '      </li>\n' +
+    '    </div>\n' +
+    '\n' +
     '  </div>\n' +
     '</div>\n' +
     '');
@@ -178,18 +221,23 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">My WishList</h2> <br>\n' +
     '      <span class="favorited">\n' +
-    '        <li ng-repeat="favoritedBy in favoritedByModel">\n' +
-    '          <!--           <img src="https://graph.facebook.com/{{favoritedBy.id}}/picture?type=large" alt="">\n' +
-    '        -->          Favorited By {{favoritedBy.name}}\n' +
-    '      </li>\n' +
-    '      <!-- Favorited By {{favoritedByLength}} -->\n' +
+    '        <!-- when not clicked on -->\n' +
+    '        <div class="FavByStarContainer">\n' +
+    '          <i class="fa fa-star"></i>\n' +
+    '          <p>By\n' +
+    '            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}</span>\n' +
+    '          </p>\n' +
+    '        </div>\n' +
     '    </span>\n' +
-    '    <button type="button" class="add_btn" data-toggle="modal" data-target="#myModal">\n' +
-    '      <img src="http://png.clipart.me/graphics/thumbs/110/magic-wand_110698499.jpg" class="magical_wand">\n' +
-    '    </button>\n' +
     '  </div>\n' +
     '  <div class="bottom_container col-xs-12">\n' +
-    '    <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
+    '    <div class="top_line">\n' +
+    '      <button type="button" class="add_btn btn btn-primary" data-toggle="modal" data-target="#myModal">\n' +
+    '        ADD\n' +
+    '      </button>\n' +
+    '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
+    '    </div>\n' +
+    '\n' +
     '    <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >\n' +
     '      <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '        <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
@@ -324,6 +372,23 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '      <div class="modal-footer">\n' +
     '        <button type="button" class="btn btn-primary" ng-click="save_changes(item, editItemId)" data-dismiss="modal" ng-disabled="editForm.$invalid">Save changes</button>\n' +
+    '      </div>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="modal fade" id="showFavBy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">\n' +
+    '  <div class="modal-dialog favoritedBy" role="document">\n' +
+    '    <div class="modal-content">\n' +
+    '      <div class="modal-header">\n' +
+    '        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
+    '        <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>\n' +
+    '      </div>\n' +
+    '      <div class="modal-body">\n' +
+    '        <li ng-repeat="favoritedBy in favoritedByModel" class="favoritedByModal">\n' +
+    '          <img ng-src="https://graph.facebook.com/{{favoritedBy.fbookId}}/picture?type=small" alt="">\n' +
+    '          <p> {{favoritedBy.name}} </p>\n' +
+    '        </li>\n' +
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +

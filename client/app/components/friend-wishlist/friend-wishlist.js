@@ -10,12 +10,14 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   var followingFriendIdArr = getUser.data.following;
   $rootScope.display_name = getUser.data.displayName
   var friendId = $stateParams.fid;
+  $scope.followersPage = false;
+  $scope.followingPage = false;
 
-  console.log(getFriend.data, 'GET FRIEND (all friend info) <-----------');
+  // console.log(getFriend.data, 'GET FRIEND (all friend info) <-----------');
 
   $scope.items = getFriend.data.items
   $rootScope.friendFollowers = getFriend.data.user.followers;
-  console.log($rootScope.friendFollowers, '<--------------------------------------Friend Followers');
+  // console.log($rootScope.friendFollowers, '<--------------------------------------Friend Followers');
   $rootScope.friendFollowing = getFriend.data.user.following;
   console.log($rootScope.friendFollowing, '<--------------------------------------Friend Following');
 
@@ -188,6 +190,9 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |__________________| */
 
   $scope.goToFollowers = () => {
+    $scope.followersPage = true;
+    $scope.followingPage = false;
+    console.log('followers button clicked')
     // $rootScope.followersPage = true;
     // $rootScope.followingPage = false;
     var allFollowers = $rootScope.friendFollowers;
@@ -217,6 +222,9 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |__________________| */
 
   $scope.goToFollowing = () => {
+    $scope.followingPage = true;
+    $scope.followersPage = false;
+    console.log('following button clicked')
     // $rootScope.followersPage = true;
     // $rootScope.followingPage = false;
 

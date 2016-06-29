@@ -61,19 +61,23 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     |  Favorited By:   |
     |__________________| */
     $rootScope.favoritedByArr = response.data.favoritedBy;
+    $scope.favoritedByLength = response.data.favoritedBy.length;
 
     var allFavoritedBy = $rootScope.favoritedByArr;
     UserSvc.displayFaves(allFavoritedBy)
     .then((response) => {
+      console.log('RIGHT HURRR', response.data)
       var allFavoritedBy = response.data;
       $rootScope.favoritedByModel = [];
 
       for (var i=0; i<allFavoritedBy.length; i++) {
         var eachFavoritedBy = allFavoritedBy[i];
         var name = eachFavoritedBy.displayName;
+        var fbookId = eachFavoritedBy.facebook;
 
         $rootScope.favoritedByModel[i] = {
-          "name": name
+          "name": name,
+          "fbookId": fbookId
         }
       }
     })
@@ -228,6 +232,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     UserSvc.starPerson(user)
   }
+
+
 
   /* ______________
   |              |

@@ -286,10 +286,6 @@ p.logo span.stationary {
     margin-top: 40px;
 }
 
-.profile.container {
-  /*z-index: -1000;*/
-}
-
 .pro_pic_container,
 .pro_info,
 .pro_info_stats,
@@ -393,6 +389,11 @@ p.logo span.stationary {
   list-style-type: none;
 }
 
+.bottom_container .top_line {
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
 .modal-title,
 .modal-body {
   text-align: center;
@@ -403,20 +404,46 @@ p.logo span.stationary {
   height: 50px;
 }
 
+.fa.fa-star {
+  color: gold;
+}
+
+.FavByStarContainer i,
+.FavByStarContainer p {
+  display: inline-block;
+  cursor: auto;
+}
+
+.FavByStarContainer p span:hover {
+  color: #acabab;
+  cursor: pointer;
+}
+
+span.favorited li {
+  list-style-type: none;
+}
+
+
+.modal-body li {
+  list-style-type: none;
+}
+
+.favoritedByModal img,
+.favoritedByModal p {
+  display: inline-block;
+}
+
+.modal-dialog.favoritedBy {
+  width: 400px;
+}
+
 /*NEED TO UPDATE*/
 
-.add_btn {;
-  position: relative;
+.add_btn {
+  position: absolute;
   border:none;
-  background: transparent;
+  left: 45px;
 }
-
-.add_btn:hover {
-  background-color: white;
-  z-index: 9999;
-  border: 1px solid pink;
-}
-
 
 input.searchItems {
   position: relative;
@@ -603,6 +630,7 @@ i.fa-trash {
 
 .star_btn {
   position: relative;
+  color: gold;
 }
 
 .star_btn:before {
