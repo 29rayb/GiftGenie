@@ -155,6 +155,53 @@ p.logo {
     word-spacing: 2.5px;
 }
 
+p.logo span.stationary {
+  margin-left: 110px;
+}
+
+.rw-words {
+  display: inline;
+  font-size: 24px;
+}
+
+.rw-words span {
+  position: absolute;
+  opacity: 0;
+  left: 63px;
+  top: 271px;
+  overflow: hidden;
+  width: 100%;
+  color: #acabab;
+  font-weight: 600;
+}
+
+.rw-words-2 span {
+  animation: rotateWordsSecond 16s linear infinite 0s;
+}
+
+.rw-words span:nth-child(2) { 
+  animation-delay: 4s; 
+/*  color: purple;
+*/}
+
+.rw-words span:nth-child(3) { 
+  animation-delay: 8s; 
+  /*color: green; */
+}
+.rw-words span:nth-child(4) { 
+  animation-delay: 12s; 
+  /*color: blue;*/
+}
+
+@keyframes rotateWordsSecond {
+    0% { opacity: 0; animation-timing-function: ease-out; width: 0px; }
+    10% { opacity: 0; width: 0px; }
+    15% { opacity: 0; width: 100%; }
+    18% { opacity: 1; width: 100%; }
+    27% { opacity: 0; width: 100%; }
+    100% { opacity: 0; }
+}
+
 .home_container {
   color: #000;
   margin: 0 auto;

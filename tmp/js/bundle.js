@@ -269,15 +269,15 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       // console.log(arrayToRemoveFrom, 'AFTER DELETING.');
       // console.log(arrayToRemoveFrom.length, 'LENGTH AFTER');
     } else if ($scope.like_heart == undefined) {
-        // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
-        $scope.like_heart = [];
-        $scope.like_heart.push($index);
-        // console.log('after pushing index into like_heart',$scope.like_heart)
-      } else if ($scope.like_heart != undefined) {
-          // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
-          $scope.like_heart.push($index);
-          // console.log('after pushing index into like_heart',$scope.like_heart)
-        }
+      // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+      $scope.like_heart = [];
+      $scope.like_heart.push($index);
+      // console.log('after pushing index into like_heart',$scope.like_heart)
+    } else if ($scope.like_heart != undefined) {
+      // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
+      $scope.like_heart.push($index);
+      // console.log('after pushing index into like_heart',$scope.like_heart)
+    }
 
     UserSvc.likeItem(item).then(function (res) {
       console.log('response from item being liked', res);
@@ -748,9 +748,9 @@ function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope) {
     $rootScope.infaq = localStorage.getItem('faq');
     // console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq)
   } else {
-      $rootScope.infaq = localStorage.removeItem('faq');
-      // console.log('$rootScope.infaq', $rootScope.infaq)
-    }
+    $rootScope.infaq = localStorage.removeItem('faq');
+    // console.log('$rootScope.infaq', $rootScope.infaq)
+  }
 
   $scope.isAuthenticated = function () {
     return $auth.isAuthenticated();
