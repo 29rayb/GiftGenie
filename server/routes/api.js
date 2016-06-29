@@ -238,6 +238,7 @@ router.post('/friend', function(req, res){
     if (user === null){
       return false;
     }
+
     var friendItems = user.items;
     // console.log(friendItems, 'items');
 
@@ -247,7 +248,6 @@ router.post('/friend', function(req, res){
     // var allFriendItems = [];
 
     Item.find( {_id: { $in : friendItems }}, function(err, items) {
-
       console.log(items, '<-------Items.');
       var allItems = items;
 
@@ -261,6 +261,25 @@ router.post('/friend', function(req, res){
       res.send(data)
     })
   })
+})
+
+router.post('/friend/follow', function(req, res){
+  var followMongoIdArray = req.body.params.friendIds;
+
+  var allFollowUsers = [];
+  for (var i = 0; i < followMongoIdArray.length; i++){
+    var eachFollow = followMongoIdArray[i];
+
+    User.findById({"_id": eachFollow}, function(err, user) {
+      if (err) {res.status(400).send(err)}
+      var everyUser = user;
+      allFollowUsers.push(everyUser);
+      var userCheck = user._id;
+      if(followMongoIdArray.length === allFollowUsers.length) {
+        res.send(allFollowUsers)
+      }
+    })
+  }
 })
 
 router.get('/favorites/data', function(req, res) {
@@ -395,94 +414,94 @@ router.put('/me/makePrivate', function(req, res){
         })
       })
     })
+  })
+})
+
+//**Changing privacy settings --> From private to public.
+router.put('/me/makePublic', function(req, res){
+  console.log('in make public route --> user', req.user);
+
+  User.findById(req.user, function(err, user){
+    User.update({"_id": req.user}, {$set: {"private": false}}, function(err, user) {
+      if (err) {res.status(400).send(err)}
+      console.log('USER UPDATED')
+      res.send(user);
     })
   })
+})
 
-  //**Changing privacy settings --> From private to public.
-  router.put('/me/makePublic', function(req, res){
-    console.log('in make public route --> user', req.user);
+//**When click on searchbar in Navbar, checking if friends have set their profile to private.
+router.post('/me/checkingFriendPrivacy', function(req, res) {
+  console.log('*******INSIDE CHECK FRIEND PRIVACY');
+  console.log('--------------> The actual user', req.user);
+  var userMates = req.body.friends;
+  console.log(userMates, '<------------------------------- UserMates in Server.');
 
-    User.findById(req.user, function(err, user){
-      User.update({"_id": req.user}, {$set: {"private": false}}, function(err, user) {
-        if (err) {res.status(400).send(err)}
-        console.log('USER UPDATED')
-        res.send(user);
-      })
-    })
+  User.find( {facebook: { $in : userMates }}, function(err, users) {
+    var allFriends = users;
+    var friendsWhoArePublic = [];
+    var friendsWhoArePrivate = [];
+
+    for (var i = 0; i < users.length; i++){
+      if(users[i].private == false) {
+        friendsWhoArePublic.push(users[i])
+      } else if (users[i].private == true) {
+        friendsWhoArePrivate.push(users[i])
+      }
+    }
+
+    console.log(friendsWhoArePublic, 'PUBLIC*********');
+    console.log(friendsWhoArePrivate, 'PRIVATE*********');
+
+    var idsOfPrivateMates = []
+    for (var i = 0; i < friendsWhoArePrivate.length; i++){
+      var mongoId = friendsWhoArePrivate[i]._id;
+      idsOfPrivateMates.push(mongoId);
+    }
+    console.log(idsOfPrivateMates, '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+
+    // var mongoose = require('mongoose');
+    // idsOfPrivateMates = idsOfPrivateMates.map(function(id) { return mongoose.Types.ObjectId(id) });
+
+
+    // User.findById(req.user, function(err, user) {
+    //
+    //   console.log(user.favorites, 'Before REMOVAL');
+    //   var currentFaves = user.favorites;
+    //   console.log(currentFaves, 'here current fav');
+    //
+    //   console.log(idsOfPrivateMates, 'privates');
+    //   if(err){
+    //     res.status(400).send(err);
+    //   }
+    //
+    //   var privatesPresentinFavs = [];
+    //   for (var i = 0; i < idsOfPrivateMates.length; i++){
+    //     if(currentFaves.indexOf(idsOfPrivateMates[i]) > -1) {
+    //       console.log('HERERERERERRERERERERRRRRRRRRRRRR', idsOfPrivateMates[i]);
+    //       var privateForRemoval = idsOfPrivateMates[i];
+    //       privatesPresentinFavs.push(privateForRemoval);
+    //     }
+    //   }
+    //
+    //   console.log(privatesPresentinFavs, 'DOUBLE CHECK&&&&&&&&&&&&&&&&&');
+    //
+    //   User.update({"_id": req.user}, {$pull: {"favorites": privatesPresentinFavs}}, function(err, user){
+    //     if(err){ res.status(400).send(err);}
+    //     console.log(user, 'user update');
+
+    var data = {
+      publicFriends: friendsWhoArePublic,
+      privateFriends: friendsWhoArePrivate
+    }
+
+    console.log(data, '<-----------------------------------DATA')
+
+    if (err) console.error(err)
+    res.send(data)
   })
 
-  //**When click on searchbar in Navbar, checking if friends have set their profile to private.
-  router.post('/me/checkingFriendPrivacy', function(req, res) {
-    console.log('*******INSIDE CHECK FRIEND PRIVACY');
-    console.log('--------------> The actual user', req.user);
-    var userMates = req.body.friends;
-    console.log(userMates, '<------------------------------- UserMates in Server.');
+})
+// })
 
-    User.find( {facebook: { $in : userMates }}, function(err, users) {
-      var allFriends = users;
-      var friendsWhoArePublic = [];
-      var friendsWhoArePrivate = [];
-
-      for (var i = 0; i < users.length; i++){
-        if(users[i].private == false) {
-          friendsWhoArePublic.push(users[i])
-        } else if (users[i].private == true) {
-          friendsWhoArePrivate.push(users[i])
-        }
-      }
-
-      console.log(friendsWhoArePublic, 'PUBLIC*********');
-      console.log(friendsWhoArePrivate, 'PRIVATE*********');
-
-      var idsOfPrivateMates = []
-      for (var i = 0; i < friendsWhoArePrivate.length; i++){
-        var mongoId = friendsWhoArePrivate[i]._id;
-        idsOfPrivateMates.push(mongoId);
-      }
-      console.log(idsOfPrivateMates, '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-
-      // var mongoose = require('mongoose');
-      // idsOfPrivateMates = idsOfPrivateMates.map(function(id) { return mongoose.Types.ObjectId(id) });
-
-
-      // User.findById(req.user, function(err, user) {
-      //
-      //   console.log(user.favorites, 'Before REMOVAL');
-      //   var currentFaves = user.favorites;
-      //   console.log(currentFaves, 'here current fav');
-      //
-      //   console.log(idsOfPrivateMates, 'privates');
-      //   if(err){
-      //     res.status(400).send(err);
-      //   }
-      //
-      //   var privatesPresentinFavs = [];
-      //   for (var i = 0; i < idsOfPrivateMates.length; i++){
-      //     if(currentFaves.indexOf(idsOfPrivateMates[i]) > -1) {
-      //       console.log('HERERERERERRERERERERRRRRRRRRRRRR', idsOfPrivateMates[i]);
-      //       var privateForRemoval = idsOfPrivateMates[i];
-      //       privatesPresentinFavs.push(privateForRemoval);
-      //     }
-      //   }
-      //
-      //   console.log(privatesPresentinFavs, 'DOUBLE CHECK&&&&&&&&&&&&&&&&&');
-      //
-      //   User.update({"_id": req.user}, {$pull: {"favorites": privatesPresentinFavs}}, function(err, user){
-      //     if(err){ res.status(400).send(err);}
-      //     console.log(user, 'user update');
-
-      var data = {
-        publicFriends: friendsWhoArePublic,
-        privateFriends: friendsWhoArePrivate
-      }
-
-      console.log(data, '<-----------------------------------DATA')
-
-      if (err) console.error(err)
-      res.send(data)
-    })
-
-  })
-  // })
-
-  module.exports = router;
+module.exports = router;

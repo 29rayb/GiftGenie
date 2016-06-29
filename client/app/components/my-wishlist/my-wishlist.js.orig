@@ -14,7 +14,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $rootScope.followingPage = false;
   $scope.like_heart = false;
   $scope.favoriteWishlist = false;
-  // $scope.notFollowing = true;
 
   /* ______________
   |              |
@@ -94,6 +93,18 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     for (var i = 0; i < 2; i++){
       // console.log('should console once')
 
+<<<<<<< HEAD
+    $scope.favoritedByArr.map(function(eachFavoritedById){
+      console.log('YOLO', eachFavoritedById)
+      // UserSvc.friendProfile(eachFavoritedById)
+      //   .then((response) => {
+      //     console.log('yolo')
+      //   })
+      //   .catch((err) => {
+      //     console.log('THERE IS AN ERROR', err)
+      //   })
+    })
+=======
       // $scope.favoritedByArr.map(function(eachFavoritedById){
       //   console.log('YOLO', eachFavoritedById)
       //   UserSvc.friendProfile(eachFavoritedById)
@@ -104,6 +115,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
       //       console.log('THERE IS AN ERROR', err)
       //     })
       // })
+>>>>>>> 13e506469b8917ee92517ae77e9e99238b36a486
 
 
       // UserSvc.friendProfile($scope.favoritedByArr)
@@ -273,7 +285,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   |  Star Wishlist:|
   |________________| */
   $scope.star = function (user) {
-
     UserSvc.starPerson(user)
   }
 

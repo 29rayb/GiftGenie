@@ -31,26 +31,26 @@
       <h2 class="my_wishlist_title">My WishList</h2> <br>
       <span class="favorited">
         <li ng-repeat="favoritedBy in favoritedByModel">
-<!--           <img src="https://graph.facebook.com/{{favoritedBy.id}}/picture?type=large" alt="">
- -->          Favorited By {{favoritedBy.name}}
-        </li>
-        <!-- Favorited By {{favoritedByLength}} -->
-      </span>
-      <button type="button" class="add_btn" data-toggle="modal" data-target="#myModal">
-        <img src="http://png.clipart.me/graphics/thumbs/110/magic-wand_110698499.jpg" class="magical_wand">
-      </button>
-    </div>
-    <div class="bottom_container col-xs-12">
-      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">
-      <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >
-        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
-          <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
-          <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
-          <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
-        </li>
-      </ol>
-    </div>
+          <!--           <img src="https://graph.facebook.com/{{favoritedBy.id}}/picture?type=large" alt="">
+        -->          Favorited By {{favoritedBy.name}}
+      </li>
+      <!-- Favorited By {{favoritedByLength}} -->
+    </span>
+    <button type="button" class="add_btn" data-toggle="modal" data-target="#myModal">
+      <img src="http://png.clipart.me/graphics/thumbs/110/magic-wand_110698499.jpg" class="magical_wand">
+    </button>
   </div>
+  <div class="bottom_container col-xs-12">
+    <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">
+    <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >
+      <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
+        <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
+        <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
+        <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
+      </li>
+    </ol>
+  </div>
+</div>
 </div>
 
 <!-- settings -->
@@ -106,7 +106,7 @@
     </div>
 
     <div class="bottom_container">
-      <li ng-repeat="follower in followersModel | filter:following.name" class="followers col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(followers)">
+      <li ng-repeat="follower in followersModel | filter:following.name" class="followers col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(follower)">
         <img ng-src="https://graph.facebook.com/{{follower.id}}/picture?type=large" class="followers_pic">
         <h6 class="user_name">{{follower.name}}</h6>
       </li>
