@@ -1,34 +1,5 @@
 (function(module) {
 try {
-  module = angular.module('faq');
-} catch (e) {
-  module = angular.module('faq', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('faq/faq.html',
-    '<div class="main_container">\n' +
-    '\n' +
-    '  <div class="faq container">\n' +
-    '    <h1>Frequently Asked Questions</h1>\n' +
-    '    <div class="search_faq_container">\n' +
-    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <ul class="faquestions">\n' +
-    '      <li ng-repeat="faq in faqs | filter:search">\n' +
-    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
-    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}}</h6>\n' +
-    '      </li>\n' +
-    '    </ul>\n' +
-    '  </div>\n' +
-    '\n' +
-    '</div>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
   module = angular.module('friendWishlist');
 } catch (e) {
   module = angular.module('friendWishlist', []);
@@ -70,18 +41,13 @@ module.run(['$templateCache', function($templateCache) {
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
     '      <!-- \'You, Rachel Slater & 1232 Others Favorited Your WishList\' -->\n' +
     '      <span class="favorited">\n' +
-    '<!--         <button ng-click="star(user)" ng-class="yellowStar" class="favorite_wishlist_btn">\n' +
-    '          <i class="fa fa-star"></i>\n' +
-    '        </button> -->\n' +
     '        <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>\n' +
-    '        <!-- <div class="favy" ng-class="{is_favoriting: true}" ng-click="star(user)"> </div> -->\n' +
-    '\n' +
     '        Favorited By {{favoritedByLength}}\n' +
     '      </span>\n' +
     '    </div>\n' +
     '    <div class="bottom_container">\n' +
     '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
-    '      <ol ui-sortable ng-model="items" class="wishlist_items" >\n' +
+    '      <ol ng-model="items" class="wishlist_items" >\n' +
     '        <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '          <a href="{{item.link}}" class="wishlist_item friendlist_items" target="_blank"> {{item.name}} </a>\n' +
     '          <div class="likey" ng-class="{is_animating: like_heart.indexOf($index) > -1, liked_item : like_heart.indexOf($index) > -1   }" ng-click="like_item(item, $index)"></div>\n' +
@@ -315,6 +281,35 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
+    '</div>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('faq');
+} catch (e) {
+  module = angular.module('faq', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('faq/faq.html',
+    '<div class="main_container">\n' +
+    '\n' +
+    '  <div class="faq container">\n' +
+    '    <h1>Frequently Asked Questions</h1>\n' +
+    '    <div class="search_faq_container">\n' +
+    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <ul class="faquestions">\n' +
+    '      <li ng-repeat="faq in faqs | filter:search">\n' +
+    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
+    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}}</h6>\n' +
+    '      </li>\n' +
+    '    </ul>\n' +
+    '  </div>\n' +
+    '\n' +
     '</div>\n' +
     '');
 }]);

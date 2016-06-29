@@ -75,13 +75,13 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     $scope.favoritedByArr.map(function(eachFavoritedById){
       console.log('YOLO', eachFavoritedById)
-      UserSvc.friendProfile(eachFavoritedById)
-        .then((response) => {
-          console.log('yolo')
-        })
-        .catch((err) => {
-          console.log('THERE IS AN ERROR', err)
-        })
+      // UserSvc.friendProfile(eachFavoritedById)
+      //   .then((response) => {
+      //     console.log('yolo')
+      //   })
+      //   .catch((err) => {
+      //     console.log('THERE IS AN ERROR', err)
+      //   })
     })
 
 

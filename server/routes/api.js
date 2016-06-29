@@ -84,6 +84,7 @@ router.put('/me/items/edit', function(req, res) {
 });
 
 router.put('/me/items/order', function(req, res){
+  // console.log('EDITING THE ORDER OF ITEMS')
   var newUserItems = [];
   var newItemsOrderArr = req.body;
 
@@ -92,11 +93,43 @@ router.put('/me/items/order', function(req, res){
     newUserItems.push(mongoId);
   }
 
+  console.log(newItemsOrderArr)  
+
   User.findById(req.user, function(err, user){
     var userItems = user.items;
+    console.log('user items !@#!@#!@#!@#', userItems)
+    // UserItems
+    // console.log('REQ!@#!@#!@#!@#', req.body)
     User.update({"_id": req.user}, {$set : {"items" : newUserItems}}, function(err, user){
-      res.send(user)
+      // res.send(user)
+      res.write('item order saved in user model')
     })
+    // need to find previous _id and replace it with new _id (newUserItems[i]);
+    for(var i =0; i<newUserItems.length; i++){
+      // console.log('should console 4 times')
+      console.log(newUserItems[i])
+      // Item.update({"_id":  }, {$set: {"_id": newUserItems[i] }}, function(err, item) {
+      //   res.write('item order saved in item model')
+      // })
+    }
+
+
+
+    // while(newUserItems.length > 0){
+    //   console.log('should console four 44444444 times')
+
+    // // Item.update({"_id": }))
+
+    // console.log('NEW ORDER YOLOO123O123O12O3', newUserItems)
+
+    // // var itemMongoId = newUserItems.split(',')
+    // // console.log('JUST THE MONGO ID',itemMongoId)
+
+
+
+
+    //   newUserItems.length--
+    // }
   })
 })
 
@@ -201,7 +234,7 @@ router.post('/friend', function(req, res){
 
   User.findOne({'facebook': friendId}, function(err, user){
 
-    console.log(user.items, 'USER*************************');
+    // console.log(user.items, 'USER*************************');
     if (user === null){
       return false;
     }

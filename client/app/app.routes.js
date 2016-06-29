@@ -23,6 +23,12 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
       templateUrl: 'app/components/my-wishlist/my-wishlist.html',
       controller: 'WishlistCtrl'
     })
+    // .state('friend-wishlist', {
+    //   url: '/my-wishlist/:id/friends/:fid',
+    //   templateUrl: 'app/components/friend-wishlist/friend-wishlist.html',
+    //   controller: 'FriendlistCtrl',
+    //   resolve: FriendlistCtrl.resolve
+    // })
     .state('friend-wishlist', {
       url: '/my-wishlist/:id/friends/:fid',
       templateUrl: 'app/components/friend-wishlist/friend-wishlist.html',
@@ -30,6 +36,9 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
       resolve: {
         getUser: function(UserSvc) {
           return UserSvc.getProfile();
+        },
+        getFriend: function(UserSvc, $stateParams){
+          return UserSvc.friendProfile($stateParams.fid);
         }
       }
     })
