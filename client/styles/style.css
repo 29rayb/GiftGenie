@@ -206,7 +206,7 @@ p.logo span.stationary {
     10% { opacity: 0; width: 0px; }
     15% { opacity: 0; width: 100%; }
     18% { opacity: 1; width: 100%; }
-    27% { opacity: 0; width: 100%; }
+    40% { opacity: 0; width: 100%; }
     100% { opacity: 0; }
 }
 
@@ -606,10 +606,6 @@ i.fa-trash {
   top: 7px;
   left: 17px;
 }
-/*
-.unliked_item {
-  background-color: none;
-}*/
 
 .likey {
   position: absolute;
