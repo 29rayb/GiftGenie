@@ -32,10 +32,18 @@
     <div class="title_container">
       <h2 class="my_wishlist_title">My WishList</h2>
       <!-- 'You, Rachel Slater & 1232 Others Favorited Your WishList' -->
+
       <span class="favorited">
         <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>
-        Favorited By {{favoritedByLength}}
+        <!-- when not clicked on -->
+        <div class="FavByStarContainer">
+          <i class="fa fa-star"></i>
+          <p>By
+            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}</span>
+          </p>
+        </div>
       </span>
+
     </div>
     <div class="bottom_container">
       <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">
@@ -88,6 +96,24 @@
         <h6 class="user_name">{{follower.name}}</h6>
       </li>
     </div>
-
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="showFavBy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog favoritedBy" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>
+      </div>
+      <div class="modal-body">
+        <li ng-repeat="fav in favoritedByModel" class="favoritedByModal">
+          <img ng-src="https://graph.facebook.com/{{fav.fbookId}}/picture?type=small" alt="">
+          <p> {{fav.name}} </p>
+        </li>
+      </div>
+    </div>
+  </div>
+</div>
+

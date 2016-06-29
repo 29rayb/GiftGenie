@@ -1,34 +1,5 @@
 (function(module) {
 try {
-  module = angular.module('faq');
-} catch (e) {
-  module = angular.module('faq', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('faq/faq.html',
-    '<div class="main_container">\n' +
-    '\n' +
-    '  <div class="faq container">\n' +
-    '    <h1>Frequently Asked Questions</h1>\n' +
-    '    <div class="search_faq_container">\n' +
-    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <ul class="faquestions">\n' +
-    '      <li ng-repeat="faq in faqs | filter:search">\n' +
-    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
-    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}}</h6>\n' +
-    '      </li>\n' +
-    '    </ul>\n' +
-    '  </div>\n' +
-    '\n' +
-    '</div>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
   module = angular.module('friendWishlist');
 } catch (e) {
   module = angular.module('friendWishlist', []);
@@ -69,10 +40,18 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="title_container">\n' +
     '      <h2 class="my_wishlist_title">My WishList</h2>\n' +
     '      <!-- \'You, Rachel Slater & 1232 Others Favorited Your WishList\' -->\n' +
+    '\n' +
     '      <span class="favorited">\n' +
     '        <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>\n' +
-    '        Favorited By {{favoritedByLength}}\n' +
+    '        <!-- when not clicked on -->\n' +
+    '        <div class="FavByStarContainer">\n' +
+    '          <i class="fa fa-star"></i>\n' +
+    '          <p>By\n' +
+    '            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}</span>\n' +
+    '          </p>\n' +
+    '        </div>\n' +
     '      </span>\n' +
+    '\n' +
     '    </div>\n' +
     '    <div class="bottom_container">\n' +
     '      <input type="text" placeholder="Search Wishlist" ng-model="search" class="searchItems">\n' +
@@ -125,58 +104,56 @@ module.run(['$templateCache', function($templateCache) {
     '        <h6 class="user_name">{{follower.name}}</h6>\n' +
     '      </li>\n' +
     '    </div>\n' +
-    '\n' +
     '  </div>\n' +
     '</div>\n' +
+    '\n' +
+    '<!-- Modal -->\n' +
+    '<div class="modal fade" id="showFavBy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">\n' +
+    '  <div class="modal-dialog favoritedBy" role="document">\n' +
+    '    <div class="modal-content">\n' +
+    '      <div class="modal-header">\n' +
+    '        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
+    '        <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>\n' +
+    '      </div>\n' +
+    '      <div class="modal-body">\n' +
+    '        <li ng-repeat="fav in favoritedByModel" class="favoritedByModal">\n' +
+    '          <img ng-src="https://graph.facebook.com/{{fav.fbookId}}/picture?type=small" alt="">\n' +
+    '          <p> {{fav.name}} </p>\n' +
+    '        </li>\n' +
+    '      </div>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
     '');
 }]);
 })();
 
 (function(module) {
 try {
-  module = angular.module('home');
+  module = angular.module('faq');
 } catch (e) {
-  module = angular.module('home', []);
+  module = angular.module('faq', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<!-- <div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">No More Unwanted Gifts</p>\n' +
-    '</div> -->\n' +
+  $templateCache.put('faq/faq.html',
+    '<div class="main_container">\n' +
     '\n' +
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">\n' +
-    '    No More Unwanted\n' +
-    '    <span class="stationary">Gifts</span>\n' +
-    '    <div class="rw-words rw-words-2">\n' +
-    '      <span>Birthday</span>\n' +
-    '      <span>Wedding </span>\n' +
-    '      <span>Christmas</span>\n' +
-    '      <span>Graduation</span>\n' +
-    '      <!-- anniversary -->\n' +
-    '      <!-- valentine -->\n' +
+    '  <div class="faq container">\n' +
+    '    <h1>Frequently Asked Questions</h1>\n' +
+    '    <div class="search_faq_container">\n' +
+    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
     '    </div>\n' +
-    '  </p>\n' +
     '\n' +
-    '</div>\n' +
-    '\n' +
-    '<div class="home_container" ng-if="!loggedIn">\n' +
-    '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
+    '    <ul class="faquestions">\n' +
+    '      <li ng-repeat="faq in faqs | filter:search">\n' +
+    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
+    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}}</h6>\n' +
+    '      </li>\n' +
+    '    </ul>\n' +
     '  </div>\n' +
-    '</div>\n' +
     '\n' +
-    '<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach">\n' +
-    '<!-- https://66.media.tumblr.com/971730e6d4d1ddaff1885aacb4639e11/tumblr_nd0bc4mxMR1tchrkco1_500.gif -->\n' +
-    '<!-- https://astridthora.files.wordpress.com/2013/02/tumblr_m16zivzgo51qkvok3o1_500.jpg -->\n' +
+    '</div>\n' +
     '');
 }]);
 })();
@@ -228,8 +205,8 @@ module.run(['$templateCache', function($templateCache) {
     '            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}</span>\n' +
     '          </p>\n' +
     '        </div>\n' +
-    '    </span>\n' +
-    '  </div>\n' +
+    '      </span>\n' +
+    '    </div>\n' +
     '  <div class="bottom_container col-xs-12">\n' +
     '    <div class="top_line">\n' +
     '      <button type="button" class="add_btn btn btn-primary" data-toggle="modal" data-target="#myModal">\n' +
@@ -393,6 +370,55 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '  </div>\n' +
     '</div>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('home');
+} catch (e) {
+  module = angular.module('home', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/home.html',
+    '<!-- <div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">No More Unwanted Gifts</p>\n' +
+    '</div> -->\n' +
+    '\n' +
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">\n' +
+    '    No More Unwanted\n' +
+    '    <span class="stationary">Gifts</span>\n' +
+    '    <div class="rw-words rw-words-2">\n' +
+    '      <span>Birthday</span>\n' +
+    '      <span>Wedding </span>\n' +
+    '      <span>Christmas</span>\n' +
+    '      <span>Graduation</span>\n' +
+    '      <!-- anniversary -->\n' +
+    '      <!-- valentine -->\n' +
+    '    </div>\n' +
+    '  </p>\n' +
+    '\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="home_container" ng-if="!loggedIn">\n' +
+    '  <div class="button_container">\n' +
+    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
+    '    the reason is because its already defined in app.routes.js\n' +
+    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
+    '  </div>\n' +
+    '</div>\n' +
+    '\n' +
+    '<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach">\n' +
+    '<!-- https://66.media.tumblr.com/971730e6d4d1ddaff1885aacb4639e11/tumblr_nd0bc4mxMR1tchrkco1_500.gif -->\n' +
+    '<!-- https://astridthora.files.wordpress.com/2013/02/tumblr_m16zivzgo51qkvok3o1_500.jpg -->\n' +
     '');
 }]);
 })();

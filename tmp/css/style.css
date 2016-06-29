@@ -124,12 +124,20 @@ li a.navbar-links {
 
 
 .navbar-links.left {
-    margin-right: 240px;
+    margin-right: 250px;
 }
 
 .navbar-links.middle {
     margin-right: 120px;
 }
+
+
+a.navbar-links.middle span.starredLength {
+  border-radius: 50%;
+  border: 1px solid #fff;
+  padding: 8px;
+}
+
 
 .navbar-links.right {
     margin-left: 40px;
@@ -171,7 +179,7 @@ p.logo span.stationary {
   top: 271px;
   overflow: hidden;
   width: 100%;
-  color: #acabab;
+  color: #fff !important;
   font-weight: 600;
 }
 
@@ -442,7 +450,7 @@ span.favorited li {
 .add_btn {
   position: absolute;
   border:none;
-  left: 45px;
+  left: 20px;
 }
 
 input.searchItems {

@@ -13,6 +13,7 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope){
     UserSvc.getProfile()
       .then((response) => {
         $rootScope.display_name = response.data.displayName;
+        $rootScope.favoritesLength = response.data.favorites.length;
       })
   }
 

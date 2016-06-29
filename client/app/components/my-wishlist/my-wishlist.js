@@ -61,7 +61,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     |  Favorited By:   |
     |__________________| */
     $rootScope.favoritedByArr = response.data.favoritedBy;
-    $scope.favoritedByLength = response.data.favoritedBy.length;
+    $rootScope.favoritedByLength = response.data.favoritedBy.length;
 
     var allFavoritedBy = $rootScope.favoritedByArr;
     UserSvc.displayFaves(allFavoritedBy)
@@ -325,6 +325,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
         "id": favObj[i].facebook
       };
     }
+    // console.log('this is how many ppl you have starred', $scope.favsModel.length);
+    $rootScope.starredLength = $scope.favsModel.length;
   })
   .catch((err) => {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
