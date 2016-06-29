@@ -16,8 +16,8 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '    <ul class="faquestions">\n' +
     '      <li ng-repeat="faq in faqs | filter:search">\n' +
-    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
-    '        <h6 class="faq_answers" ng-if="showAnswer">{{faq.answer}}</h6>\n' +
+    '        <h5 ng-click="getAnswer($index)">{{faq.question}}</h5><br>\n' +
+    '        <h6 class="faq_answers" ng-if="showAnswer" >{{faq.answer}}</h6>\n' +
     '      </li>\n' +
     '    </ul>\n' +
     '  </div>\n' +
