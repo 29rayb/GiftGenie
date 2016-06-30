@@ -24,8 +24,7 @@ router.post('/facebook', function(req, res) {
     code: req.body.code,
     client_id: req.body.clientId,
     client_secret: process.env.FACEBOOK_SECRET,
-    redirect_uri: window.location.origin + '/'
-    // redirect_uri: req.body.redirectUri
+    redirect_uri: req.body.redirectUri
   };
 
   // STEP 1. Exchange authorization code for access token.
