@@ -37,14 +37,14 @@ router.post('/facebook', function(req, res) {
 
     // STEP 2. Retrieve profile information about the current user.
     request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(err, response, profile) {
-      console.log('THIS IS THE FACEBOOK PROFILE:', profile);
-      console.log("friends", profile.friends.data)
-
+      // console.log('THIS IS THE FACEBOOK PROFILE:', profile);
+      // console.log("friends", profile.friends.data)
 
       if (response.statusCode !== 200) {
         return res.status(500).send({ message: profile.error.message });
       }
 
+      // if (req.header('Authorization')) {
       if (req.headers.authorization) {
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
           //Scenario a):
@@ -80,7 +80,7 @@ router.post('/facebook', function(req, res) {
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
           // Scenario a):
           if (existingUser) {
-            console.log("STEP 3 - auth route - existing user");
+            // console.log("STEP 3 - auth route - existing user");
             var token = existingUser.createJWT();
             return res.send({ token: token, user: user });
             // console.log(token, "We've created the JWT token.");
@@ -93,12 +93,12 @@ router.post('/facebook', function(req, res) {
           user.email = profile.email;
           user.birthday = profile.birthday;
           user.friends = profile.friends.data;
-          console.log("STEP 3 - auth route - creating new user");
+          // console.log("STEP 3 - auth route - creating new user");
           user.save(function() {
             mailer.sendWelcome(user, function(err, body) {
-              console.log('*******************************TRYING TO SEND EMAIL', body);
+              // console.log('*******************************TRYING TO SEND EMAIL', body);
             })
-            console.log("We've created the JWT token.");
+            // console.log("We've created the JWT token.");
             var token = user.createJWT();
             res.send({ token: token });
           });
