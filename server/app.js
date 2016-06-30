@@ -8,9 +8,11 @@ let morgan = require('morgan');
 let mongoose = require('mongoose');
 let authMiddleware = require('./config/authenticate');
 let dotenv = require('dotenv').load();
+let cors = require('cors')
 let app = express();
 app.set('view engine', 'jade');
 app.set('views', 'client');
+app.use(cors());
 
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1/public-wishlist-app', function(err) {
   if (err) { console.log('Error connecting to Mongodb:', err); }
