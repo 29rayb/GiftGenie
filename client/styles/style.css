@@ -615,6 +615,7 @@ span.itemsLikeCount {
   background-position: left;
   background-size: 2900%;
   color: #e81c4f;
+  display: inline-block;
 }
 
 .likey:hover {
