@@ -62,6 +62,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     |__________________| */
     $rootScope.favoritedByArr = response.data.favoritedBy;
     $rootScope.favoritedByLength = response.data.favoritedBy.length;
+    console.log($rootScope.favoritedByLength)
+
 
     var allFavoritedBy = $rootScope.favoritedByArr;
     UserSvc.displayFaves(allFavoritedBy)

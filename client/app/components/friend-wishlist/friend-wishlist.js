@@ -21,8 +21,10 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $rootScope.friendFollowing = getFriend.data.user.following;
   // console.log($rootScope.friendFollowing, '<--------------------------------------Friend Following');
 $rootScope.friendId = getFriend.data.user._id;
-console.log($rootScope.friendId, '<------------------ friendId')
+// console.log($rootScope.friendId, '<------------------ friendId')
   var likedItemsArr = getUser.data.liked;
+
+  console.log('RIGHT ERUWRIUEWHRUIHEWR', getFriend.data)
 
   $scope.user = getFriend.data.user;
   $scope.id = getFriend.data.user._id;
@@ -83,6 +85,7 @@ console.log($rootScope.friendId, '<------------------ friendId')
     |__________________| */
     $rootScope.friendFavoritedByArr = getFriend.data.user.favoritedBy;
     $rootScope.favoritedByLength = getFriend.data.user.favoritedBy.length;
+    console.log($rootScope.favoritedByLength)
 
     var allFriendFavoritedBy = $rootScope.friendFavoritedByArr;
     
@@ -101,10 +104,10 @@ console.log($rootScope.friendId, '<------------------ friendId')
           "fbookId": fbookId
         }
       }
-      console.log($rootScope.favoritedByModel, '<---Favorited By response.')
+      // console.log($rootScope.favoritedByModel, '<---Favorited By response.')
     })
   .catch((err) => {
-    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+    // console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
 
   // this is the fbook id

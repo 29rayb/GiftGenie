@@ -424,7 +424,7 @@ i.fa.fa-star.mine {
 }
 
 .FavByStarContainer {
-  margin-top: -16px;
+  margin-top: -10px;
 }
 
 .FavByStarContainer div,
@@ -432,12 +432,11 @@ i.fa.fa-star.mine {
   display: inline-block;
   cursor: auto;
   margin-left: -20px;
-  z-index: -5000;
 }
 
 .FavByStarContainer p {
   position: absolute;
-  top: 59px;
+  top: 63px;
 }
 
 .FavByStarContainer p span:hover {
@@ -465,8 +464,6 @@ span.favorited li {
   width: 400px;
 }
 
-/*NEED TO UPDATE*/
-
 .add_btn {
   position: absolute;
   border:none;
@@ -479,8 +476,6 @@ input.searchItems {
   height: 30px;
   width: 276px;
 }
-
-/*END*/
 
 .wishlist_item:hover {
   background-color: rgb(189, 198, 207);
@@ -608,6 +603,10 @@ i.fa-trash {
   margin-left: 65px;
 }
 
+span.itemsLikeCount {
+  margin-left: -35px;
+}
+
 .liked_item {
   position: relative;
 }
@@ -660,8 +659,8 @@ i.fa-trash {
   content: '\f005';
   font-family: FontAwesome;
   position: absolute;
-  top: 15px;
-  left: 28px;
+  top: 17px;
+  left: 29px;
 }
 
 .favy {

@@ -84,7 +84,6 @@ router.put('/me/items/edit', function(req, res) {
 });
 
 router.put('/me/items/order', function(req, res){
-  // console.log('EDITING THE ORDER OF ITEMS')
   var newUserItems = [];
   var newItemsOrderArr = req.body;
 
@@ -93,43 +92,12 @@ router.put('/me/items/order', function(req, res){
     newUserItems.push(mongoId);
   }
 
-  console.log(newItemsOrderArr)
-
   User.findById(req.user, function(err, user){
     var userItems = user.items;
-    console.log('user items !@#!@#!@#!@#', userItems)
-    // UserItems
-    // console.log('REQ!@#!@#!@#!@#', req.body)
     User.update({"_id": req.user}, {$set : {"items" : newUserItems}}, function(err, user){
-      // res.send(user)
-      res.write('item order saved in user model')
+      res.send(user)
+      // res.write('item order saved in user model')
     })
-    // need to find previous _id and replace it with new _id (newUserItems[i]);
-    for(var i =0; i<newUserItems.length; i++){
-      // console.log('should console 4 times')
-      console.log(newUserItems[i])
-      // Item.update({"_id":  }, {$set: {"_id": newUserItems[i] }}, function(err, item) {
-      //   res.write('item order saved in item model')
-      // })
-    }
-
-
-
-    // while(newUserItems.length > 0){
-    //   console.log('should console four 44444444 times')
-
-    // // Item.update({"_id": }))
-
-    // console.log('NEW ORDER YOLOO123O123O12O3', newUserItems)
-
-    // // var itemMongoId = newUserItems.split(',')
-    // // console.log('JUST THE MONGO ID',itemMongoId)
-
-
-
-
-    //   newUserItems.length--
-    // }
   })
 })
 
@@ -168,7 +136,7 @@ router.put('/me/star', function(req, res){
     User.update({"_id": req.body._id}, {$push: {"favoritedBy": req.user}}, function(err, user){
       if (err) {res.status(400).send(err);}
       console.log('the other user is being favorited by me now')
-      res.write('my mongo id has been added to rachel slater wishlist ')
+      // res.write('my mongo id has been added to rachel slater wishlist ')
     })
 
     User.update({"_id": req.user}, {$push: {"favorites": starred_friend}}, function(err, user){
@@ -330,6 +298,9 @@ router.get('/favorites/data', function(req, res) {
 // like items;
 router.put('/items/liked', function(req, res){
   var likedItem = req.body._id
+
+
+
   User.findById(req.user, function(err, user){
 
     if (user.liked.indexOf(likedItem) > -1) {

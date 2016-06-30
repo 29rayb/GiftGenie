@@ -34,7 +34,10 @@
         <div class="FavByStarContainer">
           <i class="fa fa-star mine"></i>
           <p>By
-            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}</span>
+            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}
+              <span ng-if="favoritedByLength < 2" >Person</span>
+              <span ng-if="favoritedByLength >= 2">People</span>
+            </span>
           </p>
         </div>
       </span>

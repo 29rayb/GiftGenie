@@ -38,7 +38,10 @@
         <div class="FavByStarContainer">
           <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>
           <p>By
-            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}</span>
+            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}
+              <span ng-if="favoritedByLength < 2">Person</span>
+              <span ng-if="favoritedByLength >= 2">People</span>
+            </span>
           </p>
         </div>
       </span>
@@ -49,7 +52,11 @@
       <ol ng-model="items" class="wishlist_items" >
         <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
           <a href="{{item.link}}" class="wishlist_item friendlist_items" target="_blank"> {{item.name}} </a>
-          <div class="likey" ng-class="{is_animating: like_heart.indexOf($index) > -1, liked_item : like_heart.indexOf($index) > -1   }" ng-click="like_item(item, $index)"></div>
+          <div class="likey" ng-class="{is_animating: like_heart.indexOf($index) > -1, liked_item : like_heart.indexOf($index) > -1   }" ng-click="like_item(item, $index)">
+<!--           <span class="itemsLikeCount">
+            {{item.likedByFriends.length}}
+          </span> -->
+          </div>
         </li>
       </ol>
     </div>
@@ -99,6 +106,7 @@
 </div>
 
 <!-- Modal -->
+<!-- show users that favorited your wishlist -->
 <div class="modal fade" id="showFavBy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog favoritedBy" role="document">
     <div class="modal-content">
@@ -116,3 +124,17 @@
   </div>
 </div>
 
+<!-- show people who liekd an item on your list -->
+<div class="modal fade" id="showLikedItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog showFavBy" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Liked By {{likedByLength}}  </h4>
+      </div>
+      <div class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div>
