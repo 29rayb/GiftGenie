@@ -45,7 +45,11 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
     clientId: '247255738962232',
     requiredUrlParams: ['scope', 'display'],
     display: 'popup',
-    scope: ['user_friends', 'email', 'user_birthday', 'user_likes']
+    authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
+    redirectUri: window.location.origin + '/',
+    scope: ['user_friends', 'email', 'user_birthday', 'user_likes'],
+    type: '2.0',
+    popupOptions: { width: 580, height: 400 }
   });
 }
 'use strict';
@@ -131,6 +135,32 @@ function UserSvc($http) {
     }
   };
 };
+'use strict';
+
+angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
+
+function faqCtrl($rootScope, $scope) {
+
+  var token = 'in faq';
+  localStorage.setItem('faq', token);
+
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+    console.log('$rootScope.infaq', $rootScope.infaq);
+  }
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. I have ideas to improve the app; How can I let you guys know?",
+    answer: "Simply click the email icon on the bottom and email us!" }, { question: "3. Can I share this with my friends?",
+    answer: "Of course. Simply copy and paste the url & they will be able to login with Facebook." }];
+
+  $scope.getAnswer = function ($index) {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend', FriendlistCtrl]);
@@ -278,15 +308,15 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       // console.log(arrayToRemoveFrom, 'AFTER DELETING.');
       // console.log(arrayToRemoveFrom.length, 'LENGTH AFTER');
     } else if ($scope.like_heart == undefined) {
-        // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
-        $scope.like_heart = [];
-        $scope.like_heart.push($index);
-        // console.log('after pushing index into like_heart',$scope.like_heart)
-      } else if ($scope.like_heart != undefined) {
-          // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
-          $scope.like_heart.push($index);
-          // console.log('after pushing index into like_heart',$scope.like_heart)
-        }
+      // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+      $scope.like_heart = [];
+      $scope.like_heart.push($index);
+      // console.log('after pushing index into like_heart',$scope.like_heart)
+    } else if ($scope.like_heart != undefined) {
+      // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
+      $scope.like_heart.push($index);
+      // console.log('after pushing index into like_heart',$scope.like_heart)
+    }
 
     UserSvc.likeItem(item).then(function (res) {
       // console.log('response from item being liked', res);
@@ -404,32 +434,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     });
   };
 }
-'use strict';
-
-angular.module('App').controller('faqCtrl', ['$rootScope', '$scope', faqCtrl]);
-
-function faqCtrl($rootScope, $scope) {
-
-  var token = 'in faq';
-  localStorage.setItem('faq', token);
-
-  if (!localStorage.getItem('satellizer_token')) {
-    $rootScope.infaq = localStorage.getItem('faq');
-    console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq);
-  } else {
-    $rootScope.infaq = localStorage.removeItem('faq');
-    console.log('$rootScope.infaq', $rootScope.infaq);
-  }
-
-  $scope.faqs = [{ question: "1. Why arent my links working?",
-    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. I have ideas to improve the app; How can I let you guys know?",
-    answer: "Simply click the email icon on the bottom and email us!" }, { question: "3. Can I share this with my friends?",
-    answer: "Of course. Simply copy and paste the url & they will be able to login with Facebook." }];
-
-  $scope.getAnswer = function ($index) {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
-  };
-}
 
 'use strict';
 
@@ -461,10 +465,10 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
         // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
         $state.go('my-wishlist', { id: facebookId });
       }).catch(function (err) {
-        console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+        console.error('ERROR with getting the user info from facebook', err);
       });
     }).catch(function (err) {
-      console.error('Inside the Home Ctrl, we have an error!', err);
+      console.error('ERROR with Facebook Satellizer Auth', err);
     });
   };
 
@@ -797,9 +801,9 @@ function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope) {
     $rootScope.infaq = localStorage.getItem('faq');
     // console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq)
   } else {
-      $rootScope.infaq = localStorage.removeItem('faq');
-      // console.log('$rootScope.infaq', $rootScope.infaq)
-    }
+    $rootScope.infaq = localStorage.removeItem('faq');
+    // console.log('$rootScope.infaq', $rootScope.infaq)
+  }
 
   $scope.isAuthenticated = function () {
     return $auth.isAuthenticated();

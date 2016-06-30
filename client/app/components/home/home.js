@@ -34,11 +34,11 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope){
             $state.go('my-wishlist', {id: facebookId})
           })
           .catch((err) => {
-            console.error(err, 'Inside UserSvc After Auth.authenticate, we have an error!');
+            console.error('ERROR with getting the user info from facebook', err);
           });
       })
       .catch((err) => {
-        console.error('Inside the Home Ctrl, we have an error!', err);
+        console.error('ERROR with Facebook Satellizer Auth', err);
       });
   };
 
