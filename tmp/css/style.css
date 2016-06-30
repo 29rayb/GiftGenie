@@ -1,11 +1,11 @@
 html {
   line-height: 1.4;
   height: 100%;
-  font-family: 'Josefin Sans', cursive !important;
+  font-family: 'Josefin Sans' !important;
 }
 
 body {
-  font-family: 'Josefin Sans', cursive !important;
+  font-family: 'Josefin Sans' !important;
 }
 
 button a:hover,
@@ -157,14 +157,13 @@ h1.logo {
 }
 
 p.logo {
-    font-family: Georgia,Times,"Times New Roman", serif;
     color: #acabab;
-    font-size: 18px;
-    word-spacing: 2.5px;
+    font-size: 22px;
+    word-spacing: 2.25px;
 }
 
 p.logo span.stationary {
-  margin-left: 110px;
+  margin-left: 108px;
 }
 
 .rw-words {
@@ -175,8 +174,8 @@ p.logo span.stationary {
 .rw-words span {
   position: absolute;
   opacity: 0;
-  left: 63px;
-  top: 271px;
+  left: 71px;
+  top: 274px;
   overflow: hidden;
   width: 100%;
   color: #fff !important;

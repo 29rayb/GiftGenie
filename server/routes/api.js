@@ -136,7 +136,7 @@ router.put('/me/star', function(req, res){
     User.update({"_id": req.body._id}, {$push: {"favoritedBy": req.user}}, function(err, user){
       if (err) {res.status(400).send(err);}
       console.log('the other user is being favorited by me now')
-      // res.write('my mongo id has been added to rachel slater wishlist ')
+      res.write('my mongo id has been added to rachel slater wishlist ')
     })
 
     User.update({"_id": req.user}, {$push: {"favorites": starred_friend}}, function(err, user){
