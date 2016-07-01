@@ -48,7 +48,7 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
     requiredUrlParams: ['scope', 'display'],
     display: 'popup',
     authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
-    redirectUri: window.location.origin + '/auth/facebook/facebook/callback',
+    redirectUri: window.location.origin + '/facebook/callback',
     scope: ['user_friends', 'email', 'user_birthday', 'user_likes'],
     type: '2.0',
     popupOptions: { width: 580, height: 400 }
