@@ -46,8 +46,8 @@ router.post('/facebook', function(req, res) {
         return res.status(500).send({ message: profile.error.message });
       }
 
-      // if (req.headers.authorization) {
-      if (req.header('Authorization')) {
+      if (req.headers.authorization) {
+      // if (req.header('Authorization')) {
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
           //Scenario a):
           if (existingUser) {
