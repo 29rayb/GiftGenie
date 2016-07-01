@@ -26,10 +26,12 @@ router.post('/facebook', function(req, res) {
     client_secret: process.env.FACEBOOK_SECRET,
     redirect_uri: req.body.redirectUri
   };
+  console.log('params', params)
 
   // STEP 1. Exchange authorization code for access token.
   //We are making a request to Facebook API using this code!
   request.get({ url: accessTokenUrl, qs: params, json: true }, function(err, response, accessToken) {
+    console.log('RIGHTHEUWRWEIUJREWIORJWEIORJWEIORJEWIORJEWIORJWEIORJEWOIRJEWIRJWEROIEWJROIEWJRIOEJWRIOEWJRIOWEJRIOEWJRIOEWJRIOWEJROIEWJROIWEJRIOWEJRIOEWJROIEWJRIOWEJRWEOIJRWEIORJWEIORJEW')
     var storedAccessToken = accessToken;
     if (response.statusCode !== 200) {
       return res.status(500).send({ message: accessToken.error.message });
@@ -37,8 +39,8 @@ router.post('/facebook', function(req, res) {
 
     // STEP 2. Retrieve profile information about the current user.
     request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(err, response, profile) {
-      // console.log('THIS IS THE FACEBOOK PROFILE:', profile);
-      // console.log("friends", profile.friends.data)
+      console.log('THIS IS THE FACEBOOK PROFILE:', profile);
+      console.log("friends", profile.friends.data)
 
       if (response.statusCode !== 200) {
         return res.status(500).send({ message: profile.error.message });
@@ -80,10 +82,10 @@ router.post('/facebook', function(req, res) {
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
           // Scenario a):
           if (existingUser) {
-            // console.log("STEP 3 - auth route - existing user");
+            console.log("STEP 3 - auth route - existing user");
             var token = existingUser.createJWT();
             return res.send({ token: token, user: user });
-            // console.log(token, "We've created the JWT token.");
+            console.log(token, "We've created the JWT token.");
           }
           //Scenario b):
           var user = new User();
