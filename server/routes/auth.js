@@ -80,6 +80,7 @@ router.post('/facebook', function(req, res) {
 
         // STEP 3. CREATE a new user account OR RETURN an existing one.
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
+          console.log('INSIDE STEP 3')
           // Scenario a):
           if (existingUser) {
             console.log("STEP 3 - auth route - existing user");
@@ -88,6 +89,7 @@ router.post('/facebook', function(req, res) {
             console.log(token, "We've created the JWT token.");
           }
           //Scenario b):
+          console.log('STEP 3 SCENARIO B')
           var user = new User();
           user.facebook = profile.id;
           user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
