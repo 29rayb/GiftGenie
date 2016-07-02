@@ -34,6 +34,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
+    if ($rootScope.birthday == undefined){
+      $rootScope.birthday = ' N/A '
+    }
     $rootScope.display_name = response.data.displayName
     $rootScope.email = response.data.email
     $rootScope.pro_pic = response.data.facebook
