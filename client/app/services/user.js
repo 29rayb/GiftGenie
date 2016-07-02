@@ -53,10 +53,10 @@ function UserSvc ($http) {
       return $http.put('/api/me/following', user)
     },
     makePrivate: (loggedInUser) => {
-      return $http.put('/api/me/makePrivate')
+      return $http.put('/api/me/makeprivate')
     },
     makePublic: (loggedInUser) => {
-      return $http.put('/api/me/makePublic')
+      return $http.put('/api/me/makepublic')
     },
     checkingFriendPrivacy: (userFriends) => {
       // console.log('userFriends in service ------> ', userFriends);
@@ -65,7 +65,7 @@ function UserSvc ($http) {
         var mongoId = userFriends[i].id;
         friendsToCheck.push(mongoId);
       }
-      return $http.post('/api/me/checkingFriendPrivacy', {friends: friendsToCheck})
+      return $http.post('/api/me/checkfriendprivacy', {friends: friendsToCheck})
     }
   };
 };

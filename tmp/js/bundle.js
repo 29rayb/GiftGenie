@@ -114,10 +114,10 @@ function UserSvc($http) {
       return $http.put('/api/me/following', user);
     },
     makePrivate: function makePrivate(loggedInUser) {
-      return $http.put('/api/me/makePrivate');
+      return $http.put('/api/me/makeprivate');
     },
     makePublic: function makePublic(loggedInUser) {
-      return $http.put('/api/me/makePublic');
+      return $http.put('/api/me/makepublic');
     },
     checkingFriendPrivacy: function checkingFriendPrivacy(userFriends) {
       // console.log('userFriends in service ------> ', userFriends);
@@ -126,7 +126,7 @@ function UserSvc($http) {
         var mongoId = userFriends[i].id;
         friendsToCheck.push(mongoId);
       }
-      return $http.post('/api/me/checkingFriendPrivacy', { friends: friendsToCheck });
+      return $http.post('/api/me/checkfriendprivacy', { friends: friendsToCheck });
     }
   };
 };
@@ -420,26 +420,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
         };
       }
       // console.log($rootScope.followingModel, 'Data <----------');
-    });
-  };
-}
-'use strict';
-
-angular.module('App').controller('HomeCtrl', HomeCtrl);
-
-HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc'];
-
-function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
-
-  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
-
-  $scope.authenticate = function (provider, user) {
-    $auth.authenticate(provider, user).then(function () {
-      // is it a problem that when facebook login button clicked, he/she
-      // doesn't have the id in the url?
-      $state.go('my-wishlist', { id: $rootScope.pro_pic });
-    }).catch(function (err) {
-      console.error('ERROR with Facebook Satellizer Auth', err);
     });
   };
 }
@@ -762,6 +742,26 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
+}
+'use strict';
+
+angular.module('App').controller('HomeCtrl', HomeCtrl);
+
+HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc'];
+
+function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  $scope.authenticate = function (provider, user) {
+    $auth.authenticate(provider, user).then(function () {
+      // is it a problem that when facebook login button clicked, he/she
+      // doesn't have the id in the url?
+      $state.go('my-wishlist', { id: $rootScope.pro_pic });
+    }).catch(function (err) {
+      console.error('ERROR with Facebook Satellizer Auth', err);
+    });
+  };
 }
 'use strict';
 
