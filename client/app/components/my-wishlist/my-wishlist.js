@@ -9,7 +9,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   $scope.id = $stateParams.id;
   $rootScope.fbook = $stateParams.facebook;
   $rootScope.settings = false;
-  $rootScope.starred = false;
+  // $rootScope.starred = false;
   $rootScope.followersPage = false;
   $rootScope.followingPage = false;
   $scope.like_heart = false;

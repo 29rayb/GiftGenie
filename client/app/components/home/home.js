@@ -12,9 +12,8 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope){
   if (localStorage.getItem("satellizer_token")) {
     UserSvc.getProfile()
       .then((response) => {
-        console.log('THIS IS THE RESPONSE', response)
+        // console.log('response', response.data.friends)
         $rootScope.facebook = response.data.facebook;
-        console.log('YOYOYOYOY', $rootScope.facebook)
         $rootScope.display_name = response.data.displayName;
         $rootScope.favoritesLength = response.data.favorites.length;
       })
@@ -30,11 +29,10 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope){
         // this has to be done before state.go because facebook_email is needed but
         // after auth.authenticate because you are pressing the login with facebook button
           .then((response) => {
-            var facebookId = response.data.facebook;
-            // var facebook_name = response.data.displayName;
-            // var facebook_email = response.data.email;
-            // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-            $state.go('my-wishlist', {id: facebookId})
+            console.log(response, 'after authenticate')
+            $rootScope.friends = response.data.friends;
+            $rootScope.facebook = response.data.facebook;
+            $state.go('my-wishlist', {id: $rootScope.facebook})
           })
           .catch((err) => {
             console.error('ERROR with getting the user info from facebook', err);
