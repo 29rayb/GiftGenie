@@ -22,7 +22,7 @@ let userSchema = Schema({
   items: [{ type: Schema.Types.ObjectId, ref: "Item" }],
   friends: Array,
   liked: [{ type: Schema.Types.ObjectId, ref: "Item" }],
-  notifications: [{type: Schema.Types.ObjectId, ref: "User"}],
+  // notifications: [{type: Schema.Types.ObjectId, ref: "User"}],
   private: {type: Boolean, default: false }
 });
 
@@ -30,16 +30,11 @@ let userSchema = Schema({
 userSchema.methods.createJWT = function() {
   var payload = {
     sub: this._id,  //We're expected to be passing a Mongo UserId here!
-    iat: moment().unix(), //Issued at - the time the token was generated.
-    exp: moment().add(7, 'days').unix()  //Expiry at.
+    iat: moment().unix(),
+    exp: moment().add(7, 'days').unix()
   };
-  return jwt.encode(payload, process.env.JWT_SECRET);
-  console.log(payload, "This is the MongoID from the payload - user model method.");
-  //It returns a token string.
+  return jwt.encode(payload, process.env.JWT_SECRET); //A token (string) is returned.
 };
-
-//The only time we'll be calling this 'create JWT' method is on the User object. (i.e. In auth.js route.)
 
 User = mongoose.model('User', userSchema);
 module.exports = User;
-

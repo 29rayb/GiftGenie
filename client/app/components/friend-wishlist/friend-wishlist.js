@@ -8,40 +8,37 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   var favoritesIdArr = getUser.data.favorites;
   var followingFriendIdArr = getUser.data.following;
-  $rootScope.display_name = getUser.data.displayName
+  var likedItemsArr = getUser.data.liked;
+  $rootScope.display_name = getUser.data.displayName;
+
   var friendId = $stateParams.fid;
   $scope.followersPage = false;
   $scope.followingPage = false;
 
-  // console.log(getFriend.data, 'GET FRIEND (all friend info) <-----------');
+  console.log(getFriend.data, 'GET FRIEND (all friend info) <-----------');
 
-  $scope.items = getFriend.data.items
-  $rootScope.friendFollowers = getFriend.data.user.followers;
-  // console.log($rootScope.friendFollowers, '<--------------------------------------Friend Followers');
-  $rootScope.friendFollowing = getFriend.data.user.following;
-  // console.log($rootScope.friendFollowing, '<--------------------------------------Friend Following');
-$rootScope.friendId = getFriend.data.user._id;
-// console.log($rootScope.friendId, '<------------------ friendId')
-  var likedItemsArr = getUser.data.liked;
+  $scope.items = getFriend.data.items;
+  $rootScope.friendFollowers = getFriend.data.followers;
+  $rootScope.friendFollowing = getFriend.data.following;
+  $rootScope.friendId = getFriend.data._id;
 
   console.log('RIGHT ERUWRIUEWHRUIHEWR', getFriend.data)
 
-  $scope.user = getFriend.data.user;
-  $scope.id = getFriend.data.user._id;
-  $scope.birthday = getFriend.data.user.birthday;
+  $scope.user = getFriend.data;
+  $scope.id = getFriend.data._id;
+  $scope.birthday = getFriend.data.birthday;
   if ($scope.birthday == undefined){
     $scope.birthday = ' N/A '
   }
-  $scope.display_name = getFriend.data.user.displayName
-  $scope.email = getFriend.data.user.email
-  $scope.pro_pic = getFriend.data.user.facebook
-  $scope.friendsLengthh = getFriend.data.user.friends.length;
-  $scope.allFriendFriends = getFriend.data.user.friends;
-  $scope.following = getFriend.data.user.following.length;
-  $scope.followers = getFriend.data.user.followers.length;
+  $scope.display_name = getFriend.data.displayName
+  $scope.email = getFriend.data.email
+  $scope.pro_pic = getFriend.data.facebook
+  $scope.friendsLengthh = getFriend.data.friends.length;
+  $scope.allFriendFriends = getFriend.data.friends;
+  $scope.following = getFriend.data.following.length;
+  $scope.followers = getFriend.data.followers.length;
 
-  var friendItems = getFriend.data.user.items;
-  // console.log('******All of the friends items.');
+  var friendItems = getFriend.data.items;
   var allTheLikedItemsArr= [];
   for (var i = 0; i < friendItems.length; i++){
     var each_likeable_item = friendItems[i];
@@ -51,7 +48,7 @@ $rootScope.friendId = getFriend.data.user._id;
     }
   }
 
-  var friendFavId = getFriend.data.user._id;
+  var friendFavId = getFriend.data._id;
   if (favoritesIdArr.indexOf(friendFavId) > -1){
     // console.log(')!@(#)!@(#)!(@#)!(@#)(!)@(#!@)(#!@)(#)!@(#!@)(',friendFavId)
     $rootScope.yellowStar = 'star_btn';
@@ -68,9 +65,9 @@ $rootScope.friendId = getFriend.data.user._id;
 
   var friendFriendArray = [];
   var friendsIdArr = []
-  for (var i=0; i<getFriend.data.user.friends.length; i++) {
-    var friendFriendName = getFriend.data.user.friends[i].name;
-    var friendId = getFriend.data.user.friends[i].id;
+  for (var i=0; i<getFriend.data.friends.length; i++) {
+    var friendFriendName = getFriend.data.friends[i].name;
+    var friendId = getFriend.data.friends[i].id;
     // console.log('LOOK HERERERERERE', friendFriendName)
     friendFriendArray.push(friendFriendName);
     friendsIdArr.push(friendId);
@@ -79,33 +76,33 @@ $rootScope.friendId = getFriend.data.user._id;
   $scope.friends = friendFriendArray;
   $scope.friendsLength = friendFriendArray.length;
 
-    /* ________________
-    |                  |
-    |  Favorited By:   |
-    |__________________| */
-    $rootScope.friendFavoritedByArr = getFriend.data.user.favoritedBy;
-    $rootScope.favoritedByLength = getFriend.data.user.favoritedBy.length;
-    console.log($rootScope.favoritedByLength)
+  /* ________________
+  |                  |
+  |  Favorited By:   |
+  |__________________| */
+  $rootScope.friendFavoritedByArr = getFriend.data.favoritedBy;
+  $rootScope.favoritedByLength = getFriend.data.favoritedBy.length;
+  console.log($rootScope.favoritedByLength)
 
-    var allFriendFavoritedBy = $rootScope.friendFavoritedByArr;
-    
-    UserSvc.displayFaves(allFriendFavoritedBy)
-    .then((response) => {
-      var allFriendFavoritedBy = response.data;
-      $rootScope.favoritedByModel = [];
+  var allFriendFavoritedBy = $rootScope.friendFavoritedByArr;
 
-      for (var i=0; i<allFriendFavoritedBy.length; i++) {
-        var eachFriendFavoritedBy = allFriendFavoritedBy[i];
-        var name = eachFriendFavoritedBy.displayName;
-        var fbookId = eachFriendFavoritedBy.facebook;
+  UserSvc.displayFaves(allFriendFavoritedBy)
+  .then((response) => {
+    var allFriendFavoritedBy = response.data;
+    $rootScope.favoritedByModel = [];
 
-        $rootScope.favoritedByModel[i] = {
-          "name": name,
-          "fbookId": fbookId
-        }
+    for (var i=0; i<allFriendFavoritedBy.length; i++) {
+      var eachFriendFavoritedBy = allFriendFavoritedBy[i];
+      var name = eachFriendFavoritedBy.displayName;
+      var fbookId = eachFriendFavoritedBy.facebook;
+
+      $rootScope.favoritedByModel[i] = {
+        "name": name,
+        "fbookId": fbookId
       }
-      // console.log($rootScope.favoritedByModel, '<---Favorited By response.')
-    })
+    }
+    // console.log($rootScope.favoritedByModel, '<---Favorited By response.')
+  })
   .catch((err) => {
     // console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
@@ -113,8 +110,8 @@ $rootScope.friendId = getFriend.data.user._id;
   // this is the fbook id
   // console.log('WHAT I WANT', friendsIdArr)
 
-  $scope.favoritedBy = getFriend.data.user.favoritedBy;
-  $scope.favoritedByLength = getFriend.data.user.favoritedBy.length;
+  $scope.favoritedBy = getFriend.data.favoritedBy;
+  $scope.favoritedByLength = getFriend.data.favoritedBy.length;
 
   // console.log('all rachels friends', friendFriendArray)
 
@@ -281,9 +278,3 @@ $rootScope.friendId = getFriend.data.user._id;
     })
   }
 }
-
-
-
-
-
-

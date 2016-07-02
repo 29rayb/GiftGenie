@@ -19,13 +19,13 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1/public-wishlist
   console.log('Connected to MongoDB:');
 });
 
-// GENERAL MIDDLEWARE
+// GENERAL MIDDLEWARE.
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('client'));
 
-// ROUTES
+// ROUTES.
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
 app.use('/api', authMiddleware, require('./routes/api'));

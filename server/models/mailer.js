@@ -1,14 +1,15 @@
 'use strict';
 
+var mailer = require('../models/mailer');
+var User = require('./user-model.js');
+
 var apiKey = process.env.MAILGUN_KEY;
 var domain = process.env.MAILGUN_DOMAIN;
+
 var mailgun = require('mailgun-js')({
   apiKey: apiKey,
   domain: domain
 });
-
-var mailer = require('../models/mailer');
-var User = require('./user-model.js');
 
 var sender = 'support@giftgenie.com';
 

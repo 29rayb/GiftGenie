@@ -12,7 +12,7 @@ function UserSvc ($http) {
       return $http.get('/api/me');
     },
     friendProfile: (friendId) => {
-      return $http.post('/api/friend', {params: {fid: friendId}});
+      return $http.post('/api/me/friend', {params: {fid: friendId}});
     },
     showFollow: (allFriendIds) => {
       return $http.post('/api/friend/follow', {params: {friendIds: allFriendIds}});
@@ -27,20 +27,20 @@ function UserSvc ($http) {
     },
     delete_item: (item, $index) => {
       console.log(item, "Item Id for deletion.");
-      return $http.put('/api/me/items/delete', item);
+      return $http.put('/api/me/deleteitem', item);
     },
     save_changes: (item) => {
       var item;
       console.log(item, "Item for editting.");
-      return $http.put('/api/me/items/edit', item);
+      return $http.put('/api/me/edititem', item);
     },
     starPerson: (user) => {
       console.log('starring this user', user)
-      return $http.put('/api/me/star', user)
+      return $http.put('/api/me/favorite', user)
     },
     saveOrder: (newOrder) => {
       console.log('new order in service', newOrder);
-      return $http.put('/api/me/items/order', newOrder);
+      return $http.put('/api/me/itemreorder', newOrder);
     },
     likeItem: (item) => {
       return $http.put('/api/items/liked', item);
