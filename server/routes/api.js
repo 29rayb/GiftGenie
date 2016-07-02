@@ -14,9 +14,8 @@ router.get('/me', function(req, res) {
   }).populate('items')
 });
 
+
 //API Route #2: //API Route #2: Finding a friend (to display FREIND PROFILE).
-
-
 router.post('/me/friend', function(req, res) {
   var friendId = req.body.params.fid;
   User.findOne({'facebook': friendId}, function(err, user){
@@ -24,40 +23,6 @@ router.post('/me/friend', function(req, res) {
   }).populate('items')
 });
 
-
-// router.post('/friend', function(req, res){
-//   var friendId = req.body.params.fid;
-//
-//   User.findOne({'facebook': friendId}, function(err, user){
-//     if (user === null){
-//       return false;
-//     }
-//
-//     var friendItems = user.items;
-//
-//     var allFriendItems = [];
-//     for (var i = 0; i < friendItems.length; i++) {
-//       var eachFriendItem = friendItems[i];
-//
-//       Item.findById({"_id": eachFriendItem}, function(err, item) {
-//         if (err) {res.status(400).send(err)}
-//         var everyItem = item;
-//         allFriendItems.push(everyItem);
-//         var itemCheck = item._id;
-//         if(friendItems.length === allFriendItems.length) {
-//
-//           var data = {
-//             user: user,
-//             items: allFriendItems
-//           }
-//
-//           if (err) console.error(err)
-//           res.send(data)
-//         }
-//       })
-//     }
-//   })
-// })
 
 //API Route #3: Adding a NEW ITEM to the wishlist.
 router.post('/me/items', function(req, res) {
@@ -74,6 +39,7 @@ router.post('/me/items', function(req, res) {
   });
 });
 
+
 //API Route #4: DELETE ITEM from the wishlist (removes it from both Mongo models).
 router.put('/me/deleteitem', function(req, res) {
   var clickedItemId = req.body._id;
@@ -89,6 +55,7 @@ router.put('/me/deleteitem', function(req, res) {
   })
 });
 
+
 //API Route #5: EDIT ITEM on a wishlist. (Updates both Mongo models).
 router.put('/me/edititem', function(req, res) {
   var editItem = req.body;
@@ -96,6 +63,7 @@ router.put('/me/edititem', function(req, res) {
     res.send(item);
   });
 });
+
 
 //API Route #6: REORDER ITEMS on wishlist.
 router.put('/me/itemreorder', function(req, res){
@@ -114,6 +82,7 @@ router.put('/me/itemreorder', function(req, res){
     })
   })
 })
+
 
 //API Route #7: FAVORITE FRIEND WISHLIST. (Also adds the user to friends 'favorited by' key).
 router.put('/me/favorite', function(req, res){
@@ -151,6 +120,7 @@ router.put('/me/favorite', function(req, res){
   });
 })
 
+
 //API Route #8: FOLLOWING A FRIEND. (Also adds the user to friends 'followers' key).
 router.put('/me/following', function(req, res){
 
@@ -187,7 +157,6 @@ router.put('/me/following', function(req, res){
     })
   });
 })
-
 
 
 router.post('/friend/follow', function(req, res){
