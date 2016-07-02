@@ -19,7 +19,7 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
   };
 
   $scope.logout = () => {
-    $rootScope.loggedIn = undefined;
+    // $rootScope.loggedIn = undefined;
     $auth.logout();
     $state.go('home')
   }
@@ -34,11 +34,7 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
     $rootScope.starred = false;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
-    UserSvc.getProfile()
-    .then((response) => {
-      var facebookId = response.data.facebook;
-      $state.go('my-wishlist', {id: facebookId})
-    })
+    $state.go('my-wishlist', {id: $rootScope.facebook })
   }
 
   $scope.goToStarred = () => {
