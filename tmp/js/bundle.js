@@ -44,12 +44,7 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
   $authProvider.facebook({
     clientId: '247255738962232',
     requiredUrlParams: ['scope', 'display'],
-    display: 'popup',
-    authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
-    redirectUri: window.location.origin + '/facebook/callback',
-    scope: ['user_friends', 'email', 'user_birthday', 'user_likes'],
-    type: '2.0',
-    popupOptions: { width: 580, height: 400 }
+    scope: ['user_friends', 'email', 'user_birthday', 'user_likes']
   });
 }
 'use strict';
@@ -160,46 +155,6 @@ function faqCtrl($rootScope, $scope) {
   $scope.getAnswer = function ($index) {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
-}
-
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
-
-  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
-
-  if (localStorage.getItem("satellizer_token")) {
-    UserSvc.getProfile().then(function (response) {
-      $rootScope.display_name = response.data.displayName;
-      $rootScope.favoritesLength = response.data.favorites.length;
-    });
-  }
-
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    // $rootScope.notLoggedIn = true;
-    $auth.authenticate(provider, user).then(function (res) {
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error('ERROR with getting the user info from facebook', err);
-      });
-    }).catch(function (err) {
-      console.error('ERROR with Facebook Satellizer Auth', err);
-    });
-  };
-
-  // $rootScope.display_name = getUser.data.displayName;
 }
 'use strict';
 
@@ -474,6 +429,46 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     });
   };
 }
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  if (localStorage.getItem("satellizer_token")) {
+    UserSvc.getProfile().then(function (response) {
+      $rootScope.display_name = response.data.displayName;
+      $rootScope.favoritesLength = response.data.favorites.length;
+    });
+  }
+
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    // $rootScope.notLoggedIn = true;
+    $auth.authenticate(provider, user).then(function (res) {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error('ERROR with getting the user info from facebook', err);
+      });
+    }).catch(function (err) {
+      console.error('ERROR with Facebook Satellizer Auth', err);
+    });
+  };
+
+  // $rootScope.display_name = getUser.data.displayName;
+}
 'use strict';
 
 angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
@@ -507,6 +502,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
     $rootScope.user = response.data;
     $rootScope.id = response.data._id;
     $rootScope.birthday = response.data.birthday;
+    if ($rootScope.birthday == undefined) {
+      $rootScope.birthday = ' N/A ';
+    }
     $rootScope.display_name = response.data.displayName;
     $rootScope.email = response.data.email;
     $rootScope.pro_pic = response.data.facebook;
@@ -793,21 +791,22 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 }
 'use strict';
 
-angular.module('App').controller('NavbarCtrl', ['$scope', '$state', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
+angular.module('App').controller('NavbarCtrl', NavbarCtrl);
 
-function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope) {
+NavbarCtrl.$inject = ['$scope', '$state', '$auth', '$rootScope', 'UserSvc'];
+
+function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
 
   if (!localStorage.getItem('satellizer_token')) {
     $rootScope.infaq = localStorage.getItem('faq');
-    // console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq)
   } else {
     $rootScope.infaq = localStorage.removeItem('faq');
-    // console.log('$rootScope.infaq', $rootScope.infaq)
   }
 
   $scope.isAuthenticated = function () {
     return $auth.isAuthenticated();
   };
+
   $scope.logout = function () {
     $rootScope.loggedIn = undefined;
     $auth.logout();
@@ -815,13 +814,8 @@ function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope) {
   };
 
   $scope.backToHome = function () {
-    // $scope.infaqqqq = false;
-    // localStorage.setItem('faq', undefined)
     localStorage.removeItem('faq');
-    // localStorage.setItem('faq', undefined)
-    // $scope.infaq = undefined;
     $rootScope.infaq = null;
-    console.log('!@#!@#!@#!@#!@#!@#@!#!@#!@#', $rootScope.infaq);
   };
 
   $scope.goToWishList = function () {
@@ -829,11 +823,11 @@ function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope) {
     $rootScope.starred = false;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
+
+    console.log($rootScope, ROOTSCOPE);
+
     UserSvc.getProfile().then(function (response) {
       var facebookId = response.data.facebook;
-      // var facebook_name = response.data.displayName;
-      // var facebook_email = response.data.email;
-      console.log('THIS IS THE UNIQUE FACEBOOK ID', facebookId);
       $state.go('my-wishlist', { id: facebookId });
     });
   };

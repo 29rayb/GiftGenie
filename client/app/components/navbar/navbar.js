@@ -1,22 +1,23 @@
 'use strict';
 
 angular
-.module('App')
-.controller('NavbarCtrl', ['$scope', '$state', '$auth', 'UserSvc', '$rootScope', NavbarCtrl]);
+  .module('App')
+  .controller('NavbarCtrl', NavbarCtrl);
 
-function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope){
+NavbarCtrl.$inject = ['$scope', '$state', '$auth', '$rootScope', 'UserSvc']
+
+function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
 
   if (!localStorage.getItem('satellizer_token')){
     $rootScope.infaq = localStorage.getItem('faq')
-    // console.log('!@#!@#!@#!@#!@#@!3', $rootScope.infaq)
   } else {
     $rootScope.infaq = localStorage.removeItem('faq')
-    // console.log('$rootScope.infaq', $rootScope.infaq)
   }
 
   $scope.isAuthenticated = () => {
     return $auth.isAuthenticated();
   };
+
   $scope.logout = () => {
     $rootScope.loggedIn = undefined;
     $auth.logout();
@@ -24,13 +25,8 @@ function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope){
   }
 
   $scope.backToHome = () => {
-    // $scope.infaqqqq = false;
-    // localStorage.setItem('faq', undefined)
     localStorage.removeItem('faq')
-    // localStorage.setItem('faq', undefined)
-    // $scope.infaq = undefined;
     $rootScope.infaq = null;
-    console.log('!@#!@#!@#!@#!@#!@#@!#!@#!@#', $rootScope.infaq)
   }
 
   $scope.goToWishList = () => {
@@ -38,12 +34,12 @@ function NavbarCtrl($scope, $state, $auth, UserSvc, $rootScope){
     $rootScope.starred = false;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
+
+    console.log($rootScope, ROOTSCOPE)
+
     UserSvc.getProfile()
     .then((response) => {
       var facebookId = response.data.facebook;
-      // var facebook_name = response.data.displayName;
-      // var facebook_email = response.data.email;
-      console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
       $state.go('my-wishlist', {id: facebookId})
     })
   }
