@@ -15,7 +15,15 @@ router.get('/me', function(req, res) {
 });
 
 
-//API Route #2: //API Route #2: Finding a friend (to display FREIND PROFILE).
+//API Route #2: USER FAVORITES list for profile info.
+router.get('/favoritesdata', function(req, res) {
+  User.findById(req.user, function(err, user) {
+    res.status(err ? 400 : 200).send(err || user)
+  }).populate('favorites')
+});
+
+
+//API Route #3: //API Route #2: Finding a friend (to display FREIND PROFILE).
 router.post('/me/friend', function(req, res) {
   var friendId = req.body.params.fid;
   User.findOne({'facebook': friendId}, function(err, user){
@@ -24,7 +32,7 @@ router.post('/me/friend', function(req, res) {
 });
 
 
-//API Route #3: Adding a NEW ITEM to the wishlist.
+//API Route #4: Adding a NEW ITEM to the wishlist.
 router.post('/me/items', function(req, res) {
   User.findById(req.user, function(err, user) {
     if (!user) {
@@ -40,7 +48,7 @@ router.post('/me/items', function(req, res) {
 });
 
 
-//API Route #4: DELETE ITEM from the wishlist (removes it from both Mongo models).
+//API Route #5: DELETE ITEM from the wishlist (removes it from both Mongo models).
 router.put('/me/deleteitem', function(req, res) {
   var clickedItemId = req.body._id;
   var objectId = mongoose.Types.ObjectId(clickedItemId);
@@ -56,7 +64,7 @@ router.put('/me/deleteitem', function(req, res) {
 });
 
 
-//API Route #5: EDIT ITEM on a wishlist. (Updates both Mongo models).
+//API Route #6: EDIT ITEM on a wishlist. (Updates both Mongo models).
 router.put('/me/edititem', function(req, res) {
   var editItem = req.body;
   Item.update( {"_id": editItem.id}, { "name": editItem.name, "link": editItem.link }, function(err, item) {
@@ -65,7 +73,7 @@ router.put('/me/edititem', function(req, res) {
 });
 
 
-//API Route #6: REORDER ITEMS on wishlist.
+//API Route #7: REORDER ITEMS on wishlist.
 router.put('/me/itemreorder', function(req, res){
   var newItemOrder = [];
   var updatedItemOrder = req.body;
@@ -84,7 +92,7 @@ router.put('/me/itemreorder', function(req, res){
 })
 
 
-//API Route #7: FAVORITE FRIEND WISHLIST. (Also adds the user to friends 'favorited by' key).
+//API Route #8: FAVORITE FRIEND WISHLIST. (Also adds the user to friends 'favorited by' key).
 router.put('/me/favorite', function(req, res){
   var starred_friend = req.body._id;
 
@@ -121,7 +129,7 @@ router.put('/me/favorite', function(req, res){
 })
 
 
-//API Route #8: FOLLOWING A FRIEND. (Also adds the user to friends 'followers' key).
+//API Route #9: FOLLOWING A FRIEND. (Also adds the user to friends 'followers' key).
 router.put('/me/following', function(req, res){
 
   var personFollowingYou = req.user;
@@ -158,7 +166,7 @@ router.put('/me/following', function(req, res){
   });
 })
 
-//API Route #9: SHOW FRIENDS FOLLOWERS / FOLLOWING.
+//API Route #10: SHOW FRIENDS FOLLOWERS / FOLLOWING.
 router.post('/friend/showfriendfollows', function(req, res){
   var followMongoIdArray = req.body.params.friendIds;
 
@@ -178,8 +186,8 @@ router.post('/friend/showfriendfollows', function(req, res){
   }
 })
 
-//API Route #10: DISPLAY FAVORITES. (When clicking on the star on a friends wishlist - all favorited by.)
-router.post('/me/favorited', function(req, res){
+//API Route #11: DISPLAY FAVORITED BY. (When clicking on the star on a friends wishlist - all favorited by.)
+router.post('/me/favoritedby', function(req, res){
   var favoritedByMongoIdArray = req.body.params.favoritedByIds;
 
   var allFavoritedBy = [];
@@ -197,31 +205,6 @@ router.post('/me/favorited', function(req, res){
     })
   }
 })
-
-router.get('/favorites/data', function(req, res) {
-  User.findById(req.user, function(err, user){
-    if (!user){
-      return res.status(400).send({messages: 'User Not Found'})
-    }
-
-    var faves = user.favorites;
-    faves = faves.map(function(id) { return mongoose.Types.ObjectId(id) });
-
-    User.find( {_id: { $in : faves }}, function(err, faves) {
-      var allFaveData = faves;
-
-      var data = {
-        user: user,
-        favoritesData: faves
-      }
-
-      console.log(data, 'THE DATA.')
-      if (err) console.error(err)
-      res.send(data)
-    })
-  })
-})
-
 
 // like items;
 router.put('/items/liked', function(req, res){

@@ -79,7 +79,7 @@ function UserSvc($http) {
       return $http.post('/api/friend/showfriendfollows', { params: { friendIds: allFriendIds } });
     },
     displayFaves: function displayFaves(allFavoritedBy) {
-      return $http.post('/api/me/favorited', { params: { favoritedByIds: allFavoritedBy } });
+      return $http.post('/api/me/favoritedby', { params: { favoritedByIds: allFavoritedBy } });
     },
     add_new: function add_new(item) {
       var item;
@@ -107,7 +107,7 @@ function UserSvc($http) {
       return $http.put('/api/items/liked', item);
     },
     showFavoritesData: function showFavoritesData() {
-      return $http.get('/api/favorites/data');
+      return $http.get('/api/favoritesdata');
     },
     followPerson: function followPerson(user) {
       // console.log('user in service', user)
@@ -130,6 +130,27 @@ function UserSvc($http) {
     }
   };
 };
+'use strict';
+
+angular.module('App').controller('faqCtrl', faqCtrl);
+
+faqCtrl.$inject = ['$rootScope', '$scope'];
+
+function faqCtrl($rootScope, $scope) {
+
+  localStorage.setItem('faq', 'in faq');
+
+  !localStorage.getItem('satellizer_token') ? $rootScope.infaq = localStorage.getItem('faq') : $rootScope.infaq = localStorage.removeItem('faq');
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. I have ideas to improve the app; How can I let you guys know?",
+    answer: "Simply click the email icon on the bottom and email us!" }, { question: "3. Can I share this with my friends?",
+    answer: "Of course. Simply copy and paste the url & they will be able to login with Facebook." }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend', FriendlistCtrl]);
@@ -417,121 +438,6 @@ function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
       // is it a problem that when facebook login button clicked, he/she
       // doesn't have the id in the url?
       $state.go('my-wishlist', { id: $rootScope.pro_pic });
-    }).catch(function (err) {
-      console.error('ERROR with Facebook Satellizer Auth', err);
-    });
-  };
-}
-'use strict';
-
-angular.module('App').controller('faqCtrl', faqCtrl);
-
-faqCtrl.$inject = ['$rootScope', '$scope'];
-
-function faqCtrl($rootScope, $scope) {
-
-  localStorage.setItem('faq', 'in faq');
-
-  !localStorage.getItem('satellizer_token') ? $rootScope.infaq = localStorage.getItem('faq') : $rootScope.infaq = localStorage.removeItem('faq');
-
-  $scope.faqs = [{ question: "1. Why arent my links working?",
-    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. I have ideas to improve the app; How can I let you guys know?",
-    answer: "Simply click the email icon on the bottom and email us!" }, { question: "3. Can I share this with my friends?",
-    answer: "Of course. Simply copy and paste the url & they will be able to login with Facebook." }];
-
-  $scope.getAnswer = function () {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
-  };
-}
-'use strict';
-
-angular.module('App').controller('NavbarCtrl', NavbarCtrl);
-
-NavbarCtrl.$inject = ['$scope', '$state', '$auth', '$rootScope', 'UserSvc'];
-
-function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
-
-  $rootScope.settings = false;
-  $rootScope.starred = false;
-  $rootScope.followersPage = false;
-  $rootScope.followingPage = false;
-
-  if (!localStorage.getItem('satellizer_token')) {
-    $rootScope.infaq = localStorage.getItem('faq');
-  } else {
-    $rootScope.infaq = localStorage.removeItem('faq');
-  }
-
-  $scope.isAuthenticated = function () {
-    return $auth.isAuthenticated();
-  };
-
-  $scope.logout = function () {
-    $rootScope.loggedIn = undefined;
-    $scope.friendsContainer = false;
-    $auth.logout();
-    $scope.backToHome();
-    $state.go('home');
-  };
-
-  $scope.backToHome = function () {
-    localStorage.removeItem('faq');
-    $rootScope.infaq = null;
-  };
-
-  $scope.goToWishList = function () {
-    $rootScope.settings = false;
-    $rootScope.starred = false;
-    $rootScope.followersPage = false;
-    $rootScope.followingPage = false;
-    $state.go('my-wishlist', { id: $rootScope.facebook });
-  };
-
-  $scope.goToStarred = function () {
-    $scope.goToWishList();
-    $rootScope.starred = true;
-  };
-
-  $scope.goToOthers = function (userObj) {
-    $scope.friendsContainer = false;
-    $state.go('friend-wishlist', { id: $rootScope.facebook, fid: userObj.id });
-  };
-
-  $scope.focused = function () {
-    $scope.friendsContainer = true;
-    $scope.searchFriends();
-  };
-
-  $scope.hoverIn = function () {
-    $scope.friendsContainer = true;
-  };
-
-  $scope.hoverOut = function () {
-    $scope.friendsContainer = false;
-  };
-
-  $scope.searchFriends = function () {
-    UserSvc.checkingFriendPrivacy($rootScope.user.friends).then(function (response) {
-      var publicFriends = response.data.publicFriends;
-      var length = publicFriends.length;
-
-      $rootScope.userModel = [];
-
-      for (var i = 0; i < length; i++) {
-        $rootScope.userModel[i] = {
-          "name": publicFriends[i].displayName,
-          "id": publicFriends[i].facebook
-        };
-      }
-    });
-  };
-
-  $scope.authenticate = function (provider, user) {
-    localStorage.removeItem('faq');
-    $auth.authenticate(provider, user).then(function (res) {
-      // is it a problem that when facebook login button clicked, he/she
-      // doesn't have the id in the url?
-      $state.go('my-wishlist', { id: $rootScope.facebook });
     }).catch(function (err) {
       console.error('ERROR with Facebook Satellizer Auth', err);
     });
@@ -842,8 +748,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   |  Display favorites |
   |____________________| */
   UserSvc.showFavoritesData().then(function (response) {
-    var favsLength = response.data.user.favorites.length;
-    var favObj = response.data.favoritesData;
+    var favsLength = response.data.favorites.length;
+    var favObj = response.data.favorites;
     $scope.favsModel = [];
     for (var i = 0; i < favsLength; i++) {
       $scope.favsModel[i] = {
@@ -856,4 +762,98 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   }).catch(function (err) {
     console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
   });
+}
+'use strict';
+
+angular.module('App').controller('NavbarCtrl', NavbarCtrl);
+
+NavbarCtrl.$inject = ['$scope', '$state', '$auth', '$rootScope', 'UserSvc'];
+
+function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
+
+  $rootScope.settings = false;
+  $rootScope.starred = false;
+  $rootScope.followersPage = false;
+  $rootScope.followingPage = false;
+
+  if (!localStorage.getItem('satellizer_token')) {
+    $rootScope.infaq = localStorage.getItem('faq');
+  } else {
+    $rootScope.infaq = localStorage.removeItem('faq');
+  }
+
+  $scope.isAuthenticated = function () {
+    return $auth.isAuthenticated();
+  };
+
+  $scope.logout = function () {
+    $rootScope.loggedIn = undefined;
+    $scope.friendsContainer = false;
+    $auth.logout();
+    $scope.backToHome();
+    $state.go('home');
+  };
+
+  $scope.backToHome = function () {
+    localStorage.removeItem('faq');
+    $rootScope.infaq = null;
+  };
+
+  $scope.goToWishList = function () {
+    $rootScope.settings = false;
+    $rootScope.starred = false;
+    $rootScope.followersPage = false;
+    $rootScope.followingPage = false;
+    $state.go('my-wishlist', { id: $rootScope.facebook });
+  };
+
+  $scope.goToStarred = function () {
+    $scope.goToWishList();
+    $rootScope.starred = true;
+  };
+
+  $scope.goToOthers = function (userObj) {
+    $scope.friendsContainer = false;
+    $state.go('friend-wishlist', { id: $rootScope.facebook, fid: userObj.id });
+  };
+
+  $scope.focused = function () {
+    $scope.friendsContainer = true;
+    $scope.searchFriends();
+  };
+
+  $scope.hoverIn = function () {
+    $scope.friendsContainer = true;
+  };
+
+  $scope.hoverOut = function () {
+    $scope.friendsContainer = false;
+  };
+
+  $scope.searchFriends = function () {
+    UserSvc.checkingFriendPrivacy($rootScope.user.friends).then(function (response) {
+      var publicFriends = response.data.publicFriends;
+      var length = publicFriends.length;
+
+      $rootScope.userModel = [];
+
+      for (var i = 0; i < length; i++) {
+        $rootScope.userModel[i] = {
+          "name": publicFriends[i].displayName,
+          "id": publicFriends[i].facebook
+        };
+      }
+    });
+  };
+
+  $scope.authenticate = function (provider, user) {
+    localStorage.removeItem('faq');
+    $auth.authenticate(provider, user).then(function (res) {
+      // is it a problem that when facebook login button clicked, he/she
+      // doesn't have the id in the url?
+      $state.go('my-wishlist', { id: $rootScope.facebook });
+    }).catch(function (err) {
+      console.error('ERROR with Facebook Satellizer Auth', err);
+    });
+  };
 }

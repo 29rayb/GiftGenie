@@ -321,8 +321,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
   |____________________| */
   UserSvc.showFavoritesData()
   .then((response) => {
-    var favsLength = response.data.user.favorites.length;
-    var favObj = response.data.favoritesData
+    var favsLength = response.data.favorites.length;
+    var favObj = response.data.favorites;
     $scope.favsModel = [];
     for (var i = 0; i < favsLength; i++){
       $scope.favsModel[i] = {

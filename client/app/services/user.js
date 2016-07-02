@@ -18,7 +18,7 @@ function UserSvc ($http) {
       return $http.post('/api/friend/showfriendfollows', {params: {friendIds: allFriendIds}});
     },
     displayFaves: (allFavoritedBy) => {
-      return $http.post('/api/me/favorited', {params: {favoritedByIds: allFavoritedBy}});
+      return $http.post('/api/me/favoritedby', {params: {favoritedByIds: allFavoritedBy}});
     },
     add_new: (item) => {
       var item;
@@ -46,7 +46,7 @@ function UserSvc ($http) {
       return $http.put('/api/items/liked', item);
     },
     showFavoritesData: () => {
-      return $http.get('/api/favorites/data');
+      return $http.get('/api/favoritesdata');
     },
     followPerson: (user) => {
       // console.log('user in service', user)
