@@ -76,7 +76,7 @@ function UserSvc($http) {
       return $http.post('/api/me/friend', { params: { fid: friendId } });
     },
     showFollow: function showFollow(allFriendIds) {
-      return $http.post('/api/friend/follow', { params: { friendIds: allFriendIds } });
+      return $http.post('/api/friend/showfriendfollows', { params: { friendIds: allFriendIds } });
     },
     displayFaves: function displayFaves(allFavoritedBy) {
       return $http.post('/api/me/favorited', { params: { favoritedByIds: allFavoritedBy } });
@@ -244,6 +244,8 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   UserSvc.displayFaves(allFriendFavoritedBy).then(function (response) {
     var allFriendFavoritedBy = response.data;
+
+    console.log(allFriendFavoritedBy, 'ALL FRIEND FAVES');
     $rootScope.favoritedByModel = [];
 
     for (var i = 0; i < allFriendFavoritedBy.length; i++) {

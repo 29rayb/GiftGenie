@@ -89,6 +89,9 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   UserSvc.displayFaves(allFriendFavoritedBy)
   .then((response) => {
     var allFriendFavoritedBy = response.data;
+
+
+    console.log(allFriendFavoritedBy, 'ALL FRIEND FAVES');
     $rootScope.favoritedByModel = [];
 
     for (var i=0; i<allFriendFavoritedBy.length; i++) {

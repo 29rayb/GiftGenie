@@ -158,8 +158,8 @@ router.put('/me/following', function(req, res){
   });
 })
 
-
-router.post('/friend/follow', function(req, res){
+//API Route #9: SHOW FRIENDS FOLLOWERS / FOLLOWING.
+router.post('/friend/showfriendfollows', function(req, res){
   var followMongoIdArray = req.body.params.friendIds;
 
   var allFollowUsers = [];
@@ -178,8 +178,8 @@ router.post('/friend/follow', function(req, res){
   }
 })
 
+//API Route #10: DISPLAY FAVORITES. (When clicking on the star on a friends wishlist - all favorited by.)
 router.post('/me/favorited', function(req, res){
-
   var favoritedByMongoIdArray = req.body.params.favoritedByIds;
 
   var allFavoritedBy = [];
