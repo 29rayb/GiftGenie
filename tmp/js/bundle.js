@@ -88,20 +88,20 @@ function UserSvc($http) {
     },
     delete_item: function delete_item(item, $index) {
       console.log(item, "Item Id for deletion.");
-      return $http.put('/api/me/items/delete', item);
+      return $http.put('/api/me/deleteitem', item);
     },
     save_changes: function save_changes(item) {
       var item;
       console.log(item, "Item for editting.");
-      return $http.put('/api/me/items/edit', item);
+      return $http.put('/api/me/edititem', item);
     },
     starPerson: function starPerson(user) {
       console.log('starring this user', user);
-      return $http.put('/api/me/star', user);
+      return $http.put('/api/me/favorite', user);
     },
     saveOrder: function saveOrder(newOrder) {
       console.log('new order in service', newOrder);
-      return $http.put('/api/me/items/order', newOrder);
+      return $http.put('/api/me/itemreorder', newOrder);
     },
     likeItem: function likeItem(item) {
       return $http.put('/api/items/liked', item);
@@ -823,9 +823,6 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
     $rootScope.starred = false;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
-
-    console.log($rootScope, ROOTSCOPE);
-
     UserSvc.getProfile().then(function (response) {
       var facebookId = response.data.facebook;
       $state.go('my-wishlist', { id: facebookId });

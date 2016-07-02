@@ -34,9 +34,6 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
     $rootScope.starred = false;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
-
-    console.log($rootScope, ROOTSCOPE)
-
     UserSvc.getProfile()
     .then((response) => {
       var facebookId = response.data.facebook;
