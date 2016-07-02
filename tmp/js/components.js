@@ -186,6 +186,8 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('home/home.html',
+    '<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach">\n' +
+    '\n' +
     '<div class="logo_container">\n' +
     '  <h1 class="logo">GiFTGENiE</h1>\n' +
     '  <p class="logo">\n' +
@@ -196,28 +198,21 @@ module.run(['$templateCache', function($templateCache) {
     '      <span>Wedding </span>\n' +
     '      <span>Christmas</span>\n' +
     '      <span>Graduation</span>\n' +
+    '      <!-- party -->\n' +
     '      <!-- anniversary -->\n' +
     '      <!-- valentine -->\n' +
     '    </div>\n' +
     '  </p>\n' +
-    '\n' +
     '</div>\n' +
     '\n' +
     '<div class="home_container" ng-if="!loggedIn">\n' +
     '  <div class="button_container">\n' +
-    '<!--       make sure there is no slash after my-wishlist or it will screw up\n' +
-    '    the reason is because its already defined in app.routes.js\n' +
-    '    so id is automatically put into the url because its defined in app.routes.js -->\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist">\n' +
     '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
     '      Login with Facebook\n' +
     '    </button>\n' +
     '  </div>\n' +
-    '</div>\n' +
-    '\n' +
-    '<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach">\n' +
-    '\n' +
-    '');
+    '</div>');
 }]);
 })();
 

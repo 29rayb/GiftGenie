@@ -1,3 +1,5 @@
+<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach">
+
 <div class="logo_container">
   <h1 class="logo">GiFTGENiE</h1>
   <p class="logo">
@@ -8,24 +10,18 @@
       <span>Wedding </span>
       <span>Christmas</span>
       <span>Graduation</span>
+      <!-- party -->
       <!-- anniversary -->
       <!-- valentine -->
     </div>
   </p>
-
 </div>
 
 <div class="home_container" ng-if="!loggedIn">
   <div class="button_container">
-<!--       make sure there is no slash after my-wishlist or it will screw up
-    the reason is because its already defined in app.routes.js
-    so id is automatically put into the url because its defined in app.routes.js -->
-    <button ng-click="authenticate('facebook')" class="fb_btn" ui-sref="my-wishlist({id: facebookId})">
+    <button ng-click="authenticate('facebook')" class="fb_btn" ui-sref="my-wishlist">
       <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">
       Login with Facebook
     </button>
   </div>
 </div>
-
-<img src="https://67.media.tumblr.com/56300441954bbce6771e5d0918356f81/tumblr_nl7entl3Rc1tyvd17o1_500.gif" alt="Cutie" class="rach">
-

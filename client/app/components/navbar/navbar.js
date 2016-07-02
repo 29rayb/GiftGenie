@@ -88,8 +88,11 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
     localStorage.removeItem('faq')
     $auth.authenticate(provider, user)
       .then((res) =>{
+        // is it a problem that when facebook login button clicked, he/she
+        // doesn't have the id in the url?
       $state.go('my-wishlist', {id: $rootScope.facebook})
-    })
+    }).catch((err) => {
+        console.error('ERROR with Facebook Satellizer Auth', err);
+    });
   }
-
 }
