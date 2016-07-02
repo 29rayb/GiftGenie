@@ -58,11 +58,11 @@ function UserSvc ($http) {
     makePublic: (loggedInUser) => {
       return $http.put('/api/me/makePublic')
     },
-    checkingFriendPrivacy: (userMates) => {
-      // console.log('usermates in service ------> ', userMates);
+    checkingFriendPrivacy: (userFriends) => {
+      // console.log('userFriends in service ------> ', userFriends);
       var friendsToCheck = []
-      for (var i = 0; i < userMates.length; i++){
-        var mongoId = userMates[i].id;
+      for (var i = 0; i < userFriends.length; i++){
+        var mongoId = userFriends[i].id;
         friendsToCheck.push(mongoId);
       }
       return $http.post('/api/me/checkingFriendPrivacy', {friends: friendsToCheck})
