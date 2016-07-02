@@ -14,7 +14,52 @@ router.get('/me', function(req, res) {
   }).populate('items')
 });
 
-//API Route #2: Adding a NEW ITEM to the wishlist.
+//API Route #2: //API Route #2: Finding a friend (to display FREIND PROFILE).
+
+
+router.post('/me/friend', function(req, res) {
+  var friendId = req.body.params.fid;
+  User.findOne({'facebook': friendId}, function(err, user){
+    res.status(err ? 400 : 200).send(err || user)
+  }).populate('items')
+});
+
+
+// router.post('/friend', function(req, res){
+//   var friendId = req.body.params.fid;
+//
+//   User.findOne({'facebook': friendId}, function(err, user){
+//     if (user === null){
+//       return false;
+//     }
+//
+//     var friendItems = user.items;
+//
+//     var allFriendItems = [];
+//     for (var i = 0; i < friendItems.length; i++) {
+//       var eachFriendItem = friendItems[i];
+//
+//       Item.findById({"_id": eachFriendItem}, function(err, item) {
+//         if (err) {res.status(400).send(err)}
+//         var everyItem = item;
+//         allFriendItems.push(everyItem);
+//         var itemCheck = item._id;
+//         if(friendItems.length === allFriendItems.length) {
+//
+//           var data = {
+//             user: user,
+//             items: allFriendItems
+//           }
+//
+//           if (err) console.error(err)
+//           res.send(data)
+//         }
+//       })
+//     }
+//   })
+// })
+
+//API Route #3: Adding a NEW ITEM to the wishlist.
 router.post('/me/items', function(req, res) {
   User.findById(req.user, function(err, user) {
     if (!user) {
@@ -29,7 +74,7 @@ router.post('/me/items', function(req, res) {
   });
 });
 
-//API Route #3: DELETE ITEM from the wishlist (removes it from both Mongo models).
+//API Route #4: DELETE ITEM from the wishlist (removes it from both Mongo models).
 router.put('/me/deleteitem', function(req, res) {
   var clickedItemId = req.body._id;
   var objectId = mongoose.Types.ObjectId(clickedItemId);
@@ -44,7 +89,7 @@ router.put('/me/deleteitem', function(req, res) {
   })
 });
 
-//API Route #4: EDIT ITEM on a wishlist. (Updates both Mongo models).
+//API Route #5: EDIT ITEM on a wishlist. (Updates both Mongo models).
 router.put('/me/edititem', function(req, res) {
   var editItem = req.body;
   Item.update( {"_id": editItem.id}, { "name": editItem.name, "link": editItem.link }, function(err, item) {
@@ -52,7 +97,7 @@ router.put('/me/edititem', function(req, res) {
   });
 });
 
-//API Route #5: REORDER ITEMS on wishlist.
+//API Route #6: REORDER ITEMS on wishlist.
 router.put('/me/itemreorder', function(req, res){
   var newItemOrder = [];
   var updatedItemOrder = req.body;
@@ -70,8 +115,7 @@ router.put('/me/itemreorder', function(req, res){
   })
 })
 
-//API Route #6: FAVORITE FRIEND WISHLIST. (Also adds the user to friends 'favorited by' key).
-
+//API Route #7: FAVORITE FRIEND WISHLIST. (Also adds the user to friends 'favorited by' key).
 router.put('/me/favorite', function(req, res){
   var starred_friend = req.body._id;
 
@@ -79,7 +123,6 @@ router.put('/me/favorite', function(req, res){
     if (!user){
       return res.status(400).send({messages: 'User Not Found'})
     }
-
     //If that logged in user has already favorited this friend's wishlist:
     //Task a) They're removed from friend's 'favorited by'.
     if (req.body.favoritedBy.indexOf(req.user) > -1){
@@ -108,31 +151,26 @@ router.put('/me/favorite', function(req, res){
   });
 })
 
-
+//API Route #8: FOLLOWING A FRIEND. (Also adds the user to friends 'followers' key).
 router.put('/me/following', function(req, res){
 
-  console.log('req.user', req.user)
-  console.log('REQ BODY QEQWEQWEQWEQWEWE',req.body)
   var personFollowingYou = req.user;
   var followingThisPerson =  req.body._id
 
   User.findById(req.user, function(err, user){
-
-    console.log('!#@@$%#$%@#$@#$#@$@#$@#$@#@#', user)
-
     if (!user) {return res.status(400).send({messages: 'User Not Found'}) }
 
+    //If that logged in user has already followed this friend:
+    //Task a) They're removed from user's following list - so have unfollowed.
     if (user.following.indexOf(followingThisPerson) > -1){
       User.update({"_id": req.user}, {$pull: {"following": followingThisPerson}}, function(err, user){
         if (err) {res.status(400).send(err)}
-        console.log('already following this user; now UNFOLLOWING THIS USER', user)
       })
     }
-
+    //Task b) Removing the user from friends followers list.
     if (req.body.followers.indexOf(personFollowingYou) > -1){
       User.update({"_id": followingThisPerson}, {$pull: {"followers": personFollowingYou}}, function(err, user){
         if (err) {res.status(400).send(err);}
-        console.log('the person you are trying to follow already has you in their followers array, therefore you are removed')
       })
       return;
     }
@@ -140,55 +178,17 @@ router.put('/me/following', function(req, res){
 
     User.update({"_id": req.user}, {$push: {"following": followingThisPerson}}, function(err, user){
       if (err) {res.status(400).send(err);}
-      console.log('this is the user you are following now')
-      res.write('this is the user you are following now')
+      res.write('You are now following this friend.')
     })
-
     User.update({"_id": req.body._id}, {$push: {"followers": personFollowingYou }}, function(err, user){
       if (err) {res.status(400).send(err);}
-      console.log('your id has been added to the followers array of the person you are following')
-      res.write('your id has been added to the followers array of the person you are following')
+      res.write('You are listed as a follower of your friend.')
       res.end();
     })
-
   });
 })
 
 
-
-router.post('/friend', function(req, res){
-  var friendId = req.body.params.fid;
-
-  User.findOne({'facebook': friendId}, function(err, user){
-    if (user === null){
-      return false;
-    }
-
-    var friendItems = user.items;
-
-    var allFriendItems = [];
-    for (var i = 0; i < friendItems.length; i++) {
-      var eachFriendItem = friendItems[i];
-
-      Item.findById({"_id": eachFriendItem}, function(err, item) {
-        if (err) {res.status(400).send(err)}
-        var everyItem = item;
-        allFriendItems.push(everyItem);
-        var itemCheck = item._id;
-        if(friendItems.length === allFriendItems.length) {
-
-          var data = {
-            user: user,
-            items: allFriendItems
-          }
-
-          if (err) console.error(err)
-          res.send(data)
-        }
-      })
-    }
-  })
-})
 
 router.post('/friend/follow', function(req, res){
   var followMongoIdArray = req.body.params.friendIds;

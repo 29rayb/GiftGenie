@@ -73,7 +73,7 @@ function UserSvc($http) {
       return $http.get('/api/me');
     },
     friendProfile: function friendProfile(friendId) {
-      return $http.post('/api/friend', { params: { fid: friendId } });
+      return $http.post('/api/me/friend', { params: { fid: friendId } });
     },
     showFollow: function showFollow(allFriendIds) {
       return $http.post('/api/friend/follow', { params: { friendIds: allFriendIds } });
@@ -156,49 +156,6 @@ function faqCtrl($rootScope, $scope) {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
   };
 }
-
-'use strict';
-
-angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
-
-function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
-
-  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
-
-  if (localStorage.getItem("satellizer_token")) {
-    UserSvc.getProfile().then(function (response) {
-      console.log('THIS IS THE RESPONSE', response);
-      $rootScope.facebook = response.data.facebook;
-      console.log('YOYOYOYOY', $rootScope.facebook);
-      $rootScope.display_name = response.data.displayName;
-      $rootScope.favoritesLength = response.data.favorites.length;
-    });
-  }
-
-  $scope.authenticate = function (provider, user) {
-    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
-    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
-    // $rootScope.notLoggedIn = true;
-    $auth.authenticate(provider, user).then(function (res) {
-      UserSvc.getProfile()
-      // this has to be done before state.go because facebook_email is needed but
-      // after auth.authenticate because you are pressing the login with facebook button
-      .then(function (response) {
-        var facebookId = response.data.facebook;
-        // var facebook_name = response.data.displayName;
-        // var facebook_email = response.data.email;
-        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
-        $state.go('my-wishlist', { id: facebookId });
-      }).catch(function (err) {
-        console.error('ERROR with getting the user info from facebook', err);
-      });
-    }).catch(function (err) {
-      console.error('ERROR with Facebook Satellizer Auth', err);
-    });
-  };
-
-  // $rootScope.display_name = getUser.data.displayName;
-}
 'use strict';
 
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend', FriendlistCtrl]);
@@ -207,40 +164,37 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   var favoritesIdArr = getUser.data.favorites;
   var followingFriendIdArr = getUser.data.following;
+  var likedItemsArr = getUser.data.liked;
   $rootScope.display_name = getUser.data.displayName;
+
   var friendId = $stateParams.fid;
   $scope.followersPage = false;
   $scope.followingPage = false;
 
-  // console.log(getFriend.data, 'GET FRIEND (all friend info) <-----------');
+  console.log(getFriend.data, 'GET FRIEND (all friend info) <-----------');
 
   $scope.items = getFriend.data.items;
-  $rootScope.friendFollowers = getFriend.data.user.followers;
-  // console.log($rootScope.friendFollowers, '<--------------------------------------Friend Followers');
-  $rootScope.friendFollowing = getFriend.data.user.following;
-  // console.log($rootScope.friendFollowing, '<--------------------------------------Friend Following');
-  $rootScope.friendId = getFriend.data.user._id;
-  // console.log($rootScope.friendId, '<------------------ friendId')
-  var likedItemsArr = getUser.data.liked;
+  $rootScope.friendFollowers = getFriend.data.followers;
+  $rootScope.friendFollowing = getFriend.data.following;
+  $rootScope.friendId = getFriend.data._id;
 
   console.log('RIGHT ERUWRIUEWHRUIHEWR', getFriend.data);
 
-  $scope.user = getFriend.data.user;
-  $scope.id = getFriend.data.user._id;
-  $scope.birthday = getFriend.data.user.birthday;
+  $scope.user = getFriend.data;
+  $scope.id = getFriend.data._id;
+  $scope.birthday = getFriend.data.birthday;
   if ($scope.birthday == undefined) {
     $scope.birthday = ' N/A ';
   }
-  $scope.display_name = getFriend.data.user.displayName;
-  $scope.email = getFriend.data.user.email;
-  $scope.pro_pic = getFriend.data.user.facebook;
-  $scope.friendsLengthh = getFriend.data.user.friends.length;
-  $scope.allFriendFriends = getFriend.data.user.friends;
-  $scope.following = getFriend.data.user.following.length;
-  $scope.followers = getFriend.data.user.followers.length;
+  $scope.display_name = getFriend.data.displayName;
+  $scope.email = getFriend.data.email;
+  $scope.pro_pic = getFriend.data.facebook;
+  $scope.friendsLengthh = getFriend.data.friends.length;
+  $scope.allFriendFriends = getFriend.data.friends;
+  $scope.following = getFriend.data.following.length;
+  $scope.followers = getFriend.data.followers.length;
 
-  var friendItems = getFriend.data.user.items;
-  // console.log('******All of the friends items.');
+  var friendItems = getFriend.data.items;
   var allTheLikedItemsArr = [];
   for (var i = 0; i < friendItems.length; i++) {
     var each_likeable_item = friendItems[i];
@@ -250,7 +204,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     }
   }
 
-  var friendFavId = getFriend.data.user._id;
+  var friendFavId = getFriend.data._id;
   if (favoritesIdArr.indexOf(friendFavId) > -1) {
     // console.log(')!@(#)!@(#)!(@#)!(@#)(!)@(#!@)(#!@)(#)!@(#!@)(',friendFavId)
     $rootScope.yellowStar = 'star_btn';
@@ -267,9 +221,9 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   var friendFriendArray = [];
   var friendsIdArr = [];
-  for (var i = 0; i < getFriend.data.user.friends.length; i++) {
-    var friendFriendName = getFriend.data.user.friends[i].name;
-    var friendId = getFriend.data.user.friends[i].id;
+  for (var i = 0; i < getFriend.data.friends.length; i++) {
+    var friendFriendName = getFriend.data.friends[i].name;
+    var friendId = getFriend.data.friends[i].id;
     // console.log('LOOK HERERERERERE', friendFriendName)
     friendFriendArray.push(friendFriendName);
     friendsIdArr.push(friendId);
@@ -282,8 +236,8 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |                  |
   |  Favorited By:   |
   |__________________| */
-  $rootScope.friendFavoritedByArr = getFriend.data.user.favoritedBy;
-  $rootScope.favoritedByLength = getFriend.data.user.favoritedBy.length;
+  $rootScope.friendFavoritedByArr = getFriend.data.favoritedBy;
+  $rootScope.favoritedByLength = getFriend.data.favoritedBy.length;
   console.log($rootScope.favoritedByLength);
 
   var allFriendFavoritedBy = $rootScope.friendFavoritedByArr;
@@ -310,8 +264,8 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   // this is the fbook id
   // console.log('WHAT I WANT', friendsIdArr)
 
-  $scope.favoritedBy = getFriend.data.user.favoritedBy;
-  $scope.favoritedByLength = getFriend.data.user.favoritedBy.length;
+  $scope.favoritedBy = getFriend.data.favoritedBy;
+  $scope.favoritedByLength = getFriend.data.favoritedBy.length;
 
   // console.log('all rachels friends', friendFriendArray)
 
@@ -471,6 +425,49 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       // console.log($rootScope.followingModel, 'Data <----------');
     });
   };
+}
+
+'use strict';
+
+angular.module('App').controller('HomeCtrl', ['$scope', '$state', '$auth', '$http', 'UserSvc', '$rootScope', HomeCtrl]);
+
+function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  if (localStorage.getItem("satellizer_token")) {
+    UserSvc.getProfile().then(function (response) {
+      console.log('THIS IS THE RESPONSE', response);
+      $rootScope.facebook = response.data.facebook;
+      console.log('YOYOYOYOY', $rootScope.facebook);
+      $rootScope.display_name = response.data.displayName;
+      $rootScope.favoritesLength = response.data.favorites.length;
+    });
+  }
+
+  $scope.authenticate = function (provider, user) {
+    //$auth returns a promise. We'll wanna use that, so we have a '.then'. (This is what produces the 'token' object we see in console).
+    //Satellizer stores this token for us automatically. (It's in local storage!) It is sent via the request.get in 'auth.js' route.
+    // $rootScope.notLoggedIn = true;
+    $auth.authenticate(provider, user).then(function (res) {
+      UserSvc.getProfile()
+      // this has to be done before state.go because facebook_email is needed but
+      // after auth.authenticate because you are pressing the login with facebook button
+      .then(function (response) {
+        var facebookId = response.data.facebook;
+        // var facebook_name = response.data.displayName;
+        // var facebook_email = response.data.email;
+        // console.log('THIS IS THE UNIQUE FACEBOOK ID',facebookId)
+        $state.go('my-wishlist', { id: facebookId });
+      }).catch(function (err) {
+        console.error('ERROR with getting the user info from facebook', err);
+      });
+    }).catch(function (err) {
+      console.error('ERROR with Facebook Satellizer Auth', err);
+    });
+  };
+
+  // $rootScope.display_name = getUser.data.displayName;
 }
 'use strict';
 
@@ -826,14 +823,7 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
     $rootScope.starred = false;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
-<<<<<<< HEAD
-    UserSvc.getProfile().then(function (response) {
-      var facebookId = response.data.facebook;
-      $state.go('my-wishlist', { id: facebookId });
-    });
-=======
     $state.go('my-wishlist', { id: $rootScope.facebook });
->>>>>>> 24098649f1f3f85b9c6d1572dabe5eb6e075a003
   };
 
   $scope.goToStarred = function () {

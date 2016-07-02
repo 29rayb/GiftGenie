@@ -12,7 +12,7 @@ function UserSvc ($http) {
       return $http.get('/api/me');
     },
     friendProfile: (friendId) => {
-      return $http.post('/api/friend', {params: {fid: friendId}});
+      return $http.post('/api/me/friend', {params: {fid: friendId}});
     },
     showFollow: (allFriendIds) => {
       return $http.post('/api/friend/follow', {params: {friendIds: allFriendIds}});
