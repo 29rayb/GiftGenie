@@ -12,6 +12,9 @@ function HomeCtrl($scope, $state, $auth, $http, UserSvc, $rootScope){
   if (localStorage.getItem("satellizer_token")) {
     UserSvc.getProfile()
       .then((response) => {
+        console.log('THIS IS THE RESPONSE', response)
+        $rootScope.facebook = response.data.facebook;
+        console.log('YOYOYOYOY', $rootScope.facebook)
         $rootScope.display_name = response.data.displayName;
         $rootScope.favoritesLength = response.data.favorites.length;
       })
