@@ -7,6 +7,29 @@ var User = require('../models/user-model');
 var Item = require('../models/item-model');
 var mongoose = require('mongoose');
 
+
+/* ______________
+|               |
+|  API SUMMARY: |
+|_______________| */
+
+//#1: Finding the logged in user (to display their PROFILE INFO).
+//#2: USER FAVORITES list for profile info.
+//#3: Finding a friend (to display FREIND PROFILE).
+//#4: Adding a NEW ITEM to the wishlist.
+//#5: DELETE ITEM from the wishlist (removes it from both Mongo models).
+//#6: EDIT ITEM on a wishlist. (Updates both Mongo models).
+//#7: REORDER ITEMS on wishlist.
+//#8: FAVORITE FRIEND WISHLIST. (Also adds the user to friends 'favorited by' key).
+//#9: FOLLOWING A FRIEND. (Also adds the user to friends 'followers' key).
+//#10: SHOW FRIENDS FOLLOWERS / FOLLOWING.
+//#11: DISPLAY FAVORITED BY. (When clicking on the star on a friends wishlist - all favorited by.)
+//#12: LIKE FRIENDS ITEMS.
+//#13: Changing PRIVACY SETTINGS --> From public TO PRIVATE. (Sets to private, and removes user from every other users favorites, following, and followers lists.)
+//#14: Changing PRIVACY SETTINGS --> From private TO PUBLIC.
+//#15: CHECKING PRIVACY setting (when click on search box in Navbar).
+
+
 //API Route #1: Finding the logged in user (to display their PROFILE INFO).
 router.get('/me', function(req, res) {
   User.findById(req.user, function(err, user) {
@@ -23,7 +46,7 @@ router.get('/favoritesdata', function(req, res) {
 });
 
 
-//API Route #3: //API Route #2: Finding a friend (to display FREIND PROFILE).
+//API Route #3: Finding a friend (to display FREIND PROFILE).
 router.post('/me/friend', function(req, res) {
   var friendId = req.body.params.fid;
   User.findOne({'facebook': friendId}, function(err, user){
@@ -318,6 +341,7 @@ router.put('/me/makeprivate', function(req, res){
   })
 })
 
+
 //API Route #14: Changing PRIVACY SETTINGS --> From private TO PUBLIC.
 router.put('/me/makepublic', function(req, res){
   User.findById(req.user, function(err, user){
@@ -327,6 +351,7 @@ router.put('/me/makepublic', function(req, res){
     })
   })
 })
+
 
 //API Route #15: CHECKING PRIVACY setting (when click on search box in Navbar).
 router.post('/me/checkfriendprivacy', function(req, res) {
