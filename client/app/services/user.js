@@ -15,10 +15,10 @@ function UserSvc ($http) {
       return $http.post('/api/me/friend', {params: {fid: friendId}});
     },
     showFollow: (allFriendIds) => {
-      return $http.post('/api/friend/follow', {params: {friendIds: allFriendIds}});
+      return $http.post('/api/friend/showfriendfollows', {params: {friendIds: allFriendIds}});
     },
     displayFaves: (allFavoritedBy) => {
-      return $http.post('/api/me/favorited', {params: {favoritedByIds: allFavoritedBy}});
+      return $http.post('/api/me/favoritedby', {params: {favoritedByIds: allFavoritedBy}});
     },
     add_new: (item) => {
       var item;
@@ -46,17 +46,17 @@ function UserSvc ($http) {
       return $http.put('/api/items/liked', item);
     },
     showFavoritesData: () => {
-      return $http.get('/api/favorites/data');
+      return $http.get('/api/favoritesdata');
     },
     followPerson: (user) => {
       // console.log('user in service', user)
       return $http.put('/api/me/following', user)
     },
     makePrivate: (loggedInUser) => {
-      return $http.put('/api/me/makePrivate')
+      return $http.put('/api/me/makeprivate')
     },
     makePublic: (loggedInUser) => {
-      return $http.put('/api/me/makePublic')
+      return $http.put('/api/me/makepublic')
     },
     checkingFriendPrivacy: (userFriends) => {
       // console.log('userFriends in service ------> ', userFriends);
@@ -65,7 +65,7 @@ function UserSvc ($http) {
         var mongoId = userFriends[i].id;
         friendsToCheck.push(mongoId);
       }
-      return $http.post('/api/me/checkingFriendPrivacy', {friends: friendsToCheck})
+      return $http.post('/api/me/checkfriendprivacy', {friends: friendsToCheck})
     }
   };
 };
