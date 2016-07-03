@@ -19,7 +19,12 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
   }).state('my-wishlist', {
     url: '/my-wishlist/:id',
     templateUrl: 'app/components/my-wishlist/my-wishlist.html',
-    controller: 'WishlistCtrl'
+    controller: 'WishlistCtrl',
+    resolve: {
+      getUser: function getUser(UserSvc) {
+        return UserSvc.getProfile();
+      }
+    }
   })
   // .state('friend-wishlist', {
   //   url: '/my-wishlist/:id/friends/:fid',
@@ -443,74 +448,54 @@ function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
 }
 'use strict';
 
-angular.module('App').controller('WishlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', WishlistCtrl]);
+angular.module('App').controller('WishlistCtrl', WishlistCtrl);
 
-function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams) {
+WishlistCtrl.$inject = ['$scope', '$state', '$auth', '$http', '$window', '$rootScope', '$stateParams', 'UserSvc', 'getUser'];
 
-  $scope.id = $stateParams.id;
-  $rootScope.fbook = $stateParams.facebook;
-  $rootScope.settings = false;
-  // $rootScope.starred = false;
-  $rootScope.followersPage = false;
-  $rootScope.followingPage = false;
-  $scope.like_heart = false;
-  $scope.favoriteWishlist = false;
-
-  /* ______________
-  |              |
-  |  Auth Check: |
-  |______________| */
+function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateParams, UserSvc, getUser) {
 
   if (!$auth.isAuthenticated()) {
     return $state.go('home');
   }
 
-  /* ________________
-  |                  |
-  |  Get User Info:  |
-  |__________________| */
+  $scope.like_heart = false;
+  $scope.favoriteWishlist = false;
 
-  UserSvc.getProfile().then(function (response) {
-    $rootScope.user = response.data;
-    $rootScope.id = response.data._id;
-    $rootScope.birthday = response.data.birthday;
-    if ($rootScope.birthday == undefined) {
-      $rootScope.birthday = ' N/A ';
-    }
-    $rootScope.display_name = response.data.displayName;
-    $rootScope.email = response.data.email;
-    $rootScope.pro_pic = response.data.facebook;
-    $rootScope.items = response.data.items;
-    $rootScope.friends = response.data.friends[0].name;
-    $rootScope.friendsLength = response.data.friends.length;
-    $rootScope.favorites = response.data.favorites;
-    $scope.followersCount = response.data.followers.length;
-    $scope.followingCount = response.data.following.length;
-    $rootScope.privacy = response.data.private;
+  $rootScope.user = getUser.data;
+  $rootScope.id = getUser.data._id;
+  $rootScope.birthday = getUser.data.birthday;
+  if ($rootScope.birthday == undefined) {
+    $rootScope.birthday = ' N/A ';
+  }
+  $rootScope.display_name = getUser.data.displayName;
+  $rootScope.email = getUser.data.email;
+  $rootScope.pro_pic = getUser.data.facebook;
+  $rootScope.items = getUser.data.items;
+  $rootScope.friendsLength = getUser.data.friends.length;
+  $rootScope.favorites = getUser.data.favorites;
+  $scope.followersCount = getUser.data.followers.length;
+  $rootScope.followingCount = getUser.data.following.length;
+  $rootScope.followingArr = getUser.data.following;
+  $rootScope.followersArr = getUser.data.followers;
+  $rootScope.privacy = getUser.data.private;
 
-    if ($rootScope.privacy == true) {
-      $scope.public = false;
-      $scope.private = true;
-    } else if ($rootScope.privacy == false) {
-      $scope.public = true;
-      $scope.private = false;
-    }
+  if ($rootScope.privacy == true) {
+    $scope.public = false;
+    $scope.private = true;
+  } else if ($rootScope.privacy == false) {
+    $scope.public = true;
+    $scope.private = false;
+  }
 
-    $rootScope.followingArr = response.data.following;
-    $rootScope.followersArr = response.data.followers;
+  $rootScope.favoritedByArr = getUser.data.favoritedBy;
+  $rootScope.favoritedByLength = getUser.data.favoritedBy.length;
 
-    /* ________________
-    |                  |
-    |  Favorited By:   |
-    |__________________| */
-    $rootScope.favoritedByArr = response.data.favoritedBy;
-    $rootScope.favoritedByLength = response.data.favoritedBy.length;
-    console.log($rootScope.favoritedByLength);
+  var allFavoritedBy = $rootScope.favoritedByArr;
 
-    var allFavoritedBy = $rootScope.favoritedByArr;
-    UserSvc.displayFaves(allFavoritedBy).then(function (response) {
-      console.log('RIGHT HURRR', response.data);
-      var allFavoritedBy = response.data;
+  if (allFavoritedBy.length !== $rootScope.favoritedByArr.length) {
+    console.log('getting the favorited By');
+    UserSvc.displayFaves(allFavoritedBy).then(function (res) {
+      var allFavoritedBy = res.data;
       $rootScope.favoritedByModel = [];
 
       for (var i = 0; i < allFavoritedBy.length; i++) {
@@ -523,10 +508,10 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
           "fbookId": fbookId
         };
       }
+    }).catch(function (err) {
+      console.error(err, 'Error getting the favorited by array!');
     });
-  }).catch(function (err) {
-    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  });
+  }
 
   /* ________________
   |                  |
@@ -541,21 +526,27 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope
 
     var allFollowing = $rootScope.followingArr;
 
-    UserSvc.showFollow(allFollowing).then(function (response) {
-      var theFollowing = response.data;
-      $rootScope.followingModel = [];
+    if ($rootScope.followingCount === $rootScope.currentFollowingLength) {
+      console.log('SAME! No need for API Call.');
+    } else {
+      UserSvc.showFollow(allFollowing).then(function (response) {
+        var theFollowing = response.data;
+        $rootScope.currentFollowingLength = theFollowing.length;
+        console.log(theFollowing, '<-------MADE API Call');
+        $rootScope.followingModel = [];
 
-      for (var i = 0; i < theFollowing.length; i++) {
-        var eachFollowing = theFollowing[i];
-        var name = eachFollowing.displayName;
-        var id = eachFollowing.facebook;
+        for (var i = 0; i < theFollowing.length; i++) {
+          var eachFollowing = theFollowing[i];
+          var name = eachFollowing.displayName;
+          var id = eachFollowing.facebook;
 
-        $rootScope.followingModel[i] = {
-          "name": name,
-          "id": id
-        };
-      }
-    });
+          $rootScope.followingModel[i] = {
+            "name": name,
+            "id": id
+          };
+        }
+      });
+    }
   };
 
   /* ________________

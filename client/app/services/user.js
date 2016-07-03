@@ -1,8 +1,8 @@
 'use strict';
 
 angular
-.module('App')
-.factory('UserSvc', UserSvc)
+  .module('App')
+  .factory('UserSvc', UserSvc)
 
 UserSvc.$inject = ['$http']
 
