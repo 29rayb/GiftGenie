@@ -48,9 +48,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
 
 
 
-
-
-
   if (allFavoritedBy.length !== $rootScope.favoritedByArr.length){
     console.log('getting the favorited By')
     UserSvc.displayFaves(allFavoritedBy)
