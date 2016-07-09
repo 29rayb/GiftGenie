@@ -14,6 +14,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |  Logged In User's Data: |
   |_________________________| */
 
+  $rootScope.user = getUser.data
   var favoritesIdArr = getUser.data.favorites;
   var followingFriendIdArr = getUser.data.following;
   var likedItemsArr = getUser.data.liked;
@@ -147,6 +148,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       $rootScope.yellowStar = undefined
     }
     UserSvc.starPerson(user)
+    window.location.reload(true)
   }
 
   /* _______________

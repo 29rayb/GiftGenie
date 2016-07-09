@@ -153,6 +153,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     }
 
   }
+  
 
   /* ______________
   |              |
