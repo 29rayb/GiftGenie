@@ -1,8 +1,10 @@
 'use strict';
 
 angular
-.module('App')
-.controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend', FriendlistCtrl])
+  .module('App')
+  .controller('FriendlistCtrl', FriendlistCtrl)
+
+FriendlistCtrl.$inject = ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend']
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser, getFriend) {
 

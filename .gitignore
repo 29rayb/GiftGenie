@@ -5,3 +5,4 @@ rev-manifest.json
 .env
 .DS_Store
 newrelic.js
+gulpfile.babel.js

@@ -31,6 +31,7 @@ import psi from 'psi';
 import Pageres from 'pageres';
 
 let paths = {
+  // need to manually set order of files;
   scripts: [
             'client/app/app.js',
             'client/app/app.routes.js',
@@ -47,6 +48,7 @@ let paths = {
   components: 'client/app/components/**/*.html',
   jade: 'client/**/*.jade'
 };
+
 
 // to make it run synchronously:done
 gulp.task('default', (cb) => {
@@ -84,15 +86,14 @@ gulp.task('css', () => {
 
 // done
 gulp.task('scripts', ['jshint'], () => {
-  return gulp.src([paths.scripts])
-             .pipe(changed('client/dist/js'))
+  return gulp.src(paths.scripts)
+             // .pipe(changed('client/dist/js'))
              .pipe(babel({presets: ['es2015']}))
-
              .pipe(concat('bundle.js'))
              .pipe(gulp.dest('tmp/js'))
              .pipe(rename({suffix: '.min'}))
              .pipe(stripDebug())
-             .pipe(uglify().on('error', gutil.log))
+             .pipe(uglify({mangle: false}).on('error', gutil.log))
              .pipe(gulp.dest('client/dist/js'))
 });
 
@@ -144,7 +145,7 @@ gulp.task('components', () => {
              .pipe(gulp.dest('tmp/js'))
              .pipe(rename({suffix: '.min'}))
              .pipe(stripDebug())
-             .pipe(uglify().on('error', gutil.log))
+             .pipe(uglify({mangle: false}).on('error', gutil.log))
              .pipe(gulp.dest('client/dist/js'))
 })
 
