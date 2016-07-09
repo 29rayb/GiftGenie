@@ -1,6 +1,5 @@
 .babelrc
 .editorconfig
-.env
 .gitignore
 .jshintrc
 travis.yml
@@ -12,7 +11,7 @@ tmp
 test
 responsive-testing
 node_modules
-client/app
+client/app/**/*.js
 client/images
 client/styles
 client/dist/index
