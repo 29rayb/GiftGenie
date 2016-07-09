@@ -1,6 +1,5 @@
 .babelrc
 .editorconfig
-.env
 .gitignore
 .jshintrc
 travis.yml
