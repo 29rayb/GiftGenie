@@ -7,7 +7,7 @@ let bodyParser = require('body-parser');
 let morgan = require('morgan');
 let mongoose = require('mongoose');
 let authMiddleware = require('./config/authenticate');
-let dotenv = require('dotenv').config({silent: true});
+let dotenv = require('dotenv').load();
 let cors = require('cors')
 let app = express();
 app.set('view engine', 'jade');
