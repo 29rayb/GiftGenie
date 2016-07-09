@@ -25,14 +25,7 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
         return UserSvc.getProfile();
       }
     }
-  })
-  // .state('friend-wishlist', {
-  //   url: '/my-wishlist/:id/friends/:fid',
-  //   templateUrl: 'app/components/friend-wishlist/friend-wishlist.html',
-  //   controller: 'FriendlistCtrl',
-  //   resolve: FriendlistCtrl.resolve
-  // })
-  .state('friend-wishlist', {
+  }).state('friend-wishlist', {
     url: '/my-wishlist/:id/friends/:fid',
     templateUrl: 'app/components/friend-wishlist/friend-wishlist.html',
     controller: 'FriendlistCtrl',
@@ -137,26 +130,6 @@ function UserSvc($http) {
 };
 'use strict';
 
-angular.module('App').controller('HomeCtrl', HomeCtrl);
-
-HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc'];
-
-function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
-
-  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
-
-  $scope.authenticate = function (provider, user) {
-    $auth.authenticate(provider, user).then(function () {
-      // is it a problem that when facebook login button clicked, he/she
-      // doesn't have the id in the url?
-      $state.go('my-wishlist', { id: $rootScope.pro_pic });
-    }).catch(function (err) {
-      console.error('ERROR with Facebook Satellizer Auth', err);
-    });
-  };
-}
-'use strict';
-
 angular.module('App').controller('faqCtrl', faqCtrl);
 
 faqCtrl.$inject = ['$rootScope', '$scope'];
@@ -174,6 +147,26 @@ function faqCtrl($rootScope, $scope) {
 
   $scope.getAnswer = function () {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
+'use strict';
+
+angular.module('App').controller('HomeCtrl', HomeCtrl);
+
+HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc'];
+
+function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  $scope.authenticate = function (provider, user) {
+    $auth.authenticate(provider, user).then(function () {
+      // is it a problem that when facebook login button clicked, he/she
+      // doesn't have the id in the url?
+      $state.go('my-wishlist', { id: $rootScope.pro_pic });
+    }).catch(function (err) {
+      console.error('ERROR with Facebook Satellizer Auth', err);
+    });
   };
 }
 'use strict';
@@ -417,6 +410,10 @@ WishlistCtrl.$inject = ['$scope', '$state', '$auth', '$http', '$window', '$rootS
 
 function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateParams, UserSvc, getUser) {
 
+  // can eliminate this extra API call for my profile everytime by
+  // using localstorage;
+  console.log('made an API call for my profile');
+
   if (!$auth.isAuthenticated()) {
     return $state.go('home');
   }
@@ -436,7 +433,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   $rootScope.items = getUser.data.items;
   $rootScope.friendsLength = getUser.data.friends.length;
   $rootScope.favorites = getUser.data.favorites;
-  $scope.followersCount = getUser.data.followers.length;
+  $rootScope.followersCount = getUser.data.followers.length;
   $rootScope.followingCount = getUser.data.following.length;
   $rootScope.followingArr = getUser.data.following;
   $rootScope.followersArr = getUser.data.followers;
@@ -455,8 +452,11 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
 
   var allFavoritedBy = $rootScope.favoritedByArr;
 
-  if (allFavoritedBy.length !== $rootScope.favoritedByArr.length) {
-    console.log('getting the favorited By');
+  if (allFavoritedBy.length === $rootScope.favoritedByArrLength) {
+    // console.log('NO need for an API call')
+  } else {
+    // should eliminate this extra api call;
+    console.log('API call to get favs');
     UserSvc.displayFaves(allFavoritedBy).then(function (res) {
       var allFavoritedBy = res.data;
       $rootScope.favoritedByModel = [];
@@ -490,7 +490,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     var allFollowing = $rootScope.followingArr;
 
     if ($rootScope.followingCount === $rootScope.currentFollowingLength) {
-      console.log('SAME! No need for API Call.');
+      // console.log('SAME! No need for API Call.')
     } else {
       UserSvc.showFollow(allFollowing).then(function (response) {
         var theFollowing = response.data;
@@ -525,21 +525,28 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
 
     var allFollowers = $rootScope.followersArr;
 
-    UserSvc.showFollow(allFollowers).then(function (response) {
-      var theFollowers = response.data;
-      $rootScope.followersModel = [];
+    if ($rootScope.followersCount === $rootScope.currentFollowersLength) {
+      // console.log('No need for API call')
+    } else {
+      UserSvc.showFollow(allFollowers).then(function (response) {
+        var theFollowers = response.data;
+        $rootScope.currentFollowersLength = theFollowers.length;
+        console.log(theFollowers, '<-------MADE API Call');
 
-      for (var i = 0; i < theFollowers.length; i++) {
-        var eachFollower = theFollowers[i];
-        var name = eachFollower.displayName;
-        var id = eachFollower.facebook;
+        $rootScope.followersModel = [];
 
-        $rootScope.followersModel[i] = {
-          "name": name,
-          "id": id
-        };
-      }
-    });
+        for (var i = 0; i < theFollowers.length; i++) {
+          var eachFollower = theFollowers[i];
+          var name = eachFollower.displayName;
+          var id = eachFollower.facebook;
+
+          $rootScope.followersModel[i] = {
+            "name": name,
+            "id": id
+          };
+        }
+      });
+    }
   };
 
   /* ______________
@@ -554,6 +561,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     $scope.item.user = userId;
 
     UserSvc.add_new(item).then(function () {
+      console.log('made API call to add items');
       $scope.items.push({
         name: $scope.name,
         link: $scope.link,
@@ -598,6 +606,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     $scope.item.link = item.link;
     $scope.item.id = editItemId;
     UserSvc.save_changes(item).then(function () {
+      console.log('made API call to save changes');
       window.location.reload(true);
     }).catch(function () {
       console.error('saving method doesnt work');
@@ -609,6 +618,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |  Delete Item:|
   |______________| */
   $scope.delete = function (item, $index) {
+    console.log('Made API call to delete items');
     $scope.items.splice($index, 1);
     UserSvc.delete_item(item, $index);
   };
@@ -617,38 +627,39 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |                |
   |  Star Wishlist:|
   |________________| */
-  $scope.star = function (user) {
-
-    UserSvc.starPerson(user);
-  };
+  // $scope.star = function (user) {
+  //   console.log('made API call to star wishlist')
+  //   UserSvc.starPerson(user)
+  // }
 
   /* ______________
   |              |
   |  Settings:   |
   |______________| */
   $scope.goToSettings = function () {
-    console.log('Inside Settings.');
     $rootScope.settings = true;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
     $rootScope.starred = false;
 
     $scope.makePrivate = function () {
-      console.log('making Private');
       var loggedInUser = $rootScope.user;
       UserSvc.makePrivate(loggedInUser).then(function () {
-        console.log('User now private.');
+        console.log('making API call to make user Private');
       }).catch(function () {
-        console.error('Making private method has an error.');
+        console.error('ERROR: Making user private.');
       });
       $scope.private = true;
       $scope.public = false;
     };
 
     $scope.makePublic = function () {
-      console.log('making Public');
       var loggedInUser = $rootScope.user;
-      UserSvc.makePublic(loggedInUser);
+      UserSvc.makePublic(loggedInUser).then(function () {
+        console.log('making API call to make user public');
+      }).catch(function () {
+        console.error('ERROR: Making user public');
+      });
       $scope.private = false;
       $scope.public = true;
     };
@@ -660,7 +671,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |__________________| */
   $scope.sort_list = function () {
     var newOrder = $scope.items;
-    console.log('updated order array', newOrder);
+    console.log('API call to save order of items in backend');
     UserSvc.saveOrder(newOrder);
   };
 
@@ -687,33 +698,62 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |  View friend wishlist: |
   |________________________| */
   $scope.goToOthers = function (otherUser) {
-    console.log('Going to a users page yo --> They are:', otherUser);
-    UserSvc.getProfile().then(function (response) {
-      var myId = response.data.facebook;
-      var fid = otherUser.id;
-      $state.go('friend-wishlist', { id: myId, fid: otherUser.id });
-    });
+    var myId = getUser.data.facebook;
+    var fid = otherUser.id;
+    $state.go('friend-wishlist', { id: myId, fid: otherUser.id });
   };
 
-  /* __________________
-  |                    |
-  |  Display favorites |
-  |____________________| */
-  UserSvc.showFavoritesData().then(function (response) {
-    var favsLength = response.data.favorites.length;
-    var favObj = response.data.favorites;
-    $scope.favsModel = [];
-    for (var i = 0; i < favsLength; i++) {
-      $scope.favsModel[i] = {
-        "name": favObj[i].displayName,
-        "id": favObj[i].facebook
-      };
+  /* _____________________
+  |                       |
+  |  Display starredLists |
+  |_______________________| */
+
+  // should put the counter in the localstorage to keep track of
+  // length of the people I starred; but right now, saves extra API
+  // call everytime I go to starred list;
+  var counter = 0;
+  if ($rootScope.favorites.length === getUser.data.favorites.length) {
+    if (counter === 0) {
+      console.log('1st making API call to get Starred Friends');
+      // need this API call to get Data in right format;
+      UserSvc.showFavoritesData().then(function (response) {
+        var favsLength = response.data.favorites.length;
+        var favObj = response.data.favorites;
+        $scope.favsModel = [];
+        for (var i = 0; i < favsLength; i++) {
+          $scope.favsModel[i] = {
+            "name": favObj[i].displayName,
+            "id": favObj[i].facebook
+          };
+        }
+        // console.log('this is how many ppl you have starred', $scope.favsModel.length);
+        $rootScope.starredLength = $scope.favsModel.length;
+        counter++;
+      }).catch(function (err) {
+        console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+      });
+    } else {
+      // console.log('no need for API call to get Starred friends')
     }
-    // console.log('this is how many ppl you have starred', $scope.favsModel.length);
-    $rootScope.starredLength = $scope.favsModel.length;
-  }).catch(function (err) {
-    console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
-  });
+  } else {
+    console.log(' 2nd making API call to get Starred Friends');
+    // need this API call to get Data in right format;
+    UserSvc.showFavoritesData().then(function (response) {
+      var favsLength = response.data.favorites.length;
+      var favObj = response.data.favorites;
+      $scope.favsModel = [];
+      for (var i = 0; i < favsLength; i++) {
+        $scope.favsModel[i] = {
+          "name": favObj[i].displayName,
+          "id": favObj[i].facebook
+        };
+      }
+      // console.log('this is how many ppl you have starred', $scope.favsModel.length);
+      $rootScope.starredLength = $scope.favsModel.length;
+    }).catch(function (err) {
+      console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
+    });
+  }
 }
 'use strict';
 

@@ -28,12 +28,6 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
         }
       }
     })
-    // .state('friend-wishlist', {
-    //   url: '/my-wishlist/:id/friends/:fid',
-    //   templateUrl: 'app/components/friend-wishlist/friend-wishlist.html',
-    //   controller: 'FriendlistCtrl',
-    //   resolve: FriendlistCtrl.resolve
-    // })
     .state('friend-wishlist', {
       url: '/my-wishlist/:id/friends/:fid',
       templateUrl: 'app/components/friend-wishlist/friend-wishlist.html',
