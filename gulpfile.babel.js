@@ -31,7 +31,17 @@ import psi from 'psi';
 import Pageres from 'pageres';
 
 let paths = {
-  scripts: 'client/app/**/*.js',
+  scripts: [
+            'client/app/app.js',
+            'client/app/app.routes.js',
+            'client/app/components/home/home.js',
+            'client/app/components/navbar/navbar.js',
+            'client/app/components/my-wishlist/my-wishlist.js',
+            'client/app/components/faq/faq.js',
+            'client/app/components/friend-wishlist/friend-wishlist.js',
+            'client/app/services/user.js',
+            'client/app/services/starred.js'
+           ],
   images: 'client/images/*',
   css: 'client/styles/*.css',
   components: 'client/app/components/**/*.html',
@@ -53,6 +63,7 @@ gulp.task('clean', () => {
   return gutil.log('gulp is running!!')
   return del(['tmp'])
   return del(['client/dist'])
+  return del(['responsive-testing'])
 });
 
 // done
@@ -76,6 +87,7 @@ gulp.task('scripts', ['jshint'], () => {
   return gulp.src([paths.scripts])
              .pipe(changed('client/dist/js'))
              .pipe(babel({presets: ['es2015']}))
+
              .pipe(concat('bundle.js'))
              .pipe(gulp.dest('tmp/js'))
              .pipe(rename({suffix: '.min'}))
