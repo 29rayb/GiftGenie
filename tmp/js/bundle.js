@@ -360,6 +360,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 }
 'use strict';
 
+<<<<<<< HEAD
 angular.module('App').controller('faqCtrl', faqCtrl);
 
 faqCtrl.$inject = ['$rootScope', '$scope'];
@@ -381,6 +382,8 @@ function faqCtrl($rootScope, $scope) {
 }
 'use strict';
 
+=======
+>>>>>>> d4b04dfd2e8d8ae1f345a423f1c416bc8f078dfa
 angular.module('App').controller('WishlistCtrl', WishlistCtrl);
 
 WishlistCtrl.$inject = ['$scope', '$state', '$auth', '$http', '$window', '$rootScope', '$stateParams', 'UserSvc', 'getUser'];

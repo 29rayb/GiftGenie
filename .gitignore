@@ -4,3 +4,4 @@ npm-debug.log
 rev-manifest.json
 .env
 .DS_Store
+newrelic.js
