@@ -6,4 +6,3 @@ rev-manifest.json
 .DS_Store
 newrelic.js
 gulpfile.babel.js
-.slugignore
