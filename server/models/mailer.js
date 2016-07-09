@@ -11,8 +11,7 @@ var mailgun = require('mailgun-js')({
   domain: domain
 });
 
-var sender = 'team@giftgenie.com';
-
+var sender = 'giftgenieteam@gmail.com';
 var mailer = {
   sendWelcome: function(user, cb) {
     var data = {
