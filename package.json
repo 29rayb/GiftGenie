@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server/app.js && require('newrelic');",
+    "start": "nodemon server/app.js",
     "setup": "rm -rf node_modules client/vendor && npm i"
   },
   "repository": {
