@@ -383,26 +383,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 }
 'use strict';
 
-angular.module('App').controller('HomeCtrl', HomeCtrl);
-
-HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc'];
-
-function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
-
-  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
-
-  $scope.authenticate = function (provider, user) {
-    $auth.authenticate(provider, user).then(function () {
-      // is it a problem that when facebook login button clicked, he/she
-      // doesn't have the id in the url?
-      $state.go('my-wishlist', { id: $rootScope.pro_pic });
-    }).catch(function (err) {
-      console.error('ERROR with Facebook Satellizer Auth', err);
-    });
-  };
-}
-'use strict';
-
 angular.module('App').controller('WishlistCtrl', WishlistCtrl);
 
 WishlistCtrl.$inject = ['$scope', '$state', '$auth', '$http', '$window', '$rootScope', '$stateParams', 'UserSvc', 'getUser'];
@@ -843,6 +823,26 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
       // is it a problem that when facebook login button clicked, he/she
       // doesn't have the id in the url?
       $state.go('my-wishlist', { id: $rootScope.facebook });
+    }).catch(function (err) {
+      console.error('ERROR with Facebook Satellizer Auth', err);
+    });
+  };
+}
+'use strict';
+
+angular.module('App').controller('HomeCtrl', HomeCtrl);
+
+HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc'];
+
+function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  $scope.authenticate = function (provider, user) {
+    $auth.authenticate(provider, user).then(function () {
+      // is it a problem that when facebook login button clicked, he/she
+      // doesn't have the id in the url?
+      $state.go('my-wishlist', { id: $rootScope.pro_pic });
     }).catch(function (err) {
       console.error('ERROR with Facebook Satellizer Auth', err);
     });
