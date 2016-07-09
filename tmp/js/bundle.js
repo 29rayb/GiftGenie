@@ -151,31 +151,10 @@ function faqCtrl($rootScope, $scope) {
 }
 'use strict';
 
-angular.module('App').controller('HomeCtrl', HomeCtrl);
-
-HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc'];
-
-function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
-
-  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
-
-  $scope.authenticate = function (provider, user) {
-    $auth.authenticate(provider, user).then(function () {
-      // is it a problem that when facebook login button clicked, he/she
-      // doesn't have the id in the url?
-      $state.go('my-wishlist', { id: $rootScope.pro_pic });
-    }).catch(function (err) {
-      console.error('ERROR with Facebook Satellizer Auth', err);
-    });
-  };
-}
-'use strict';
-
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend', FriendlistCtrl]);
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser, getFriend) {
 
-  var friendId = $stateParams.fid;
   $scope.followersPage = false;
   $scope.followingPage = false;
 
@@ -199,28 +178,15 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.items = getFriend.data.items;
   $rootScope.friendFollowers = getFriend.data.followers;
   $rootScope.friendFollowing = getFriend.data.following;
-  $rootScope.friendId = getFriend.data._id;
   $scope.display_name = getFriend.data.displayName;
   $scope.email = getFriend.data.email;
   $scope.pro_pic = getFriend.data.facebook;
-  $scope.friendsLengthh = getFriend.data.friends.length;
-  $scope.allFriendFriends = getFriend.data.friends;
   $scope.following = getFriend.data.following.length;
   $scope.followers = getFriend.data.followers.length;
 
   $scope.birthday = getFriend.data.birthday;
   if ($scope.birthday == undefined) {
     $scope.birthday = ' N/A ';
-  }
-
-  var friendItems = getFriend.data.items;
-  var allTheLikedItemsArr = [];
-  for (var i = 0; i < friendItems.length; i++) {
-    var each_likeable_item = friendItems[i];
-    if (likedItemsArr.indexOf(each_likeable_item) > -1) {
-      allTheLikedItemsArr.push(i);
-      $scope.like_heart = allTheLikedItemsArr;
-    }
   }
 
   var friendFavId = getFriend.data._id;
@@ -246,6 +212,20 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.friends = friendFriendArray;
   $scope.friendsLength = friendFriendArray.length;
+
+  /* ____________________________________________________
+  |                                                      |
+  |  Display if logged in user has liked friend's items: |
+  |______________________________________________________| */
+  var friendItems = getFriend.data.items;
+  var allTheLikedItemsArr = [];
+  for (var i = 0; i < friendItems.length; i++) {
+    var each_likeable_item = friendItems[i]._id;
+    if (likedItemsArr.indexOf(each_likeable_item) > -1) {
+      allTheLikedItemsArr.push(i);
+      $scope.like_heart = allTheLikedItemsArr;
+    }
+  }
 
   /* ______________
   |                |
@@ -276,7 +256,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |                     |
   |  Like Friend Items: |
   |_____________________| */
-
   $scope.like_item = function (item, $index) {
     if ($scope.like_heart != undefined && $scope.like_heart.indexOf($index) > -1) {
       console.log('------------> SCENARIO #1 - UNLIKING');
@@ -325,8 +304,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     } else {
       followingFriendIdArr.push(tmpFriendId);
       window.location.reload();
-      // $scope.unfollow = true;
-      // $scope.follow = false;
     }
     UserSvc.followPerson(user);
   };
@@ -337,13 +314,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |___________________________| */
 
   $scope.unfollowBtnShow = function () {
-    // console.log('should show RED unfollow button & hide following button')
     $rootScope.follow = false;
     $rootScope.unfollow = true;
   };
 
   $scope.followBtnShow = function () {
-    // console.log('should show follow button only')
     $rootScope.follow = true;
     $rootScope.unfollow = false;
   };
@@ -404,6 +379,26 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 }
 'use strict';
 
+angular.module('App').controller('HomeCtrl', HomeCtrl);
+
+HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc'];
+
+function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
+
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+
+  $scope.authenticate = function (provider, user) {
+    $auth.authenticate(provider, user).then(function () {
+      // is it a problem that when facebook login button clicked, he/she
+      // doesn't have the id in the url?
+      $state.go('my-wishlist', { id: $rootScope.pro_pic });
+    }).catch(function (err) {
+      console.error('ERROR with Facebook Satellizer Auth', err);
+    });
+  };
+}
+'use strict';
+
 angular.module('App').controller('WishlistCtrl', WishlistCtrl);
 
 WishlistCtrl.$inject = ['$scope', '$state', '$auth', '$http', '$window', '$rootScope', '$stateParams', 'UserSvc', 'getUser'];
@@ -412,7 +407,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
 
   // can eliminate this extra API call for my profile everytime by
   // using localstorage;
-  console.log('made an API call for my profile');
+  // console.log('made an API call for my profile')
 
   if (!$auth.isAuthenticated()) {
     return $state.go('home');
@@ -456,7 +451,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     // console.log('NO need for an API call')
   } else {
     // should eliminate this extra api call;
-    console.log('API call to get favs');
+    // console.log('API call to get favs')
     UserSvc.displayFaves(allFavoritedBy).then(function (res) {
       var allFavoritedBy = res.data;
       $rootScope.favoritedByModel = [];
@@ -495,7 +490,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
       UserSvc.showFollow(allFollowing).then(function (response) {
         var theFollowing = response.data;
         $rootScope.currentFollowingLength = theFollowing.length;
-        console.log(theFollowing, '<-------MADE API Call');
+        // console.log(theFollowing, '<-------MADE API Call')
         $rootScope.followingModel = [];
 
         for (var i = 0; i < theFollowing.length; i++) {
@@ -531,7 +526,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
       UserSvc.showFollow(allFollowers).then(function (response) {
         var theFollowers = response.data;
         $rootScope.currentFollowersLength = theFollowers.length;
-        console.log(theFollowers, '<-------MADE API Call');
+        // console.log(theFollowers, '<-------MADE API Call')
 
         $rootScope.followersModel = [];
 
@@ -561,7 +556,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     $scope.item.user = userId;
 
     UserSvc.add_new(item).then(function () {
-      console.log('made API call to add items');
+      // console.log('made API call to add items')
       $scope.items.push({
         name: $scope.name,
         link: $scope.link,
@@ -618,7 +613,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |  Delete Item:|
   |______________| */
   $scope.delete = function (item, $index) {
-    console.log('Made API call to delete items');
+    // console.log('Made API call to delete items')
     $scope.items.splice($index, 1);
     UserSvc.delete_item(item, $index);
   };
