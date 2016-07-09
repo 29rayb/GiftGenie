@@ -6,7 +6,6 @@ angular
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser, getFriend) {
 
-  var friendId = $stateParams.fid;
   $scope.followersPage = false;
   $scope.followingPage = false;
 
@@ -30,28 +29,15 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.items = getFriend.data.items;
   $rootScope.friendFollowers = getFriend.data.followers;
   $rootScope.friendFollowing = getFriend.data.following;
-  $rootScope.friendId = getFriend.data._id;
   $scope.display_name = getFriend.data.displayName
   $scope.email = getFriend.data.email
   $scope.pro_pic = getFriend.data.facebook
-  $scope.friendsLengthh = getFriend.data.friends.length;
-  $scope.allFriendFriends = getFriend.data.friends;
   $scope.following = getFriend.data.following.length;
   $scope.followers = getFriend.data.followers.length;
 
   $scope.birthday = getFriend.data.birthday;
   if ($scope.birthday == undefined){
     $scope.birthday = ' N/A '
-  }
-
-  var friendItems = getFriend.data.items;
-  var allTheLikedItemsArr= [];
-  for (var i = 0; i < friendItems.length; i++){
-    var each_likeable_item = friendItems[i];
-    if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
-      allTheLikedItemsArr.push(i)
-      $scope.like_heart =  allTheLikedItemsArr;
-    }
   }
 
   var friendFavId = getFriend.data._id;
@@ -77,6 +63,20 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.friends = friendFriendArray;
   $scope.friendsLength = friendFriendArray.length;
+
+  /* ____________________________________________________
+  |                                                      |
+  |  Display if logged in user has liked friend's items: |
+  |______________________________________________________| */
+  var friendItems = getFriend.data.items;
+  var allTheLikedItemsArr= [];
+  for (var i = 0; i < friendItems.length; i++){
+    var each_likeable_item = friendItems[i]._id;
+    if (likedItemsArr.indexOf(each_likeable_item) > -1 ) {
+      allTheLikedItemsArr.push(i)
+      $scope.like_heart =  allTheLikedItemsArr;
+    }
+  }
 
   /* ______________
   |                |
@@ -110,7 +110,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |                     |
   |  Like Friend Items: |
   |_____________________| */
-
   $scope.like_item = (item, $index) => {
     if ($scope.like_heart != undefined && $scope.like_heart.indexOf($index) > -1 ) {
       console.log('------------> SCENARIO #1 - UNLIKING');
@@ -163,8 +162,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     } else {
       followingFriendIdArr.push(tmpFriendId)
       window.location.reload()
-      // $scope.unfollow = true;
-      // $scope.follow = false;
     }
     UserSvc.followPerson(user)
   }
@@ -175,13 +172,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |___________________________| */
 
   $scope.unfollowBtnShow = () => {
-    // console.log('should show RED unfollow button & hide following button')
     $rootScope.follow = false;
     $rootScope.unfollow = true;
   }
 
   $scope.followBtnShow = () => {
-    // console.log('should show follow button only')
     $rootScope.follow = true;
     $rootScope.unfollow = false;
   }

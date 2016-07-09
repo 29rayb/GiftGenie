@@ -10,7 +10,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
 
   // can eliminate this extra API call for my profile everytime by
   // using localstorage;
-  console.log('made an API call for my profile')
+  // console.log('made an API call for my profile')
 
   if (!$auth.isAuthenticated()) {
     return $state.go('home');
@@ -55,7 +55,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     // console.log('NO need for an API call')
   } else {
     // should eliminate this extra api call;
-    console.log('API call to get favs')
+    // console.log('API call to get favs')
         UserSvc.displayFaves(allFavoritedBy)
           .then((res) => {
             var allFavoritedBy = res.data;
@@ -98,7 +98,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
         .then((response) => {
           var theFollowing = response.data;
           $rootScope.currentFollowingLength = theFollowing.length;
-          console.log(theFollowing, '<-------MADE API Call')
+          // console.log(theFollowing, '<-------MADE API Call')
           $rootScope.followingModel = [];
 
           for (var i=0; i<theFollowing.length; i++) {
@@ -135,7 +135,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
       .then((response) => {
         var theFollowers = response.data;
         $rootScope.currentFollowersLength = theFollowers.length;
-        console.log(theFollowers, '<-------MADE API Call')
+        // console.log(theFollowers, '<-------MADE API Call')
 
         $rootScope.followersModel = [];
 
@@ -167,7 +167,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
 
     UserSvc.add_new(item)
     .then(() => {
-      console.log('made API call to add items')
+      // console.log('made API call to add items')
       $scope.items.push({
         name: $scope.name,
         link: $scope.link,
@@ -227,7 +227,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |  Delete Item:|
   |______________| */
   $scope.delete = (item, $index) => {
-    console.log('Made API call to delete items')
+    // console.log('Made API call to delete items')
     $scope.items.splice($index, 1)
     UserSvc.delete_item(item, $index)
   }
