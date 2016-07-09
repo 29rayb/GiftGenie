@@ -130,6 +130,27 @@ function UserSvc($http) {
 };
 'use strict';
 
+angular.module('App').controller('faqCtrl', faqCtrl);
+
+faqCtrl.$inject = ['$rootScope', '$scope'];
+
+function faqCtrl($rootScope, $scope) {
+
+  localStorage.setItem('faq', 'in faq');
+
+  !localStorage.getItem('satellizer_token') ? $rootScope.infaq = localStorage.getItem('faq') : $rootScope.infaq = localStorage.removeItem('faq');
+
+  $scope.faqs = [{ question: "1. Why arent my links working?",
+    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. I have ideas to improve the app; How can I let you guys know?",
+    answer: "Simply click the email icon on the bottom and email us!" }, { question: "3. Can I share this with my friends?",
+    answer: "Of course. Simply copy and paste the url & they will be able to login with Facebook." }];
+
+  $scope.getAnswer = function () {
+    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  };
+}
+'use strict';
+
 angular.module('App').controller('FriendlistCtrl', ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend', FriendlistCtrl]);
 
 function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootScope, $stateParams, getUser, getFriend) {
@@ -244,12 +265,14 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       var arrayToRemoveFrom = $scope.like_heart;
       arrayToRemoveFrom.splice(arrayToRemoveFrom.indexOf(parsed), 1);
     } else if ($scope.like_heart == undefined) {
-      console.log('------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+      // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
       $scope.like_heart = [];
       $scope.like_heart.push($index);
-      console.log('after pushing index into like_heart', $scope.like_heart);
-      console.log('------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
+      // console.log('after pushing index into like_heart',$scope.like_heart)
+    } else if ($scope.like_heart != undefined) {
+      // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
       $scope.like_heart.push($index);
+      // console.log('after pushing index into like_heart',$scope.like_heart)
     }
 
     UserSvc.likeItem(item).then(function (res) {}).catch(function (err) {});
@@ -360,30 +383,26 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 }
 'use strict';
 
-<<<<<<< HEAD
-angular.module('App').controller('faqCtrl', faqCtrl);
+angular.module('App').controller('HomeCtrl', HomeCtrl);
 
-faqCtrl.$inject = ['$rootScope', '$scope'];
+HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc'];
 
-function faqCtrl($rootScope, $scope) {
+function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
 
-  localStorage.setItem('faq', 'in faq');
+  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
 
-  !localStorage.getItem('satellizer_token') ? $rootScope.infaq = localStorage.getItem('faq') : $rootScope.infaq = localStorage.removeItem('faq');
-
-  $scope.faqs = [{ question: "1. Why arent my links working?",
-    answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. I have ideas to improve the app; How can I let you guys know?",
-    answer: "Simply click the email icon on the bottom and email us!" }, { question: "3. Can I share this with my friends?",
-    answer: "Of course. Simply copy and paste the url & they will be able to login with Facebook." }];
-
-  $scope.getAnswer = function () {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  $scope.authenticate = function (provider, user) {
+    $auth.authenticate(provider, user).then(function () {
+      // is it a problem that when facebook login button clicked, he/she
+      // doesn't have the id in the url?
+      $state.go('my-wishlist', { id: $rootScope.pro_pic });
+    }).catch(function (err) {
+      console.error('ERROR with Facebook Satellizer Auth', err);
+    });
   };
 }
 'use strict';
 
-=======
->>>>>>> d4b04dfd2e8d8ae1f345a423f1c416bc8f078dfa
 angular.module('App').controller('WishlistCtrl', WishlistCtrl);
 
 WishlistCtrl.$inject = ['$scope', '$state', '$auth', '$http', '$window', '$rootScope', '$stateParams', 'UserSvc', 'getUser'];
@@ -734,26 +753,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
       console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
   }
-}
-'use strict';
-
-angular.module('App').controller('HomeCtrl', HomeCtrl);
-
-HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc'];
-
-function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
-
-  $rootScope.loggedIn = localStorage.getItem("satellizer_token");
-
-  $scope.authenticate = function (provider, user) {
-    $auth.authenticate(provider, user).then(function () {
-      // is it a problem that when facebook login button clicked, he/she
-      // doesn't have the id in the url?
-      $state.go('my-wishlist', { id: $rootScope.pro_pic });
-    }).catch(function (err) {
-      console.error('ERROR with Facebook Satellizer Auth', err);
-    });
-  };
 }
 'use strict';
 

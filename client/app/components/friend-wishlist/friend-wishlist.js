@@ -119,12 +119,14 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
       var arrayToRemoveFrom = $scope.like_heart;
       arrayToRemoveFrom.splice(arrayToRemoveFrom.indexOf(parsed), 1)
     } else if ($scope.like_heart == undefined ){
-      console.log('------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
+      // console.log('------------------------> SCENARIO #2 - LIKING (WHEN ITS THE FIRST LIKE.)');
       $scope.like_heart = [];
       $scope.like_heart.push($index)
-      console.log('after pushing index into like_heart',$scope.like_heart)
-      console.log('------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
+      // console.log('after pushing index into like_heart',$scope.like_heart)
+    } else if ($scope.like_heart != undefined ) {
+      // console.log('------------------------> SCENARIO #3 - LIKING (WHEN ALREADY SOME LIKED.)');
       $scope.like_heart.push($index)
+      // console.log('after pushing index into like_heart',$scope.like_heart)
     }
 
     UserSvc.likeItem(item)
