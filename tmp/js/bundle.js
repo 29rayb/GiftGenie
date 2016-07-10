@@ -56,7 +56,7 @@ function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
   $rootScope.loggedIn = localStorage.getItem("satellizer_token");
 
   $scope.authenticate = function (provider, user) {
-    $auth.authenticate(provider, user).then(function () {
+    $auth.authenticate(provider, user).then(function (res) {
       // is it a problem that when facebook login button clicked, he/she
       // doesn't have the id in the url?
       $state.go('my-wishlist', { id: $rootScope.pro_pic });
@@ -106,7 +106,8 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
     $rootScope.starred = false;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
-    $state.go('my-wishlist', { id: $rootScope.facebook });
+    // pro_pic is facebook id
+    $state.go('my-wishlist', { id: $rootScope.pro_pic });
   };
 
   $scope.goToStarred = function () {
@@ -116,7 +117,8 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
 
   $scope.goToOthers = function (userObj) {
     $scope.friendsContainer = false;
-    $state.go('friend-wishlist', { id: $rootScope.facebook, fid: userObj.id });
+    // pro_pic is facebook id
+    $state.go('friend-wishlist', { id: $rootScope.pro_pic, fid: userObj.id });
   };
 
   $scope.focused = function () {
@@ -455,9 +457,14 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |  View friend wishlist: |
   |________________________| */
   $scope.goToOthers = function (otherUser) {
+    console.log('go to others clicked', otherUser);
     var myId = getUser.data.facebook;
-    var fid = otherUser.id;
-    $state.go('friend-wishlist', { id: myId, fid: otherUser.id });
+    var fid = otherUser.id || otherUser.fbookId;
+    // code needed to remove the modal upon route change;
+    $('#showFavBy').modal('hide');
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+    $state.go('friend-wishlist', { id: myId, fid: fid });
   };
 
   /* _____________________
@@ -568,6 +575,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.display_name = getFriend.data.displayName;
   $scope.email = getFriend.data.email;
   $scope.pro_pic = getFriend.data.facebook;
+  // throws an cannot get length of undefined error;
   $scope.following = getFriend.data.following.length;
   $scope.followers = getFriend.data.followers.length;
 

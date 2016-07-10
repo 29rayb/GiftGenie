@@ -35,6 +35,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.display_name = getFriend.data.displayName
   $scope.email = getFriend.data.email
   $scope.pro_pic = getFriend.data.facebook
+  // throws an cannot get length of undefined error;
   $scope.following = getFriend.data.following.length;
   $scope.followers = getFriend.data.followers.length;
 

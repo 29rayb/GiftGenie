@@ -41,7 +41,8 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
     $rootScope.starred = false;
     $rootScope.followersPage = false;
     $rootScope.followingPage = false;
-    $state.go('my-wishlist', {id: $rootScope.facebook })
+    // pro_pic is facebook id
+    $state.go('my-wishlist', {id: $rootScope.pro_pic })
   }
 
   $scope.goToStarred = () => {
@@ -51,7 +52,8 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
 
   $scope.goToOthers = (userObj) => {
     $scope.friendsContainer = false;
-    $state.go('friend-wishlist', {id: $rootScope.facebook, fid: userObj.id});
+    // pro_pic is facebook id
+    $state.go('friend-wishlist', {id: $rootScope.pro_pic, fid: userObj.id});
   }
 
   $scope.focused = () => {

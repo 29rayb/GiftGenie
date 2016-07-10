@@ -12,7 +12,7 @@ function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc){
 
   $scope.authenticate = function(provider, user) {
     $auth.authenticate(provider, user)
-      .then(() =>{
+      .then((res) =>{
         // is it a problem that when facebook login button clicked, he/she
         // doesn't have the id in the url?
       $state.go('my-wishlist', {id: $rootScope.pro_pic})

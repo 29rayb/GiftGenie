@@ -153,7 +153,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     }
 
   }
-  
 
   /* ______________
   |              |
@@ -307,15 +306,19 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     $rootScope.settings = false;
   }
 
-
   /* ______________________
   |                        |
   |  View friend wishlist: |
   |________________________| */
   $scope.goToOthers = (otherUser) => {
+    console.log('go to others clicked', otherUser)
     var myId = getUser.data.facebook
-    var fid = otherUser.id;
-    $state.go('friend-wishlist', {id: myId, fid: otherUser.id});
+    var fid = otherUser.id || otherUser.fbookId;
+    // code needed to remove the modal upon route change;
+    $('#showFavBy').modal('hide');
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+    $state.go('friend-wishlist', {id: myId, fid: fid});
   }
 
   /* _____________________

@@ -189,15 +189,16 @@
   </div>
 </div>
 
+
 <div class="modal fade" id="showFavBy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog favoritedBy" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" data-backdrop="false" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>
       </div>
       <div class="modal-body">
-        <li ng-repeat="favoritedBy in favoritedByModel" class="favoritedByModal">
+        <li  data-dismiss="modal" data-backdrop="false" ng-repeat="favoritedBy in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(favoritedBy)">
           <img ng-src="https://graph.facebook.com/{{favoritedBy.fbookId}}/picture?type=small" alt="">
           <p> {{favoritedBy.name}} </p>
         </li>

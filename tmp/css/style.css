@@ -519,10 +519,10 @@ i.fa-trash {
 }
 
 .followers_pic {
-  min-width: 200px;
-  max-width: 200px;
-  min-height: 200px;
-  max-height: 200px;
+  min-width: 150px;
+  max-width: 150px;
+  min-height: 150px;
+  max-height: 150px;
 }
 
 .followers_pic:hover{
@@ -530,19 +530,20 @@ i.fa-trash {
 }
 
 .user_name {
-  min-width: 200px;
-  max-width: 200px;
+  min-width: 150px;
+  max-width: 150px;
   background-color: rgb(189, 198, 207);
 }
 
 /*Starred-WishLists*/
 
 .user_card img {
-  min-width: 200px;
-  max-width: 200px;
-  max-height: 200px;
-  min-height: 200px;
+  min-width: 150px;
+  max-width: 150px;
+  max-height: 150px;
+  min-height: 150px;
 }
+
 
 .user_card img:hover {
   cursor: pointer;
@@ -552,6 +553,7 @@ i.fa-trash {
 .bottom_container.starred {
   margin-top: -50px;
 }
+
 
 /*FRIEND WISHLIST*/
 
