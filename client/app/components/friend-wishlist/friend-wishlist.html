@@ -115,7 +115,7 @@
         <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>
       </div>
       <div class="modal-body">
-        <li ng-repeat="fav in favoritedByModel" class="favoritedByModal">
+        <li ng-repeat="fav in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(fav)">
           <img ng-src="https://graph.facebook.com/{{fav.fbookId}}/picture?type=small" alt="">
           <p> {{fav.name}} </p>
         </li>
@@ -124,7 +124,7 @@
   </div>
 </div>
 
-<!-- show people who liekd an item on your list -->
+<!-- show people who liked an item on your list -->
 <div class="modal fade" id="showLikedItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog showFavBy" role="document">
     <div class="modal-content">

@@ -311,7 +311,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |  View friend wishlist: |
   |________________________| */
   $scope.goToOthers = (otherUser) => {
-    console.log('go to others clicked', otherUser)
+    // console.log('go to others clicked', otherUser)
     var myId = getUser.data.facebook
     var fid = otherUser.id || otherUser.fbookId;
     // code needed to remove the modal upon route change;

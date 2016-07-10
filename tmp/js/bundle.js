@@ -457,7 +457,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |  View friend wishlist: |
   |________________________| */
   $scope.goToOthers = function (otherUser) {
-    console.log('go to others clicked', otherUser);
+    // console.log('go to others clicked', otherUser)
     var myId = getUser.data.facebook;
     var fid = otherUser.id || otherUser.fbookId;
     // code needed to remove the modal upon route change;
@@ -773,6 +773,21 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
         };
       }
     });
+  };
+
+  /* ______________________
+  |                        |
+  |  View friend wishlist: |
+  |________________________| */
+  $scope.goToOthers = function (otherUser) {
+    // console.log('go to others clicked', otherUser)
+    var myId = getUser.data.facebook;
+    var fid = otherUser.id || otherUser.fbookId;
+    // code needed to remove the modal upon route change;
+    $('#showFavBy').modal('hide');
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+    $state.go('friend-wishlist', { id: myId, fid: fid });
   };
 }
 'use strict';

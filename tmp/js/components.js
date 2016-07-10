@@ -152,7 +152,7 @@ module.run(['$templateCache', function($templateCache) {
     '        <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>\n' +
     '      </div>\n' +
     '      <div class="modal-body">\n' +
-    '        <li ng-repeat="fav in favoritedByModel" class="favoritedByModal">\n' +
+    '        <li ng-repeat="fav in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(fav)">\n' +
     '          <img ng-src="https://graph.facebook.com/{{fav.fbookId}}/picture?type=small" alt="">\n' +
     '          <p> {{fav.name}} </p>\n' +
     '        </li>\n' +
@@ -161,7 +161,7 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '\n' +
-    '<!-- show people who liekd an item on your list -->\n' +
+    '<!-- show people who liked an item on your list -->\n' +
     '<div class="modal fade" id="showLikedItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">\n' +
     '  <div class="modal-dialog showFavBy" role="document">\n' +
     '    <div class="modal-content">\n' +
@@ -174,7 +174,8 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
-    '</div>');
+    '</div>\n' +
+    '');
 }]);
 })();
 
