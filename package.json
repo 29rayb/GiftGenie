@@ -19,7 +19,6 @@
   "homepage": "https://github.com/ray-kim-12/public-wishlist#readme",
   "dependencies": {
     "async": "^1.5.2",
-    "benchmark": "^2.1.0",
     "body-parser": "^1.15.0",
     "cors": "^2.7.1",
     "del": "^2.2.0",
