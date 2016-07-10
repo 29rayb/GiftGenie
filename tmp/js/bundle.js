@@ -73,6 +73,12 @@ NavbarCtrl.$inject = ['$scope', '$state', '$auth', '$rootScope', 'UserSvc'];
 
 function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
 
+  if (localStorage.getItem('satellizer_token')) {
+    UserSvc.getProfile().then(function (res) {
+      $rootScope.display_name = res.data.displayName;
+    });
+  }
+
   $rootScope.settings = false;
   $rootScope.starred = false;
   $rootScope.followersPage = false;
