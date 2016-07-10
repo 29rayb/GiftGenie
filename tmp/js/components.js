@@ -1,34 +1,5 @@
 (function(module) {
 try {
-  module = angular.module('faq');
-} catch (e) {
-  module = angular.module('faq', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('faq/faq.html',
-    '<div class="main_container">\n' +
-    '\n' +
-    '  <div class="faq container">\n' +
-    '    <h1>Frequently Asked Questions</h1>\n' +
-    '    <div class="search_faq_container">\n' +
-    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <ul class="faquestions">\n' +
-    '      <li ng-repeat="faq in faqs | filter:search">\n' +
-    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
-    '        <h6 class="faq_answers" ng-if="showAnswer" >{{faq.answer}}</h6>\n' +
-    '      </li>\n' +
-    '    </ul>\n' +
-    '  </div>\n' +
-    '\n' +
-    '</div>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
   module = angular.module('friendWishlist');
 } catch (e) {
   module = angular.module('friendWishlist', []);
@@ -77,7 +48,7 @@ module.run(['$templateCache', function($templateCache) {
     '          <p>By\n' +
     '            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}\n' +
     '              <span ng-if="favoritedByLength === 1">Person</span>\n' +
-    '              <span ng-if="favoritedByLength >= 2 && favoritedByLength < 1">People</span>\n' +
+    '              <span ng-if="favoritedByLength >= 2 || favoritedByLength < 1">People</span>\n' +
     '            </span>\n' +
     '          </p>\n' +
     '        </div>\n' +
@@ -152,10 +123,12 @@ module.run(['$templateCache', function($templateCache) {
     '        <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>\n' +
     '      </div>\n' +
     '      <div class="modal-body">\n' +
-    '        <li ng-repeat="fav in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(fav)">\n' +
-    '          <img ng-src="https://graph.facebook.com/{{fav.fbookId}}/picture?type=small" alt="">\n' +
-    '          <p> {{fav.name}} </p>\n' +
-    '        </li>\n' +
+    '        <div class="favoritedByModalContainer">\n' +
+    '          <li ng-repeat="fav in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(fav)">\n' +
+    '            <img ng-src="https://graph.facebook.com/{{fav.fbookId}}/picture?type=normal" alt="">\n' +
+    '            <p> <span> {{fav.name}} </span> </p>\n' +
+    '          </li>\n' +
+    '        </div>\n' +
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
@@ -174,6 +147,35 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
+    '</div>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('faq');
+} catch (e) {
+  module = angular.module('faq', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('faq/faq.html',
+    '<div class="main_container">\n' +
+    '\n' +
+    '  <div class="faq container">\n' +
+    '    <h1>Frequently Asked Questions</h1>\n' +
+    '    <div class="search_faq_container">\n' +
+    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <ul class="faquestions">\n' +
+    '      <li ng-repeat="faq in faqs | filter:search">\n' +
+    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
+    '        <h6 class="faq_answers" ng-if="showAnswer" >{{faq.answer}}</h6>\n' +
+    '      </li>\n' +
+    '    </ul>\n' +
+    '  </div>\n' +
+    '\n' +
     '</div>\n' +
     '');
 }]);
@@ -279,7 +281,6 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '    <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >\n' +
     '      <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
-    '        INDEX {{$index}}\n' +
     '        <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
     '        <i class="fa fa-pencil-square-o" ng-click="edit(item, $index)" data-toggle="modal" data-target="#edit"></i>\n' +
     '        <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
@@ -423,10 +424,12 @@ module.run(['$templateCache', function($templateCache) {
     '        <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>\n' +
     '      </div>\n' +
     '      <div class="modal-body">\n' +
-    '        <li  data-dismiss="modal" data-backdrop="false" ng-repeat="favoritedBy in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(favoritedBy)">\n' +
-    '          <img ng-src="https://graph.facebook.com/{{favoritedBy.fbookId}}/picture?type=small" alt="">\n' +
-    '          <p> {{favoritedBy.name}} </p>\n' +
-    '        </li>\n' +
+    '        <div class="favoritedByModalContainer col-xs-12">\n' +
+    '          <li  data-dismiss="modal" data-backdrop="false" ng-repeat="favoritedBy in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(favoritedBy)">\n' +
+    '            <img ng-src="https://graph.facebook.com/{{favoritedBy.fbookId}}/picture?type=normal" alt=""  >\n' +
+    '            <p> <span>{{favoritedBy.name}}</span> </p>\n' +
+    '          </li>\n' +
+    '        </div>\n' +
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +

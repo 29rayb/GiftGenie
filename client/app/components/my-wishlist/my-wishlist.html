@@ -52,7 +52,6 @@
 
     <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >
       <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
-        INDEX {{$index}}
         <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
         <i class="fa fa-pencil-square-o" ng-click="edit(item, $index)" data-toggle="modal" data-target="#edit"></i>
         <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
@@ -196,10 +195,12 @@
         <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>
       </div>
       <div class="modal-body">
-        <li  data-dismiss="modal" data-backdrop="false" ng-repeat="favoritedBy in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(favoritedBy)">
-          <img ng-src="https://graph.facebook.com/{{favoritedBy.fbookId}}/picture?type=small" alt="">
-          <p> {{favoritedBy.name}} </p>
-        </li>
+        <div class="favoritedByModalContainer col-xs-12">
+          <li  data-dismiss="modal" data-backdrop="false" ng-repeat="favoritedBy in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(favoritedBy)">
+            <img ng-src="https://graph.facebook.com/{{favoritedBy.fbookId}}/picture?type=normal" alt=""  >
+            <p> <span>{{favoritedBy.name}}</span> </p>
+          </li>
+        </div>
       </div>
     </div>
   </div>

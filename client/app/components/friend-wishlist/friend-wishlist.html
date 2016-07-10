@@ -40,7 +40,7 @@
           <p>By
             <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}
               <span ng-if="favoritedByLength === 1">Person</span>
-              <span ng-if="favoritedByLength >= 2 && favoritedByLength < 1">People</span>
+              <span ng-if="favoritedByLength >= 2 || favoritedByLength < 1">People</span>
             </span>
           </p>
         </div>
@@ -115,10 +115,12 @@
         <h4 class="modal-title" id="myModalLabel">Favorited By {{favoritedByLength}}  </h4>
       </div>
       <div class="modal-body">
-        <li ng-repeat="fav in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(fav)">
-          <img ng-src="https://graph.facebook.com/{{fav.fbookId}}/picture?type=small" alt="">
-          <p> {{fav.name}} </p>
-        </li>
+        <div class="favoritedByModalContainer">
+          <li ng-repeat="fav in favoritedByModel" class="favoritedByModal" ng-click="goToOthers(fav)">
+            <img ng-src="https://graph.facebook.com/{{fav.fbookId}}/picture?type=normal" alt="">
+            <p> <span> {{fav.name}} </span> </p>
+          </li>
+        </div>
       </div>
     </div>
   </div>

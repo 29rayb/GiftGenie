@@ -403,10 +403,40 @@ p.logo span.stationary {
   text-align: center;
 }
 
-.magical_wand {
-  width: 40px;
-  height: 50px;
+.modal-content,
+.modal-dialog {
+  width: 445px;
+  height: 425px;
 }
+
+.favoritedByModalContainer li {
+  margin-top: 10px;
+}
+
+.favoritedByModalContainer img {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  left: 15px;
+}
+
+.favoritedByModalContainer p {
+  text-align: middle;
+  margin-top: 45px;
+  margin-left: 100px;
+  border-bottom: 1px solid #e9ebee;
+  width: 275px;
+  height: 35px;
+  font-size: 19px;
+}
+
+.favoritedByModalContainer span {
+  text-align: left;
+  position: absolute;
+  left: 135px;
+  margin-top: -20px;
+}
+
 
 i.fa.fa-star.mine {
   position: relative;
@@ -454,9 +484,7 @@ span.favorited li {
   display: inline-block;
 }
 
-.modal-dialog.favoritedBy {
-  width: 400px;
-}
+
 
 .add_btn {
   position: absolute;
