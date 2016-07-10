@@ -167,6 +167,8 @@ gulp.task('images', () => {
              .pipe(gulp.dest('client/dist/images'))
 })
 
+// gulp.task('heroku:production', ['default'])
+
 gulp.task('watch', () => {
   gulp.watch(paths.scripts, ['scripts', 'jshint']);
   gulp.watch(paths.css, ['css']);

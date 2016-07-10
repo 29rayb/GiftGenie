@@ -1,11 +1,10 @@
 client/vendor
-responsive-testing
 npm-debug.log
 rev-manifest.json
 .env
 .DS_Store
 newrelic.js
 gulpfile.babel.js
-tmp
 client/dist/index
 node_modules
+.npmrc
