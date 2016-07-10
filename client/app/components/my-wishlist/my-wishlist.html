@@ -52,9 +52,9 @@
 
     <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >
       <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
-        <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
-        <i class="fa fa-pencil-square-o" ng-click="edit(item, $index)" data-toggle="modal" data-target="#edit"></i>
-        <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
+        <a href="{{item.link}}" class="wishlist_item col-xs-9" target="_blank"> {{item.name}} </a>
+        <i class="fa fa-pencil-square-o col-xs-1" ng-click="edit(item, $index)" data-toggle="modal" data-target="#edit"></i>
+        <i class="fa fa-trash col-xs-1" ng-click="delete(item, $index)"></i>
       </li>
     </ol>
   </div>

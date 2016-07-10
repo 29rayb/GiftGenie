@@ -18,7 +18,9 @@ function faqCtrl($rootScope, $scope){
     {question: "2. I have ideas to improve the app; How can I let you guys know?",
       answer: "Simply click the email icon on the bottom and email us!"},
     {question: "3. Can I share this with my friends?",
-      answer: "Of course. Simply copy and paste the url & they will be able to login with Facebook."}
+      answer: "The app is currently in beta; please limit invites to just 5 friends"},
+    {question: "4. Why can't I see anyone in the searchbar?",
+      answer: "Only your Facebook friends who are already using the app can be seen" }
   ];
 
   $scope.getAnswer = () => {

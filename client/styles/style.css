@@ -187,21 +187,22 @@ p.logo span.stationary {
 }
 
 .rw-words-2 span {
-  animation: rotateWordsSecond 16s linear infinite 0s;
+  animation: rotateWordsSecond 20s linear infinite 0s;
 }
 
 .rw-words span:nth-child(2) { 
   animation-delay: 4s; 
-/*  color: purple;
-*/}
+}
 
 .rw-words span:nth-child(3) { 
   animation-delay: 8s; 
-  /*color: green; */
 }
 .rw-words span:nth-child(4) { 
   animation-delay: 12s; 
-  /*color: blue;*/
+}
+
+.rw-words span:nth-child(5) { 
+  animation-delay: 16s; 
 }
 
 @keyframes rotateWordsSecond {
@@ -499,25 +500,20 @@ input.searchItems {
   width: 276px;
 }
 
-.wishlist_item:hover {
-  background-color: rgb(189, 198, 207);
-  width: 200px;
-}
-
 .wishlist_items li {
   height: 35px;
-}
-
-.wishlist_items_container a,
-.wishlist_items_container i,
-.wishlist_items_container div {
-  margin: 0 50px;
 }
 
 .wishlist_item {
   color: #000;
   position: absolute;
-  left: 0;
+  left: 45px;
+  text-align: left;
+}
+
+.wishlist_item:hover {
+  background-color: rgb(189, 198, 207);
+  color: #fff;
 }
 
 i.fa-trash:hover,
@@ -528,11 +524,13 @@ i.fa-pencil-square-o:hover {
 i.fa-pencil-square-o {
   position: absolute;
   right: 32px;
+  max-width: 10%;
 }
 
 i.fa-trash {
   position: absolute;
   right: 0px;
+  max-width: 10%;
 }
 
 .following,
