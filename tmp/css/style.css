@@ -322,13 +322,15 @@ p.logo span.stationary {
 
 .pro_info p i {
   float: left;
-  margin-left: 5px;
+  margin-left: 4px;
   margin-right: 8px;
   margin-top: 5px;
   min-height: 15px;
   max-height: 15px;
   min-height: 15px;
-  max-width: 15px;
+  min-width: 16px;
+  max-width: 16px;
+
 }
 
 .email_address {
