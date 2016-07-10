@@ -6,8 +6,7 @@
   "scripts": {
     "start": "nodemon server/app.js",
     "setup": "rm -rf node_modules client/vendor && npm i",
-    "heroku-postbuild": "gulp",
-    "postinstall": "heroku logs --tail"
+    "heroku-postbuild": "gulp"
   },
   "repository": {
     "type": "git",
