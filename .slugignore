@@ -3,7 +3,6 @@
 .gitignore
 .jshintrc
 travis.yml
-gulpfile.babel.js
 newrelic.js
 README.md
 robots.txt
