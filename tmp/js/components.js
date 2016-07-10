@@ -1,34 +1,5 @@
 (function(module) {
 try {
-  module = angular.module('faq');
-} catch (e) {
-  module = angular.module('faq', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('faq/faq.html',
-    '<div class="main_container">\n' +
-    '\n' +
-    '  <div class="faq container">\n' +
-    '    <h1>Frequently Asked Questions</h1>\n' +
-    '    <div class="search_faq_container">\n' +
-    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <ul class="faquestions">\n' +
-    '      <li ng-repeat="faq in faqs | filter:search">\n' +
-    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
-    '        <h6 class="faq_answers" ng-if="showAnswer" >{{faq.answer}}</h6>\n' +
-    '      </li>\n' +
-    '    </ul>\n' +
-    '  </div>\n' +
-    '\n' +
-    '</div>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
   module = angular.module('friendWishlist');
 } catch (e) {
   module = angular.module('friendWishlist', []);
@@ -175,6 +146,35 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '  </div>\n' +
     '</div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('faq');
+} catch (e) {
+  module = angular.module('faq', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('faq/faq.html',
+    '<div class="main_container">\n' +
+    '\n' +
+    '  <div class="faq container">\n' +
+    '    <h1>Frequently Asked Questions</h1>\n' +
+    '    <div class="search_faq_container">\n' +
+    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <ul class="faquestions">\n' +
+    '      <li ng-repeat="faq in faqs | filter:search">\n' +
+    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
+    '        <h6 class="faq_answers" ng-if="showAnswer" >{{faq.answer}}</h6>\n' +
+    '      </li>\n' +
+    '    </ul>\n' +
+    '  </div>\n' +
+    '\n' +
+    '</div>\n' +
+    '');
 }]);
 })();
 
