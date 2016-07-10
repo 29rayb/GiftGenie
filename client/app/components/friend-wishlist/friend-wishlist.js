@@ -201,14 +201,14 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     UserSvc.showFollow(allFollowers)
     .then((response) => {
       var theFollowers = response.data;
-      $rootScope.followersModel = [];
+      $scope.followersModel = [];
 
       for (var i=0; i<theFollowers.length; i++) {
         var eachFollower = theFollowers[i];
         var name = eachFollower.displayName;
         var id = eachFollower.facebook;
 
-        $rootScope.followersModel[i] = {
+        $scope.followersModel[i] = {
           "name": name,
           "id": id
         }
@@ -229,14 +229,14 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
     UserSvc.showFollow(allFollowing)
     .then((response) => {
       var theFollowing = response.data;
-      $rootScope.followingModel = [];
+      $scope.followingModel = [];
 
       for (var i=0; i<theFollowing.length; i++) {
         var eachFollowing = theFollowing[i];
         var name = eachFollowing.displayName;
         var id = eachFollowing.facebook;
 
-        $rootScope.followingModel[i] = {
+        $scope.followingModel[i] = {
           "name": name,
           "id": id
         }
