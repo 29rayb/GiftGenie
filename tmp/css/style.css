@@ -758,6 +758,7 @@ input.search_faqs {
   width: 80%;
   margin-bottom: 25px;
   max-width: 425px;
+  border-bottom: 1px solid #e9ebee;
 }
 
 .faquestions h5:hover {

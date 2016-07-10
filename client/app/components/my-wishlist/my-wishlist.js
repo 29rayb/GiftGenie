@@ -210,6 +210,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   }
 
   $scope.save_changes = (item, editItemId) => {
+    console.log('saving changes')
     $scope.item.name = item.name;
     $scope.item.link = item.link;
     $scope.item.id = editItemId;
@@ -220,8 +221,11 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
         link: res.data.link
       }
       $scope.items.splice($rootScope.editItemIndex, 1, itemAfterEdit)
-      $scope.item.link = res.data.link
-      $scope.item.name = res.data.name
+      // $scope.item.link = res.data.link
+      // $scope.item.name = res.data.name
+      $('#edit').modal('hide');
+      $('body').removeClass('modal-open');
+      $('.modal-backdrop').remove();
     })
     .catch(() => {
       console.error('saving method doesnt work')
