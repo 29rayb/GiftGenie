@@ -308,7 +308,6 @@ module.run(['$templateCache', function($templateCache) {
     '</div>\n' +
     '\n' +
     '<!-- following -->\n' +
-    '\n' +
     '<div class="main_container" ng-if="followingPage && !followersPage && !settings">\n' +
     '  <div class="wishlist_container container col-xs-8">\n' +
     '    <div class="title_container">\n' +
@@ -330,7 +329,6 @@ module.run(['$templateCache', function($templateCache) {
     '</div>\n' +
     '\n' +
     '<!-- followers -->\n' +
-    '\n' +
     '<div class="main_container" ng-if="followersPage && !followingPage && !settings">\n' +
     '  <div class="wishlist_container container col-xs-8">\n' +
     '    <div class="title_container">\n' +
@@ -351,7 +349,6 @@ module.run(['$templateCache', function($templateCache) {
     '</div>\n' +
     '\n' +
     '<!-- starred -->\n' +
-    '\n' +
     '<div class="main_container" ng-if="starred && !followersPage && !followingPage && !settings">\n' +
     '  <div class="wishlist_container container col-xs-8">\n' +
     '    <div class="title_container">\n' +

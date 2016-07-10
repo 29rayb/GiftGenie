@@ -378,6 +378,10 @@ p.logo span.stationary {
   padding: 5px;
 }
 
+.bottom_container input {
+  margin-top: -25px;
+}
+
 .bottom_container .following,
 .bottom_container .followers {
   list-style-type: none;
@@ -429,8 +433,6 @@ i.fa.fa-star.mine {
   color: #acabab;
   cursor: pointer;
 }
-
-
 
 span.favorited li {
   list-style-type: none;
@@ -516,11 +518,6 @@ i.fa-trash {
   opacity: 0.7;
 }
 
-.user_name {
-  min-width: 150px;
-  max-width: 150px;
-  background-color: rgb(189, 198, 207);
-}
 
 /*Starred-WishLists*/
 
@@ -536,6 +533,15 @@ i.fa-trash {
   cursor: pointer;
 }
 
+.user_name {
+  min-width: 150px;
+  max-width: 150px;
+  text-align: center;
+  background-color: rgb(189, 198, 207);
+  margin: 0 auto;
+  margin-bottom: 25px;
+}
+
 .bottom_container input.starred,
 .bottom_container.starred {
   margin-top: -50px;
@@ -543,12 +549,6 @@ i.fa-trash {
 
 
 /*FRIEND WISHLIST*/
-
-/*.unfollow_button {
-  background-color: #e81c4f;
-  border-color: #e81c4f;
-}
-*/
 
 .pro_info_btns button {
   border: none;
