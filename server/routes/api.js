@@ -91,7 +91,11 @@ router.put('/me/deleteitem', function(req, res) {
 router.put('/me/edititem', function(req, res) {
   var editItem = req.body;
   Item.update( {"_id": editItem.id}, { "name": editItem.name, "link": editItem.link }, function(err, item) {
-    res.send(item);
+    var edittedItem = {
+      name: editItem.name,
+      link: editItem.link
+    }
+    res.send(item, edittedItem);
   });
 });
 

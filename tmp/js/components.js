@@ -76,8 +76,8 @@ module.run(['$templateCache', function($templateCache) {
     '          <div class="favy" ng-class="{is_favoriting: favWishList, star_btn: yellowStar}" ng-click="star(user)"> </div>\n' +
     '          <p>By\n' +
     '            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}\n' +
-    '              <span ng-if="favoritedByLength < 2">Person</span>\n' +
-    '              <span ng-if="favoritedByLength >= 2">People</span>\n' +
+    '              <span ng-if="favoritedByLength === 1">Person</span>\n' +
+    '              <span ng-if="favoritedByLength >= 2 && favoritedByLength < 1">People</span>\n' +
     '            </span>\n' +
     '          </p>\n' +
     '        </div>\n' +
@@ -262,8 +262,8 @@ module.run(['$templateCache', function($templateCache) {
     '          <i class="fa fa-star mine"></i>\n' +
     '          <p>By\n' +
     '            <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}\n' +
-    '              <span ng-if="favoritedByLength < 2" >Person</span>\n' +
-    '              <span ng-if="favoritedByLength >= 2">People</span>\n' +
+    '              <span ng-if="favoritedByLength === 1" >Person</span>\n' +
+    '              <span ng-if="favoritedByLength >= 2 || favoritedByLength < 1">People</span>\n' +
     '            </span>\n' +
     '          </p>\n' +
     '        </div>\n' +
@@ -279,8 +279,9 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '    <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >\n' +
     '      <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
+    '        INDEX {{$index}}\n' +
     '        <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>\n' +
-    '        <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>\n' +
+    '        <i class="fa fa-pencil-square-o" ng-click="edit(item, $index)" data-toggle="modal" data-target="#edit"></i>\n' +
     '        <i class="fa fa-trash" ng-click="delete(item, $index)"></i>\n' +
     '      </li>\n' +
     '    </ol>\n' +

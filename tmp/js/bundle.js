@@ -344,7 +344,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
       timer: 2000
     });
     // shouldn't need this if done right;
-    window.location.reload(true);
+    // window.location.reload(true)
   };
 
   /* ______________
@@ -359,7 +359,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |              |
   |  Edit Item:  |
   |______________| */
-  $scope.edit = function (item) {
+  $scope.edit = function (item, $index) {
+    $rootScope.editItemIndex = $index;
     $scope.item = {};
     $scope.item.link = item.link;
     $scope.item.name = item.name;
@@ -370,9 +371,14 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     $scope.item.name = item.name;
     $scope.item.link = item.link;
     $scope.item.id = editItemId;
-    UserSvc.save_changes(item).then(function () {
-      console.log('made API call to save changes');
-      window.location.reload(true);
+    UserSvc.save_changes(item).then(function (res) {
+      var itemAfterEdit = {
+        name: res.data.name,
+        link: res.data.link
+      };
+      $scope.items.splice($rootScope.editItemIndex, 1, itemAfterEdit);
+      $scope.item.link = res.data.link;
+      $scope.item.name = res.data.name;
     }).catch(function () {
       console.error('saving method doesnt work');
     });

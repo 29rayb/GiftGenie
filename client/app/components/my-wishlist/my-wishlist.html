@@ -35,8 +35,8 @@
           <i class="fa fa-star mine"></i>
           <p>By
             <span data-toggle="modal" data-target="#showFavBy">{{favoritedByLength}}
-              <span ng-if="favoritedByLength < 2" >Person</span>
-              <span ng-if="favoritedByLength >= 2">People</span>
+              <span ng-if="favoritedByLength === 1" >Person</span>
+              <span ng-if="favoritedByLength >= 2 || favoritedByLength < 1">People</span>
             </span>
           </p>
         </div>
@@ -52,8 +52,9 @@
 
     <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >
       <li class="wishlist_items_container" ng-repeat="item in items | filter:search">
+        INDEX {{$index}}
         <a href="{{item.link}}" class="wishlist_item" target="_blank"> {{item.name}} </a>
-        <i class="fa fa-pencil-square-o" ng-click="edit(item)" data-toggle="modal" data-target="#edit"></i>
+        <i class="fa fa-pencil-square-o" ng-click="edit(item, $index)" data-toggle="modal" data-target="#edit"></i>
         <i class="fa fa-trash" ng-click="delete(item, $index)"></i>
       </li>
     </ol>
