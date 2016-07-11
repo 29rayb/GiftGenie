@@ -55,6 +55,6 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
   $authProvider.facebook({
     clientId: '247255738962232',
     requiredUrlParams: ['scope', 'display'],
-    scope: ['user_friends', 'email', 'user_birthday', 'user_likes']
+    scope: ['user_friends', 'email', 'user_birthday']
   });
 }
