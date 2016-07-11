@@ -8,24 +8,32 @@ NavbarCtrl.$inject = ['$scope', '$state', '$auth', '$rootScope', 'UserSvc']
 
 function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
 
-
-  if (localStorage.getItem('satellizer_token')){
+  // need this for instances of refreshing
+  if(localStorage.getItem('satellizer_token')){
+    // console.log('if refreshed')
     UserSvc.getProfile()
       .then((res) => {
+        $rootScope.allMyFriends = res.data.friends
         $rootScope.display_name = res.data.displayName;
+        $rootScope.infaq = localStorage.removeItem('faq')
+        // console.log($rootScope.allMyFriends)
       })
+  } else {
+    $rootScope.infaq = localStorage.getItem('faq')
   }
+
+  // if (!localStorage.getItem('satellizer_token')){
+  //   $rootScope.infaq = localStorage.getItem('faq')
+  // } else {
+  //   $rootScope.infaq = localStorage.removeItem('faq')
+  // }
+
 
   $rootScope.settings = false;
   $rootScope.starred = false;
   $rootScope.followersPage = false;
   $rootScope.followingPage = false;
 
-  if (!localStorage.getItem('satellizer_token')){
-    $rootScope.infaq = localStorage.getItem('faq')
-  } else {
-    $rootScope.infaq = localStorage.removeItem('faq')
-  }
 
   $scope.isAuthenticated = () => {
     return $auth.isAuthenticated();
@@ -78,11 +86,16 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
   }
 
   $scope.searchFriends = () => {
-    $rootScope.user.friends = $rootScope.allMyFriends;
-    console.log('after setting it to all my friends for friends who joined', $rootScope.user.friends)
-    UserSvc.checkingFriendPrivacy($rootScope.user.friends)
+    // prevents $rootScope.user from being undefined;
+    // console.log('THIS IS $ROOTSCOPE', $rootScope)
+    if ($rootScope.user !== undefined) {
+      $rootScope.user.friends = $rootScope.allMyFriends;
+    }
+    var myFriends = $rootScope.allMyFriends || $rootScope.user.friends
+    // console.log('after setting it to all my friends for friends who joined', myFriends)
+    UserSvc.checkingFriendPrivacy(myFriends)
     .then((response) => {
-      console.log(response)
+      // console.log(response)
       var publicFriends = response.data.publicFriends;
       var length = publicFriends.length;
 
