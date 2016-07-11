@@ -409,6 +409,10 @@ p.logo span.stationary {
   overflow: scroll;
 }
 
+.modal-footer {
+  margin-top: -65px;
+}
+
 .modal-content,
 .modal-dialog {
   width: 445px;
