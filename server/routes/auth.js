@@ -37,7 +37,8 @@ router.post('/facebook', function(req, res) {
 
   // STEP 2. Retrieve profile information about the current user.
     request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(err, response, profile) {
-      console.log('THIS IS THE FACEBOOK PROFILE:', profile);
+      // console.log('THIS IS THE FACEBOOK PROFILE:', profile);
+      console.log('THIS IS THE FACEBOOK PROFILE FRIENDS:', profile.friends.data);
 
       if (response.statusCode !== 200) {
         return res.status(500).send({ message: profile.error.message });
@@ -47,10 +48,19 @@ router.post('/facebook', function(req, res) {
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
           //Scenario a):
           if (existingUser) {
+            console.log('STEP 2 SCENARIO A')
+            // if (existingUser.friends.length !== profile.friends.data){
+            //   console.log(' STEP 2 new friends have been joined since last logged in')
+            //   var token = existingUser.createJWT();
+            //   console.log("NO ERROR")
+            //   console.log('BEING SENT', profile.friends.data)
+            //   return res.send({ token: token, user: profile.friends.data });
+            // }
             return res.status(400).send({ message: 'There is already a Facebook account that belongs to you' });
           }
 
           //Scenario b):
+          console.log('STEP 2 SCENARIO B')
           var token = req.headers.authorization.split(' ')[1];
           var payload = jwt.decode(token, process.env.JWT_SECRET);
           User.findById(payload.sub, function(err, user) {
@@ -62,7 +72,8 @@ router.post('/facebook', function(req, res) {
             user.displayName = user.displayName || profile.name;
             user.email = user.email || profile.email;
             user.birthday = user.birthday || profile.birthday;
-            user.friends = user.friends.data || profile.friends.data;
+            user.friends = profile.friends.data || user.friends.data;
+            console.log('STEP 2 user.friends', user.friends)
             user.save(function() {
               var token = user.createJWT();
               res.send({ token: token, user:user });
@@ -75,10 +86,21 @@ router.post('/facebook', function(req, res) {
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
           // Scenario a):
           if (existingUser) {
+            console.log('STEP 3 Scenario A', existingUser)
+            // console.log(existingUser.friends.length === profile.friends.data)
+            if (existingUser.friends.length !== profile.friends.data){
+              console.log('STEP 3 new friends have been joined since last logged in')
+              var token = existingUser.createJWT();
+              console.log("NO ERROR")
+              console.log('BEING SENT', profile.friends.data)
+              return res.send({ token: token, user: profile.friends.data });
+            }
             var token = existingUser.createJWT();
+            console.log("NO ERROR")
             return res.send({ token: token, user: user });
           }
           //Scenario b):
+          console.log('STEP 3 Scenario B')
           var user = new User();
           user.facebook = profile.id;
           user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
@@ -86,6 +108,7 @@ router.post('/facebook', function(req, res) {
           user.email = profile.email;
           user.birthday = profile.birthday;
           user.friends = profile.friends.data;
+          console.log('!!!!!!!!!!! user.friends', user.friends)
           user.save(function() {
             mailer.sendWelcome(user, function(err, body) {
               console.log('********Sending the mailgun email.', body);

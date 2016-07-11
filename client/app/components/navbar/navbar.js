@@ -78,8 +78,11 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
   }
 
   $scope.searchFriends = () => {
+    $rootScope.user.friends = $rootScope.allMyFriends;
+    console.log('after setting it to all my friends for friends who joined', $rootScope.user.friends)
     UserSvc.checkingFriendPrivacy($rootScope.user.friends)
     .then((response) => {
+      console.log(response)
       var publicFriends = response.data.publicFriends;
       var length = publicFriends.length;
 
