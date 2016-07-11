@@ -6,7 +6,7 @@ angular.module('App', ['ui.router', 'satellizer', 'app.routes', 'ui.sortable']);
 angular.module('app.routes', []).config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$authProvider', AppRoutes]);
 
 function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
-  // $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(true).hashPrefix('!');
   $urlRouterProvider.otherwise('/');
   $stateProvider.state('faq', {
     url: '/faq',
@@ -58,7 +58,6 @@ function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
   $scope.authenticate = function (provider, user) {
     $auth.authenticate(provider, user).then(function (res) {
       $rootScope.allMyFriends = res.data.user;
-      console.log('this is the user', user);
       console.log($rootScope.allMyFriends);
       // is it a problem that when facebook login button clicked, he/she
       // doesn't have the id in the url?

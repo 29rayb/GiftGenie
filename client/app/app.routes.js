@@ -5,7 +5,7 @@ angular
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$authProvider', AppRoutes]);
 
 function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
-  // $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(true).hashPrefix('!');
   $urlRouterProvider.otherwise('/');
   $stateProvider
     .state('faq', {

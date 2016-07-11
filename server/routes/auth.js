@@ -49,13 +49,6 @@ router.post('/facebook', function(req, res) {
           //Scenario a):
           if (existingUser) {
             console.log('STEP 2 SCENARIO A')
-            // if (existingUser.friends.length !== profile.friends.data){
-            //   console.log(' STEP 2 new friends have been joined since last logged in')
-            //   var token = existingUser.createJWT();
-            //   console.log("NO ERROR")
-            //   console.log('BEING SENT', profile.friends.data)
-            //   return res.send({ token: token, user: profile.friends.data });
-            // }
             return res.status(400).send({ message: 'There is already a Facebook account that belongs to you' });
           }
 
@@ -91,12 +84,10 @@ router.post('/facebook', function(req, res) {
             if (existingUser.friends.length !== profile.friends.data){
               console.log('STEP 3 new friends have been joined since last logged in')
               var token = existingUser.createJWT();
-              console.log("NO ERROR")
               console.log('BEING SENT', profile.friends.data)
               return res.send({ token: token, user: profile.friends.data });
             }
             var token = existingUser.createJWT();
-            console.log("NO ERROR")
             return res.send({ token: token, user: user });
           }
           //Scenario b):
@@ -108,7 +99,6 @@ router.post('/facebook', function(req, res) {
           user.email = profile.email;
           user.birthday = profile.birthday;
           user.friends = profile.friends.data;
-          console.log('!!!!!!!!!!! user.friends', user.friends)
           user.save(function() {
             mailer.sendWelcome(user, function(err, body) {
               console.log('********Sending the mailgun email.', body);
