@@ -86,6 +86,7 @@ i.fa.fa-search::before {
     left: 87px;
     z-index: 1000;
     max-height: 300px;
+    overflow: scroll;
 }
 
 .friends_container li {
