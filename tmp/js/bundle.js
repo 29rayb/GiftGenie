@@ -9,6 +9,7 @@ function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authP
   $locationProvider.html5Mode(true).hashPrefix('!');
   // $urlRouterProvider.otherwise('/');
   $urlRouterProvider.otherwise(function ($injector, $location) {
+    // to work on mobile, make sure cookies are NOT blocked;
     var state = $injector.get('$state');
     var path = $location.url();
     if (state.current.abstract) {
