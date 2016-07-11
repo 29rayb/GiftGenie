@@ -20,7 +20,9 @@ function faqCtrl($rootScope, $scope){
     {question: "3. Can I share this with my friends?",
       answer: "The app is currently in beta; please limit invites to just 5 friends"},
     {question: "4. Why can't I see anyone in the searchbar?",
-      answer: "Only your Facebook friends who are already using the app can be seen" }
+      answer: "Only your Facebook friends who are already using the app can be seen" },
+    {question: "5. I try to use the app on my iPhone using Safari, but I'm having issues",
+      answer: "Go to settings --> safari --> privacy & security --> block cookies --> allow from websites I visit. Also make sure you have JavaScript enabled in the Advanced Section"}
   ];
 
   $scope.getAnswer = () => {

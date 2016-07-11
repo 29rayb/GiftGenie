@@ -6,18 +6,18 @@ angular.module('App', ['ui.router', 'satellizer', 'app.routes', 'ui.sortable']);
 angular.module('app.routes', []).config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$authProvider', AppRoutes]);
 
 function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
-  $locationProvider.html5Mode(true).hashPrefix('!');
-  // $urlRouterProvider.otherwise('/');
-  $urlRouterProvider.otherwise(function ($injector, $location) {
-    // to work on mobile, make sure cookies are NOT blocked;
-    var state = $injector.get('$state');
-    var path = $location.url();
-    if (state.current.abstract) {
-      if (path.indexOf('access_token') == -1) {
-        state.go('login');
-      }
-    }
-  });
+  // $locationProvider.html5Mode(true).hashPrefix('!');
+  $urlRouterProvider.otherwise('/');
+  // $urlRouterProvider.otherwise(function($injector, $location){
+  //   // to work on mobile, make sure cookies are NOT blocked;
+  //   var state = $injector.get('$state');
+  //   var path = $location.url();
+  //   if (state.current.abstract){
+  //     if (path.indexOf('access_token') == -1){
+  //       state.go('login');
+  //     }
+  //   }
+  // })
   $stateProvider.state('faq', {
     url: '/faq',
     templateUrl: 'app/components/faq/faq.html',
@@ -566,7 +566,8 @@ function faqCtrl($rootScope, $scope) {
     answer: "Make sure you have the http(s):/ /www; The best way to accomplish copying the links is by copying the url & simply plasting it in the input box." }, { question: "2. I have ideas to improve the app; How can I let you guys know?",
     answer: "Simply click the email icon on the bottom and email us!" }, { question: "3. Can I share this with my friends?",
     answer: "The app is currently in beta; please limit invites to just 5 friends" }, { question: "4. Why can't I see anyone in the searchbar?",
-    answer: "Only your Facebook friends who are already using the app can be seen" }];
+    answer: "Only your Facebook friends who are already using the app can be seen" }, { question: "5. I try to use the app on my iPhone using Safari, but I'm having issues",
+    answer: "Go to settings --> safari --> privacy & security --> block cookies --> allow from websites I visit. Also make sure you have JavaScript enabled in the Advanced Section" }];
 
   $scope.getAnswer = function () {
     $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;

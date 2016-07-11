@@ -5,18 +5,18 @@ angular
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$authProvider', AppRoutes]);
 
 function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
-  $locationProvider.html5Mode(true).hashPrefix('!');
-  // $urlRouterProvider.otherwise('/');
-  $urlRouterProvider.otherwise(function($injector, $location){
-    // to work on mobile, make sure cookies are NOT blocked;
-    var state = $injector.get('$state');
-    var path = $location.url();
-    if (state.current.abstract){
-      if (path.indexOf('access_token') == -1){
-        state.go('login');
-      }
-    }
-  })
+  // $locationProvider.html5Mode(true).hashPrefix('!');
+  $urlRouterProvider.otherwise('/');
+  // $urlRouterProvider.otherwise(function($injector, $location){
+  //   // to work on mobile, make sure cookies are NOT blocked;
+  //   var state = $injector.get('$state');
+  //   var path = $location.url();
+  //   if (state.current.abstract){
+  //     if (path.indexOf('access_token') == -1){
+  //       state.go('login');
+  //     }
+  //   }
+  // })
   $stateProvider
     .state('faq', {
       url: '/faq',
