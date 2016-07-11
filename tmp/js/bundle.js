@@ -7,7 +7,16 @@ angular.module('app.routes', []).config(['$stateProvider', '$urlRouterProvider',
 
 function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
   $locationProvider.html5Mode(true).hashPrefix('!');
-  $urlRouterProvider.otherwise('/');
+  // $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise(function ($injector, $location) {
+    var state = $injector.get('$state');
+    var path = $location.url();
+    if (state.current.abstract) {
+      if (path.indexOf('access_token') == -1) {
+        state.go('login');
+      }
+    }
+  });
   $stateProvider.state('faq', {
     url: '/faq',
     templateUrl: 'app/components/faq/faq.html',
