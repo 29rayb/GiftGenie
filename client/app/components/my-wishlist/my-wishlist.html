@@ -155,12 +155,13 @@
       </div>
       <div class="modal-body">
         <form name="addItemForm" novalidate>
-          <input type="text" placeholder="Link" ng-model="item.link" required>
+          <input type="url" placeholder="Link" ng-model="item.link" required>
           <input type="text" placeholder="Item Name" ng-model="item.name" required>
+          <div class="error" ng-if="addItemForm.$error.url"> Not Valid URL! Should include http(s)://</div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="add(item, user)" data-dismiss="modal" ng-disabled="addItemForm.$invalid">Add Wish</button>
+        <button type="button" class="btn btn-primary" ng-click="add(item, user)" data-dismiss="modal" ng-disabled="addItemForm.input.$valid">Add Wish</button>
       </div>
     </div>
   </div>
@@ -175,8 +176,9 @@
       </div>
       <div class="modal-body">
         <form name="editForm" novalidate>
-          <input type="text" placeholder="link" ng-model="item.link" required >
+          <input type="url" placeholder="link" ng-model="item.link" required ng-pattern="{{regex}}">
           <input type="text" placeholder="Item Name" ng-model="item.name" required>
+          <div class="error" ng-if="editForm.$error.url"> Not Valid URL! Should include http(s):// </div>
         </form>
       </div>
       <div class="modal-footer">

@@ -1,5 +1,34 @@
 (function(module) {
 try {
+  module = angular.module('faq');
+} catch (e) {
+  module = angular.module('faq', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('faq/faq.html',
+    '<div class="main_container">\n' +
+    '\n' +
+    '  <div class="faq container">\n' +
+    '    <h1>Frequently Asked Questions</h1>\n' +
+    '    <div class="search_faq_container">\n' +
+    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <ul class="faquestions">\n' +
+    '      <li ng-repeat="faq in faqs | filter:search">\n' +
+    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
+    '        <h6 class="faq_answers" ng-if="showAnswer" >{{faq.answer}}</h6>\n' +
+    '      </li>\n' +
+    '    </ul>\n' +
+    '  </div>\n' +
+    '\n' +
+    '</div>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('friendWishlist');
 } catch (e) {
   module = angular.module('friendWishlist', []);
@@ -147,35 +176,6 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
-    '</div>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('faq');
-} catch (e) {
-  module = angular.module('faq', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('faq/faq.html',
-    '<div class="main_container">\n' +
-    '\n' +
-    '  <div class="faq container">\n' +
-    '    <h1>Frequently Asked Questions</h1>\n' +
-    '    <div class="search_faq_container">\n' +
-    '      <input type="text" ng-model="search" class="search_faqs" placeholder="What Question Do You Have?">\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <ul class="faquestions">\n' +
-    '      <li ng-repeat="faq in faqs | filter:search">\n' +
-    '        <h5 ng-click="getAnswer()">{{faq.question}}</h5><br>\n' +
-    '        <h6 class="faq_answers" ng-if="showAnswer" >{{faq.answer}}</h6>\n' +
-    '      </li>\n' +
-    '    </ul>\n' +
-    '  </div>\n' +
-    '\n' +
     '</div>\n' +
     '');
 }]);
@@ -385,12 +385,13 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '      <div class="modal-body">\n' +
     '        <form name="addItemForm" novalidate>\n' +
-    '          <input type="text" placeholder="Link" ng-model="item.link" required>\n' +
+    '          <input type="url" placeholder="Link" ng-model="item.link" required>\n' +
     '          <input type="text" placeholder="Item Name" ng-model="item.name" required>\n' +
+    '          <div class="error" ng-if="addItemForm.$error.url"> Not Valid URL! Should include http(s)://</div>\n' +
     '        </form>\n' +
     '      </div>\n' +
     '      <div class="modal-footer">\n' +
-    '        <button type="button" class="btn btn-primary" ng-click="add(item, user)" data-dismiss="modal" ng-disabled="addItemForm.$invalid">Add Wish</button>\n' +
+    '        <button type="button" class="btn btn-primary" ng-click="add(item, user)" data-dismiss="modal" ng-disabled="addItemForm.input.$valid">Add Wish</button>\n' +
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
@@ -405,8 +406,9 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '      <div class="modal-body">\n' +
     '        <form name="editForm" novalidate>\n' +
-    '          <input type="text" placeholder="link" ng-model="item.link" required >\n' +
+    '          <input type="url" placeholder="link" ng-model="item.link" required ng-pattern="{{regex}}">\n' +
     '          <input type="text" placeholder="Item Name" ng-model="item.name" required>\n' +
+    '          <div class="error" ng-if="editForm.$error.url"> Not Valid URL! Should include http(s):// </div>\n' +
     '        </form>\n' +
     '      </div>\n' +
     '      <div class="modal-footer">\n' +
