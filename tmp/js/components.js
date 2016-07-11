@@ -183,6 +183,45 @@ module.run(['$templateCache', function($templateCache) {
 
 (function(module) {
 try {
+  module = angular.module('home');
+} catch (e) {
+  module = angular.module('home', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('home/home.html',
+    '<img src="dist/images/wallpaper.gif" alt="Cutie" class="rach">\n' +
+    '\n' +
+    '<div class="logo_container">\n' +
+    '  <h1 class="logo">GiFTGENiE</h1>\n' +
+    '  <p class="logo">\n' +
+    '    No More Unwanted\n' +
+    '    <span class="stationary">Gifts</span>\n' +
+    '    <div class="rw-words rw-words-2">\n' +
+    '      <span>Birthday</span>\n' +
+    '      <span>Party </span>\n' +
+    '      <span>Graduation</span>\n' +
+    '      <span>Wedding</span>\n' +
+    '      <span>Anniversary</span>\n' +
+    '      <!-- <span>Christmas</span> -->\n' +
+    '      <!-- <span>Back-to-School</span> -->\n' +
+    '      <!-- <span> Valentine</span> -->\n' +
+    '    </div>\n' +
+    '  </p>\n' +
+    '</div>\n' +
+    '\n' +
+    '<div class="home_container" ng-if="!loggedIn">\n' +
+    '  <div class="button_container">\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist">\n' +
+    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
+    '      Login with Facebook\n' +
+    '    </button>\n' +
+    '  </div>\n' +
+    '</div>');
+}]);
+})();
+
+(function(module) {
+try {
   module = angular.module('myWishlist');
 } catch (e) {
   module = angular.module('myWishlist', []);
@@ -397,44 +436,5 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('home');
-} catch (e) {
-  module = angular.module('home', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('home/home.html',
-    '<img src="dist/images/wallpaper.gif" alt="Cutie" class="rach">\n' +
-    '\n' +
-    '<div class="logo_container">\n' +
-    '  <h1 class="logo">GiFTGENiE</h1>\n' +
-    '  <p class="logo">\n' +
-    '    No More Unwanted\n' +
-    '    <span class="stationary">Gifts</span>\n' +
-    '    <div class="rw-words rw-words-2">\n' +
-    '      <span>Birthday</span>\n' +
-    '      <span>Party </span>\n' +
-    '      <span>Graduation</span>\n' +
-    '      <span>Wedding</span>\n' +
-    '      <span>Anniversary</span>\n' +
-    '      <!-- <span>Christmas</span> -->\n' +
-    '      <!-- <span>Back-to-School</span> -->\n' +
-    '      <!-- <span> Valentine</span> -->\n' +
-    '    </div>\n' +
-    '  </p>\n' +
-    '</div>\n' +
-    '\n' +
-    '<div class="home_container" ng-if="!loggedIn">\n' +
-    '  <div class="button_container">\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist">\n' +
-    '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
-    '      Login with Facebook\n' +
-    '    </button>\n' +
-    '  </div>\n' +
-    '</div>');
 }]);
 })();
