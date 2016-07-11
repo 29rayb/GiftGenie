@@ -6,6 +6,8 @@ var jwt = require('jwt-simple');
 var User = require('../models/user-model');
 var Item = require('../models/item-model');
 var mongoose = require('mongoose');
+const MetaInspector = require('node-metainspector');
+
 
 
 /* ______________
@@ -55,19 +57,57 @@ router.post('/me/friend', function(req, res) {
 });
 
 
+
 //API Route #4: Adding a NEW ITEM to the wishlist.
 router.post('/me/items', function(req, res) {
-  User.findById(req.user, function(err, user) {
-    if (!user) {
-      return res.status(400).send({ message: 'User not found' });
-    }
-    Item.submit(req.body, function(err, savedItem) {
-      user.items.push(savedItem);
-      user.save(function(err, user) {
-        res.send(user);
-      })
+  // console.log('THIS IS THE REQUEST', req.body)
+  let item_link = req.body.link 
+
+  // STEP 1: NEED THIS BEFORE
+  var client = new MetaInspector(item_link, {timeout: 50000});
+
+  client.on('fetch', function(){
+    var item_description = client.description
+    // STEP 2: NEED TO DO THIS AFTER
+    User.findById(req.user, function(err, user) {
+      // console.log('INSIDE USER FIND', user)
+      if (!user) {
+        return res.status(400).send({ message: 'User not found' });
+      }
+      Item.submit(req.body, function(err, savedItem) {
+        console.log('INSIDE ITEM SUBMITTTED', savedItem)
+        console.log('AUTOMATED ITEM DESCRIPTION', item_description)
+        user.items.push(savedItem);
+        user.save(function(err, user) {
+          res.send(user);
+        })
+      });
     });
-  });
+  })
+
+  client.on('error', function(err){
+    console.error('err', err)
+  })
+
+  client.fetch();
+
+
+  // User.findById(req.user, function(err, user) {
+  //   console.log('INSIDE USER FIND', user)
+  //   // console.log('AUTOMATED ITEM DESCRIPTION', item_description)
+  //   if (!user) {
+  //     return res.status(400).send({ message: 'User not found' });
+  //   }
+  //   Item.submit(req.body, function(err, savedItem) {
+  //     console.log('INSIDE ITEM SUBMITTTED', savedItem)
+  //     // console.log('AUTOMATED ITEM DESCRIPTION', item_description)
+  //     user.items.push(savedItem);
+  //     user.save(function(err, user) {
+  //       res.send(user);
+  //     })
+  //   });
+  // });
+
 });
 
 

@@ -283,7 +283,7 @@ module.run(['$templateCache', function($templateCache) {
     '    <ol ui-sortable="sortableOptions" ng-model="items" class="wishlist_items" >\n' +
     '      <li class="wishlist_items_container" ng-repeat="item in items | filter:search">\n' +
     '        <a href="{{item.link}}" class="wishlist_item col-xs-9" target="_blank"> {{item.name}} </a>\n' +
-    '        <i class="fa fa-pencil-square-o col-xs-1" ng-click="edit(item, $index)" data-toggle="modal" data-target="#edit"></i>\n' +
+    '        <i class="fa fa-pencil-square-o col-xs-1" ng-click="edit(item, $index, $event)" data-toggle="modal" data-target="#edit"></i>\n' +
     '        <i class="fa fa-trash col-xs-1" ng-click="delete(item, $index)"></i>\n' +
     '      </li>\n' +
     '    </ol>\n' +
@@ -376,7 +376,7 @@ module.run(['$templateCache', function($templateCache) {
     '</div>\n' +
     '\n' +
     '<!-- Modal -->\n' +
-    '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">\n' +
+    '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-keydown="$event.which === 13 && addItemForm.$invalid === false && add(item, user)" data-dismiss="modal">\n' +
     '  <div class="modal-dialog" role="document">\n' +
     '    <div class="modal-content">\n' +
     '      <div class="modal-header">\n' +
@@ -391,17 +391,17 @@ module.run(['$templateCache', function($templateCache) {
     '        </form>\n' +
     '      </div>\n' +
     '      <div class="modal-footer">\n' +
-    '        <button type="button" class="btn btn-primary" ng-click="add(item, user)" data-dismiss="modal" ng-disabled="addItemForm.input.$valid">Add Wish</button>\n' +
+    '        <button type="button" class="btn btn-primary" ng-click="add(item, user)" data-dismiss="modal" ng-disabled="addItemForm.$invalid">Add Wish</button>\n' +
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
     '</div>\n' +
     '\n' +
-    '<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-keydown="$event.which === 13 && save_changes(item, editItemId)">\n' +
+    '<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-keydown="$event.which === 13 && save_changes(item, editItemId); $event.which === 27  && removeInputs($event)" data-backdrop=\'static\'>\n' +
     '  <div class="modal-dialog" role="document">\n' +
     '    <div class="modal-content">\n' +
     '      <div class="modal-header">\n' +
-    '        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
+    '        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="removeInputs($event)"><span aria-hidden="true">&times;</span></button>\n' +
     '        <h4 class="modal-title" id="myModalLabel">Update Your Wish</h4>\n' +
     '      </div>\n' +
     '      <div class="modal-body">\n' +
@@ -412,7 +412,7 @@ module.run(['$templateCache', function($templateCache) {
     '        </form>\n' +
     '      </div>\n' +
     '      <div class="modal-footer">\n' +
-    '        <button type="button" class="btn btn-primary" ng-click="save_changes(item, editItemId)" data-dismiss="modal" ng-disabled="editForm.$invalid">Save changes</button>\n' +
+    '        <button type="button" class="btn btn-primary" ng-click="save_changes(item, editItemId, $event)" data-dismiss="modal" ng-disabled="editForm.$invalid">Save changes</button>\n' +
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +

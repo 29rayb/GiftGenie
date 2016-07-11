@@ -10,6 +10,8 @@ let authMiddleware = require('./config/authenticate');
 let dotenv = require('dotenv').config({silent: true});
 let cors = require('cors')
 let app = express();
+const MetaInspector = require('node-metainspector');
+
 app.set('view engine', 'jade');
 app.set('views', 'client');
 app.use(cors());

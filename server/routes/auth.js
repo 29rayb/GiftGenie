@@ -79,7 +79,7 @@ router.post('/facebook', function(req, res) {
         User.findOne({ facebook: profile.id }, function(err, existingUser) {
           // Scenario a):
           if (existingUser) {
-            console.log('STEP 3 Scenario A', existingUser)
+            console.log('STEP 3 Scenario A EXISTING USER', existingUser)
             // console.log(existingUser.friends.length === profile.friends.data)
             if (existingUser.friends.length !== profile.friends.data){
               console.log('STEP 3 new friends have been joined since last logged in')

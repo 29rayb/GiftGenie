@@ -22,7 +22,7 @@ function UserSvc ($http) {
     },
     add_new: (item) => {
       var item;
-      console.log(item, "Here is the new item in our service.");
+      // console.log(item, "Here is the new item in our service.");
       return $http.post('/api/me/items', item);
     },
     delete_item: (item, $index) => {

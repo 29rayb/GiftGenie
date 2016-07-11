@@ -8,6 +8,7 @@ var Item;
 var itemSchema = Schema({
   link: String,
   name: String,
+  description: String,
   // liked: {type: Schema.Types.ObjectId, ref: "User"},
   // likedByFriends: [{type: Schema.Types.ObjectId, ref: 'User'}],
   user: {type: Schema.Types.ObjectId, ref: "User"}

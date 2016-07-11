@@ -160,6 +160,8 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |______________| */
 
   $scope.add = (item, user) => {
+    console.log('about to add items ITEM', item)
+    console.log('about to add items USER', user)
     $scope.name = item.name;
     $scope.link = item.link;
     var userId = $scope.user._id;
@@ -179,11 +181,13 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     .catch((err) => {
       console.error(err, 'Inside the Wishlist Ctrl, we have an error!');
     });
+    var first_name = user.displayName.split(' ')[0]
     swal({
-      title: "Good job!",
-      text: "You added the item!",
+      title: first_name,
+      html: true,
+      text: "<b>You added a WiSH!</b> <div>Let your friends know so they can surprise you</div>",
       type: "success",
-      timer: 2000
+      timer: 2800
     })
     // shouldn't need this if done right;
     // window.location.reload(true)
@@ -201,7 +205,12 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   |              |
   |  Edit Item:  |
   |______________| */
-  $scope.edit = (item, $index) => {
+  $scope.edit = (item, $index, $event) => {
+    // console.log('about to edit items', $event)
+    // timestamp available with $event;
+    // if ($event.which === 27){
+    //   console.log('exited out of edit modal')
+    // }
     $rootScope.editItemIndex = $index;
     $scope.item = {};
     $scope.item.link = item.link;
@@ -209,7 +218,15 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     $scope.editItemId = item._id;
   }
 
-  $scope.save_changes = (item, editItemId) => {
+  // when user exits out of edit modal without saving changes,
+  // remove all inputs;
+  $scope.removeInputs = ($event) => {
+    console.log('out-ed without saving edits')
+    $event.preventDefault();
+    $scope.item = {};
+  }
+
+  $scope.save_changes = (item, editItemId, $event) => {
     console.log('saving changes')
     $scope.item.name = item.name;
     $scope.item.link = item.link;
@@ -226,6 +243,9 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
       $('#edit').modal('hide');
       $('body').removeClass('modal-open');
       $('.modal-backdrop').remove();
+      // remove inputs after changes are saved so when user opens
+      // up add item modal, it doesn't show the saved changes there;
+      $scope.removeInputs($event)
     })
     .catch(() => {
       console.error('saving method doesnt work')
