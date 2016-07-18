@@ -6,6 +6,7 @@ angular
 
 StarSvc.$inject = ['$http'];
 
+
 function StarSvc ($http) {
   return {
     get_friends: function() {
