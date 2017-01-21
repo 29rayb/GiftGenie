@@ -1,8 +1,8 @@
 'use strict';
 
 angular
-  .module('App')
-  .controller('FriendlistCtrl', FriendlistCtrl)
+.module('App')
+.controller('FriendlistCtrl', FriendlistCtrl)
 
 FriendlistCtrl.$inject = ['$scope', '$state', '$auth', '$http', '$window', 'UserSvc', '$rootScope', '$stateParams', 'getUser', 'getFriend']
 
@@ -19,7 +19,6 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $rootScope.user = getUser.data
   var favoritesIdArr = getUser.data.favorites;
   var followingFriendIdArr = getUser.data.following;
-  console.log(followingFriendIdArr, "WTF???");
   var likedItemsArr = getUser.data.liked;
   $rootScope.display_name = getUser.data.displayName;
 
@@ -54,8 +53,10 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   }
 
   if(followingFriendIdArr.indexOf($scope.id) > -1 ){
+    console.log("TRUEEEE");
     $rootScope.follow = true;
   } else {
+    console.log("FALSE");
     $rootScope.follow = false;
   }
 
@@ -166,12 +167,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.followUser = (user) => {
     var tmpFriendId = user._id;
-    console.log(tmpFriendId, "!!!");
-    if (followingFriendIdArr.indexOf(tmpFriendId) > -1){
 
-      console.log("am i following???");
+    if (followingFriendIdArr.indexOf(tmpFriendId) > -1){
       followingFriendIdArr.pop(tmpFriendId)
       $scope.unfollow = false;
+      window.location.reload()
     } else {
       followingFriendIdArr.push(tmpFriendId)
       window.location.reload()

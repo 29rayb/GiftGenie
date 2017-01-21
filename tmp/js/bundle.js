@@ -88,8 +88,9 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
 
   // need this for instances of refreshing
   if (localStorage.getItem('satellizer_token')) {
-    // console.log('if refreshed')
+    console.log('if refreshed');
     UserSvc.getProfile().then(function (res) {
+      console.log('___________ !@#!@#@!#@#@! response after rrefreshed ', res);
       $rootScope.allMyFriends = res.data.friends;
       console.log('RES DATA FRIENDS', res.data.friends);
       console.log('ROOTSCOPE ALL MY FRIENDS', $rootScope.allMyFriends);
@@ -160,12 +161,13 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
     // prevents $rootScope.user from being undefined;
     console.log('THIS IS $ROOTSCOPE', $rootScope);
     if ($rootScope.user !== undefined) {
+      console.log('$rootScope.user is not undefined');
       $rootScope.user.friends = $rootScope.allMyFriends;
     }
     var myFriends = $rootScope.allMyFriends || $rootScope.user.friends;
     console.log('after setting it to all my friends for friends who joined', myFriends);
     UserSvc.checkingFriendPrivacy(myFriends).then(function (response) {
-      // console.log(response)
+      console.log(response);
       var publicFriends = response.data.publicFriends;
       var length = publicFriends.length;
 
@@ -177,6 +179,7 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
           "id": publicFriends[i].facebook
         };
       }
+      console.log('CHECK WHAT THIS IS', $rootScope.userModel);
     });
   };
 
@@ -414,6 +417,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     $scope.item.link = item.link;
     $scope.item.id = editItemId;
     UserSvc.save_changes(item).then(function (res) {
+      console.log('trying to save edit', res);
       var itemAfterEdit = {
         name: res.data.name,
         link: res.data.link
@@ -599,8 +603,9 @@ function faqCtrl($rootScope, $scope) {
     answer: "Go to settings --> safari --> privacy & security --> block cookies --> allow from websites I visit. Also make sure you have JavaScript enabled in the Advanced Section" }, { question: "6. It's not working on my web browser (Google Chrome, Safari, FireFox, etc.). How can I fix it?",
     answer: "Extensions like Adblock might interfere with the Login with Facebook button, preventing you from logginong onto the app" }];
 
-  $scope.getAnswer = function () {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  $scope.getAnswer = function ($index) {
+    console.log(' SHOULD BE index of question', $index);
+    $scope.showAnswer == $index ? $scope.showAnswer = false : $scope.showAnswer = $index;
   };
 }
 'use strict';
@@ -640,6 +645,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $scope.pro_pic = getFriend.data.facebook;
   // throws an cannot get length of undefined error;
   $scope.following = getFriend.data.following.length;
+
   $scope.followers = getFriend.data.followers.length;
 
   $scope.birthday = getFriend.data.birthday;
@@ -654,8 +660,10 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   }
 
   if (followingFriendIdArr.indexOf($scope.id) > -1) {
+    console.log("TRUEEEE");
     $rootScope.follow = true;
   } else {
+    console.log("FALSE");
     $rootScope.follow = false;
   }
 
@@ -759,9 +767,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
 
   $scope.followUser = function (user) {
     var tmpFriendId = user._id;
+
     if (followingFriendIdArr.indexOf(tmpFriendId) > -1) {
       followingFriendIdArr.pop(tmpFriendId);
       $scope.unfollow = false;
+      window.location.reload();
     } else {
       followingFriendIdArr.push(tmpFriendId);
       window.location.reload();
@@ -844,6 +854,16 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |________________________| */
   $scope.goToOthers = function (otherUser) {
     // console.log('go to others clicked', otherUser)
+
+    if (otherUser.fbookId == $rootScope.user.facebook) {
+      console.log('clicked on me, should go to my own page with NO hearts');
+      $('#showFavBy').modal('hide');
+      $('body').removeClass('modal-open');
+      $('.modal-backdrop').remove();
+      $state.go('my-wishlist', { id: $rootScope.user.facebook });
+      return;
+    }
+
     var myId = getUser.data.facebook;
     var fid = otherUser.id || otherUser.fbookId;
     // code needed to remove the modal upon route change;
@@ -912,7 +932,7 @@ function UserSvc($http) {
       return $http.put('/api/me/makepublic');
     },
     checkingFriendPrivacy: function checkingFriendPrivacy(userFriends) {
-      // console.log('userFriends in service ------> ', userFriends);
+      console.log('userFriends in service ------> ', userFriends);
       var friendsToCheck = [];
       for (var i = 0; i < userFriends.length; i++) {
         var mongoId = userFriends[i].id;
