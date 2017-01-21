@@ -19,6 +19,7 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   $rootScope.user = getUser.data
   var favoritesIdArr = getUser.data.favorites;
   var followingFriendIdArr = getUser.data.following;
+  console.log(followingFriendIdArr, "WTF???");
   var likedItemsArr = getUser.data.liked;
   $rootScope.display_name = getUser.data.displayName;
 
@@ -164,8 +165,11 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |_________________| */
 
   $scope.followUser = (user) => {
-    var tmpFriendId = user._id
+    var tmpFriendId = user._id;
+    console.log(tmpFriendId, "!!!");
     if (followingFriendIdArr.indexOf(tmpFriendId) > -1){
+
+      console.log("am i following???");
       followingFriendIdArr.pop(tmpFriendId)
       $scope.unfollow = false;
     } else {
