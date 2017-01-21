@@ -14,17 +14,19 @@ function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc){
   $scope.authenticate = function(provider, user) {
     $auth.authenticate(provider, user)
     .then((res) =>{
-      console.log("IN..............................");
       console.log(res)
       $rootScope.allMyFriends = res.data.user;
-
       var storingIdentifier = res.data.user;
       localStorage.setItem('giftGenieLogin', JSON.stringify(storingIdentifier));
-      // is it a problem that when facebook login button clicked, he/she
-      // doesn't have the id in the url?
-      $state.go('my-wishlist', {id: $rootScope.pro_pic})
-    }).catch((err) => {
-      console.error('ERROR with Facebook Satellizer Auth', err);
-    });
-  };
-}
+
+      UserSvc.getProfile()
+      .then(function(res){
+        $rootScope.pro_pic = res.data.facebook;
+        $state.go('my-wishlist', {id: $rootScope.pro_pic})
+      });
+
+      }).catch((err) => {
+        console.error('ERROR with Facebook Satellizer Auth', err);
+      });
+    };
+  }

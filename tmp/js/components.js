@@ -211,7 +211,7 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '<div class="home_container" ng-if="!giftGenieLogin">\n' +
     '  <div class="button_container">\n' +
-    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist">\n' +
+    '    <button ng-click="authenticate(\'facebook\')" class="fb_btn">\n' +
     '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
     '      Login with Facebook\n' +
     '    </button>\n' +

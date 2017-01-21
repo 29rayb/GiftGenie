@@ -7,7 +7,7 @@ angular.module('app.routes', []).config(['$stateProvider', '$urlRouterProvider',
 
 function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
   // $locationProvider.html5Mode(true).hashPrefix('!');
-  $urlRouterProvider.otherwise('/');
+  // $urlRouterProvider.otherwise('/');
   // $urlRouterProvider.otherwise(function($injector, $location){
   //   // to work on mobile, make sure cookies are NOT blocked;
   //   var state = $injector.get('$state');
@@ -64,6 +64,7 @@ HomeCtrl.$inject = ['$scope', '$rootScope', '$state', '$auth', '$http', 'UserSvc
 function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
 
   $rootScope.loggedIn = localStorage.getItem("satellizer_token");
+  $rootScope.giftGenieLogin = localStorage.getItem('giftGenieLogin');
 
   $scope.authenticate = function (provider, user) {
     $auth.authenticate(provider, user).then(function (res) {
@@ -73,12 +74,13 @@ function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
 
       var storingIdentifier = res.data.user;
       localStorage.setItem('giftGenieLogin', JSON.stringify(storingIdentifier));
-
-      $rootScope.giftGenieLogin = localStorage.getItem('giftGenieLogin');
-      console.log($rootScope.giftGenieLogin, "HEYYYYYYY");
-
       // is it a problem that when facebook login button clicked, he/she
       // doesn't have the id in the url?
+      console.log($rootScope.pro_pic, "WFTTTTT?????");
+      console.log(res.data.user._id, "WFTTTTT?????");
+
+      var testing = getProfile.data;
+      console.log(testing);
       $state.go('my-wishlist', { id: $rootScope.pro_pic });
     }).catch(function (err) {
       console.error('ERROR with Facebook Satellizer Auth', err);
@@ -120,7 +122,10 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc) {
 
   $scope.logout = function () {
     $rootScope.loggedIn = undefined;
+    $rootScope.giftGenieLogin = undefined;
+    localStorage.clear();
     $scope.friendsContainer = false;
+
     $auth.logout();
     $scope.backToHome();
     $state.go('home');
@@ -216,7 +221,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   if (!$auth.isAuthenticated()) {
     return $state.go('home');
   }
-
+  console.log("heyyyyy");
   $scope.like_heart = false;
   $scope.favoriteWishlist = false;
 

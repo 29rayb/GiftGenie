@@ -38,7 +38,10 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
 
   $scope.logout = () => {
     $rootScope.loggedIn = undefined;
+    $rootScope.giftGenieLogin = undefined;
+    localStorage.clear();
     $scope.friendsContainer = false;
+
     $auth.logout();
     $scope.backToHome();
     $state.go('home')
