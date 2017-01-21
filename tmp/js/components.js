@@ -386,9 +386,8 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '      <div class="modal-body">\n' +
     '        <form name="addItemForm" novalidate>\n' +
-    '          <input type="url" placeholder="Link" ng-model="item.link" required>\n' +
+    '          <input type="text" class="add_item_link_input" placeholder="http://www.example.com" ng-model="item.link" required>\n' +
     '          <input type="text" placeholder="Item Name" ng-model="item.name" required>\n' +
-    '          <div class="error" ng-if="addItemForm.$error.url"> Not Valid URL! Should include http(s)://</div>\n' +
     '        </form>\n' +
     '      </div>\n' +
     '      <div class="modal-footer">\n' +
