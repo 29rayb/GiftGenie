@@ -359,8 +359,11 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     $scope.name = item.name;
 
     // if item.link doesn't have https://, then automatically insert it.
-    if (item.link.indexOf('http://') == 0 || item.link.indexOf('https://') == 0) {
+    if ((item.link.indexOf('http://') == 0 || item.link.indexOf('https://') == 0) && item.link.substr(item.link.length - 4) != '.com') {
       item.link = item.link + '.com';
+      $scope.link = item.link;
+    } else if ((item.link.indexOf('http://') != 0 || item.link.indexOf('https') != 0) && item.link.substr(item.link.length - 4) == '.com') {
+      item.link = 'https://' + item.link;
       $scope.link = item.link;
     } else {
       item.link = 'https://' + item.link + '.com';
@@ -469,7 +472,6 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
   //   console.log('made API call to star wishlist')
   //   UserSvc.starPerson(user)
   // }
-
 
   /* ______________
   |              |

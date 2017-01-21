@@ -188,26 +188,40 @@ p.logo span.stationary {
 }
 
 .rw-words-2 span {
+  -webkit-animation: rotateWordsSecond 20s linear infinite 0s;
   animation: rotateWordsSecond 20s linear infinite 0s;
 }
 
 .rw-words span:nth-child(2) { 
+  -webkit-animation-delay: 4s; 
   animation-delay: 4s; 
 }
 
 .rw-words span:nth-child(3) { 
+  -webkit-animation-delay: 8s; 
   animation-delay: 8s; 
 }
 .rw-words span:nth-child(4) { 
+  -webkit-animation-delay: 12s; 
   animation-delay: 12s; 
 }
 
 .rw-words span:nth-child(5) { 
+  -webkit-animation-delay: 16s; 
   animation-delay: 16s; 
 }
 
+@-webkit-keyframes rotateWordsSecond {
+    0% { opacity: 0; -webkit-animation-timing-function: ease-out; animation-timing-function: ease-out; width: 0px; }
+    10% { opacity: 0; width: 0px; }
+    15% { opacity: 0; width: 100%; }
+    18% { opacity: 1; width: 100%; }
+    40% { opacity: 0; width: 100%; }
+    100% { opacity: 0; }
+}
+
 @keyframes rotateWordsSecond {
-    0% { opacity: 0; animation-timing-function: ease-out; width: 0px; }
+    0% { opacity: 0; -webkit-animation-timing-function: ease-out; animation-timing-function: ease-out; width: 0px; }
     10% { opacity: 0; width: 0px; }
     15% { opacity: 0; width: 100%; }
     18% { opacity: 1; width: 100%; }
@@ -670,7 +684,13 @@ span.itemsLikeCount {
 }
 
 .is_animating {
+  -webkit-animation: heart-burst .8s steps(28) 1;
   animation: heart-burst .8s steps(28) 1;
+}
+
+@-webkit-keyframes heart-burst {
+  from {background-position: left;}
+  to {background-position: right;}
 }
 
 @keyframes heart-burst {
@@ -706,7 +726,13 @@ span.itemsLikeCount {
 }
 
 .is_favoriting {
+  -webkit-animation: star-burst .8s steps(55) 1;
   animation: star-burst .8s steps(55) 1;
+}
+
+@-webkit-keyframes star-burst {
+  from {background-position: left; }
+  to {background-position: right; }
 }
 
 @keyframes star-burst {
