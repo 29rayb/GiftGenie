@@ -250,6 +250,17 @@ function FriendlistCtrl($scope, $state, $auth, $http, $window, UserSvc, $rootSco
   |________________________| */
   $scope.goToOthers = (otherUser) => {
     // console.log('go to others clicked', otherUser)
+
+    if (otherUser.fbookId == $rootScope.user.facebook ){
+      console.log('clicked on me, should go to my own page with NO hearts');
+      $('#showFavBy').modal('hide');
+      $('body').removeClass('modal-open');
+      $('.modal-backdrop').remove();
+      $state.go('my-wishlist', {id: $rootScope.user.facebook});
+      return;
+    }
+
+
     var myId = getUser.data.facebook
     var fid = otherUser.id || otherUser.fbookId;
     // code needed to remove the modal upon route change;
