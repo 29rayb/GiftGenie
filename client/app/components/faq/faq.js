@@ -27,8 +27,9 @@ function faqCtrl($rootScope, $scope){
       answer: "Extensions like Adblock might interfere with the Login with Facebook button, preventing you from logginong onto the app"}
   ];
 
-  $scope.getAnswer = () => {
-    $scope.showAnswer ? $scope.showAnswer = false : $scope.showAnswer = true;
+  $scope.getAnswer = ($index) => {
+    console.log(' SHOULD BE index of question', $index)
+    $scope.showAnswer == $index ? $scope.showAnswer = false : $scope.showAnswer = $index;
   }
 
 }
