@@ -233,6 +233,7 @@ function WishlistCtrl($scope, $state, $auth, $http, $window, $rootScope, $stateP
     $scope.item.id = editItemId;
     UserSvc.save_changes(item)
     .then((res) => {
+      console.log('trying to save edit', res)
       var itemAfterEdit = {
         name: res.data.name,
         link: res.data.link
