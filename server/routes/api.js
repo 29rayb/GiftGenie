@@ -9,7 +9,6 @@ var mongoose = require('mongoose');
 const MetaInspector = require('node-metainspector');
 
 
-
 /* ______________
 |               |
 |  API SUMMARY: |
@@ -61,7 +60,7 @@ router.post('/me/friend', function(req, res) {
 //API Route #4: Adding a NEW ITEM to the wishlist.
 router.post('/me/items', function(req, res) {
   // console.log('THIS IS THE REQUEST', req.body)
-  let item_link = req.body.link 
+  let item_link = req.body.link
 
   // STEP 1: NEED THIS BEFORE
   var client = new MetaInspector(item_link, {timeout: 50000});

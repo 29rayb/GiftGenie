@@ -209,14 +209,15 @@ module.run(['$templateCache', function($templateCache) {
     '  </p>\n' +
     '</div>\n' +
     '\n' +
-    '<div class="home_container" ng-if="!loggedIn">\n' +
+    '<div class="home_container" ng-if="!giftGenieLogin">\n' +
     '  <div class="button_container">\n' +
     '    <button ng-click="authenticate(\'facebook\')" class="fb_btn" ui-sref="my-wishlist">\n' +
     '      <img src="dist/images/facebook.jpg" alt="facebook-logo" class="fb_logo">\n' +
     '      Login with Facebook\n' +
     '    </button>\n' +
     '  </div>\n' +
-    '</div>');
+    '</div>\n' +
+    '');
 }]);
 })();
 
