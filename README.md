@@ -32,7 +32,7 @@ GiftGenie allows you to create personal wishlists & browse the wishlists of your
   </tr>
   <tr>
     <td>5.</td>
-    <td>Bower (package manager)</td>
+    <td>Bower <i>(package manager)</i></td>
   </tr>
   </table>
   <table>
@@ -53,7 +53,7 @@ GiftGenie allows you to create personal wishlists & browse the wishlists of your
   </tr>
   <tr>
     <td>4.</td>
-    <td>NPM (package manager)</td>
+    <td>NPM <i>(package manager)</i></td>
   </tr>
  </table>
  <table>
@@ -62,23 +62,23 @@ GiftGenie allows you to create personal wishlists & browse the wishlists of your
   </tr>
   <tr>
     <td>1.</td>
-    <td>Streaming Build System: Gulp</td>
+    <td><b><i>Streaming Build System:</i></b> Gulp</td>
   </tr>
   <tr>
     <td>2.</td>
-    <td>Module Bundler: Webpack</td>
+    <td><b><i>Module Bundler:</i></b> Webpack</td>
   </tr>
   <tr>
     <td>3.</td>
-    <td>Code Quality: JsHint</td>
+    <td><b><i>Code Quality:</i></b> JsHint</td>
   </tr>
   <tr>
     <td>4.</td>
-    <td>Continuous Integration: Travis.yml</td>
+    <td><b><i>Continuous Integration:</i></b> Travis.yml</td>
   </tr>
   <tr>
     <td>5.</td>
-    <td>Consistent Code Styles: editor.config</td>
+    <td><b><i>Consistent Code Styles:</i></b> editor.config</td>
   </tr>
 </table>
 
@@ -93,6 +93,7 @@ GiftGenie allows you to create personal wishlists & browse the wishlists of your
 
 <h1>Contributors</h1> 
 GiftGenie was created by: <br>
+<br>
 <b>Rachel Slater</b>
 <br>
 <a href="https://uk.linkedin.com/in/rachelrobynslater"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" width="30" height="30" target="_blank"></a>
