@@ -35,7 +35,6 @@ GiftGenie allows you to create personal wishlists & browse the wishlists of your
     <td>Bower (package manager)</td>
   </tr>
   </table>
-  <br>
   <table>
     <tr>
     <td><b>Backend:</b></td>
@@ -57,7 +56,6 @@ GiftGenie allows you to create personal wishlists & browse the wishlists of your
     <td>NPM (package manager)</td>
   </tr>
  </table>
- <br>
  <table>
   <tr>
   <td><b>Miscellaneous:</b></td>
@@ -94,7 +92,7 @@ GiftGenie allows you to create personal wishlists & browse the wishlists of your
 
 
 <h1>Contributors</h1> 
-GiftGenie was created by:
+GiftGenie was created by: <br>
 <b>Rachel Slater</b>
 <br>
 <a href="https://uk.linkedin.com/in/rachelrobynslater"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" width="30" height="30" target="_blank"></a>
