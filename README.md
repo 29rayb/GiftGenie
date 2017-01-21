@@ -1,49 +1,102 @@
 # Public WishList [![Build Status](https://travis-ci.org/ray-kim-12/public-wishlist.svg?branch=master)](https://travis-ci.org/ray-kim-12/public-wishlist)
 
-### Purpose:
+### Check it Out: <a href="http://www.my-giftgenie.com/">GiFTGENiE</a>
+
+<h1>Description</h1>
 
 Let the World Know What You Want.
 No More Unwanted Gifts.
+GiftGenie allows you to create personal wishlists & browse the wishlists of your Facebook community.
 
-### Features:
+<h1>Technologies</h1>
 
-<li>Publicize The Items You Want</li>
-<li>Group Purchase The Gift</li>
-<li>Be Notified When The Price Is Lowered</li>
-<li>Always Find Out The Lowest Price Guaranteed</li>
+<table>
+  <tr>
+    <td>Frontend</td>
+  </tr>
+  <tr>
+    <td>1.</td>
+    <td>Angular, Angular-Ui-Router, Angular-Ui-Sortable</td>
+  </tr>
+  <tr>
+    <td>2.</td>
+    <td>SCSS, Bootstrap</td>
+  </tr>
+  <tr>
+    <td>3.</td>
+    <td>Jade</td>
+  </tr>
+  <tr>
+    <td>4.</td>
+    <td>Font-Awesome, Sweetalert</td>
+  </tr>
+  <tr>
+    <td>5.</td>
+    <td>Bower (package manager)</td>
+  </tr>
+  <tr>
+    <td>Backend</td>
+  </tr>
+  <tr>
+    <td>1.</td>
+    <td>Node.js, Express</td>
+  </tr>
+  <tr>
+    <td>2.</td>
+    <td>MongoDB</td>
+  </tr>
+  <tr>
+    <td>3.</td>
+    <td><a href="https://github.com/sahat/satellizer">Satellizer</a></td>
+  </tr>
+  <tr>
+    <td>4.</td>
+    <td>NPM (package manager)</td>
+  </tr>
+  <tr>
+    <td>Miscellaneous:</td>
+  </tr>
+  <tr>
+    <td>1.</td>
+    <td>Streaming Build System: Gulp</td>
+  </tr>
+  <tr>
+    <td>2.</td>
+    <td>Module Bundler: Webpack</td>
+  </tr>
+  <tr>
+    <td>3.</td>
+    <td>Code Quality: JsHint</td>
+  </tr>
+  <tr>
+    <td>4.</td>
+    <td>Continuous Integration: Travis.yml</td>
+  </tr>
+  <tr>
+    <td>5.</td>
+    <td>Consistent Code Styles: editor.config</td>
+  </tr>
+</table>
 
-### Check it Out: <a href="http://giftsgenies.herokuapp.com/">GiFTGENiE</a>
 
-Deployed Link:
+<h1>Key Features</h1>
+<li>Facebook Authentication</li>
+<li>Create a personal Wishlist</li>
+<li>View Facebook friends wishlists</li>
+<li>Follow Facebook friends & Star their wishlist</li>
+<li>Public / private wishlist settings</li>
 
-<i>Created by:</i>
 
-Twitter: <a href="https://twitter.com/rachelslater_" target="_blank">@RachelSlater_</a>
+<h1>Contributors</h1>
+GiftGenie was created by:<br> <br>
 <br>
-GitHub: <a href="https://github.com/rachelrobynslater" target="_blank">Rachel Slater</a>
+Rachel Slater <br>
+<a href="https://uk.linkedin.com/in/rachelrobynslater"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" width="30" height="30" target="_blank"></a>
+<a href="https://twitter.com/RachelSlater_"><img src="https://cfmedia.deadline.com/2014/06/twitter-logo.png" width="30" height="30" target="_blank"></a>
 <br>
-&
 <br>
-Twitter: <a href="https://twitter.com/_Ray_Kim_" target="_blank">@Ray_Kim_</a>
-<br>
-GitHub: <a href="https://github.com/ray-kim-12" target="_blank">Ray Kim</a>
+Ray Kim <br>
+<a href="https://www.linkedin.com/in/raykim12"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" width="30" height="30" target="_blank"></a>
+<a href="https://twitter.com/_Ray_Kim_"><img src="https://cfmedia.deadline.com/2014/06/twitter-logo.png" width="30" height="30" target="_blank"></a>
 
-Technologies Used:
-
-Front End (Bower):<br>
-1. Angular, Angular-Ui-Router, Angular-Ui-Sortable <br>
-2. SCSS, Bootstrap <br>
-3. Jade <br>
-4. Font-Awesome, Sweetalert <br>
-
-Back End (NPM): <br>
-1. Node.js, Express <br>
-2. MongoDB <br>
-3. Satellizer <br>
-
-Miscellaneous: <br>
-1. Streaming Build System: Gulp<br>
-2. Moudle Bundler: Webpack<br>
-3. Code Quality: JsHint<br>
-4. Continuous Integration: Travis.yml<br>
-5. Consistent Code Styles: editor.config
+For issues / suggestions, please contact: rachel.slater.16@ucl.ac.uk / rakim@davidson.edu
