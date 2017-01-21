@@ -130,13 +130,15 @@ router.put('/me/deleteitem', function(req, res) {
 //API Route #6: EDIT ITEM on a wishlist. (Updates both Mongo models).
 router.put('/me/edititem', function(req, res) {
   var editItem = req.body;
+  console.log('editem', req.body)
   Item.update( {"_id": editItem.id}, { "name": editItem.name, "link": editItem.link }, function(err, item) {
     var edittedItem = {
       name: editItem.name,
       link: editItem.link
     }
     // res.send(item, edittedItem);
-    res.status(item).send(edittedItem);
+    res.status(200).send(edittedItem)
+
   });
 });
 

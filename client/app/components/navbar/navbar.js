@@ -10,9 +10,10 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
 
   // need this for instances of refreshing
   if(localStorage.getItem('satellizer_token')){
-    // console.log('if refreshed')
+    console.log('if refreshed')
     UserSvc.getProfile()
       .then((res) => {
+        console.log('___________ !@#!@#@!#@#@! response after rrefreshed ', res)
         $rootScope.allMyFriends = res.data.friends
         console.log('RES DATA FRIENDS', res.data.friends)
         console.log('ROOTSCOPE ALL MY FRIENDS', $rootScope.allMyFriends)
@@ -85,13 +86,14 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
     // prevents $rootScope.user from being undefined;
     console.log('THIS IS $ROOTSCOPE', $rootScope)
     if ($rootScope.user !== undefined) {
+      console.log('$rootScope.user is not undefined')
       $rootScope.user.friends = $rootScope.allMyFriends;
     }
     var myFriends = $rootScope.allMyFriends || $rootScope.user.friends
     console.log('after setting it to all my friends for friends who joined', myFriends)
     UserSvc.checkingFriendPrivacy(myFriends)
     .then((response) => {
-      // console.log(response)
+      console.log(response)
       var publicFriends = response.data.publicFriends;
       var length = publicFriends.length;
 
@@ -103,6 +105,7 @@ function NavbarCtrl($scope, $state, $auth, $rootScope, UserSvc){
           "id": publicFriends[i].facebook
         };
       }
+      console.log('CHECK WHAT THIS IS', $rootScope.userModel)
     })
   }
 
