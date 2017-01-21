@@ -7,7 +7,7 @@ angular.module('app.routes', []).config(['$stateProvider', '$urlRouterProvider',
 
 function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
   // $locationProvider.html5Mode(true).hashPrefix('!');
-  // $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/');
   // $urlRouterProvider.otherwise(function($injector, $location){
   //   // to work on mobile, make sure cookies are NOT blocked;
   //   var state = $injector.get('$state');
@@ -68,20 +68,15 @@ function HomeCtrl($scope, $rootScope, $state, $auth, $http, UserSvc) {
 
   $scope.authenticate = function (provider, user) {
     $auth.authenticate(provider, user).then(function (res) {
-      console.log("IN..............................");
       console.log(res);
       $rootScope.allMyFriends = res.data.user;
-
       var storingIdentifier = res.data.user;
       localStorage.setItem('giftGenieLogin', JSON.stringify(storingIdentifier));
-      // is it a problem that when facebook login button clicked, he/she
-      // doesn't have the id in the url?
-      console.log($rootScope.pro_pic, "WFTTTTT?????");
-      console.log(res.data.user._id, "WFTTTTT?????");
 
-      var testing = getProfile.data;
-      console.log(testing);
-      $state.go('my-wishlist', { id: $rootScope.pro_pic });
+      UserSvc.getProfile().then(function (res) {
+        $rootScope.pro_pic = res.data.facebook;
+        $state.go('my-wishlist', { id: $rootScope.pro_pic });
+      });
     }).catch(function (err) {
       console.error('ERROR with Facebook Satellizer Auth', err);
     });
