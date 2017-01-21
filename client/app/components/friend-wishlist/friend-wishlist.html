@@ -72,11 +72,11 @@
     </div>
 
     <div class="bottom_container">
-      <input ng-model="following.name" placeholder="Search Following" class="col-xs-12">
+      <input ng-model="followingModel.name" placeholder="Search Following" class="col-xs-12">
     </div>
 
     <div class="bottom_container">
-      <li ng-repeat="following in followingModel | filter:following.name" class="following col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(following)">
+      <li ng-repeat="following in followingModel | filter:followingModel.name" class="following col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(following)">
         <img ng-src="https://graph.facebook.com/{{following.id}}/picture?type=large" class="followers_pic">
         <h6 class="user_name">{{following.name}}</h6>
       </li>
@@ -93,11 +93,11 @@
       <h2 class="my_wishlist_title">Followers</h2>
     </div>
     <div class="bottom_container">
-      <input ng-model="followers.name" placeholder="Search Followers" class="col-xs-12">
+      <input ng-model="followersModel.name" placeholder="Search Followers" class="col-xs-12">
     </div>
 
     <div class="bottom_container">
-      <li ng-repeat="follower in followersModel | filter:following.name" class="followers col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(follower)">
+      <li ng-repeat="follower in followersModel | filter:followersModel.name" class="followers col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(follower)">
         <img ng-src="https://graph.facebook.com/{{follower.id}}/picture?type=large" class="followers_pic">
         <h6 class="user_name">{{follower.name}}</h6>
       </li>

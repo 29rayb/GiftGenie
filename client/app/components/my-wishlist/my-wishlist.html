@@ -112,7 +112,7 @@
     </div>
 
     <div class="bottom_container">
-      <li ng-repeat="follower in followersModel | filter:following.name" class="followers col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(follower)">
+      <li ng-repeat="follower in followersModel | filter:followers.name" class="followers col-xs-12 col-sm-6 col-md-4" ng-click="goToOthers(follower)">
         <img ng-src="https://graph.facebook.com/{{follower.id}}/picture?type=large" class="followers_pic">
         <h6 class="user_name">{{follower.name}}</h6>
       </li>
