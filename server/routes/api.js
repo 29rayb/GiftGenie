@@ -136,7 +136,8 @@ router.put('/me/edititem', function(req, res) {
       name: editItem.name,
       link: editItem.link
     }
-    // res.send(item, edittedItem);
+    // res.send(item, edittedItem); #outdated
+    // can just use 200 because we know for certain it didn't fail if reached
     res.status(200).send(edittedItem)
 
   });

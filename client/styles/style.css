@@ -560,6 +560,9 @@ i.fa-trash {
   opacity: 0.7;
 }
 
+.add_item_link_input {
+  min-width: 170px !important;
+}
 
 /*Starred-WishLists*/
 
