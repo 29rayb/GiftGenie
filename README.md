@@ -2,7 +2,7 @@
 
 ### Check it Out: <a href="http://www.my-giftgenie.com/">GiFTGENiE</a>
 
-![image](http://imgur.com/a/yeU8J)
+![image](http://imgur.com/a/gKhYG)
 
 <h1>Description</h1>
 
