@@ -2,7 +2,7 @@
 
 ### Check it Out: <a href="http://www.my-giftgenie.com/">GiFTGENiE</a>
 
-![image](http://imgur.com/a/gKhYG)
+![Alt text](/../master//client/images/demo.gif?raw=true "Optional Title")
 
 <h1>Description</h1>
 
