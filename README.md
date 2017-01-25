@@ -2,6 +2,8 @@
 
 ### Check it Out: <a href="http://www.my-giftgenie.com/">GiFTGENiE</a>
 
+![Alt text](/../master//client/images/demo.gif?raw=true "Optional Title")
+
 <h1>Description</h1>
 
 Let the World Know What You Want.<br>
@@ -58,7 +60,7 @@ GiftGenie allows you to create personal wishlists & browse the wishlists of your
  </table>
  <table>
   <tr>
-  <td><b>Miscellaneous:</b></td>
+  <td><b>Others:</b></td>
   </tr>
   <tr>
     <td>1.</td>
@@ -85,7 +87,7 @@ GiftGenie allows you to create personal wishlists & browse the wishlists of your
 
 <h1>Key Features</h1>
 <li>Facebook Authentication</li>
-<li>Create a personal Wishlist</li>
+<li>Create a personal wishlist</li>
 <li>View Facebook friends wishlists</li>
 <li>Follow Facebook friends & Star their wishlist</li>
 <li>Public / private wishlist settings</li>
