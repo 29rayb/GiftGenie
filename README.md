@@ -1,4 +1,4 @@
-# Public WishList [![Build Status](https://travis-ci.org/ray-kim-12/public-wishlist.svg?branch=master)](https://travis-ci.org/ray-kim-12/public-wishlist)
+# Public WishList [![Build Status](https://travis-ci.org/ray-kim-12/GiftGenie.svg?branch=master)](https://travis-ci.org/ray-kim-12/GiftGenie)
 
 ### Check it Out: <a href="http://www.my-giftgenie.com/">GiFTGENiE</a>
 
