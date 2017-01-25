@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server/app.js",
     "setup": "rm -rf node_modules client/vendor && npm i",
-    "test": "mocha test/mocha-chai"
+    "test": "mocha test/mocha-chai.js"
   },
   "repository": {
     "type": "git",
