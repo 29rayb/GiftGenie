@@ -1,0 +1,37 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.7.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:hawk:20160119':
+    - node-metainspector > request > hawk:
+        patched: '2017-07-08T19:03:54.671Z'
+  'npm:minimatch:20160620':
+    - gulp > vinyl-fs > glob-stream > minimatch:
+        patched: '2017-07-08T19:03:54.671Z'
+    - gulp-jscs > jscs > babel-jscs > babel-core > minimatch:
+        patched: '2017-07-08T19:03:54.671Z'
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
+        patched: '2017-07-08T19:03:54.671Z'
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
+        patched: '2017-07-08T19:03:54.671Z'
+    - gulp > vinyl-fs > glob-stream > glob > minimatch:
+        patched: '2017-07-08T19:03:54.671Z'
+  'npm:ms:20170412':
+    - pageres > easydate > mocha > debug > ms:
+        patched: '2017-07-08T19:03:54.671Z'
+    - mocha > debug > ms:
+        patched: '2017-07-08T19:03:54.671Z'
+  'npm:request:20160119':
+    - node-metainspector > request:
+        patched: '2017-07-08T19:03:54.671Z'
+  'npm:tough-cookie:20160722':
+    - gulp-uncss > uncss > request > tough-cookie:
+        patched: '2017-07-08T19:03:54.671Z'
+    - psi > googleapis > request > tough-cookie:
+        patched: '2017-07-08T19:03:54.671Z'
+  'npm:uglify-js:20151024':
+    - jade > transformers > uglify-js:
+        patched: '2017-07-08T19:03:54.671Z'
+    - gulp-jade > jade > transformers > uglify-js:
+        patched: '2017-07-08T19:03:54.671Z'
