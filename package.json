@@ -46,7 +46,7 @@
     "gulp-uglify": "^1.5.3",
     "gulp-uncss": "^1.0.5",
     "gulp-useref": "^3.1.0",
-    "imagemin-pngquant": "^4.2.2",
+    "imagemin-pngquant": "^5.1.0",
     "jade": "^1.11.0",
     "jasmine-core": "^2.4.1",
     "jshint": "^2.9.2",
