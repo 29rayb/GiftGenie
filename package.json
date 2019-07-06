@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nodemon server/app.js",
     "setup": "rm -rf node_modules client/vendor && npm i",
-    "test": "mocha test/mocha-chai.js"
+    "test": "mocha test/mocha-chai.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -65,9 +67,11 @@
     "querystring": "^0.2.0",
     "request": "^2.72.0",
     "run-sequence": "^1.1.5",
-    "satellizer": "^0.14.0"
+    "satellizer": "^0.14.0",
+    "snyk": "^1.192.3"
   },
   "engines": {
     "node": "5.4.1"
-  }
+  },
+  "snyk": true
 }
